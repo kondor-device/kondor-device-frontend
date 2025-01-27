@@ -35,7 +35,9 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body className={`${montserrat.variable} antialiased`}>
+      <body
+        className={`${montserrat.variable} antialiased text-12med laptop:text-24med`}
+      >
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
