@@ -6,6 +6,8 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { Locale } from "@/types/locale";
 import "./globals.css";
+import Header from "@/components/shared/header/Header";
+import Footer from "@/components/shared/footer/Footer";
 
 const montserrat = Montserrat({
   weight: ["400", "500", "600", "700"],
@@ -36,10 +38,12 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body
-        className={`${montserrat.variable} antialiased text-12med laptop:text-24med`}
+        className={`${montserrat.variable} flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
       >
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>
