@@ -14,7 +14,7 @@ export default {
       screens: {
         tab: "768px",
         laptop: "1280px",
-        desk: "1500px",
+        desk: "1550px",
         deskxl: "1920px",
       },
       container: {
