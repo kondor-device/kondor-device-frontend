@@ -10,8 +10,8 @@ export default function HomePage() {
     <>
       <Hero />
       <WeOffer />
-      <OrderConditions />
       <Catalog />
+      <OrderConditions />
       <Faq />
       <Benefits />
     </>
