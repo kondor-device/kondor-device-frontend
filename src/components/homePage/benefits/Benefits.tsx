@@ -1,6 +1,14 @@
 import Section from "@/components/shared/section/Section";
+import SectionTitle from "@/components/shared/footer/titles/SectionTitle";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 export default function Benefits() {
-  return <Section>Benefits</Section>;
+  const t = useTranslations();
+
+  return (
+    <Section>
+      <SectionTitle>{t("homePage.benefits.title")}</SectionTitle>
+    </Section>
+  );
 }
