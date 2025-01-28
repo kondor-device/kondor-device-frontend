@@ -8,7 +8,9 @@ export default function OrderConditions() {
 
   return (
     <Section id="delivery">
-      <SectionTitle>{t("homePage.orderConditions.title")}</SectionTitle>
+      <SectionTitle className="text-center laptop:text-left">
+        {t("homePage.orderConditions.title")}
+      </SectionTitle>
     </Section>
   );
 }

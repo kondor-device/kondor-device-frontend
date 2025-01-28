@@ -8,7 +8,9 @@ export default function Benefits() {
 
   return (
     <Section>
-      <SectionTitle>{t("homePage.benefits.title")}</SectionTitle>
+      <SectionTitle className="text-center">
+        {t("homePage.benefits.title")}
+      </SectionTitle>
     </Section>
   );
 }

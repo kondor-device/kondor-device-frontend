@@ -8,7 +8,9 @@ export default function Faq() {
 
   return (
     <Section id="faq">
-      <SectionTitle>{t("homePage.faq.title")}</SectionTitle>
+      <SectionTitle className="text-center">
+        {t("homePage.faq.title")}
+      </SectionTitle>
     </Section>
   );
 }
