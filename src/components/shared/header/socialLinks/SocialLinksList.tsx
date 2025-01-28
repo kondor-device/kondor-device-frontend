@@ -20,7 +20,7 @@ export default function SocialLinksList({
   ];
 
   return (
-    <ul className={`flex item-center ${className}`}>
+    <ul className={`flex items-center gap-8 ${className}`}>
       {socialLinksList.map((social, idx) => (
         <SocialLinkItem key={idx} social={social} />
       ))}

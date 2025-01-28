@@ -1,1 +1,12 @@
-{}
+{
+  "homePage": {},
+  "header": {
+    "navMenu": {
+      "home": "Головна",
+      "catalog": "Каталог",
+      "delivery": "Доставка",
+      "faq": "FAQ"
+    }
+  },
+  "footer": {}
+}

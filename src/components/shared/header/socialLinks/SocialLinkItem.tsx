@@ -26,6 +26,7 @@ export default function SocialLinkItem({
           alt={name}
           width="55"
           height="55"
+          className="group-active:brightness-110 group-focus:brightness-110 laptop:group-hover:brightness-110 transition duration-300 ease-out"
         />
       </a>
     </li>

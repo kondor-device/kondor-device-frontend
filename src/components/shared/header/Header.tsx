@@ -1,5 +1,12 @@
 import React from "react";
+import HeaderDesk from "./HeaderDesk";
+import HeaderMob from "./HeaderMob";
 
 export default function Header() {
-  return <header>Header</header>;
+  return (
+    <header>
+      <HeaderDesk />
+      <HeaderMob />
+    </header>
+  );
 }
