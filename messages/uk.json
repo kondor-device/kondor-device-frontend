@@ -62,5 +62,8 @@
     "contacts": {
       "title": "Контакти"
     }
+  },
+  "buttons": {
+    "makeOrder": "Оформити замовлення"
   }
 }
