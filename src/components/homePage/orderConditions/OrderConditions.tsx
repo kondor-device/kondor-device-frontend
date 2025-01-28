@@ -1,5 +1,6 @@
+import Section from "@/components/shared/section/Section";
 import React from "react";
 
 export default function OrderConditions() {
-  return <section id="delivery">OrderConditions</section>;
+  return <Section id="delivery">OrderConditions</Section>;
 }

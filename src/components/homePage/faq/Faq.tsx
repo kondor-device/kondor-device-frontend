@@ -1,5 +1,6 @@
+import Section from "@/components/shared/section/Section";
 import React from "react";
 
 export default function Faq() {
-  return <section id="faq">Faq</section>;
+  return <Section id="faq">Faq</Section>;
 }
