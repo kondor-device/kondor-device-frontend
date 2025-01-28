@@ -1,5 +1,13 @@
 {
-  "homePage": {},
+  "homePage": {
+    "orderConditions": {
+      "title": "Як зробити замолення?"
+    },
+    "faq": {
+      "title": "Відповіді на найпопулярніші запитання"
+    },
+    "benefits": {"title": "Переваги при замовлені девайсу у Kondor"}
+  },
   "header": {
     "navMenu": {
       "home": "Головна",
