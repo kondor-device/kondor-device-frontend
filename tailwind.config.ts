@@ -14,6 +14,16 @@ export default {
       screens: {
         tab: "768px",
         laptop: "1280px",
+        deskxl: "1920px",
+      },
+      container: {
+        center: true,
+        padding: {
+          DEFAULT: "20px",
+          md: "32px",
+          xl: "100px",
+          deskxl: "240px",
+        },
       },
       fontSize: {
         "10med": ["10px", { fontWeight: "500" }],

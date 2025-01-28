@@ -36,13 +36,13 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className="scroll-smooth">
       <body
         className={`${montserrat.variable} flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
       >
         <NextIntlClientProvider messages={messages}>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 pt-[82px] laptop:pt-[113px]">{children}</main>
           <Footer />
         </NextIntlClientProvider>
       </body>
