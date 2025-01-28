@@ -22,7 +22,7 @@ export default {
         padding: {
           DEFAULT: "20px",
           md: "32px",
-          xl: "100px",
+          xl: "80px",
           desk: "240px",
         },
       },
@@ -34,6 +34,7 @@ export default {
         "14semi": ["14px", { fontWeight: "600" }],
         "14bold": ["14px", { fontWeight: "700" }],
         "16med": ["16px", { fontWeight: "500" }],
+        "16semi": ["16px", { fontWeight: "600" }],
         "18reg": ["18px", { fontWeight: "400" }],
         "18med": ["18px", { fontWeight: "500" }],
         "18semi": ["18px", { fontWeight: "600" }],
@@ -59,6 +60,10 @@ export default {
         yellow: "#FFB300",
         grey: "#A2A2A2",
         lightGrey: "#D9D9D9",
+      },
+      backgroundImage: {
+        yellowGradient:
+          "linear-gradient(115.41deg, #FFCC54 10.87%, #FFB300 81.45%)",
       },
     },
   },
