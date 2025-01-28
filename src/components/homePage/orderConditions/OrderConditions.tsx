@@ -1,5 +1,16 @@
+import SectionTitle from "@/components/shared/footer/titles/SectionTitle";
+import Section from "@/components/shared/section/Section";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 export default function OrderConditions() {
-  return <section id="delivery">OrderConditions</section>;
+  const t = useTranslations();
+
+  return (
+    <Section id="delivery">
+      <SectionTitle className="text-center laptop:text-left">
+        {t("homePage.orderConditions.title")}
+      </SectionTitle>
+    </Section>
+  );
 }

@@ -1,5 +1,6 @@
+import Section from "@/components/shared/section/Section";
 import React from "react";
 
 export default function Hero() {
-  return <div>Hero</div>;
+  return <Section>Hero</Section>;
 }

@@ -18,7 +18,8 @@ export default function LogoLink({ className = "" }: LogoLinkProps) {
         alt="logo"
         width="203"
         height="81"
-        className={`${className} h-auto group-active:brightness-110 group-focus:brightness-110 laptop:group-hover:brightness-110 transition duration-300 ease-out`}
+        className={`${className} h-auto group-active:brightness-110 group-focus:brightness-110 laptop:group-hover:brightness-[115%] 
+        transition duration-300 ease-out`}
       />
     </Link>
   );
