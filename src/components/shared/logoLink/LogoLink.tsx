@@ -3,7 +3,11 @@ import { useLocale } from "next-intl";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
 
-export default function LogoLink() {
+interface LogoLinkProps {
+  className?: string;
+}
+
+export default function LogoLink({ className = "" }: LogoLinkProps) {
   const locale = useLocale();
 
   return (
@@ -14,7 +18,7 @@ export default function LogoLink() {
         alt="logo"
         width="203"
         height="81"
-        className="group-active:brightness-110 group-focus:brightness-110 laptop:group-hover:brightness-110 transition duration-300 ease-out"
+        className={`${className} h-auto group-active:brightness-110 group-focus:brightness-110 laptop:group-hover:brightness-110 transition duration-300 ease-out`}
       />
     </Link>
   );

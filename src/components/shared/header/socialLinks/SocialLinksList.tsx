@@ -1,5 +1,6 @@
 import React from "react";
 import SocialLinkItem from "./SocialLinkItem";
+import { INSTAGRAM_URL, TELEGRAM_URL } from "@/constants/constants";
 
 interface SocialLinksListProps {
   className?: string;
@@ -11,11 +12,11 @@ export default function SocialLinksList({
   const socialLinksList = [
     {
       name: "instagram",
-      url: "https://www.instagram.com/kondor.ua",
+      url: INSTAGRAM_URL,
     },
     {
       name: "telegram",
-      url: "https://t.me/kondor_device",
+      url: TELEGRAM_URL,
     },
   ];
 

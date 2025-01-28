@@ -14,6 +14,7 @@ export default {
       screens: {
         tab: "768px",
         laptop: "1280px",
+        desk: "1500px",
         deskxl: "1920px",
       },
       container: {
@@ -22,7 +23,7 @@ export default {
           DEFAULT: "20px",
           md: "32px",
           xl: "100px",
-          deskxl: "240px",
+          desk: "240px",
         },
       },
       fontSize: {

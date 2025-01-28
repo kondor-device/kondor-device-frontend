@@ -8,5 +8,26 @@
       "faq": "FAQ"
     }
   },
-  "footer": {}
+  "footer": {
+    "rights": "Kondor 2024—2025 ©",
+    "important": {
+      "title": "Важливо",
+      "list": {
+        "home": "Головна",
+        "catalog": "Каталог",
+        "delivery": "Доставка"
+      }
+    },
+    "details": {
+      "title": "Деталі",
+      "list": {
+        "policy": "Політика конфіденційності",
+        "warranty": "Умови гарантії",
+        "faq": "FAQ"
+      }
+    },
+    "contacts": {
+      "title": "Контакти"
+    }
+  }
 }

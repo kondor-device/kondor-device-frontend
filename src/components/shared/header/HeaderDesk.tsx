@@ -7,7 +7,7 @@ export default function HeaderDesk() {
   return (
     <div className="hidden laptop:block fixed z-10 w-[100vw]">
       <div className="flex justify-between container max-w-[1920px] h-[113px]">
-        <LogoLink />
+        <LogoLink className="w-[203px]" />
         <NavMenu />
         <SocialLinksList />
       </div>
