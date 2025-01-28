@@ -14,7 +14,7 @@ export default function LogoLink() {
         alt="logo"
         width="203"
         height="81"
-        className="group-active:brightness-110 group-focus:brightness-110 laptop:group-hover:brightness-110 transition duration-300 ease-out"
+        className="w-[203px] h-auto group-active:brightness-110 group-focus:brightness-110 laptop:group-hover:brightness-110 transition duration-300 ease-out"
       />
     </Link>
   );
