@@ -5,10 +5,12 @@ import NavMenu from "./navMenu/NavMenu";
 
 export default function HeaderDesk() {
   return (
-    <div className="container hidden laptop:flex justify-between fixed z-10 w-[100vw] h-[113px]">
-      <LogoLink />
-      <NavMenu />
-      <SocialLinksList />
+    <div className="hidden laptop:block fixed z-10 w-[100vw]">
+      <div className="flex justify-between container max-w-[1920px] h-[113px]">
+        <LogoLink />
+        <NavMenu />
+        <SocialLinksList />
+      </div>
     </div>
   );
 }
