@@ -23,7 +23,8 @@ export default {
           DEFAULT: "20px",
           md: "32px",
           xl: "80px",
-          desk: "240px",
+          desk: "100px",
+          deskxl: "240px",
         },
       },
       fontSize: {

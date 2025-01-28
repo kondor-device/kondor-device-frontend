@@ -14,7 +14,7 @@ export default function WeOfferList() {
     { title: t("weOffer.securePayment"), icon: "securePayment" },
   ];
   return (
-    <ul className="flex flex-col laptop:flex-row gap-x-6 gap-y-5 laptop:justify-between">
+    <ul className="flex flex-col laptop:flex-row gap-x-6 gap-y-5 laptop:justify-between w-full">
       {weOfferList.map((weOffertItem, idx) => (
         <WeOfferItem key={idx} weOfferItem={weOffertItem} />
       ))}
