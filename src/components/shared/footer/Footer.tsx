@@ -10,7 +10,7 @@ export default function Footer() {
 
   return (
     <footer>
-      <div className="container max-w-[1920px] flex flex-col laptop:flex-row laptop:justify-between items-start gap-y-[25px] py-5">
+      <div className="container max-w-[1920px] flex flex-col laptop:flex-row laptop:justify-between items-start gap-y-[25px] pt-5 pb-5 laptop:pb-10">
         <div>
           <LogoLink className="w-[152px] laptop:w-[222px]" />
           <p className="mt-[10px] text-12med laptop:text-18med">
