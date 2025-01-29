@@ -11,7 +11,7 @@ export default function Warranty() {
   return (
     <>
       <PageTitle>{t("warrantyPage.title")}</PageTitle>
-      <section className="container max-w-[1920px] pb-5 laptop:pb-[100px]">
+      <section className="container max-w-[1920px] py-5 laptop:py-[100px]">
         <WarrantyInfo />
         <a
           href={TELEGRAM_URL}
