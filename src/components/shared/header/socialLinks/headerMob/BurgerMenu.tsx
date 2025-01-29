@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 
-import NavMenu from "./navMenu/NavMenu";
-import SocialLinksList from "./socialLinks/SocialLinksList";
+import NavMenu from "../../navMenu/NavMenu";
+import SocialLinksList from "../SocialLinksList";
 
 interface BurgerMenuMobTabProps {
   isHeaderMenuOpened: boolean;
