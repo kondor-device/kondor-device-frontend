@@ -29,7 +29,11 @@ export default function NavMenu({ setIsHeaderMenuOpened }: NavMenuProps) {
             key={idx}
             menuItem={menuItem}
             setIsHeaderMenuOpened={setIsHeaderMenuOpened}
-            className={`${currentPath === menuItem.path ? "text-yellow" : ""}`}
+            className={`${
+              currentPath === menuItem.path
+                ? "text-yellow text-18semi"
+                : "text-18med"
+            }`}
           />
         ))}
       </ul>
