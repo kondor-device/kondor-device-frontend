@@ -19,7 +19,7 @@ export default function BurgerMenuButton({
       aria-label="open menu button"
       type="button"
       onClick={toggleHeaderMenuOpen}
-      className="group relative z-[60] size-[51px] px-[10px] py-[15.5px] outline-none before:content-['']
+      className="group relative z-[60] size-[46px] px-[7.5px] py-[13px] outline-none before:content-['']
            before:absolute before:-z-10 before:top-0 before:left-0 before:rounded-full before:size-0 before:opacity-0 before:transition 
            before:duration-1000 before:ease-out active:before:opacity-100 focus-visible:before:opacity-100 laptop:hover:before:opacity-100 
            before:bg-yellowGradient before:blur-[4px]"

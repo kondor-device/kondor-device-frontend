@@ -26,7 +26,7 @@ export default function MenuLink({
         onClick={() => {
           if (setIsHeaderMenuOpened) setIsHeaderMenuOpened(false);
         }}
-        className={`laptop:text-18med transition duration-300 ease-out active:text-yellow focus-visible:text-yellow
+        className={`text-18med transition duration-300 ease-out active:text-yellow focus-visible:text-yellow
          laptop:hover:text-yellow outline-none`}
       >
         {title}

@@ -1,17 +1,29 @@
-import React from "react";
+"use client";
+import React, { Dispatch, SetStateAction } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
 
 interface LogoLinkProps {
   className?: string;
+  setIsHeaderMenuOpened?: Dispatch<SetStateAction<boolean>> | undefined;
 }
 
-export default function LogoLink({ className = "" }: LogoLinkProps) {
+export default function LogoLink({
+  className = "",
+  setIsHeaderMenuOpened,
+}: LogoLinkProps) {
   const locale = useLocale();
 
   return (
-    <Link href="/" locale={locale} className="group flex items-center">
+    <Link
+      onClick={() => {
+        if (setIsHeaderMenuOpened) setIsHeaderMenuOpened(false);
+      }}
+      href="/"
+      locale={locale}
+      className="group flex items-center"
+    >
       <Image
         src="/images/icons/logo.svg"
         priority
