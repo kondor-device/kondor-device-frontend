@@ -8,6 +8,7 @@ import AboutInfo from "./AboutInfo";
 
 export default function About() {
   const t = useTranslations("");
+
   return (
     <>
       <PageTitle>{t("aboutPage.title")}</PageTitle>
