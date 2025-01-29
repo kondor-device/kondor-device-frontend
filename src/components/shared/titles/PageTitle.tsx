@@ -14,6 +14,7 @@ export default function PageTitle({ children, className }: PageTitleProps) {
         alt="curves"
         width={1560}
         height={380}
+        priority
         className="tab:hidden absolute -z-10 top-0 left-0 w-full h-auto object-cover"
       />
       <Image
@@ -21,6 +22,7 @@ export default function PageTitle({ children, className }: PageTitleProps) {
         alt="curves"
         width={3840}
         height={450}
+        priority
         className="hidden tab:block absolute -z-10 top-0 left-0 w-full h-full object-cover"
       />
       <h1 className={`text-center text-14bold laptop:text-40bold ${className}`}>
