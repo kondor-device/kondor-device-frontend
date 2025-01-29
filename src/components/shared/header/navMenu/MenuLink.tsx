@@ -22,7 +22,7 @@ export default function MenuLink({
   return (
     <li className={`text-center ${className}`}>
       <Link
-        href={locale === "uk" ? `/#${path}` : `/${locale}#${path}`}
+        href={locale === "uk" ? `/${path}` : `/${locale}${path}`}
         onClick={() => {
           if (setIsHeaderMenuOpened) setIsHeaderMenuOpened(false);
         }}
