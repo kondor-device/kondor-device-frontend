@@ -41,13 +41,15 @@ export default function FaqItem({ faqItem }: FaqItemProps) {
           }`}
         />
       </div>
-      <p
-        className={`pl-8 laptop:pl-[64px] pt-[5px] laptop:pt-4 text-12med laptop:text-18med overflow-hidden transition-[max-height] duration-700 ${
+      <div
+        className={`pl-8 laptop:pl-[64px]  overflow-hidden transition-[max-height] duration-700 ${
           isShownMore ? "max-h-[600px] ease-in" : "max-h-0 ease-out"
         }`}
       >
-        {description}
-      </p>
+        <p className={`pt-[5px] laptop:pt-4 text-12med laptop:text-18med`}>
+          {description}
+        </p>
+      </div>
     </li>
   );
 }
