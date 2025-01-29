@@ -16,7 +16,7 @@ export default function BurgerMenu({
     <div
       className={`${
         isHeaderMenuOpened
-          ? "translate-x-0 opacity-100"
+          ? "translate-x-0 opacity-100 no-doc-scroll"
           : "translate-x-full opacity-0"
       } absolute top-0 right-0 z-50 w-[100vw] h-[100dvh] pt-[120px] pb-8 bg-white 
       transition duration-[600ms] overflow-y-auto`}
