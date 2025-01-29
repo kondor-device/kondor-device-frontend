@@ -13,7 +13,7 @@ export default function OrderConditions() {
       className="flex flex-col gap-y-5 tab:flex-row-reverse tab:gap-x-8 laptop:gap-x-[69px] items-center tab:justify-center"
     >
       <div className="laptop:w-[47%]">
-        <h2 className="mb-5 laptop:mb-[45px] text-22bold laptop:text-32bold desk:text-40bold text-center laptop:text-left leading-[27px] laptop:leading-[48px]">
+        <h2 className="mb-5 laptop:mb-[45px] text-22bold laptop:text-32bold desk:text-40bold text-center laptop:text-left">
           {t("homePage.orderConditions.title")}
         </h2>
         <Stages />

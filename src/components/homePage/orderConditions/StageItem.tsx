@@ -12,10 +12,10 @@ export default function StageItem({ stageItem }: StageItemProps) {
 
   return (
     <li className="leading-none">
-      <h3 className="mb-[5px] laptop:mb-[15px] text-14bold laptop:text-18bold desk:text-24bold leading-[17px] desk:leading-[29px]">
+      <h3 className="mb-[5px] laptop:mb-[15px] text-14bold laptop:text-18bold desk:text-24bold">
         {title}
       </h3>
-      <span className="text-12med laptop:text-16med desk:text-24med leading-[15px] desk:leading-[29px]">
+      <span className="text-12med laptop:text-16med desk:text-24med">
         {description}
       </span>
     </li>
