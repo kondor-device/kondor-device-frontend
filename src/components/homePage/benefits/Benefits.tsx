@@ -14,7 +14,7 @@ export default function Benefits() {
         {t("homePage.benefits.title")}
       </SectionTitle>
       <BenefitsList />
-      <Button className="mx-auto mt-5 laptop:mt-[60px]">
+      <Button className="w-full max-w-[350px] deskxl:max-w-[437px] deskxl:w-[437px] mx-auto mt-5 laptop:mt-[60px]">
         {t("buttons.makeOrder")}
       </Button>
     </Section>
