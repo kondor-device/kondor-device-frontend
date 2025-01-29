@@ -98,7 +98,8 @@
   "buttons": {
     "makeOrder": "Оформити замовлення",
     "haveQuestions": "Залишилися запитання? Напишіть нам: ",
-    "telegram": "t.me/kondor_device"
+    "telegram": "t.me/kondor_device",
+    "join": "Приєднатись"
   },
   "warrantyPage": {
     "title": "Положення про гарантію Kondor",
