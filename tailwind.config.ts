@@ -32,6 +32,7 @@ export default {
         "12med": ["12px", { fontWeight: "500", lineHeight: "15px" }],
         "12semi": ["12px", { fontWeight: "600", lineHeight: "15px" }],
         "12bold": ["12px", { fontWeight: "700", lineHeight: "15px" }],
+        "14med": ["14px", { fontWeight: "500", lineHeight: "17px" }],
         "14semi": ["14px", { fontWeight: "600", lineHeight: "17px" }],
         "14bold": ["14px", { fontWeight: "700", lineHeight: "17px" }],
         "16med": ["16px", { fontWeight: "500", lineHeight: "20px" }],
