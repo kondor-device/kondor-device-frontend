@@ -20,7 +20,7 @@ export default function FaqItem({ faqItem }: FaqItemProps) {
       onClick={toggleShowMore}
       className="cursor-pointer px-[20px] py-[15px] laptop:px-[50px] laptop:py-[40px] rounded-[11px] laptop:rounded-[30px] shadow-card"
     >
-      <div className="flex items-center">
+      <div className={`flex items-center`}>
         <Image
           src={`/images/icons/question.svg`}
           alt="question icon"
@@ -42,10 +42,8 @@ export default function FaqItem({ faqItem }: FaqItemProps) {
         />
       </div>
       <p
-        className={`pl-8 laptop:pl-[64px] text-12med laptop:text-18med overflow-hidden transition-[max-height] duration-700 ${
-          isShownMore
-            ? "max-h-[600px] pt-[5px] laptop:pt-4 ease-in"
-            : "max-h-0 ease-out"
+        className={`pl-8 laptop:pl-[64px] pt-[5px] laptop:pt-4 text-12med laptop:text-18med overflow-hidden transition-[max-height] duration-700 ${
+          isShownMore ? "max-h-[600px] ease-in" : "max-h-0 ease-out"
         }`}
       >
         {description}
