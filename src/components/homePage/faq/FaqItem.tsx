@@ -42,7 +42,7 @@ export default function FaqItem({ faqItem }: FaqItemProps) {
         />
       </div>
       <div
-        className={`pl-8 laptop:pl-[64px]  overflow-hidden transition-[max-height] duration-700 ${
+        className={`pl-8 laptop:pl-[64px] overflow-hidden transition-[max-height] duration-700 ${
           isShownMore ? "max-h-[600px] ease-in" : "max-h-0 ease-out"
         }`}
       >
