@@ -29,6 +29,7 @@ export default {
       },
       fontSize: {
         "10med": ["10px", { fontWeight: "500", lineHeight: "12px" }],
+        "12reg": ["12px", { fontWeight: "400", lineHeight: "15px" }],
         "12med": ["12px", { fontWeight: "500", lineHeight: "15px" }],
         "12semi": ["12px", { fontWeight: "600", lineHeight: "15px" }],
         "12bold": ["12px", { fontWeight: "700", lineHeight: "15px" }],
@@ -46,6 +47,7 @@ export default {
         "20bold": ["20px", { fontWeight: "700", lineHeight: "24px" }],
         "22med": ["22px", { fontWeight: "500", lineHeight: "27px" }],
         "22bold": ["22px", { fontWeight: "700", lineHeight: "27px" }],
+        "24reg": ["24px", { fontWeight: "400", lineHeight: "29px" }],
         "24med": ["24px", { fontWeight: "500", lineHeight: "29px" }],
         "24semi": ["24px", { fontWeight: "600", lineHeight: "29px" }],
         "24bold": ["24px", { fontWeight: "700", lineHeight: "29px" }],

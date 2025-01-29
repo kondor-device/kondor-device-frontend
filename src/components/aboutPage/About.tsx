@@ -10,7 +10,7 @@ export default function About() {
   const t = useTranslations("");
   return (
     <>
-      <PageTitle>{t("policyPage.title")}</PageTitle>
+      <PageTitle>{t("aboutPage.title")}</PageTitle>
       <section className="container max-w-[1920px] py-5 laptop:py-[100px]">
         <a
           href={TELEGRAM_URL}
