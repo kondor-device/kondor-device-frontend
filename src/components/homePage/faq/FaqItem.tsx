@@ -36,7 +36,7 @@ export default function FaqItem({ faqItem }: FaqItemProps) {
           alt="cross icon"
           width="32"
           height="33"
-          className={`w-[10px] laptop:w-6 h-auto ml-auto transition duration-700 ease-in-out ${
+          className={`w-[10px] laptop:w-6 h-auto ml-auto transition duration-500 ease-in-out ${
             isShownMore ? "rotate-45" : "rotate-0"
           }`}
         />

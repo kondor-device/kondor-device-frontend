@@ -1,5 +1,6 @@
 "use client";
 import { useTranslations } from "next-intl";
+import { usePathname } from "@/i18n/routing";
 import React, { Dispatch, SetStateAction } from "react";
 import MenuLink from "./MenuLink";
 
@@ -10,11 +11,14 @@ interface NavMenuProps {
 export default function NavMenu({ setIsHeaderMenuOpened }: NavMenuProps) {
   const t = useTranslations();
 
+  const currentPath = usePathname().slice(1);
+
   const menuList = [
     { title: t("header.navMenu.home"), path: "" },
-    { title: t("header.navMenu.catalog"), path: "catalog" },
-    { title: t("header.navMenu.delivery"), path: "delivery" },
-    { title: t("header.navMenu.faq"), path: "faq" },
+    { title: t("header.navMenu.catalog"), path: "#catalog" },
+    { title: t("header.navMenu.delivery"), path: "#delivery" },
+    { title: t("header.navMenu.about"), path: "about" },
+    { title: t("header.navMenu.faq"), path: "#faq" },
   ];
 
   return (
@@ -25,6 +29,7 @@ export default function NavMenu({ setIsHeaderMenuOpened }: NavMenuProps) {
             key={idx}
             menuItem={menuItem}
             setIsHeaderMenuOpened={setIsHeaderMenuOpened}
+            className={`${currentPath === menuItem.path ? "text-yellow" : ""}`}
           />
         ))}
       </ul>

@@ -70,6 +70,7 @@
       "home": "Головна",
       "catalog": "Каталог",
       "delivery": "Доставка",
+      "about": "Про нас",
       "faq": "FAQ"
     }
   },
@@ -80,7 +81,8 @@
       "list": {
         "home": "Головна",
         "catalog": "Каталог",
-        "delivery": "Доставка"
+        "delivery": "Доставка",
+        "about": "Про нас"
       }
     },
     "details": {
