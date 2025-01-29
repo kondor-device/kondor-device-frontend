@@ -21,7 +21,7 @@ export default function FaqList() {
   ];
 
   return (
-    <ul className="flex flex-col gap-y-[9px] laptop:gap-y-6 max-w-[650px] laptop:max-w-[950px] mx-auto">
+    <ul className="flex flex-col gap-y-[9px] laptop:gap-y-6 max-w-[545px] laptop:max-w-[950px] mx-auto">
       {stagesList.map((faqItem, idx) => (
         <FaqItem key={idx} faqItem={faqItem} />
       ))}

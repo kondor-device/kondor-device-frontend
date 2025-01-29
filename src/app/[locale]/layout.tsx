@@ -42,7 +42,7 @@ export default async function LocaleLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <Header />
-          <main className="flex-1 pt-[82px] laptop:pt-[113px]">{children}</main>
+          <main className="flex-1 pt-[82px] tabxl:pt-[113px]">{children}</main>
           <Footer />
         </NextIntlClientProvider>
       </body>
