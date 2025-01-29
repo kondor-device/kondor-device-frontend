@@ -1,18 +1,17 @@
 import React from "react";
 import PageTitle from "../shared/titles/PageTitle";
 import { useTranslations } from "next-intl";
-import WarrantyInfo from "./WarrantyInfo";
+import PolicyList from "./PolicyList";
 import Button from "../shared/buttons/Button";
 import { TELEGRAM_URL } from "@/constants/constants";
 
-export default function Warranty() {
+export default function Policy() {
   const t = useTranslations("");
-
   return (
     <>
-      <PageTitle>{t("warrantyPage.title")}</PageTitle>
+      <PageTitle>{t("policyPage.title")}</PageTitle>
       <section className="container max-w-[1920px] py-5 laptop:py-[100px]">
-        <WarrantyInfo />
+        <PolicyList />
         <a
           href={TELEGRAM_URL}
           target="_blank"
