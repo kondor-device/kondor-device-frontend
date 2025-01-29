@@ -18,7 +18,7 @@ export default function Button({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`flex items-center justify-center w-[350px] deskxl:w-[437px] h-[54px] laptop:h-[82px] desk:h-[85px] px-3 text-14bold laptop:text-18bold 
+      className={`flex items-center justify-center w-full max-w-[350px] laptop:max-w-full deskxl:w-[437px] h-[54px] laptop:h-[82px] desk:h-[85px] px-3 text-14bold laptop:text-18bold 
         deskxl:text-24bold rounded-full transition duration-300 ease-out enabled:active:brightness-[115%] enabled:active:scale-95 
         laptop:enabled:hover:brightness-[115%] enabled:focus-visible:brightness-[115%] outline-none ${
           variant === "primary" ? "bg-yellowGradient" : "bg-lightGrey"
