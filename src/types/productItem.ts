@@ -10,7 +10,7 @@ export interface ProductItem {
   generalname: string;
   name: string;
   price: number;
-  priceDiscount: 1000;
+  priceDiscount: number;
   showonaddons: boolean;
   showonmain: boolean;
   complect: [];
