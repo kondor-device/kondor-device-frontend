@@ -57,10 +57,6 @@ export default function CatalogSlider({ productsList }: CatalogSliderProps) {
   return (
     <div className="pb-[22px] laptop:pb-16">
       <Slider {...settings}>
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
         {/* {productsList.map((product, idx) => (
                 <ProductCard key={idx} product={product} />
               ))} */}
