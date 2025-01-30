@@ -1,6 +1,74 @@
-.slick-list {
-  margin: 0 -5px;
+.slick-dots {
+  bottom: -48px;
+  display: flex !important;
+  justify-content: center;
+  gap: 10px;
+}
+
+.slick-dots li {
+  width: 10px;
+  height: 10px;
+  margin: 0;
+}
+
+.slick-dots li button::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: var(--lightGrey);
+  opacity: 1;
+  transition: background-color 500ms ease-out, width 500ms ease-out,
+    height 500ms ease-out, top 500ms ease-out;
+}
+
+.slick-dots li.slick-active button::before {
+  width: 10px;
+  height: 10px;
+  background-color: var(--yellow);
+}
+
+.slick-prev,
+.slick-next {
+  position: absolute;
+  top: unset !important;
+  bottom: -56px;
+  width: 12px;
+  height: 12px;
   @media screen and (min-width: 1280px) {
-    margin: 0 -32px;
+    bottom: -68px;
+    width: 25px;
+    height: 25px;
   }
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.slick-prev {
+  left: calc(30px);
+  @media screen and (min-width: 540px) {
+    left: calc(80px);
+  }
+  @media screen and (min-width: 768px) {
+    left: calc(200px);
+  }
+  background: url("/images/icons/polygonLeft.svg") no-repeat center/contain !important;
+}
+
+.slick-next {
+  right: calc(30px);
+  @media screen and (min-width: 540px) {
+    right: calc(80px);
+  }
+  @media screen and (min-width: 768px) {
+    right: calc(200px);
+  }
+  background: url("/images/icons/polygonRight.svg") no-repeat center/contain !important;
+}
+
+.slick-prev::before,
+.slick-next::before {
+  content: none; /* Видаляємо стандартні стрілки */
 }

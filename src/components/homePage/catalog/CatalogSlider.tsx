@@ -18,7 +18,7 @@ export default function CatalogSlider({ productsList }: CatalogSliderProps) {
     dots: true,
     centerMode: true,
     className: "center",
-    centerPadding: "17.4%",
+    centerPadding: "300px",
     responsive: [
       {
         breakpoint: 1280, // 1025 - 1280px
@@ -29,13 +29,19 @@ export default function CatalogSlider({ productsList }: CatalogSliderProps) {
       {
         breakpoint: 1024, // 768 - 1024px
         settings: {
-          centerPadding: "17.4%",
+          centerPadding: "200px",
         },
       },
       {
-        breakpoint: 768, // До 768px
+        breakpoint: 768, // 540 - 768px
         settings: {
-          centerPadding: "5.13%",
+          centerPadding: "80px",
+        },
+      },
+      {
+        breakpoint: 540, // До 540px
+        settings: {
+          centerPadding: "20px",
         },
       },
     ],
@@ -49,18 +55,16 @@ export default function CatalogSlider({ productsList }: CatalogSliderProps) {
   };
 
   return (
-    <div className="overflow-hidden pb-[22px] laptop:pb-16">
-      <div>
-        <Slider {...settings}>
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          {/* {productsList.map((product, idx) => (
+    <div className="pb-[22px] laptop:pb-16">
+      <Slider {...settings}>
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        {/* {productsList.map((product, idx) => (
                 <ProductCard key={idx} product={product} />
               ))} */}
-        </Slider>
-      </div>
+      </Slider>
     </div>
   );
 }
