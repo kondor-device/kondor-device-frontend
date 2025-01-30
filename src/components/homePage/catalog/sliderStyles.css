@@ -1,0 +1,6 @@
+.slick-list {
+  margin: 0 -5px;
+  @media screen and (min-width: 1280px) {
+    margin: 0 -32px;
+  }
+}

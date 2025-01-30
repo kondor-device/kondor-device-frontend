@@ -7,16 +7,40 @@ import "./sliderStyles.css";
 import React from "react";
 import Slider from "react-slick";
 import ProductCard from "./ProductCard";
+import { ProductItem } from "@/types/productItem";
 
 interface CatalogSliderProps {
-  productsList: string[];
+  productsList: ProductItem[];
 }
 
 export default function CatalogSlider({ productsList }: CatalogSliderProps) {
   const settings = {
     dots: true,
+    centerMode: true,
+    className: "center",
+    centerPadding: "17.4%",
+    responsive: [
+      {
+        breakpoint: 1280, // 1025 - 1280px
+        settings: {
+          centerPadding: "5.13%",
+        },
+      },
+      {
+        breakpoint: 1024, // 768 - 1024px
+        settings: {
+          centerPadding: "17.4%",
+        },
+      },
+      {
+        breakpoint: 768, // До 768px
+        settings: {
+          centerPadding: "5.13%",
+        },
+      },
+    ],
     infinite: true,
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: false,
     swipeToSlide: true,
@@ -25,16 +49,16 @@ export default function CatalogSlider({ productsList }: CatalogSliderProps) {
   };
 
   return (
-    <div className="overflow-hidden">
-      <div className="slider-container">
+    <div className="overflow-hidden pb-[22px] laptop:pb-16">
+      <div>
         <Slider {...settings}>
-          <div>
-            <ul className="flex flex-wrap justify-center gap-4">
-              {productsList.map((product, idx) => (
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          {/* {productsList.map((product, idx) => (
                 <ProductCard key={idx} product={product} />
-              ))}
-            </ul>
-          </div>
+              ))} */}
         </Slider>
       </div>
     </div>
