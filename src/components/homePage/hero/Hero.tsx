@@ -11,13 +11,13 @@ export default function Hero() {
   const t = useTranslations();
 
   return (
-    <div className="relative laptop:aspect-[1280/551] deskxl:aspect-[1920/1021]">
+    <div className="relative laptop:aspect-[1280/571] deskxl:aspect-[1920/1021]">
       <Image
         src="/images/bgImages/homeHero/keyboards.webp"
         alt="keyboards"
         width={1678}
         height={2045}
-        className="hidden laptop:block absolute top-0 left-0 -z-20 w-[34%] deskxl:w-[43.7%] h-auto"
+        className="hidden laptop:block absolute top-0 left-0 -z-20 w-[35%] deskxl:w-[43.7%] h-auto"
       />
       <Section className="flex flex-col h-full pb-[60px] laptop:pb-[100px]">
         <div className="my-auto">
