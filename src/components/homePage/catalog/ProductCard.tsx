@@ -20,7 +20,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const savings = (((price - priceDiscount) / price) * 100).toFixed(0);
 
   return (
-    <div className="flex flex-col gap-y-[15px] laptop:flex-row laptop:items-center laptop:gap-x-[60px] w-[330px] mob:w-[340px] min-h-full h-auto p-3 laptop:p-[45px] rounded-[8px] laptop:rounded-[30px] bg-black">
+    <div className="flex flex-col gap-y-[15px] laptop:flex-row laptop:items-center laptop:gap-x-[60px] min-h-full h-auto p-3 laptop:p-[45px] rounded-[8px] laptop:rounded-[30px] bg-black">
       <div className="h-[257px] laptop:w-[449px] laptop:h-[449px] mx-auto bg-white rounded-[11px] laptop:rounded-[40px]">
         <Image
           src={photos[0]?.url}
