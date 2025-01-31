@@ -75,6 +75,7 @@ export default {
         card: "0px 0.74px 11.12px 0px rgba(103, 103, 103, 0.25)",
         colorPickerThin: "0 0 0 1px #FFFFFF",
         colorPicker: "0 0 0 2px #FFFFFF",
+        imagePicker: "0 0 0 2px #FFB300",
       },
     },
   },

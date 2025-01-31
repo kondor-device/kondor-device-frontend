@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/shared/buttons/Button";
 import { ProductItem } from "@/types/productItem";
-import Image from "next/image";
+import ImagePicker from "./ImagePicker";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
@@ -17,6 +17,8 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { generalname, name, price, priceDiscount, coloropts } = product;
 
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
+
   const { photos } = coloropts[selectedColorIndex];
 
   const savings = (((price - priceDiscount) / price) * 100).toFixed(0);
@@ -26,28 +28,11 @@ export default function ProductCard({ product }: ProductCardProps) {
       className="flex flex-col gap-y-[15px] laptop:flex-row laptop:items-center laptop:gap-x-10 deskxl:gap-x-[60px] min-h-full h-auto p-3 laptop:p-8 deskxl:p-[45px] 
     rounded-[8px] laptop:rounded-[30px] bg-black"
     >
-      <div className="h-[257px] laptop:w-[349px] deskxl:w-[449px] laptop:h-[349px] deskxl:h-[449px] mx-auto bg-white rounded-[11px] laptop:rounded-[40px]">
-        <Image
-          src={photos[0]?.url}
-          alt={photos[0]?.alt || "keyboard"}
-          width={1080}
-          height={1080}
-          className=""
-        />
-        {/* <ul className="flex flex-col gap-y-[10px] laptop:flex-row gap-x-8">
-          {photos.map(({ url, alt }, idx) => (
-            <li key={idx} className="size-12 laptop:size-[101px] bg-black">
-              <Image
-                src={url}
-                alt={alt || "keyboard"}
-                width={1080}
-                height={1080}
-                className=""
-              />
-            </li>
-          ))}
-        </ul> */}
-      </div>
+      <ImagePicker
+        photos={photos}
+        selectedPhotoIndex={selectedPhotoIndex}
+        setSelectedPhotoIndex={setSelectedPhotoIndex}
+      />
       <div className="flex flex-col gap-y-[5px] laptop:gap-y-[15px]">
         <CardTitle generalname={generalname} name={name} />
         <ColorPicker
