@@ -44,9 +44,12 @@
 }
 
 .swiper-button-prev {
-  left: 4.5%;
-  @media screen and (min-width: 440px) {
-    left: 12%;
+  left: calc(50% - 165px);
+  @media screen and (min-width: 1280px) {
+    left: calc(50% - 489px);
+  }
+  @media screen and (min-width: 1920px) {
+    left: calc(50% - 626px);
   }
   right: auto;
   top: 100%;
@@ -54,9 +57,12 @@
 }
 
 .swiper-button-next {
-  right: 4.5%;
+  right: calc(50% - 165px);
   @media screen and (min-width: 440px) {
-    right: 12%;
+    right: calc(50% - 489px);
+  }
+  @media screen and (min-width: 1920px) {
+    right: calc(50% - 626px);
   }
   left: auto;
   top: 100%;
