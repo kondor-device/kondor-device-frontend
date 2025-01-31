@@ -24,7 +24,7 @@ export default async function Catalog() {
       id="catalog"
       className="pt-[60px] laptop:pt-[100px] scroll-mt-8 tabxl:scroll-mt-[63px]"
     >
-      <ul>
+      <ul className="flex flex-col gap-y-5 laptop:gap-y-[30px]">
         {categories.map(
           (
             { name, items }: { name: string; items: ProductItem[] },

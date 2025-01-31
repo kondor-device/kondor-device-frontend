@@ -8,7 +8,6 @@ import React from "react";
 import Slider from "react-slick";
 import ProductCard from "./ProductCard";
 import { ProductItem } from "@/types/productItem";
-import SectionTitle from "@/components/shared/titles/SectionTitle";
 
 interface CatalogSliderProps {
   title: string;
@@ -58,7 +57,9 @@ export default function CatalogSlider({ title, products }: CatalogSliderProps) {
 
   return (
     <li>
-      <SectionTitle>{title}</SectionTitle>
+      <h2 className="mb-[30px] text-22bold laptop:text-40bold text-center">
+        {title}
+      </h2>
       <Slider {...settings}>
         {products.map((product, idx) => (
           <ProductCard key={idx} product={product} />
