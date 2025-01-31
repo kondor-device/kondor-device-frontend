@@ -5,6 +5,13 @@
   }
 }
 
+.swiper-slide {
+  width: 330px;
+  @media screen and (min-width: 1280px) {
+    width: 978px;
+  }
+}
+
 .swiper-pagination {
   bottom: 2px !important;
 }

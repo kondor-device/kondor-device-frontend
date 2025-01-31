@@ -3,7 +3,7 @@ interface Photo {
   url: string;
 }
 
-interface ColorOpt {
+export interface ColorOpt {
   code: string;
   color: string;
   colorset: { hex: string };

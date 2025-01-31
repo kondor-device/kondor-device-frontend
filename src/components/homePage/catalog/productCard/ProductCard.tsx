@@ -5,6 +5,8 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
+import ColorPicker from "./ColorPicker";
+import CardTitle from "./CardTitle";
 
 interface ProductCardProps {
   product: ProductItem;
@@ -20,8 +22,11 @@ export default function ProductCard({ product }: ProductCardProps) {
   const savings = (((price - priceDiscount) / price) * 100).toFixed(0);
 
   return (
-    <div className="flex flex-col gap-y-[15px] laptop:flex-row laptop:items-center laptop:gap-x-[60px] min-h-full h-auto p-3 laptop:p-[45px] rounded-[8px] laptop:rounded-[30px] bg-black">
-      <div className="h-[257px] laptop:w-[449px] laptop:h-[449px] mx-auto bg-white rounded-[11px] laptop:rounded-[40px]">
+    <div
+      className="flex flex-col gap-y-[15px] laptop:flex-row laptop:items-center laptop:gap-x-10 deskxl:gap-x-[60px] min-h-full h-auto p-3 laptop:p-8 deskxl:p-[45px] 
+    rounded-[8px] laptop:rounded-[30px] bg-black"
+    >
+      <div className="h-[257px] laptop:w-[349px] deskxl:w-[449px] laptop:h-[349px] deskxl:h-[449px] mx-auto bg-white rounded-[11px] laptop:rounded-[40px]">
         <Image
           src={photos[0]?.url}
           alt={photos[0]?.alt || "keyboard"}
@@ -44,35 +49,23 @@ export default function ProductCard({ product }: ProductCardProps) {
         </ul> */}
       </div>
       <div className="flex flex-col gap-y-[5px] laptop:gap-y-[15px]">
-        <h3 className="mb-[5px] laptop:mb-[10px] text-12bold laptop:text-36med">
-          <p className="text-white">{generalname}&nbsp;</p>
-          <p className="text-yellow">{name}</p>
-        </h3>
-        <ul className="flex gap-x-[10px] laptop:gap-x-5 mb-[5px] laptop:mb-[15px]">
-          {coloropts.map(({ code, colorset }, index) => (
-            <li
-              key={code}
-              className={`size-[18px] laptop:size-[45px] rounded-full cursor-pointer transition duration-300 ease-out ${
-                selectedColorIndex === index
-                  ? "shadow-colorPickerThin laptop:shadow-colorPicker"
-                  : ""
-              } ${colorset.hex === "000000" ? "border border-yellow" : ""}`}
-              style={{ backgroundColor: colorset.hex }}
-              onClick={() => setSelectedColorIndex(index)}
-            ></li>
-          ))}
-        </ul>
-        <div className="flex items-center gap-x-[10px] laptop:gap-x-[25px] mb-[10px] laptop:mb-[15px]">
-          <p className="text-18med laptop:text-54bold text-white uppercase">
+        <CardTitle generalname={generalname} name={name} />
+        <ColorPicker
+          coloropts={coloropts}
+          selectedColorIndex={selectedColorIndex}
+          setSelectedColorIndex={setSelectedColorIndex}
+        />
+        <div className="flex items-end gap-x-[10px] laptop:gap-x-[25px] mb-[10px] laptop:mb-[15px]">
+          <p className="text-lg font-medium leading-none laptop:text-45bold deskxl:text-54bold text-white uppercase">
             {priceDiscount}
             {t("homePage.catalog.hrn")}
           </p>
-          <div className="flex laptop:flex-col-reverse items-center laptop:items-start gap-x-[5px] h-[22px]">
-            <p className="text-14bold laptop:text-22bold text-grey uppercase line-through">
+          <div className="flex laptop:flex-col-reverse items-end laptop:items-start laptop:justify-center gap-x-[5px] h-[22px] laptop:h-[63px]">
+            <p className="text-sm font-bold leading-none laptop:text-22bold text-grey uppercase line-through">
               {price}
               {t("homePage.catalog.hrn")}
             </p>
-            <p className="text-10med laptop:text-16med text-yellow">
+            <p className="text-[10px] font-medium leading-none laptop:text-16med text-yellow">
               {t("homePage.catalog.economy")}
               {savings}%
             </p>
@@ -84,7 +77,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </SecondaryButton>
           <SecondaryButton>{t("homePage.catalog.set")}</SecondaryButton>
         </div>
-        <Button className="w-full laptop:w-[437px] max-w-[327px] laptop:max-w-[437px] h-9">
+        <Button className="w-full laptop:w-[350px] deskxl:w-[437px] max-w-[327px] laptop:max-w-[350px] deskxl:max-w-[437px] h-9">
           {t("buttons.makeOrder")}
         </Button>
       </div>

@@ -9,7 +9,7 @@ import "./sliderStyles.css";
 import React from "react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import ProductCard from "./ProductCard";
+import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
 
 interface CatalogSliderProps {
@@ -25,14 +25,13 @@ export default function CatalogSlider({ title, products }: CatalogSliderProps) {
       </h2>
       <Swiper
         centeredSlides={true}
+        slidesPerView="auto"
         breakpoints={{
           0: {
             spaceBetween: 10,
-            slidesPerView: 1.11,
           },
           440: {
             spaceBetween: 30,
-            slidesPerView: 1.3,
           },
         }}
         pagination={{
@@ -42,10 +41,9 @@ export default function CatalogSlider({ title, products }: CatalogSliderProps) {
         loop={true}
         speed={1000}
         modules={[Pagination, Navigation]}
-        className="reviewsSlider"
       >
         {products.map((product, idx) => (
-          <SwiperSlide key={idx} className="reviewsSlider">
+          <SwiperSlide key={idx}>
             <ProductCard product={product} />
           </SwiperSlide>
         ))}
