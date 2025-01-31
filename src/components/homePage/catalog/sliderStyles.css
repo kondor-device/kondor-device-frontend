@@ -1,0 +1,90 @@
+.swiper {
+  padding-bottom: 34px;
+  @media screen and (min-width: 1280px) {
+    padding-bottom: 64px;
+  }
+}
+
+.swiper-slide {
+  width: 330px;
+  @media screen and (min-width: 1280px) {
+    width: 978px;
+  }
+  @media screen and (min-width: 1920px) {
+    width: 1252px;
+  }
+}
+
+.swiper-pagination {
+  bottom: 2px !important;
+}
+
+.swiper-pagination-bullet {
+  background: var(--lightGrey);
+  opacity: 100%;
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--yellow);
+  opacity: 100%;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  background-color: transparent;
+  border: none;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+}
+
+.swiper-button-prev {
+  left: calc(50% - 165px);
+  @media screen and (min-width: 1280px) {
+    left: calc(50% - 489px);
+  }
+  @media screen and (min-width: 1920px) {
+    left: calc(50% - 626px);
+  }
+  right: auto;
+  top: 100%;
+  transform: translateY(0%);
+}
+
+.swiper-button-next {
+  right: calc(50% - 165px);
+  @media screen and (min-width: 440px) {
+    right: calc(50% - 489px);
+  }
+  @media screen and (min-width: 1920px) {
+    right: calc(50% - 626px);
+  }
+  left: auto;
+  top: 100%;
+  transform: translateY(0%);
+}
+
+.swiper-button-prev::after {
+  content: "" !important;
+  display: flex;
+  width: 100% !important;
+  height: 100% !important;
+  background-image: url("/images/icons/polygonLeft.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.swiper-button-next::after {
+  content: "" !important;
+  display: flex;
+  width: 100% !important;
+  height: 100% !important;
+  background-image: url("/images/icons/polygonRight.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+}

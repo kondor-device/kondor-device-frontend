@@ -5,6 +5,8 @@
 :root {
   --white: #ffffff;
   --black: #000000;
+  --yellow: #ffb300;
+  --lightGrey: #d9d9d9;
   scrollbar-gutter: stable;
 }
 
