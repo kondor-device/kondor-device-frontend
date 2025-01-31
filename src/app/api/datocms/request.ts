@@ -1,6 +1,6 @@
 import { DATOCMS_URL } from "@/constants/constants";
 
-const NEXT_DATOCMS_API_TOKEN = process.env.NEXT_PUBLIC_DATOCMS_API_TOKEN;
+const NEXT_DATOCMS_API_TOKEN = process.env.NEXT_PUBLIC_DATOCMS_API_TOKEN || "";
 
 export const performRequest = async ({
   query = "",
