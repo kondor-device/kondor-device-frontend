@@ -12,6 +12,7 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const t = useTranslations();
   const { generalname, name, price, priceDiscount, coloropts } = product;
+  const { photos } = coloropts[0];
 
   const savings = (((price - priceDiscount) / price) * 100).toFixed(2);
 
@@ -20,10 +21,10 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="mx-[5px] tab:mx-3 laptop:mx-8 rounded-[8px] laptop:rounded-[30px] bg-black">
       <Image
-        src={coloropts[0].photos[0]}
-        alt={name}
-        width={}
-        height={}
+        src={photos[0]?.url}
+        alt={photos[0]?.alt}
+        width={0}
+        height={0}
         className="rounded-[11px] laptop:rounded-[40px]"
       />
       <h3 className="text-12bold laptop:text-36med">

@@ -10,10 +10,11 @@ import ProductCard from "./ProductCard";
 import { ProductItem } from "@/types/productItem";
 
 interface CatalogSliderProps {
-  productsList: ProductItem[];
+  products: ProductItem[];
 }
 
-export default function CatalogSlider({ productsList }: CatalogSliderProps) {
+export default function CatalogSlider({ products }: CatalogSliderProps) {
+  console.log(products);
   const settings = {
     dots: true,
     centerMode: true,
@@ -57,9 +58,9 @@ export default function CatalogSlider({ productsList }: CatalogSliderProps) {
   return (
     <div className="pb-[22px] laptop:pb-16">
       <Slider {...settings}>
-        {/* {productsList.map((product, idx) => (
-                <ProductCard key={idx} product={product} />
-              ))} */}
+        {products.map((product, idx) => (
+          <ProductCard key={idx} product={product} />
+        ))}
       </Slider>
     </div>
   );

@@ -1,8 +1,13 @@
+interface Photo {
+  alt: string;
+  url: string;
+}
+
 interface ColorOpt {
   code: string;
   color: string;
   colorset: { hex: string };
-  photos: string[];
+  photos: Photo[];
 }
 
 export interface ProductItem {
