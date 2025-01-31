@@ -26,8 +26,11 @@ export default async function Catalog() {
     >
       <ul>
         {categories.map(
-          ({ items }: { name: string; items: ProductItem[] }, idx: number) => (
-            <CatalogSlider key={idx} products={items} />
+          (
+            { name, items }: { name: string; items: ProductItem[] },
+            idx: number
+          ) => (
+            <CatalogSlider key={idx} title={name} products={items} />
           )
         )}
       </ul>

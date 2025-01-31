@@ -31,7 +31,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
       <div className="flex flex-col gap-y-[5px] laptop:gap-y-[15px]">
         <h3 className="laptop:flex laptop:flex-col mb-[5px] laptop:mb-[10px] text-12bold laptop:text-36med">
-          <span className="text-white">{generalname}</span>&nbsp;
+          <span className="text-white">{generalname}&nbsp;</span>
           <span className="text-yellow">{name}</span>
         </h3>
         <div className="mb-[5px] laptop:mb-[15px]">

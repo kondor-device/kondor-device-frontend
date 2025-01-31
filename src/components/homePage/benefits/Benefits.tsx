@@ -12,9 +12,7 @@ export default function Benefits() {
 
   return (
     <Section className="pb-[60px] laptop:pb-[100px]">
-      <SectionTitle className="text-center">
-        {t("homePage.benefits.title")}
-      </SectionTitle>
+      <SectionTitle>{t("homePage.benefits.title")}</SectionTitle>
       <BenefitsList />
       <Link
         href={locale === "uk" ? `/#catalog` : `/${locale}#catalog`}

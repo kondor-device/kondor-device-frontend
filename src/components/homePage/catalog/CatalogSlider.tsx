@@ -8,13 +8,14 @@ import React from "react";
 import Slider from "react-slick";
 import ProductCard from "./ProductCard";
 import { ProductItem } from "@/types/productItem";
+import SectionTitle from "@/components/shared/titles/SectionTitle";
 
 interface CatalogSliderProps {
+  title: string;
   products: ProductItem[];
 }
 
-export default function CatalogSlider({ products }: CatalogSliderProps) {
-  console.log(products);
+export default function CatalogSlider({ title, products }: CatalogSliderProps) {
   const settings = {
     dots: true,
     centerMode: true,
@@ -56,12 +57,13 @@ export default function CatalogSlider({ products }: CatalogSliderProps) {
   };
 
   return (
-    <div className="pb-[22px] laptop:pb-16">
+    <li>
+      <SectionTitle>{title}</SectionTitle>
       <Slider {...settings}>
         {products.map((product, idx) => (
           <ProductCard key={idx} product={product} />
         ))}
       </Slider>
-    </div>
+    </li>
   );
 }
