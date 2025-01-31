@@ -1,3 +1,5 @@
+"use client";
+
 import { ColorOpt } from "@/types/productItem";
 import React from "react";
 
