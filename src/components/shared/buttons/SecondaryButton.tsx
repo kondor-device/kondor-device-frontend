@@ -15,8 +15,7 @@ export default function SecondaryButton({
       type={type}
       onClick={onClick}
       className={`flex items-center justify-center w-fit p-2 laptop:py-5 laptop:px-[25px] text-12med laptop:text-22med deskxl:text-24bold rounded-full text-white bg-black 
-        border border-white transition duration-300 ease-out enabled:active:brightness-[115%] enabled:active:scale-95 
-        laptop:enabled:hover:invert-[85%] enabled:focus-visible:brightness-[115%] outline-none ${className}`}
+        border border-white transition duration-300 ease-out enabled:active:scale-95 laptop:enabled:hover:invert enabled:focus-visible:invert outline-none ${className}`}
     >
       {children}
 

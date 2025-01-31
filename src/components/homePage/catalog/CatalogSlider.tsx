@@ -19,7 +19,7 @@ export default function CatalogSlider({ products }: CatalogSliderProps) {
     dots: true,
     centerMode: true,
     className: "center",
-    centerPadding: "300px",
+    centerPadding: "200px",
     responsive: [
       {
         breakpoint: 1280, // 1025 - 1280px
