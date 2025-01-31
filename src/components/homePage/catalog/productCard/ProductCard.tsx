@@ -1,4 +1,5 @@
 "use client";
+
 import Button from "@/components/shared/buttons/Button";
 import { ProductItem } from "@/types/productItem";
 import ImagePicker from "./ImagePicker";
