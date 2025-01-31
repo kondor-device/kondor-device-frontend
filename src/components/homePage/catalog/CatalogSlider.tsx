@@ -42,7 +42,7 @@ export default function CatalogSlider({ title, products }: CatalogSliderProps) {
       {
         breakpoint: 540, // До 540px
         settings: {
-          centerPadding: "20px",
+          centerPadding: "5%",
         },
       },
     ],

@@ -12,6 +12,7 @@ export default {
         montserrat: ["var(--font-montserrat)"],
       },
       screens: {
+        mob: "390px",
         tab: "768px",
         tabxl: "1024px",
         laptop: "1280px",
@@ -72,6 +73,8 @@ export default {
       },
       boxShadow: {
         card: "0px 0.74px 11.12px 0px rgba(103, 103, 103, 0.25)",
+        colorPickerThin: "0 0 0 1px #FFFFFF",
+        colorPicker: "0 0 0 2px #FFFFFF",
       },
     },
   },
