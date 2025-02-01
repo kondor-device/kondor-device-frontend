@@ -5,7 +5,7 @@ import NavMenu from "./navMenu/NavMenu";
 
 export default function HeaderDesk() {
   return (
-    <div className="hidden tabxl:block fixed z-10 w-full bg-white">
+    <div className="hidden tabxl:block fixed z-10 w-[100vw] bg-white">
       <div className="flex justify-between container w-full max-w-[1920px] h-[113px]">
         <LogoLink className="w-[203px]" />
         <NavMenu />
