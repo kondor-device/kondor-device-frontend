@@ -5,11 +5,12 @@ import React, { Dispatch, SetStateAction } from "react";
 import Modal from "../../../../shared/modal/Modal";
 import PopUpTitle from "../../../../shared/titles/PopUpTitle";
 import CharacteristicsList from "./CharacteristicsList";
+import { Characteristic } from "@/types/productItem";
 
 interface CharacteristicsPopUpProps {
   isPopUpShown: boolean;
   setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
-  characteristics: [];
+  characteristics: Characteristic[];
 }
 
 export default function CharacteristicsPopUp({

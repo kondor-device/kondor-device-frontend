@@ -3,11 +3,12 @@ import React, { Dispatch, SetStateAction } from "react";
 import { useTranslations } from "next-intl";
 import CharacteristicsPopUp from "@/components/homePage/catalog/productCard/characteristics/CharacteristicsPopUp";
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
+import { Characteristic } from "@/types/productItem";
 
 interface CharacteristicsProps {
   isPopUpShown: boolean;
   setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
-  characteristics: [];
+  characteristics: Characteristic[];
 }
 
 export default function Characteristics({
