@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import React, { Dispatch, SetStateAction } from "react";
 import Modal from "../../../../shared/modal/Modal";
 import PopUpTitle from "../../../../shared/titles/PopUpTitle";
+import CharacteristicsList from "./CharacteristicsList";
 
 interface CharacteristicsPopUpProps {
   isPopUpShown: boolean;
@@ -22,7 +23,7 @@ export default function CharacteristicsPopUp({
     <>
       <Modal isPopUpShown={isPopUpShown} setIsPopUpShown={setIsPopUpShown}>
         <PopUpTitle>{t("homePage.catalog.generalCharacteristics")}</PopUpTitle>
-        <p className="text-center">тестggggg</p>
+        <CharacteristicsList characteristics={characteristics} />
       </Modal>
     </>
   );

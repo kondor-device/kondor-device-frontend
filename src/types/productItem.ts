@@ -10,6 +10,11 @@ export interface ColorOpt {
   photos: Photo[];
 }
 
+export interface Characteristic {
+  name: string;
+  char: string;
+}
+
 export interface ProductItem {
   id: string;
   generalname: string;
@@ -20,5 +25,5 @@ export interface ProductItem {
   showonmain: boolean;
   complect: [];
   coloropts: ColorOpt[];
-  chars: [];
+  chars: Characteristic[];
 }
