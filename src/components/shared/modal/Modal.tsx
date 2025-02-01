@@ -1,4 +1,11 @@
-import React, { Dispatch, ReactNode, SetStateAction } from "react";
+"use client";
+import React, {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import IconButton from "../buttons/IconButton";
 import IconClose from "../icons/IconCLose";
@@ -14,6 +21,16 @@ export default function Modal({
   setIsPopUpShown,
   children,
 }: ModalProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return createPortal(
     <div
       className={`${
