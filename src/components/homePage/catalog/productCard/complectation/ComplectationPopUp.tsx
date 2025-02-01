@@ -17,6 +17,7 @@ export default function ComplectationPopUp({
   complectation,
 }: CharacteristicsPopUpProps) {
   const t = useTranslations();
+  console.log(complectation);
 
   return (
     <>
