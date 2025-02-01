@@ -17,6 +17,11 @@ const getAllProducts = async () => {
 
 export default async function Catalog() {
   const res = await getAllProducts();
+
+  if (!res.data?.allCategories) {
+    return null;
+  }
+
   const categories = res.data.allCategories;
 
   return (
