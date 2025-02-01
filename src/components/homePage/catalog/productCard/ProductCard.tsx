@@ -3,17 +3,24 @@
 import Button from "@/components/shared/buttons/Button";
 import { ProductItem } from "@/types/productItem";
 import ImagePicker from "./ImagePicker";
-import React, { useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import { useTranslations } from "next-intl";
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
 import ColorPicker from "./ColorPicker";
 import CardTitle from "./CardTitle";
+import Characteristics from "./Characteristics";
 
 interface ProductCardProps {
   product: ProductItem;
+  isPopUpShown: boolean;
+  setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({
+  product,
+  isPopUpShown,
+  setIsPopUpShown,
+}: ProductCardProps) {
   const t = useTranslations();
   const { generalname, name, price, priceDiscount, coloropts } = product;
 
@@ -58,9 +65,10 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
         </div>
         <div className="flex gap-x-[5px] laptop:gap-x-5 mb-[10px] laptop:mb-[5px]">
-          <SecondaryButton>
-            {t("homePage.catalog.characteristics")}
-          </SecondaryButton>
+          <Characteristics
+            isPopUpShown={isPopUpShown}
+            setIsPopUpShown={setIsPopUpShown}
+          />
           <SecondaryButton>{t("homePage.catalog.set")}</SecondaryButton>
         </div>
         <Button className="w-full laptop:w-[350px] deskxl:w-[437px] max-w-[327px] laptop:max-w-[350px] deskxl:max-w-[437px] h-9">

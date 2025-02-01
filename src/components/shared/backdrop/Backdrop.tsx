@@ -37,9 +37,8 @@ export default function Backdrop({
       <Image
         src="/images/bgImages/backdrop.webp"
         alt="backdrop image"
-        width={3840}
-        height={2160}
-        className="w-full h-full object-cover"
+        fill
+        className="absolute inset-0 object-cover"
       />
     </div>
   );

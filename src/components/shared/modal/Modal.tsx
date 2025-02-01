@@ -1,5 +1,5 @@
 import React, { Dispatch, ReactNode, SetStateAction } from "react";
-
+import { createPortal } from "react-dom";
 import IconButton from "../buttons/IconButton";
 import IconClose from "../icons/IconCLose";
 
@@ -16,7 +16,7 @@ export default function Modal({
   children,
   isError = false,
 }: ModalProps) {
-  return (
+  return createPortal(
     <div
       className={`${
         isPopUpShown
@@ -33,6 +33,7 @@ export default function Modal({
         </IconButton>
       </div>
       {children}
-    </div>
+    </div>,
+    document.body
   );
 }
