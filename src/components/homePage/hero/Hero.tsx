@@ -5,6 +5,7 @@ import Button from "@/components/shared/buttons/Button";
 import { Link } from "@/i18n/routing";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
+import HeroProducts from "./HeroProducts";
 
 export default function Hero() {
   const locale = useLocale();
@@ -29,6 +30,7 @@ export default function Hero() {
             <Button className="w-full">{t("buttons.goToCatalog")}</Button>
           </Link>
         </div>
+        <HeroProducts />
       </Section>
     </div>
   );
