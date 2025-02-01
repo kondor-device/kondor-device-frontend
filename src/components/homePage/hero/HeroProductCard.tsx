@@ -1,11 +1,14 @@
 import { ProductItem } from "@/types/productItem";
+import Image from "next/image";
 import React from "react";
 
-interface HeroProductCard {
+interface HeroProductCardProps {
   product: ProductItem;
 }
 
 export default function HeroProductCard({ product }: HeroProductCardProps) {
-  console.log(product);
-  return <li>HeroProductCard</li>;
+  const { name, priceDiscount, photos } = product;
+  return <li><Image >
+    <h3></h3>
+    </li>;
 }

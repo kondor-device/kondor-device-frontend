@@ -12,18 +12,18 @@ export default async function HeroProducts() {
   if (!res.data?.allItems) {
     return null;
   }
+  const heroProducts =
+    res.data?.allItems?.length > 4
+      ? res.data.allItems.slice(0, 4)
+      : res.data?.allItems;
 
-  console.log(res.data?.allItems);
-
-  //   const heroProducts = res.data?.allCategories
-  //     .flatMap((category: CategoryItem) => category.items)
-  //     .filter((product: ProductItem) => product.showonmain === true);
+  console.log(heroProducts);
 
   return (
     <ul>
-      {/* {heroProducts.map((product: ProductItem) => (
-        <HeroProductCard key={idx} product={product} />
-      ))} */}
+      {heroProducts.map((product: ProductItem) => (
+        <HeroProductCard key={product.id} product={product} />
+      ))}
     </ul>
   );
 }

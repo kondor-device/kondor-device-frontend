@@ -39,6 +39,7 @@ export const ALL_ITEMS_QUERY = `
 
 export const SHOWN_ON_MAIN_PRODUCTS = `query MyQuery {
   allItems(filter: {showonmain: {eq: "true"}}) {
+    id
     name
     priceDiscount
     coloropts {
