@@ -46,7 +46,7 @@ export default function Modal({
           {<IconClose className="size-full rotate-45" />}
         </IconButton>
       </div>
-      <div> {children}</div>
+      {children}
     </div>,
     document.body
   );
