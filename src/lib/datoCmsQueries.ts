@@ -45,6 +45,7 @@ export const SHOWN_ON_MAIN_PRODUCTS = `query MyQuery {
     coloropts {
       photos {
         url
+        alt
       }
     }
   }

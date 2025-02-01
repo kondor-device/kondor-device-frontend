@@ -1,7 +1,7 @@
 import React from "react";
 import { ButtonProps } from "@/types/buttonProps";
 
-export default function SecondaryButton({
+export default function SmallButton({
   children,
   ariaLabel = "",
   className = "",

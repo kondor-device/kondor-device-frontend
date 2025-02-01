@@ -20,17 +20,23 @@ export default function Hero() {
         height={2045}
         className="hidden laptop:block absolute top-0 left-0 -z-20 w-[35%] deskxl:w-[43.7%] h-auto"
       />
-      <Section className="flex flex-col h-full pb-[60px] laptop:pb-[100px]">
+      <Section className="flex flex-col laptop:flex-row laptop:justify-between h-full pb-[60px] laptop:pb-[100px]">
         <div className="my-auto">
           <HeroTitle />
           <Link
             href={locale === "uk" ? `/#catalog` : `/${locale}#catalog`}
-            className="block w-full tab:w-fit max-w-[350px] laptop:max-w-[437px] laptop:w-[437px] laptop:h-[85px] mt-[30px] laptop:mt-[42px] mx-auto laptop:mx-0"
+            className="hidden laptop:block w-full tab:w-fit max-w-[350px] laptop:max-w-[437px] laptop:w-[437px] laptop:h-[85px] mt-[30px] laptop:mt-[42px] mx-auto laptop:mx-0"
           >
             <Button className="w-full">{t("buttons.goToCatalog")}</Button>
           </Link>
         </div>
         <HeroProducts />
+        <Link
+          href={locale === "uk" ? `/#catalog` : `/${locale}#catalog`}
+          className="block laptop:hidden w-full max-w-[350px] laptop:h-[85px] mx-auto"
+        >
+          <Button className="w-full">{t("buttons.goToCatalog")}</Button>
+        </Link>
       </Section>
     </div>
   );
