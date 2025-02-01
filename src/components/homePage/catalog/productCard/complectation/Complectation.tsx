@@ -3,11 +3,12 @@ import React, { Dispatch, SetStateAction } from "react";
 import { useTranslations } from "next-intl";
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
 import ComplectationPopUp from "./ComplectationPopUp";
+import { ComplectItem } from "@/types/productItem";
 
 interface ComplectationProps {
   isPopUpShown: boolean;
   setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
-  complectation: [];
+  complectation: ComplectItem[];
 }
 
 export default function Complectation({

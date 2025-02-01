@@ -4,11 +4,13 @@ import { useTranslations } from "next-intl";
 import React, { Dispatch, SetStateAction } from "react";
 import Modal from "../../../../shared/modal/Modal";
 import PopUpTitle from "../../../../shared/titles/PopUpTitle";
+import { ComplectItem } from "@/types/productItem";
+import ComplectationList from "./ComplectationList";
 
 interface CharacteristicsPopUpProps {
   isPopUpShown: boolean;
   setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
-  complectation: [];
+  complectation: ComplectItem[];
 }
 
 export default function ComplectationPopUp({
@@ -17,13 +19,12 @@ export default function ComplectationPopUp({
   complectation,
 }: CharacteristicsPopUpProps) {
   const t = useTranslations();
-  console.log(complectation);
 
   return (
     <>
       <Modal isPopUpShown={isPopUpShown} setIsPopUpShown={setIsPopUpShown}>
         <PopUpTitle>{t("homePage.catalog.set")}</PopUpTitle>
-        <p className="text-center">тест</p>
+        <ComplectationList complectation={complectation} />
       </Modal>
     </>
   );
