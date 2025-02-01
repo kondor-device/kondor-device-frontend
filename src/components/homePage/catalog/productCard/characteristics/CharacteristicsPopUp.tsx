@@ -21,12 +21,8 @@ export default function CharacteristicsPopUp({
   return (
     <>
       <Modal isPopUpShown={isPopUpShown} setIsPopUpShown={setIsPopUpShown}>
-        <div className="flex flex-col gap-6">
-          <PopUpTitle>
-            {t("homePage.catalog.generalCharacteristics")}
-          </PopUpTitle>
-          <p className="text-center">тест</p>
-        </div>
+        <PopUpTitle>{t("homePage.catalog.generalCharacteristics")}</PopUpTitle>
+        <p className="text-center">тест</p>
       </Modal>
     </>
   );

@@ -5,10 +5,10 @@ import { ProductItem } from "@/types/productItem";
 import ImagePicker from "./ImagePicker";
 import React, { useState, Dispatch, SetStateAction } from "react";
 import { useTranslations } from "next-intl";
-import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
 import ColorPicker from "./ColorPicker";
 import CardTitle from "./CardTitle";
 import Characteristics from "./characteristics/Characteristics";
+import Complectation from "./complectation/Complectation";
 
 interface ProductCardProps {
   product: ProductItem;
@@ -22,7 +22,15 @@ export default function ProductCard({
   setIsPopUpShown,
 }: ProductCardProps) {
   const t = useTranslations();
-  const { generalname, name, price, priceDiscount, coloropts, chars } = product;
+  const {
+    generalname,
+    name,
+    price,
+    priceDiscount,
+    coloropts,
+    chars,
+    complect,
+  } = product;
 
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
@@ -70,7 +78,11 @@ export default function ProductCard({
             setIsPopUpShown={setIsPopUpShown}
             characteristics={chars}
           />
-          <SecondaryButton>{t("homePage.catalog.set")}</SecondaryButton>
+          <Complectation
+            isPopUpShown={isPopUpShown}
+            setIsPopUpShown={setIsPopUpShown}
+            complectation={complect}
+          />
         </div>
         <Button className="w-full laptop:w-[350px] deskxl:w-[437px] max-w-[327px] laptop:max-w-[350px] deskxl:max-w-[437px] h-9">
           {t("buttons.makeOrder")}

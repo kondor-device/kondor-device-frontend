@@ -11,7 +11,7 @@ interface CharacteristicsPopUpProps {
   complectation: [];
 }
 
-export default function CharacteristicsPopUp({
+export default function ComplectationPopUp({
   isPopUpShown,
   setIsPopUpShown,
   complectation,
@@ -21,10 +21,8 @@ export default function CharacteristicsPopUp({
   return (
     <>
       <Modal isPopUpShown={isPopUpShown} setIsPopUpShown={setIsPopUpShown}>
-        <div className="flex flex-col gap-6">
-          <PopUpTitle>{t("homePage.catalog.set")}</PopUpTitle>
-          <p className="text-center">тест</p>
-        </div>
+        <PopUpTitle>{t("homePage.catalog.set")}</PopUpTitle>
+        <p className="text-center">тест</p>
       </Modal>
     </>
   );
