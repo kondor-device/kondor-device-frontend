@@ -3,19 +3,38 @@
 import Button from "@/components/shared/buttons/Button";
 import { ProductItem } from "@/types/productItem";
 import ImagePicker from "./ImagePicker";
-import React, { useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import { useTranslations } from "next-intl";
-import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
 import ColorPicker from "./ColorPicker";
 import CardTitle from "./CardTitle";
+import Characteristics from "./characteristics/Characteristics";
+import Complectation from "./complectation/Complectation";
 
 interface ProductCardProps {
   product: ProductItem;
+  isCharacteristicsPopUpShown: boolean;
+  setIsCharacteristicsPopUpShown: Dispatch<SetStateAction<boolean>>;
+  isComplectationPopUpShown: boolean;
+  setIsComplectationPopUpShown: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({
+  product,
+  isCharacteristicsPopUpShown,
+  setIsCharacteristicsPopUpShown,
+  isComplectationPopUpShown,
+  setIsComplectationPopUpShown,
+}: ProductCardProps) {
   const t = useTranslations();
-  const { generalname, name, price, priceDiscount, coloropts } = product;
+  const {
+    generalname,
+    name,
+    price,
+    priceDiscount,
+    coloropts,
+    chars,
+    complect,
+  } = product;
 
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
@@ -58,10 +77,16 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
         </div>
         <div className="flex gap-x-[5px] laptop:gap-x-5 mb-[10px] laptop:mb-[5px]">
-          <SecondaryButton>
-            {t("homePage.catalog.characteristics")}
-          </SecondaryButton>
-          <SecondaryButton>{t("homePage.catalog.set")}</SecondaryButton>
+          <Characteristics
+            isPopUpShown={isCharacteristicsPopUpShown}
+            setIsPopUpShown={setIsCharacteristicsPopUpShown}
+            characteristics={chars}
+          />
+          <Complectation
+            isPopUpShown={isComplectationPopUpShown}
+            setIsPopUpShown={setIsComplectationPopUpShown}
+            complectation={complect}
+          />
         </div>
         <Button className="w-full laptop:w-[350px] deskxl:w-[437px] max-w-[327px] laptop:max-w-[350px] deskxl:max-w-[437px] h-9">
           {t("buttons.makeOrder")}

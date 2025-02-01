@@ -42,3 +42,10 @@ ul {
   margin: 0;
   padding: 0;
 }
+
+@layer components {
+  .popup-scroll::-webkit-scrollbar-track {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+}

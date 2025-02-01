@@ -6,11 +6,12 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./sliderStyles.css";
 
-import React from "react";
+import React, { useState } from "react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
+import Backdrop from "@/components/shared/backdrop/Backdrop";
 
 interface CatalogSliderProps {
   title: string;
@@ -18,6 +19,11 @@ interface CatalogSliderProps {
 }
 
 export default function CatalogSlider({ title, products }: CatalogSliderProps) {
+  const [isCharacteristicsPopUpShown, setIsCharacteristicsPopUpShown] =
+    useState(false);
+  const [isComplectationPopUpShown, setIsComplectationPopUpShown] =
+    useState(false);
+
   return (
     <li>
       <h2 className="mb-[30px] text-22bold laptop:text-40bold text-center">
@@ -44,10 +50,23 @@ export default function CatalogSlider({ title, products }: CatalogSliderProps) {
       >
         {products.map((product, idx) => (
           <SwiperSlide key={idx}>
-            <ProductCard product={product} />
+            <ProductCard
+              product={product}
+              isCharacteristicsPopUpShown={isCharacteristicsPopUpShown}
+              setIsCharacteristicsPopUpShown={setIsCharacteristicsPopUpShown}
+              isComplectationPopUpShown={isComplectationPopUpShown}
+              setIsComplectationPopUpShown={setIsComplectationPopUpShown}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
+      <Backdrop
+        isVisible={isCharacteristicsPopUpShown || isComplectationPopUpShown}
+        onClick={() => {
+          setIsCharacteristicsPopUpShown(false);
+          setIsComplectationPopUpShown(false);
+        }}
+      />
     </li>
   );
 }

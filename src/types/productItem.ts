@@ -10,6 +10,16 @@ export interface ColorOpt {
   photos: Photo[];
 }
 
+export interface Characteristic {
+  name: string;
+  char: string;
+}
+
+export interface ComplectItem {
+  name: string;
+  icon: { url: string; alt: string };
+}
+
 export interface ProductItem {
   id: string;
   generalname: string;
@@ -18,7 +28,7 @@ export interface ProductItem {
   priceDiscount: number;
   showonaddons: boolean;
   showonmain: boolean;
-  complect: [];
+  complect: ComplectItem[];
   coloropts: ColorOpt[];
-  chars: [];
+  chars: Characteristic[];
 }
