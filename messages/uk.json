@@ -16,7 +16,8 @@
       "hrn": " грн",
       "economy": "Економія: ",
       "characteristics": "Характеристики",
-      "set": "Комплект поставки"
+      "set": "Комплект поставки",
+      "generalCharacteristics": "Загальні характеристики"
     },
     "orderConditions": {
       "title": "Як зробити замовлення?",

@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
 import ColorPicker from "./ColorPicker";
 import CardTitle from "./CardTitle";
-import Characteristics from "./Characteristics";
+import Characteristics from "./characteristics/Characteristics";
 
 interface ProductCardProps {
   product: ProductItem;
@@ -22,7 +22,7 @@ export default function ProductCard({
   setIsPopUpShown,
 }: ProductCardProps) {
   const t = useTranslations();
-  const { generalname, name, price, priceDiscount, coloropts } = product;
+  const { generalname, name, price, priceDiscount, coloropts, chars } = product;
 
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
@@ -68,6 +68,7 @@ export default function ProductCard({
           <Characteristics
             isPopUpShown={isPopUpShown}
             setIsPopUpShown={setIsPopUpShown}
+            characteristics={chars}
           />
           <SecondaryButton>{t("homePage.catalog.set")}</SecondaryButton>
         </div>
