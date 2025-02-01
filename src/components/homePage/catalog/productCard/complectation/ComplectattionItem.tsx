@@ -11,8 +11,6 @@ export default function ComplectationItem({
 }: ComplectationItemProps) {
   const { name, icon } = complectation;
 
-  console.log(complectation);
-
   return (
     <li
       className="relative flex items-center gap-x-5 laptop:w-fit even:py-2 even:before:content-[''] before:absolute before:top-0 before:-right-[5px] laptop:before:-right-4 before:-z-10 before:w-screen 
