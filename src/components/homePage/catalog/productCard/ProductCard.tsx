@@ -12,14 +12,18 @@ import Complectation from "./complectation/Complectation";
 
 interface ProductCardProps {
   product: ProductItem;
-  isPopUpShown: boolean;
-  setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
+  isCharacteristicsPopUpShown: boolean;
+  setIsCharacteristicsPopUpShown: Dispatch<SetStateAction<boolean>>;
+  isComplectationPopUpShown: boolean;
+  setIsComplectationPopUpShown: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ProductCard({
   product,
-  isPopUpShown,
-  setIsPopUpShown,
+  isCharacteristicsPopUpShown,
+  setIsCharacteristicsPopUpShown,
+  isComplectationPopUpShown,
+  setIsComplectationPopUpShown,
 }: ProductCardProps) {
   const t = useTranslations();
   const {
@@ -74,13 +78,13 @@ export default function ProductCard({
         </div>
         <div className="flex gap-x-[5px] laptop:gap-x-5 mb-[10px] laptop:mb-[5px]">
           <Characteristics
-            isPopUpShown={isPopUpShown}
-            setIsPopUpShown={setIsPopUpShown}
+            isPopUpShown={isCharacteristicsPopUpShown}
+            setIsPopUpShown={setIsCharacteristicsPopUpShown}
             characteristics={chars}
           />
           <Complectation
-            isPopUpShown={isPopUpShown}
-            setIsPopUpShown={setIsPopUpShown}
+            isPopUpShown={isComplectationPopUpShown}
+            setIsPopUpShown={setIsComplectationPopUpShown}
             complectation={complect}
           />
         </div>

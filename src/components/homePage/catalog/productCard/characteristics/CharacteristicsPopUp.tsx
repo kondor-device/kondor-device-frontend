@@ -22,7 +22,7 @@ export default function CharacteristicsPopUp({
     <>
       <Modal isPopUpShown={isPopUpShown} setIsPopUpShown={setIsPopUpShown}>
         <PopUpTitle>{t("homePage.catalog.generalCharacteristics")}</PopUpTitle>
-        <p className="text-center">тест</p>
+        <p className="text-center">тестggggg</p>
       </Modal>
     </>
   );

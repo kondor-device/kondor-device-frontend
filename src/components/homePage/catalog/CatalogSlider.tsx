@@ -19,7 +19,10 @@ interface CatalogSliderProps {
 }
 
 export default function CatalogSlider({ title, products }: CatalogSliderProps) {
-  const [isPopUpShown, setIsPopUpShown] = useState(false);
+  const [isCharacteristicsPopUpShown, setIsCharacteristicsPopUpShown] =
+    useState(false);
+  const [isComplectationPopUpShown, setIsComplectationPopUpShown] =
+    useState(false);
 
   return (
     <li>
@@ -49,15 +52,20 @@ export default function CatalogSlider({ title, products }: CatalogSliderProps) {
           <SwiperSlide key={idx}>
             <ProductCard
               product={product}
-              isPopUpShown={isPopUpShown}
-              setIsPopUpShown={setIsPopUpShown}
+              isCharacteristicsPopUpShown={isCharacteristicsPopUpShown}
+              setIsCharacteristicsPopUpShown={setIsCharacteristicsPopUpShown}
+              isComplectationPopUpShown={isComplectationPopUpShown}
+              setIsComplectationPopUpShown={setIsComplectationPopUpShown}
             />
           </SwiperSlide>
         ))}
       </Swiper>
       <Backdrop
-        isVisible={isPopUpShown}
-        onClick={() => setIsPopUpShown(false)}
+        isVisible={isCharacteristicsPopUpShown || isComplectationPopUpShown}
+        onClick={() => {
+          setIsCharacteristicsPopUpShown(false);
+          setIsComplectationPopUpShown(false);
+        }}
       />
     </li>
   );
