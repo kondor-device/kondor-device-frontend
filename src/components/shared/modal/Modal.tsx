@@ -29,7 +29,7 @@ export default function Modal({
     >
       <div className="absolute top-3 right-3 tab:top-6 tab:right-6 size-9 tab:size-10">
         <IconButton handleClick={() => setIsPopUpShown(false)}>
-          {<IconClose className="size-full" />}
+          {<IconClose className="size-full rotate-45" />}
         </IconButton>
       </div>
       {children}
