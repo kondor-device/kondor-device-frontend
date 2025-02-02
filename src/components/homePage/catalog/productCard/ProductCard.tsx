@@ -1,6 +1,5 @@
 "use client";
 
-import Button from "@/components/shared/buttons/Button";
 import { ProductItem } from "@/types/productItem";
 import ImagePicker from "./ImagePicker";
 import React, { useState, Dispatch, SetStateAction } from "react";
@@ -9,6 +8,8 @@ import ColorPicker from "./ColorPicker";
 import CardTitle from "./CardTitle";
 import Characteristics from "./characteristics/Characteristics";
 import Complectation from "./complectation/Complectation";
+import { useCartStore } from "@/store/cartStore";
+import Cart from "../cart/Cart";
 
 interface ProductCardProps {
   product: ProductItem;
@@ -16,6 +17,8 @@ interface ProductCardProps {
   setIsCharacteristicsPopUpShown: Dispatch<SetStateAction<boolean>>;
   isComplectationPopUpShown: boolean;
   setIsComplectationPopUpShown: Dispatch<SetStateAction<boolean>>;
+  isCartPopUpShown: boolean;
+  setIsCartPopUpShown: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ProductCard({
@@ -24,9 +27,18 @@ export default function ProductCard({
   setIsCharacteristicsPopUpShown,
   isComplectationPopUpShown,
   setIsComplectationPopUpShown,
+  isCartPopUpShown,
+  setIsCartPopUpShown,
 }: ProductCardProps) {
   const t = useTranslations();
+
+  const { addToCart } = useCartStore();
+
+  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
+
   const {
+    id,
     generalname,
     name,
     price,
@@ -36,17 +48,30 @@ export default function ProductCard({
     complect,
   } = product;
 
-  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
-  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
-
   const { photos } = coloropts[selectedColorIndex];
 
   const savings = (((price - priceDiscount) / price) * 100).toFixed(0);
 
+  const onPlaceOrder = () => {
+    addToCart({
+      id,
+      generalName: generalname,
+      name,
+      priceDiscount,
+      price,
+      image: coloropts[selectedColorIndex]?.photos[0],
+      color: coloropts[selectedColorIndex]?.color,
+      quantity: 1,
+    });
+    setIsCartPopUpShown(true);
+  };
+
+  console.log(coloropts[selectedColorIndex]?.color);
+
   return (
     <div
       className="flex flex-col gap-y-[15px] laptop:flex-row laptop:items-center laptop:gap-x-10 deskxl:gap-x-[60px] min-h-full h-auto p-3 laptop:p-8 deskxl:p-[45px] 
-    rounded-[8px] laptop:rounded-[30px] bg-black"
+    rounded-[8px] laptop:rounded-[30px] bg-dark"
     >
       <ImagePicker
         photos={photos}
@@ -88,9 +113,11 @@ export default function ProductCard({
             complectation={complect}
           />
         </div>
-        <Button className="w-full laptop:w-[350px] deskxl:w-[437px] max-w-[327px] laptop:max-w-[350px] deskxl:max-w-[437px] h-9">
-          {t("buttons.makeOrder")}
-        </Button>
+        <Cart
+          onPlaceOrder={onPlaceOrder}
+          isPopUpShown={isCartPopUpShown}
+          setIsPopUpShown={setIsCartPopUpShown}
+        />
       </div>
     </div>
   );

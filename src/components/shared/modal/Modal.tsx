@@ -14,12 +14,14 @@ interface ModalProps {
   isPopUpShown: boolean;
   setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
+  showCloseButton?: boolean;
 }
 
 export default function Modal({
   isPopUpShown,
   setIsPopUpShown,
   children,
+  showCloseButton = true,
 }: ModalProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -41,7 +43,11 @@ export default function Modal({
       w-[86.6%] tab:w-[496px] laptop:w-[950px] max-h-[90dvh] overflow-y-auto px-5 py-[30px] laptop:px-[75px] laptop:py-14 rounded-[20px] laptop:rounded-[30px] bg-white
        scrollbar scrollbar-w-[3px] laptop:scrollbar-w-[8px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll`}
     >
-      <div className="absolute top-4 right-4 tab:top-8 tab:right-8 size-5 tab:size-[25px]">
+      <div
+        className={`${
+          showCloseButton ? "block" : "hidden"
+        } absolute top-4 right-4 tab:top-8 tab:right-8 size-5 tab:size-[25px]`}
+      >
         <IconButton handleClick={() => setIsPopUpShown(false)}>
           {<IconClose className="size-full rotate-45" />}
         </IconButton>

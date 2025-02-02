@@ -18,7 +18,9 @@
       "economy": "Економія: ",
       "characteristics": "Характеристики",
       "set": "Комплект поставки",
-      "generalCharacteristics": "Загальні характеристики"
+      "generalCharacteristics": "Загальні характеристики",
+      "color": "Колір: ",
+      "yourOrder": "Ваше замовлення на {qty, plural, one {# товар} few {# товари} many {# товарів} other {# товарів}}"
     },
     "orderConditions": {
       "title": "Як зробити замовлення?",

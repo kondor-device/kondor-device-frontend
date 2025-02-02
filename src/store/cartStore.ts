@@ -1,15 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-export interface CartItem {
-  id: string;
-  generalName: string;
-  name: string;
-  priceDiscount: number;
-  price: number;
-  quantity: number;
-  image: string;
-}
+import { CartItem } from "@/types/cartItem";
 
 interface CartState {
   cartItems: CartItem[];
