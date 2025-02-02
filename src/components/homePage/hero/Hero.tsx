@@ -1,4 +1,3 @@
-import Section from "@/components/shared/section/Section";
 import React from "react";
 import HeroTitle from "./HeroTitle";
 import Button from "@/components/shared/buttons/Button";
@@ -12,15 +11,15 @@ export default function Hero() {
   const t = useTranslations();
 
   return (
-    <div className="relative laptop:aspect-[1280/571] deskxl:aspect-[1920/1021]">
+    <section className="relative laptop:h-[710px] deskxl:h-[1020px]">
       <Image
         src="/images/bgImages/homeHero/keyboards.webp"
         alt="keyboards"
         width={1678}
         height={2045}
-        className="hidden laptop:block absolute top-0 left-0 -z-20 w-[35%] deskxl:w-[43.7%] h-auto"
+        className="hidden laptop:block absolute top-0 left-0 -z-20 w-[35%] laptop:w-[570px] deskxl:w-[43.7%] h-auto"
       />
-      <Section className="flex flex-col laptop:flex-row laptop:justify-between h-full pb-[60px] laptop:pb-[100px]">
+      <div className="flex flex-col laptop:flex-row laptop:justify-between container w-full max-w-[1920px] pt-[60px] laptop:pt-[20px] deskxl:pt-[100px] scroll-mt-8 tabxl:scroll-mt-[63px] h-full pb-[60px] laptop:pb-[50px] deskxl:pb-[100px]">
         <div className="my-auto">
           <HeroTitle />
           <Link
@@ -37,7 +36,7 @@ export default function Hero() {
         >
           <Button className="w-full">{t("buttons.goToCatalog")}</Button>
         </Link>
-      </Section>
-    </div>
+      </div>
+    </section>
   );
 }

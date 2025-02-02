@@ -20,7 +20,7 @@ export default async function HeroProducts() {
   console.log(heroProducts);
 
   return (
-    <ul className="flex flex-wrap justify-between gap-y-[14px] laptop:gap-y-[30px] laptop:w-[54.5%] my-[30px] laptop:my-0">
+    <ul className="flex flex-wrap gap-y-[14px] laptop:gap-[16px] deskxl:gap-6 laptop:w-[49%] desk:w-[42%] deskxl:w-[54.5%] my-[30px] laptop:my-auto mx-auto deskxl:mr-0">
       {heroProducts.map((product: ProductItem) => (
         <HeroProductCard key={product.id} product={product} />
       ))}

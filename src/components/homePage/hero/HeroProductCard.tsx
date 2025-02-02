@@ -19,7 +19,7 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
 
   return (
     <li
-      className="flex flex-col justify-between w-[48.5%] rounded-[18px] laptop:rounded-[40px] p-[18px] laptop:py-[30px] laptop:px-[50px] 
+      className="flex flex-col justify-between w-[48.5%] deskxl:w-[48%] rounded-[18px] laptop:rounded-[24px] deskxl:rounded-[40px] p-[18px] desk:px-6 desk:py-[30px] deskxl:py-[30px] deskxl:px-10 
     shadow-card bg-white"
     >
       <div>
@@ -28,9 +28,9 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
           alt={photos[0].alt || "keyboard"}
           width={1080}
           height={1080}
-          className="w-[65%] laptop:size-[52.3%] mx-auto"
+          className="w-[65%] laptop:w-[55%] deskxl:size-[52.3%] mx-auto"
         />
-        <h3 className="mt-auto mb-[11px] laptop:mb-[25px] text-14bold laptop:text-32bold text-center">
+        <h3 className="mt-auto mb-[11px] desk:mb-[20px] deskxl:mb-[25px] text-14bold laptop:text-22bold desk:text-24bold deskxl:text-32bold text-center">
           {name}
         </h3>
       </div>
