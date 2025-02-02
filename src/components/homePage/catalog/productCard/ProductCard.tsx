@@ -10,6 +10,7 @@ import Characteristics from "./characteristics/Characteristics";
 import Complectation from "./complectation/Complectation";
 import { useCartStore } from "@/store/cartStore";
 import Cart from "../cart/Cart";
+import { v4 as uuidv4 } from "uuid";
 
 interface ProductCardProps {
   product: ProductItem;
@@ -55,6 +56,7 @@ export default function ProductCard({
   const onPlaceOrder = () => {
     addToCart({
       id,
+      uniqueId: uuidv4(),
       generalName: generalname,
       name,
       priceDiscount,

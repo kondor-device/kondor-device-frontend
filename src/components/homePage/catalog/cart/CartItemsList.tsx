@@ -16,11 +16,11 @@ export default function CartItemsList() {
       </h3>
       <ul
         className="flex flex-col gap-y-3 max-h-[150px] overflow-y-auto scrollbar 
-      scrollbar-w-[3px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow 
+      scrollbar-w-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow 
       scrollbar-track-transparent"
       >
         {cartItems.map((cartItem) => (
-          <CartProductItem key={cartItem.id} cartItem={cartItem} />
+          <CartProductItem key={cartItem.uniqueId} cartItem={cartItem} />
         ))}
       </ul>
     </div>
