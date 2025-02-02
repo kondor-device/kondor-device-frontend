@@ -67,6 +67,7 @@ export default {
         yellow: "#FFB300",
         grey: "#A2A2A2",
         lightGrey: "#D9D9D9",
+        dark: "#191919",
       },
       backgroundImage: {
         yellowGradient:
