@@ -9,6 +9,7 @@ interface CartState {
   removeFromCart: (itemId: string) => void;
   removeSingleItem: (itemId: string) => void;
   clearCart: () => void;
+  getTotalAmount: () => number;
 }
 
 export const useCartStore = create<CartState>()(
