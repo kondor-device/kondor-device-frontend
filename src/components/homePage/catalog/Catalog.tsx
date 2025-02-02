@@ -1,22 +1,11 @@
 import React from "react";
 import CatalogSlider from "./CatalogSlider";
-import { performRequest } from "@/app/api/datocms/request";
-import { ALL_ITEMS_QUERY } from "@/lib/datoCmsQueries";
+import { getProducts } from "@/utils/getProducts";
 import { ProductItem } from "@/types/productItem";
-
-const getAllProducts = async () => {
-  try {
-    const data = await performRequest({
-      query: ALL_ITEMS_QUERY,
-    });
-    return data;
-  } catch (error) {
-    return error;
-  }
-};
+import { ALL_ITEMS_QUERY } from "@/lib/datoCmsQueries";
 
 export default async function Catalog() {
-  const res = await getAllProducts();
+  const res = await getProducts(ALL_ITEMS_QUERY);
 
   if (!res.data?.allCategories) {
     return null;
