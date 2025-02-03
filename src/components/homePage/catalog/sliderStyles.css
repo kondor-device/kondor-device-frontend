@@ -88,3 +88,17 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+
+.addons-slider.swiper {
+  @media screen and (min-width: 1280px) {
+    display: none;
+  }
+}
+
+.addons-slider .swiper-button-prev {
+  left: 0px;
+}
+
+.addons-slider > .swiper-button-next {
+  right: 0px;
+}

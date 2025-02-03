@@ -4,7 +4,7 @@
 
 :root {
   --white: #ffffff;
-  --black: #000000;
+  --dark: #191919;
   --yellow: #ffb300;
   --lightGrey: #d9d9d9;
   scrollbar-gutter: stable;
@@ -16,7 +16,7 @@
 
 body {
   overflow-x: hidden;
-  color: var(--black);
+  color: var(--dark);
   background: var(--white);
   font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
 }
@@ -45,7 +45,11 @@ ul {
 
 @layer components {
   .popup-scroll::-webkit-scrollbar-track {
-    margin-top: 16px;
-    margin-bottom: 16px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    @media screen and (min-width: 1280px) {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
   }
 }

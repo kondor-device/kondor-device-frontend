@@ -22,7 +22,11 @@ export default function CharacteristicsPopUp({
 
   return (
     <>
-      <Modal isPopUpShown={isPopUpShown} setIsPopUpShown={setIsPopUpShown}>
+      <Modal
+        isPopUpShown={isPopUpShown}
+        setIsPopUpShown={setIsPopUpShown}
+        className="laptop:max-w-[950px] laptop:w-[950px]"
+      >
         <PopUpTitle>{t("homePage.catalog.generalCharacteristics")}</PopUpTitle>
         <CharacteristicsList characteristics={characteristics} />
       </Modal>

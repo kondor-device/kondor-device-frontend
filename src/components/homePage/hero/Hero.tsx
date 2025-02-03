@@ -5,8 +5,13 @@ import { Link } from "@/i18n/routing";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import HeroProducts from "./HeroProducts";
+import { ProductItem } from "@/types/productItem";
 
-export default function Hero() {
+interface HeroProps {
+  shownOnMainProducts: ProductItem[];
+}
+
+export default function Hero({ shownOnMainProducts }: HeroProps) {
   const locale = useLocale();
   const t = useTranslations();
 
@@ -29,7 +34,7 @@ export default function Hero() {
             <Button className="w-full">{t("buttons.goToCatalog")}</Button>
           </Link>
         </div>
-        <HeroProducts />
+        <HeroProducts shownOnMainProducts={shownOnMainProducts} />
         <Link
           href={locale === "uk" ? `/#catalog` : `/${locale}#catalog`}
           className="block laptop:hidden w-full max-w-[350px] laptop:h-[85px] mx-auto"

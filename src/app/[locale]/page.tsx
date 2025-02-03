@@ -4,13 +4,23 @@ import Catalog from "@/components/homePage/catalog/Catalog";
 import Faq from "@/components/homePage/faq/Faq";
 import Benefits from "@/components/homePage/benefits/Benefits";
 import OrderConditions from "@/components/homePage/orderConditions/OrderConditions";
+import { getProducts } from "@/utils/getProducts";
+import { GET_ALL_DATA_QUERY } from "@/lib/datoCmsQueries";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const res = await getProducts(GET_ALL_DATA_QUERY);
+
+  console.log(res);
+
+  const categories = res?.data?.allCategories;
+  const shownOnMainProducts = res?.data?.shownOnMainProducts;
+  const shownOnAddons = res?.data?.shownOnAddons;
+
   return (
     <>
-      <Hero />
+      <Hero shownOnMainProducts={shownOnMainProducts} />
       <WeOffer />
-      <Catalog />
+      <Catalog categories={categories} shownOnAddons={shownOnAddons} />
       <OrderConditions />
       <Faq />
       <Benefits />
