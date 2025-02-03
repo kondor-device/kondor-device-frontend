@@ -34,7 +34,7 @@ export default function ImagePicker({
         {photos.map(({ url, alt }, idx) => (
           <li
             key={idx}
-            className={`cursor-pointer size-12 laptop:size-16 deskxl:size-[101px] bg-black rounded-[2px] 
+            className={`cursor-pointer size-12 laptop:size-16 deskxl:size-[101px] bg-dark rounded-[2px] 
               laptop:rounded-[6px] overflow-hidden ${
                 selectedPhotoIndex === idx ? "shadow-imagePicker" : ""
               }`}

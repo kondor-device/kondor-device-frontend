@@ -63,7 +63,6 @@ export default {
       },
       colors: {
         white: "#FFFFFF",
-        black: "#000000",
         yellow: "#FFB300",
         grey: "#A2A2A2",
         lightGrey: "#D9D9D9",
