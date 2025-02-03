@@ -23,10 +23,16 @@ export const useCartStore = create<CartState>()(
       },
 
       removeFromCart: (itemId) => {
-        set({
-          cartItems: get().cartItems.filter(
-            (cartItem) => cartItem.id !== itemId
-          ),
+        set((state) => {
+          const index = state.cartItems.findIndex((item) => item.id === itemId);
+          if (index === -1) return state;
+
+          return {
+            cartItems: [
+              ...state.cartItems.slice(0, index),
+              ...state.cartItems.slice(index + 1),
+            ],
+          };
         });
       },
 

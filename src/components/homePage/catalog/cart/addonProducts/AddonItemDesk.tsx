@@ -3,6 +3,7 @@ import { ProductItem } from "@/types/productItem";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import Counter from "../Counter";
+import { v4 as uuidv4 } from "uuid";
 
 interface AddonItemDeskProps {
   addonItem: ProductItem;
@@ -11,7 +12,19 @@ interface AddonItemDeskProps {
 export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
   const t = useTranslations();
 
-  const { name, generalname, coloropts, priceDiscount, price } = addonItem;
+  const { id, name, generalname, coloropts, priceDiscount, price } = addonItem;
+
+  const cartItem = {
+    id,
+    uniqueId: uuidv4(),
+    generalName: generalname,
+    name,
+    priceDiscount,
+    price,
+    image: coloropts[0]?.photos[0],
+    color: coloropts[0]?.color,
+    quantity: 1,
+  };
 
   return (
     <li className="flex items-end">
@@ -44,7 +57,7 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
           {t("homePage.catalog.hrn")}
         </p>
       </div>
-      <Counter />
+      <Counter cartItem={cartItem} />
     </li>
   );
 }

@@ -55,7 +55,7 @@ export default function ProductCard({
 
   const savings = (((price - priceDiscount) / price) * 100).toFixed(0);
 
-  const onPlaceOrder = () => {
+  const onAddToCart = () => {
     addToCart({
       id,
       uniqueId: uuidv4(),
@@ -116,7 +116,7 @@ export default function ProductCard({
           />
         </div>
         <Cart
-          onPlaceOrder={onPlaceOrder}
+          onPlaceOrder={onAddToCart}
           isPopUpShown={isCartPopUpShown}
           setIsPopUpShown={setIsCartPopUpShown}
           shownOnAddons={shownOnAddons}
