@@ -58,7 +58,7 @@
 
 .swiper-button-next {
   right: calc(50% - 165px);
-  @media screen and (min-width: 440px) {
+  @media screen and (min-width: 1280px) {
     right: calc(50% - 489px);
   }
   @media screen and (min-width: 1920px) {
