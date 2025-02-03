@@ -10,8 +10,6 @@ import { GET_ALL_DATA_QUERY } from "@/lib/datoCmsQueries";
 export default async function HomePage() {
   const res = await getProducts(GET_ALL_DATA_QUERY);
 
-  console.log(res);
-
   const categories = res?.data?.allCategories;
   const shownOnMainProducts = res?.data?.shownOnMainProducts;
   const shownOnAddons = res?.data?.shownOnAddons;
