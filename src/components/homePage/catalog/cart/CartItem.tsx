@@ -42,9 +42,10 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
       <div className="flex flex-col justify-between items-end">
         <IconButton
           handleClick={() => removeSingleItem(uniqueId)}
-          className="w-fit h-fit"
+          className="w-fit h-fit text-white enabled:active:scale-95 enabled:active:text-yellow laptop:enabled:hover:text-yellow 
+          enabled:focus-visible:text-yellow transition duration-300 ease-out"
         >
-          <IconClose className="size-3 deskxl:size-5 rotate-45 text-white" />
+          <IconClose className="size-3 deskxl:size-5 rotate-45 " />
         </IconButton>
         <div>
           <p className="w-fit ml-auto text-10med mob:text-12med deskxl:text-20med text-white">

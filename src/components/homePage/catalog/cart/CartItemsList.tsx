@@ -14,7 +14,7 @@ export default function CartItemsList() {
         {t("homePage.catalog.yourOrder", { qty: cartItems.length })}
       </h3>
       <ul
-        className="flex flex-col gap-y-3 deskxl:gap-y-[25px] max-h-[150px] laptop:max-h-[225px] deskxl:max-h-[265px] pr-[15px] deskxl:pr-[30px] overflow-y-auto scrollbar 
+        className="flex flex-col gap-y-3 deskxl:gap-y-[25px] h-[150px] laptop:h-[225px] deskxl:h-[265px] pr-[15px] deskxl:pr-[30px] overflow-y-auto scrollbar 
       scrollbar-w-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow 
       scrollbar-track-transparent"
       >

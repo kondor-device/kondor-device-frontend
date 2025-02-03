@@ -47,7 +47,10 @@ export default function Modal({
       <div
         className={`absolute top-4 right-4 tab:top-8 tab:right-8 size-5 tab:size-[25px]`}
       >
-        <IconButton handleClick={() => setIsPopUpShown(false)}>
+        <IconButton
+          handleClick={() => setIsPopUpShown(false)}
+          className="enabled:active:scale-95 enabled:active:text-yellow laptop:enabled:hover:text-yellow enabled:focus-visible:text-yellow transition duration-300 ease-out"
+        >
           {<IconClose className="size-full rotate-45" />}
         </IconButton>
       </div>
