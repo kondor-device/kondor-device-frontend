@@ -1,5 +1,5 @@
-export const ALL_ITEMS_QUERY = `
-  query AllItems {
+export const GET_ALL_DATA_QUERY = `
+  query GetAllData {
     allCategories {
       name
       items {
@@ -34,19 +34,16 @@ export const ALL_ITEMS_QUERY = `
         }
       }
     }
-  }
-`;
-
-export const SHOWN_ON_MAIN_PRODUCTS = `query MyQuery {
-  allItems(filter: {showonmain: {eq: "true"}}) {
-    id
-    name
-    priceDiscount
-    coloropts {
-      photos {
-        url
-        alt
+    shownOnMainProducts: allItems(filter: { showonmain: { eq: "true" } }) {
+      id
+      name
+      priceDiscount
+      coloropts {
+        photos {
+          url
+          alt
+        }
       }
     }
   }
-}`;
+`;
