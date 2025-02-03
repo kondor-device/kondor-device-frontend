@@ -42,18 +42,20 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
       <div className="flex flex-col justify-between items-end">
         <IconButton
           handleClick={() => removeSingleItem(uniqueId)}
-          className="size-3"
+          className="w-fit h-fit"
         >
           <IconClose className="size-3 rotate-45 text-white" />
         </IconButton>
-        <p className="text-10med mob:text-12med text-white">
-          {priceDiscount}
-          {t("homePage.catalog.hrn")}
-        </p>
-        <p className="text-10med text-grey line-through uppercase">
-          {price}
-          {t("homePage.catalog.hrn")}
-        </p>
+        <div>
+          <p className="w-fit ml-auto text-10med mob:text-12med text-white">
+            {priceDiscount}
+            {t("homePage.catalog.hrn")}
+          </p>
+          <p className="w-fit ml-auto text-10med text-grey line-through uppercase">
+            {price}
+            {t("homePage.catalog.hrn")}
+          </p>
+        </div>
       </div>
     </li>
   );
