@@ -10,7 +10,7 @@ import React from "react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ProductItem } from "@/types/productItem";
-import AddonItem from "./AddonItem";
+import AddonItemMob from "./AddonItemMob";
 
 interface AddonsSliderMobProps {
   addonsProducts: ProductItem[];
@@ -27,7 +27,7 @@ export default function AddonsSliderMob({
           spaceBetween: 10,
         },
         440: {
-          spaceBetween: 30,
+          spaceBetween: 16,
         },
       }}
       pagination={{
@@ -37,11 +37,11 @@ export default function AddonsSliderMob({
       loop={true}
       speed={1000}
       modules={[Pagination, Navigation]}
-      className="laptop:hidden"
+      className="addons-slider"
     >
       {addonsProducts.map((addonItem) => (
         <SwiperSlide key={addonItem.id}>
-          <AddonItem addonItem={addonItem} />
+          <AddonItemMob addonItem={addonItem} />
         </SwiperSlide>
       ))}
     </Swiper>

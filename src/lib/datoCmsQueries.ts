@@ -54,6 +54,7 @@ export const GET_ALL_DATA_QUERY = `
         url
       }
     }
+    generalname
     name
     price
     priceDiscount

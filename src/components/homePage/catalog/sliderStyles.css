@@ -44,7 +44,7 @@
 }
 
 .swiper-button-prev {
-  left: calc(50% - 160px);
+  left: calc(50% - 165px);
   @media screen and (min-width: 1280px) {
     left: calc(50% - 489px);
   }
@@ -57,7 +57,7 @@
 }
 
 .swiper-button-next {
-  right: calc(50% - 160px);
+  right: calc(50% - 165px);
   @media screen and (min-width: 440px) {
     right: calc(50% - 489px);
   }
@@ -87,4 +87,18 @@
   background-image: url("/images/icons/polygonRight.svg");
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.addons-slider.swiper {
+  @media screen and (min-width: 1280px) {
+    display: none;
+  }
+}
+
+.addons-slider .swiper-button-prev {
+  left: 0px;
+}
+
+.addons-slider > .swiper-button-next {
+  right: 0px;
 }
