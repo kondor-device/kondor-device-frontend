@@ -24,7 +24,7 @@ export default function Hero({ shownOnMainProducts }: HeroProps) {
         height={2045}
         className="hidden laptop:block absolute top-0 left-0 -z-20 w-[35%] laptop:w-[570px] deskxl:w-[43.7%] max-w-[839px] h-auto"
       />
-      <div className="flex flex-col laptop:flex-row laptop:justify-between laptop:gap-x-10 container w-full max-w-[1920px] pt-[60px] laptop:pt-[20px] deskxl:pt-[100px] scroll-mt-8 tabxl:scroll-mt-[63px] h-full pb-[60px] laptop:pb-[50px] deskxl:pb-[100px]">
+      <div className="flex flex-col laptop:flex-row laptop:justify-between laptop:gap-x-10 container w-full max-w-[1920px] pt-[40px] laptop:pt-[20px] deskxl:pt-[100px] scroll-mt-8 tabxl:scroll-mt-[63px] h-full pb-[60px] laptop:pb-[50px] deskxl:pb-[100px]">
         <div className="my-auto">
           <HeroTitle />
           <Link
