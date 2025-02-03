@@ -28,9 +28,11 @@ export default function CartPopUp({
         setIsPopUpShown={setIsPopUpShown}
         showCloseButton={false}
       >
-        <CartItemsList />
-        <AddonsProductsList shownOnAddons={shownOnAddons} />
-        <div className="flex flex-col gap-y-5 mt-[30px]">
+        <div className="flex flex-col gap-y-[30px] laptop:flex-row">
+          <CartItemsList />
+          <AddonsProductsList shownOnAddons={shownOnAddons} />
+        </div>
+        <div className="flex flex-col laptop:flex-row-reverse laptop:justify-between gap-y-5 w-fit mx-auto mt-[30px] laptop:mt-[60px]">
           <Button className="w-full max-w-[350px]">{t("next")}</Button>
           <Button
             onClick={() => setIsPopUpShown(false)}

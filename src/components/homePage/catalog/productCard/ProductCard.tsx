@@ -70,8 +70,6 @@ export default function ProductCard({
     setIsCartPopUpShown(true);
   };
 
-  console.log(coloropts[selectedColorIndex]?.color);
-
   return (
     <div
       className="flex flex-col gap-y-[15px] laptop:flex-row laptop:items-center laptop:gap-x-10 deskxl:gap-x-[60px] min-h-full h-auto p-3 laptop:p-8 deskxl:p-[45px] 
