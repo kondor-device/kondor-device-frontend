@@ -121,7 +121,9 @@
     "telegram": "t.me/kondor_device",
     "join": "Приєднатись",
     "goHome": "Повернутись на головну",
-    "goToCatalog": "Перейти до каталогу"
+    "goToCatalog": "Перейти до каталогу",
+    "continueShopping": "Продовжити покупки",
+    "next": "Далі"
   },
   "warrantyPage": {
     "title": "Положення про гарантію Kondor",

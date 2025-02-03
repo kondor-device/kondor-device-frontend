@@ -11,7 +11,7 @@ export default function CartItemsList() {
   console.log(cartItems);
 
   return (
-    <div className="pt-5 pb-10 pl-[15px] rounded-[20px] bg-dark">
+    <div className="py-5 pl-[15px] rounded-[20px] bg-dark">
       <h3 className="mb-5 pr-[15px] text-14med text-white">
         {t("homePage.catalog.yourOrder", { qty: cartItems.length })}
       </h3>

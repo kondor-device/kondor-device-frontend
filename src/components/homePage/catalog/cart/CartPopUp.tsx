@@ -5,6 +5,8 @@ import Modal from "@/components/shared/modal/Modal";
 import CartItemsList from "./CartItemsList";
 import { ProductItem } from "@/types/productItem";
 import AddonsProductsList from "./AddonsProductsList";
+import Button from "@/components/shared/buttons/Button";
+import { useTranslations } from "next-intl";
 
 interface CartPopUpProps {
   shownOnAddons: ProductItem[];
@@ -17,6 +19,8 @@ export default function CartPopUp({
   isPopUpShown,
   setIsPopUpShown,
 }: CartPopUpProps) {
+  const t = useTranslations("buttons");
+
   return (
     <>
       <Modal
@@ -26,6 +30,16 @@ export default function CartPopUp({
       >
         <CartItemsList />
         <AddonsProductsList shownOnAddons={shownOnAddons} />
+        <div className="flex flex-col gap-y-5 mt-[30px]">
+          <Button className="w-full max-w-[350px]">{t("next")}</Button>
+          <Button
+            onClick={() => setIsPopUpShown(false)}
+            variant="secondary"
+            className="w-full max-w-[350px]"
+          >
+            {t("continueShopping")}
+          </Button>
+        </div>
       </Modal>
     </>
   );
