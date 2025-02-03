@@ -2,7 +2,7 @@ import { ProductItem } from "@/types/productItem";
 import React from "react";
 import { useTranslations } from "next-intl";
 import AddonsSliderMob from "./AddonsSliderMob";
-import AddonItemMob from "./AddonItemMob";
+import AddonsListDesk from "./AddonsListDesk";
 
 interface AddonsProductsListProps {
   shownOnAddons: ProductItem[];
@@ -14,14 +14,12 @@ export default function AddonsProductsList({
   const t = useTranslations();
 
   return (
-    <div>
-      <h3 className="text-14bold mb-5">{t("homePage.catalog.alsoChoose")}</h3>
+    <div className="laptop:w-[56%]">
+      <h3 className="mb-5 laptop:mb-6 deskxl:mb-[36px] text-14bold laptop:text-22bold deskxl:text-24bold">
+        {t("homePage.catalog.alsoChoose")}
+      </h3>
       <AddonsSliderMob addonsProducts={shownOnAddons} />
-      <ul className="hidden laptop:flex flex-col gap-y-3 max-h-[150px] pr-[15px]">
-        {shownOnAddons.map((addonItem) => (
-          <AddonItemMob key={addonItem.id} addonItem={addonItem} />
-        ))}
-      </ul>
+      <AddonsListDesk addonsProducts={shownOnAddons} />
     </div>
   );
 }

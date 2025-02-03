@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import "../sliderStyles.css";
+import "../../sliderStyles.css";
 
 import React from "react";
 import { Navigation, Pagination } from "swiper/modules";

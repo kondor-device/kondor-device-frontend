@@ -19,8 +19,8 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
     cartItem;
 
   return (
-    <li className="flex gap-x-[10px] justify-between">
-      <div className="size-12 p-[10px] rounded-[8px] bg-white">
+    <li className="flex gap-x-[10px] deskxl:gap-x-[20px] justify-between">
+      <div className="size-12 laptop:size-14 deskxl:size-[85px] p-[10px] deskxl:p-[18px] rounded-[8px] deskxl:rounded-[15px] bg-white">
         <Image
           src={image.url}
           alt={image.alt || "keyboard"}
@@ -30,11 +30,11 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
         />
       </div>
       <div className="flex flex-col justify-between mr-auto">
-        <h4 className="text-10med mob:text-12bold">
+        <h4 className="text-10med mob:text-12bold laptop:text-14bold deskxl:text-20bold">
           <p className="text-white">{generalName}</p>
           <p className="text-yellow">{name}</p>
         </h4>
-        <p className="text-10med text-white">
+        <p className="text-10med laptop:text-12med deskxl:text-20med text-white">
           {t("homePage.catalog.color")}
           <span>{color}</span>
         </p>
@@ -44,14 +44,14 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
           handleClick={() => removeSingleItem(uniqueId)}
           className="w-fit h-fit"
         >
-          <IconClose className="size-3 rotate-45 text-white" />
+          <IconClose className="size-3 deskxl:size-5 rotate-45 text-white" />
         </IconButton>
         <div>
-          <p className="w-fit ml-auto text-10med mob:text-12med text-white">
+          <p className="w-fit ml-auto text-10med mob:text-12med deskxl:text-20med text-white">
             {priceDiscount}
             {t("homePage.catalog.hrn")}
           </p>
-          <p className="w-fit ml-auto text-10med text-grey line-through uppercase">
+          <p className="w-fit ml-auto text-10med deskxl:text-16med text-grey line-through uppercase">
             {price}
             {t("homePage.catalog.hrn")}
           </p>

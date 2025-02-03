@@ -14,14 +14,14 @@ interface ModalProps {
   isPopUpShown: boolean;
   setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
-  showCloseButton?: boolean;
+  className?: string;
 }
 
 export default function Modal({
   isPopUpShown,
   setIsPopUpShown,
   children,
-  showCloseButton = true,
+  className = "",
 }: ModalProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -39,14 +39,13 @@ export default function Modal({
         isPopUpShown
           ? " -translate-y-[calc(50dvh-50%)] opacity-100"
           : "translate-y-1/2 pointer-events-none opacity-0"
-      } fixed z-50 left-1/2 bottom-0 transform -translate-x-1/2 transition duration-700 ease-out min-w-[312px] max-w-[390px] tab:max-w-[496px] laptop:tab:max-w-[950px]
-      w-[90.5%] tab:w-[496px] laptop:w-[950px] max-h-[90dvh] overflow-y-auto px-5 py-[30px] laptop:px-[75px] laptop:py-14 rounded-[20px] laptop:rounded-[30px] bg-white
-       scrollbar scrollbar-w-[3px] laptop:scrollbar-w-[8px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll`}
+      } fixed z-50 left-1/2 bottom-0 transform -translate-x-1/2 transition duration-700 ease-out min-w-[312px] max-w-[390px] tab:max-w-[496px] laptop:max-w-[950px]
+      w-[90.5%] tab:w-[496px] laptop:w-[950px] max-h-[90dvh] overflow-y-auto px-5 py-[30px] laptop:px-[60px] laptop:py-14 rounded-[20px] laptop:rounded-[30px] bg-white
+       scrollbar scrollbar-w-[3px] laptop:scrollbar-w-[8px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll
+       ${className}`}
     >
       <div
-        className={`${
-          showCloseButton ? "block" : "hidden"
-        } absolute top-4 right-4 tab:top-8 tab:right-8 size-5 tab:size-[25px]`}
+        className={`absolute top-4 right-4 tab:top-8 tab:right-8 size-5 tab:size-[25px]`}
       >
         <IconButton handleClick={() => setIsPopUpShown(false)}>
           {<IconClose className="size-full rotate-45" />}

@@ -22,7 +22,11 @@ export default function ComplectationPopUp({
 
   return (
     <>
-      <Modal isPopUpShown={isPopUpShown} setIsPopUpShown={setIsPopUpShown}>
+      <Modal
+        isPopUpShown={isPopUpShown}
+        setIsPopUpShown={setIsPopUpShown}
+        className="laptop:max-w-[950px] laptop:w-[950px]"
+      >
         <PopUpTitle>{t("homePage.catalog.set")}</PopUpTitle>
         <ComplectationList complectation={complectation} />
       </Modal>

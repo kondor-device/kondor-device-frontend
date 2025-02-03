@@ -2,13 +2,13 @@ import React from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ProductItem } from "@/types/productItem";
-import Counter from "./Counter";
+import Counter from "../Counter";
 
-interface CartItemProps {
+interface AddonItemMobProps {
   addonItem: ProductItem;
 }
 
-export default function AddonItemMob({ addonItem }: CartItemProps) {
+export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
   const t = useTranslations();
 
   const { name, generalname, coloropts, priceDiscount, price } = addonItem;
