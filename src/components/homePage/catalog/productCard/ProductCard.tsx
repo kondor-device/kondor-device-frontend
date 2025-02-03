@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 
 interface ProductCardProps {
   product: ProductItem;
+  shownOnAddons: ProductItem[];
   isCharacteristicsPopUpShown: boolean;
   setIsCharacteristicsPopUpShown: Dispatch<SetStateAction<boolean>>;
   isComplectationPopUpShown: boolean;
@@ -24,6 +25,7 @@ interface ProductCardProps {
 
 export default function ProductCard({
   product,
+  shownOnAddons,
   isCharacteristicsPopUpShown,
   setIsCharacteristicsPopUpShown,
   isComplectationPopUpShown,
@@ -119,6 +121,7 @@ export default function ProductCard({
           onPlaceOrder={onPlaceOrder}
           isPopUpShown={isCartPopUpShown}
           setIsPopUpShown={setIsCartPopUpShown}
+          shownOnAddons={shownOnAddons}
         />
       </div>
     </div>

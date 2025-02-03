@@ -3,14 +3,17 @@ import React, { Dispatch, SetStateAction } from "react";
 import { useTranslations } from "next-intl";
 import CartPopUp from "./CartPopUp";
 import Button from "@/components/shared/buttons/Button";
+import { ProductItem } from "@/types/productItem";
 
 interface CartProps {
+  shownOnAddons: ProductItem[];
   isPopUpShown: boolean;
   setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
   onPlaceOrder: () => void;
 }
 
 export default function Cart({
+  shownOnAddons,
   isPopUpShown,
   setIsPopUpShown,
   onPlaceOrder,
@@ -28,6 +31,7 @@ export default function Cart({
       <CartPopUp
         isPopUpShown={isPopUpShown}
         setIsPopUpShown={setIsPopUpShown}
+        shownOnAddons={shownOnAddons}
       />
     </>
   );
