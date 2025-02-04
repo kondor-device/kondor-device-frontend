@@ -69,7 +69,7 @@ export default function CustomizedInput({
           }`}
         ></Field>
         {showPhonePrefix && (
-          <span className="peer-placeholder-shown:hidden block absolute top-[23px] deskxl:top-[31px] left-[18px] z-10 transform -translate-y-1/2 text-[12px] laptop:text-[14px] deskxl:text-[18px] font-medium leading-none">
+          <span className="peer-placeholder-shown:hidden block absolute top-[23.5px] deskxl:top-[31px] left-[18px] z-10 transform -translate-y-1/2 text-[12px] laptop:text-[14px] deskxl:text-[18px] font-medium leading-none">
             +38
           </span>
         )}
