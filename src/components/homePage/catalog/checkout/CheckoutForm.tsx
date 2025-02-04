@@ -133,7 +133,7 @@ export default function CheckoutForm({
           <div
             role="group"
             aria-labelledby="radio-group"
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-4 deskxl:gap-[22px] deskxl:mt-6"
           >
             <p
               id="radio-group"
