@@ -3,11 +3,11 @@ import AddonItemDesk from "./AddonItemDesk";
 import { ProductItem } from "@/types/productItem";
 
 interface AddonsListDeskProps {
-  addonsProducts: ProductItem[];
+  shownOnAddonsProducts: ProductItem[];
 }
 
 export default function AddonsListDesk({
-  addonsProducts,
+  shownOnAddonsProducts,
 }: AddonsListDeskProps) {
   return (
     <ul
@@ -15,7 +15,7 @@ export default function AddonsListDesk({
       scrollbar-w-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow 
       scrollbar-track-transparent"
     >
-      {addonsProducts.map((addonItem) => (
+      {shownOnAddonsProducts.map((addonItem) => (
         <AddonItemDesk key={addonItem.id} addonItem={addonItem} />
       ))}
     </ul>

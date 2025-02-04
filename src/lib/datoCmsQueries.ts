@@ -37,6 +37,7 @@ export const GET_ALL_DATA_QUERY = `
     shownOnMainProducts: allItems(filter: { showonmain: { eq: "true" } }) {
       id
       name
+      price
       priceDiscount
       coloropts {
         photos {

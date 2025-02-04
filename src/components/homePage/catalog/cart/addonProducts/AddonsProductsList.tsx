@@ -5,21 +5,25 @@ import AddonsSliderMob from "./AddonsSliderMob";
 import AddonsListDesk from "./AddonsListDesk";
 
 interface AddonsProductsListProps {
-  shownOnAddons: ProductItem[];
+  shownOnAddonsProducts: ProductItem[];
 }
 
 export default function AddonsProductsList({
-  shownOnAddons,
+  shownOnAddonsProducts,
 }: AddonsProductsListProps) {
   const t = useTranslations();
+
+  if (!shownOnAddonsProducts) {
+    return null;
+  }
 
   return (
     <div className="laptop:w-[56%]">
       <h3 className="mb-5 laptop:mb-6 deskxl:mb-[36px] text-14bold laptop:text-22bold deskxl:text-24bold">
         {t("homePage.catalog.alsoChoose")}
       </h3>
-      <AddonsSliderMob addonsProducts={shownOnAddons} />
-      <AddonsListDesk addonsProducts={shownOnAddons} />
+      <AddonsSliderMob shownOnAddonsProducts={shownOnAddonsProducts} />
+      <AddonsListDesk shownOnAddonsProducts={shownOnAddonsProducts} />
     </div>
   );
 }

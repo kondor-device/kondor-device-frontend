@@ -13,7 +13,7 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
   const t = useTranslations();
   const locale = useLocale();
 
-  const { name, priceDiscount, coloropts } = product;
+  const { name, price, priceDiscount, coloropts } = product;
 
   const { photos } = coloropts[0];
 
@@ -38,11 +38,9 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
         href={locale === "uk" ? `/#catalog` : `/${locale}#catalog`}
         className="block w-fit mx-auto"
       >
-        <SmallButton>{`${t(
-          "homePage.hero.from"
-        )} ${priceDiscount.toString()} ${t(
-          "homePage.catalog.hrn"
-        )}`}</SmallButton>
+        <SmallButton>{`${t("homePage.hero.from")} ${(
+          priceDiscount || price
+        ).toString()} ${t("homePage.catalog.hrn")}`}</SmallButton>
       </Link>
     </li>
   );

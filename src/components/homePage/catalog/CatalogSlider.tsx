@@ -16,13 +16,13 @@ import Backdrop from "@/components/shared/backdrop/Backdrop";
 interface CatalogSliderProps {
   title: string;
   products: ProductItem[];
-  shownOnAddons: ProductItem[];
+  shownOnAddonsProducts: ProductItem[];
 }
 
 export default function CatalogSlider({
   title,
   products,
-  shownOnAddons,
+  shownOnAddonsProducts,
 }: CatalogSliderProps) {
   const [isCharacteristicsPopUpShown, setIsCharacteristicsPopUpShown] =
     useState(false);
@@ -64,7 +64,7 @@ export default function CatalogSlider({
               setIsComplectationPopUpShown={setIsComplectationPopUpShown}
               isCartPopUpShown={isCartPopUpShown}
               setIsCartPopUpShown={setIsCartPopUpShown}
-              shownOnAddons={shownOnAddons}
+              shownOnAddonsProducts={shownOnAddonsProducts}
             />
           </SwiperSlide>
         ))}

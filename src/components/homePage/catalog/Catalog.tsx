@@ -6,10 +6,13 @@ import { ProductItem } from "@/types/productItem";
 
 interface CatalogProps {
   categories: CategoryItem[];
-  shownOnAddons: ProductItem[];
+  shownOnAddonsProducts: ProductItem[];
 }
 
-export default function Catalog({ categories, shownOnAddons }: CatalogProps) {
+export default function Catalog({
+  categories,
+  shownOnAddonsProducts,
+}: CatalogProps) {
   if (!categories) {
     return null;
   }
@@ -25,7 +28,7 @@ export default function Catalog({ categories, shownOnAddons }: CatalogProps) {
             key={idx}
             title={name}
             products={items}
-            shownOnAddons={shownOnAddons}
+            shownOnAddonsProducts={shownOnAddonsProducts}
           />
         ))}
       </ul>

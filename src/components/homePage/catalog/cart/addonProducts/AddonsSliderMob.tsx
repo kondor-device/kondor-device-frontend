@@ -13,11 +13,11 @@ import { ProductItem } from "@/types/productItem";
 import AddonItemMob from "./AddonItemMob";
 
 interface AddonsSliderMobProps {
-  addonsProducts: ProductItem[];
+  shownOnAddonsProducts: ProductItem[];
 }
 
 export default function AddonsSliderMob({
-  addonsProducts,
+  shownOnAddonsProducts,
 }: AddonsSliderMobProps) {
   return (
     <Swiper
@@ -39,7 +39,7 @@ export default function AddonsSliderMob({
       modules={[Pagination, Navigation]}
       className="addons-slider"
     >
-      {addonsProducts.map((addonItem) => (
+      {shownOnAddonsProducts.map((addonItem) => (
         <SwiperSlide key={addonItem.id}>
           <AddonItemMob addonItem={addonItem} />
         </SwiperSlide>

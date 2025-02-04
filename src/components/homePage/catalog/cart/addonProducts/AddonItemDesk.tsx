@@ -49,7 +49,7 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
       </div>
       <div className="flex flex-col mr-auto">
         <p className="w-fit laptop:mb-[10px] laptop:text-14med deskxl:text-20med">
-          {priceDiscount}
+          {priceDiscount || price}
           {t("homePage.catalog.hrn")}
         </p>
         <p className="w-fit laptop:text-12med deskxl:text-16med text-grey line-through uppercase">

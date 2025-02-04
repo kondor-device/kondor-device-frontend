@@ -12,13 +12,16 @@ export default async function HomePage() {
 
   const categories = res?.data?.allCategories;
   const shownOnMainProducts = res?.data?.shownOnMainProducts;
-  const shownOnAddons = res?.data?.shownOnAddons;
+  const shownOnAddonsProducts = res?.data?.shownOnAddons;
 
   return (
     <>
       <Hero shownOnMainProducts={shownOnMainProducts} />
       <WeOffer />
-      <Catalog categories={categories} shownOnAddons={shownOnAddons} />
+      <Catalog
+        categories={categories}
+        shownOnAddonsProducts={shownOnAddonsProducts}
+      />
       <OrderConditions />
       <Faq />
       <Benefits />

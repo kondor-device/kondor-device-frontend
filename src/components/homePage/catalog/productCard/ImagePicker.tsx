@@ -30,25 +30,27 @@ export default function ImagePicker({
         className="h-full w-auto laptop:h-[221px] deskxl:h-[242px]"
       />
 
-      <ul className="flex flex-col laptop:flex-row gap-y-[10px] gap-x-8">
-        {photos.map(({ url, alt }, idx) => (
-          <li
-            key={idx}
-            className={`cursor-pointer size-12 laptop:size-16 deskxl:size-[101px] bg-dark rounded-[2px] 
+      <div className="laptop:w-full h-full laptop:h-fit pt-[2px] pb-[2px] pl-[2px] pr-2 laptop:pr-[2px] laptop:pb-2 overflow-auto scrollbar scrollbar-w-[3px] scrollbar-h-[4px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll">
+        <ul className="flex flex-col laptop:flex-row gap-y-[8px] gap-x-4 deskxl:gap-x-8 w-fit h-fit">
+          {photos.map(({ url, alt }, idx) => (
+            <li
+              key={idx}
+              className={`cursor-pointer size-[45px] laptop:size-[62px] deskxl:size-[101px] bg-dark rounded-[2px] 
               laptop:rounded-[6px] overflow-hidden ${
                 selectedPhotoIndex === idx ? "shadow-imagePicker" : ""
               }`}
-            onClick={() => setSelectedPhotoIndex(idx)}
-          >
-            <Image
-              src={url}
-              alt={alt || "keyboard"}
-              width={1080}
-              height={1080}
-            />
-          </li>
-        ))}
-      </ul>
+              onClick={() => setSelectedPhotoIndex(idx)}
+            >
+              <Image
+                src={url}
+                alt={alt || "keyboard"}
+                width={1080}
+                height={1080}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
