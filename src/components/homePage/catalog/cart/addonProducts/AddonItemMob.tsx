@@ -27,7 +27,7 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
   };
 
   return (
-    <li className="flex flex-col gap-y-[10px] max-w-[203px] tab:max-w-[219px] bg-dark p-2 rounded-[10px]">
+    <div className="flex flex-col gap-y-[10px] max-w-[203px] tab:max-w-[219px] h-full bg-dark p-2 rounded-[10px]">
       <div className="w-full px-5 tab:px-6 py-[10px] rounded-[20px] bg-white">
         <Image
           src={coloropts[0]?.photos[0]?.url}
@@ -39,7 +39,7 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
         <Counter cartItem={cartItem} />
       </div>
       <div className="flex flex-col justify-between mr-auto">
-        <h4 className="text-10bold mob:text-12bold">
+        <h4 className="min-h-[60px] text-10bold mob:text-12bold">
           <p className="text-white">{generalname}</p>
           <p className="text-yellow">{name}</p>
         </h4>
@@ -48,7 +48,7 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
           <span>{coloropts[0]?.color}</span>
         </p>
       </div>
-      <div className="flex items-end">
+      <div className="flex items-end mt-auto">
         <p className="w-fit text-10med mob:text-12med text-white">
           {priceDiscount || price}
           {t("homePage.catalog.hrn")}
@@ -58,6 +58,6 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
           {t("homePage.catalog.hrn")}
         </p>
       </div>
-    </li>
+    </div>
   );
 }

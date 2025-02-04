@@ -19,14 +19,22 @@ export default function CheckoutPopUp({
     <>
       <Modal isPopUpShown={isPopUpShown} setIsPopUpShown={setIsPopUpShown}>
         <h3 className="mb-5 text-16semi">{t("homePage.catalog.checkout")}</h3>
-        <CartItemsList />
-        <h3 className="mb-5 text-14bold">{t("homePage.catalog.yourData")}</h3>
+        <div className="flex flex-row-reverse justify-between">
+          <CartItemsList />
+          <div className="laptop:w-[57%]">
+            <h3 className="my-5 text-14bold">
+              {t("homePage.catalog.yourData")}
+            </h3>
+          </div>
+        </div>
         <div className="flex flex-col laptop:flex-row-reverse laptop:justify-between gap-y-5 w-fit laptop:w-full mx-auto mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
-          <Button>{t("buttons.makeOrder")}</Button>
+          <Button className="w-full max-w-[350px] laptop:max-w-[330px] deskxl:max-w-[437px] max-h-[64px] deskxl:max-h-[85px]">
+            {t("buttons.makeOrder")}
+          </Button>
           <Button
             onClick={() => setIsPopUpShown(false)}
             variant="secondary"
-            className="w-full max-w-[350px] laptop:max-w-[320px] deskxl:max-w-[437px] max-h-[64px] deskxl:max-h-[85px]"
+            className="w-full max-w-[350px] laptop:max-w-[330px] deskxl:max-w-[437px] max-h-[64px] deskxl:max-h-[85px]"
           >
             {t("buttons.continueShopping")}
           </Button>

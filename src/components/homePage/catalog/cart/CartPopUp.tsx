@@ -51,7 +51,7 @@ export default function CartPopUp({
           <Button
             onClick={() => setIsCartPopUpShown(false)}
             variant="secondary"
-            className="w-full max-w-[350px] laptop:max-w-[320px] deskxl:max-w-[437px] max-h-[64px] deskxl:max-h-[85px]"
+            className="w-full max-w-[350px] laptop:max-w-[330px] deskxl:max-w-[437px] max-h-[64px] deskxl:max-h-[85px]"
           >
             {t("continueShopping")}
           </Button>
