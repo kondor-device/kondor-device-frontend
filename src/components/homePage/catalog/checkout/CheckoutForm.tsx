@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import MaskedInput from "react-text-mask";
 
 import { PHONE_NUMBER_MASK } from "@/constants/constants";
-import { ContactUsValidation } from "@/schemas/contactUsFormValidation";
+import { CheckoutValidation } from "@/schemas/checkoutFormValidation";
 import { handleSubmitForm } from "@/utils/handleSubmitForm";
 
 import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
@@ -44,7 +44,7 @@ export default function ContactUsForm({
     payment: "",
   };
 
-  const validationSchema = ContactUsValidation();
+  const validationSchema = CheckoutValidation();
 
   const submitForm = async (
     values: ValuesContactUsFormType,
