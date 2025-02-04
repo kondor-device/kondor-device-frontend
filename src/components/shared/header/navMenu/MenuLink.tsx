@@ -7,7 +7,7 @@ interface MenuLinkProps {
     title: string;
     path: string;
   };
-  setIsHeaderMenuOpened: Dispatch<SetStateAction<boolean>> | undefined;
+  setIsHeaderMenuOpened?: Dispatch<SetStateAction<boolean>>;
   className?: string;
 }
 

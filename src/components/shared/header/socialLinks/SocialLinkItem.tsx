@@ -1,19 +1,28 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 interface SocialLinkItemProps {
   social: { name: string; url: string };
   className?: string;
+  setIsHeaderMenuOpened?: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function SocialLinkItem({
   social,
   className = "",
+  setIsHeaderMenuOpened,
 }: SocialLinkItemProps) {
   const { name, url } = social;
 
+  const onSocialLinkClick = () => {
+    if (setIsHeaderMenuOpened) {
+      setIsHeaderMenuOpened(false);
+    }
+  };
+
   return (
-    <li className={className}>
+    <li className={className} onClick={onSocialLinkClick}>
       <a
         href={url}
         target="_blank"

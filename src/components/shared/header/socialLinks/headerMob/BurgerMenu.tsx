@@ -23,7 +23,7 @@ export default function BurgerMenu({
     >
       <div className="container flex flex-col items-center gap-y-20 max-w-full">
         <NavMenu setIsHeaderMenuOpened={setIsHeaderMenuOpened} />
-        <SocialLinksList />
+        <SocialLinksList setIsHeaderMenuOpened={setIsHeaderMenuOpened} />
       </div>
     </div>
   );

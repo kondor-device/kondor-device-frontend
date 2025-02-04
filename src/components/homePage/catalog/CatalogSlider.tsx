@@ -32,7 +32,7 @@ export default function CatalogSlider({
 
   return (
     <li>
-      <h2 className="mb-[30px] text-22bold laptop:text-40bold text-center">
+      <h2 className="container w-full max-w-[1920px] mb-[30px] text-22bold laptop:text-40bold text-center">
         {title}
       </h2>
       <Swiper
