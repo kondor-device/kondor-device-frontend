@@ -69,6 +69,8 @@ export default {
         grey: "#A2A2A2",
         lightGrey: "#D9D9D9",
         dark: "#191919",
+        inputError: "#FF3838",
+        inputErrorLight: "#FFAFAF",
       },
       backgroundImage: {
         yellowGradient:
@@ -79,6 +81,7 @@ export default {
         colorPickerThin: "0 0 0 1px #FFFFFF",
         colorPicker: "0 0 0 2px #FFFFFF",
         imagePicker: "0 0 0 2px #FFB300",
+        radio: "0 0 0 1px #FFB300",
       },
     },
   },

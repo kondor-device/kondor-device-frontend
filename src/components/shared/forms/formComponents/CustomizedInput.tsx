@@ -1,5 +1,4 @@
 import { ErrorMessage, Field, FormikErrors, FormikTouched } from "formik";
-import Image from "next/image";
 import React from "react";
 import MaskedInput from "react-text-mask";
 
@@ -18,54 +17,39 @@ interface CustomizedInputProps {
   labelClassName?: string;
   wrapperClassName?: string;
   fieldClassName?: string;
-  image?: string;
+  showPhonePrefix?: boolean;
   mask?: string | RegExp | (string | RegExp)[];
 }
 
-const labelStyles =
-  "relative flex flex-col gap-y-1 w-full text-inputLabel text-xs";
+const labelStyles = "relative flex flex-col w-full";
 const fieldStyles =
-  "relative w-full h-full px-3 py-[14px] text-black placeholder-inputText border rounded-[12px] outline-none text-sm bg-white transition duration-300 ease-out";
+  "relative w-full h-full pr-[18px] py-[14px] text-dark placeholder-grey border rounded-full outline-none text-12med transition duration-300 ease-out";
 const fieldWrapperStyles =
-  "relative group before:content-[''] before:absolute before:top-0 before:left-0 before:rounded-[12px] before:w-full before:h-full before:blur-[3px] before:transition before:duration-300 before:ease-out before:will-change-transform";
-const errorStyles = "absolute bottom-[-19px] right-0 text-xxs text-inputError";
+  "relative group before:content-[''] before:absolute before:top-0 before:left-0 before:rounded-full before:w-full before:h-full before:blur-[3px] before:transition before:duration-300 before:ease-out before:will-change-transform";
+const errorStyles =
+  "absolute bottom-[-14px] right-0 text-10med text-inputError";
 
 export default function CustomizedInput({
   errors,
   touched,
   fieldName,
-  label = "",
-  required = false,
   placeholder = "",
   as,
   labelClassName = "",
   wrapperClassName = "",
   fieldClassName = "",
-  image,
+  showPhonePrefix = false,
   mask = "",
 }: CustomizedInputProps) {
   return (
     <label className={`${labelStyles} ${labelClassName}`}>
-      <p>
-        {label}
-        {required && <span className="text-inputError"> *</span>}
-      </p>
       <div
         className={`${fieldWrapperStyles} ${wrapperClassName} ${
           errors[fieldName] && touched[fieldName]
             ? "before:bg-inputError"
-            : "before:bg-transparent group-hover:before:bg-blueLight focus-within:before:bg-blueLight"
+            : "before:bg-transparent group-hover:before:bg-yellow focus-within:before:bg-yellow"
         }`}
       >
-        {image && (
-          <Image
-            src={image}
-            alt="phone prefix"
-            width="57"
-            height="22"
-            className="absolute top-1/2 left-3 z-10 transform -translate-y-1/2"
-          />
-        )}
         <Field
           as={as}
           mask={mask}
@@ -73,12 +57,21 @@ export default function CustomizedInput({
           type="text"
           autoComplete="on"
           placeholder={placeholder}
-          className={`${fieldStyles} ${fieldClassName} ${
+          className={`peer ${
+            showPhonePrefix
+              ? "pl-[42px] placeholder-shown:pl-[18px]"
+              : "px-[18px]"
+          } ${fieldStyles} ${fieldClassName} ${
             errors[fieldName] && touched[fieldName]
               ? "border-inputErrorLight"
-              : "border-inputStroke focus:border-blueLight "
+              : "border-grey focus:border-yellow focus:border-opacity-50"
           }`}
         ></Field>
+        {showPhonePrefix && (
+          <span className="peer-placeholder-shown:hidden block absolute top-[23px] left-[18px] z-10 transform -translate-y-1/2 text-[12px] font-medium leading-none">
+            +38
+          </span>
+        )}
       </div>
       <ErrorMessage
         name={fieldName}

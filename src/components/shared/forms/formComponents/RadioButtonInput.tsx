@@ -9,7 +9,6 @@ interface CustomizedInputProps {
   fieldName: string;
   label: string;
   value: string;
-  required: boolean;
   placeholder: string;
   errors: FormikErrors<Values>;
   touched: FormikTouched<Values>;
@@ -17,10 +16,11 @@ interface CustomizedInputProps {
 }
 
 const labelStyles =
-  "relative cursor-pointer flex items-center gap-x-2 text-inputText text-xs";
+  "relative cursor-pointer flex items-center gap-x-2 text-12semi";
 const fieldStyles =
-  "relative cursor-pointer appearance-none w-5 h-5 rounded-full placeholder-inputText outline-none text-sm transition duration-300 ease-out";
-const errorStyles = "absolute bottom-[-19px] right-0 text-xxs text-inputError";
+  "relative cursor-pointer appearance-none size-[14px] rounded-full outline-none transition duration-300 ease-out";
+const errorStyles =
+  "absolute bottom-[-14px] right-0 text-10med text-inputError";
 
 export default function RadioButtonInput({
   errors,
@@ -28,7 +28,6 @@ export default function RadioButtonInput({
   fieldName,
   label = "",
   value = "",
-  required = false,
   placeholder = "",
   fieldClassName = "",
 }: CustomizedInputProps) {
@@ -43,13 +42,10 @@ export default function RadioButtonInput({
         className={`${fieldStyles} ${fieldClassName} ${
           errors[fieldName] && touched[fieldName]
             ? "border-inputErrorLight"
-            : "shadow-radio border-[5px] border-white bg-white checked:bg-blue"
+            : "shadow-radio border-[2.5px] border-white bg-white checked:bg-yellow"
         }`}
       ></Field>
-      <p>
-        {label}
-        {required && <span className="text-inputError"> *</span>}
-      </p>
+      <p>{label}</p>
 
       <ErrorMessage
         name={fieldName}
