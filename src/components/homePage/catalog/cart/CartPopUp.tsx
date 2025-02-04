@@ -2,7 +2,7 @@
 
 import React, { Dispatch, SetStateAction } from "react";
 import Modal from "@/components/shared/modal/Modal";
-import CartItemsList from "./CartItemsList";
+import CartItemsList from "./cartProducts/CartItemsList";
 import { ProductItem } from "@/types/productItem";
 import AddonsProductsList from "./addonProducts/AddonsProductsList";
 import Button from "@/components/shared/buttons/Button";
