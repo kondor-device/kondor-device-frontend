@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 
 interface ProductCardProps {
   product: ProductItem;
-  shownOnAddons: ProductItem[];
+  shownOnAddonsProducts: ProductItem[];
   isCharacteristicsPopUpShown: boolean;
   setIsCharacteristicsPopUpShown: Dispatch<SetStateAction<boolean>>;
   isComplectationPopUpShown: boolean;
@@ -25,7 +25,7 @@ interface ProductCardProps {
 
 export default function ProductCard({
   product,
-  shownOnAddons,
+  shownOnAddonsProducts,
   isCharacteristicsPopUpShown,
   setIsCharacteristicsPopUpShown,
   isComplectationPopUpShown,
@@ -53,7 +53,9 @@ export default function ProductCard({
 
   const { photos } = coloropts[selectedColorIndex];
 
-  const savings = (((price - priceDiscount) / price) * 100).toFixed(0);
+  const savings = (((price - (priceDiscount ?? price)) / price) * 100).toFixed(
+    0
+  );
 
   const onAddToCart = () => {
     addToCart({
@@ -89,7 +91,7 @@ export default function ProductCard({
         />
         <div className="flex items-end gap-x-[10px] laptop:gap-x-[25px] mb-[10px] laptop:mb-[15px]">
           <p className="text-lg font-medium leading-none laptop:text-45bold deskxl:text-54bold text-white uppercase">
-            {priceDiscount}
+            {priceDiscount || price}
             {t("homePage.catalog.hrn")}
           </p>
           <div className="flex laptop:flex-col-reverse items-end laptop:items-start laptop:justify-center gap-x-[5px] h-[22px] laptop:h-[63px]">
@@ -119,7 +121,7 @@ export default function ProductCard({
           onPlaceOrder={onAddToCart}
           isPopUpShown={isCartPopUpShown}
           setIsPopUpShown={setIsCartPopUpShown}
-          shownOnAddons={shownOnAddons}
+          shownOnAddonsProducts={shownOnAddonsProducts}
         />
       </div>
     </div>

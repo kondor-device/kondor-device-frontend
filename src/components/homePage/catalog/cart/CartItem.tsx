@@ -49,7 +49,7 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
         </IconButton>
         <div>
           <p className="w-fit ml-auto text-10med mob:text-12med deskxl:text-20med text-white">
-            {priceDiscount}
+            {priceDiscount || price}
             {t("homePage.catalog.hrn")}
           </p>
           <p className="w-fit ml-auto text-10med deskxl:text-16med text-grey line-through uppercase">
