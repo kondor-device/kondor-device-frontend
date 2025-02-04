@@ -10,7 +10,7 @@ import { handleSubmitForm } from "@/utils/handleSubmitForm";
 
 import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
 import RadioButtonInput from "@/components/shared/forms/formComponents/RadioButtonInput";
-import SubmitButton from "./formComponents/SubmitButton";
+import SubmitButton from "@/components/shared/forms/formComponents/SubmitButton";
 
 export interface ValuesContactUsFormType {
   name: string;
