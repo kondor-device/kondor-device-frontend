@@ -18,11 +18,13 @@ export default function CheckoutPopUp({
   return (
     <>
       <Modal isPopUpShown={isPopUpShown} setIsPopUpShown={setIsPopUpShown}>
-        <h3 className="mb-5 text-16semi">{t("homePage.catalog.checkout")}</h3>
-        <div className="flex flex-row-reverse justify-between">
+        <h3 className="mb-5 laptop:mb-[60px] text-16semi laptop:text-24bold">
+          {t("homePage.catalog.checkout")}
+        </h3>
+        <div className="laptop:flex flex-row-reverse justify-between">
           <CartItemsList />
           <div className="laptop:w-[57%]">
-            <h3 className="my-5 text-14bold">
+            <h3 className="my-5 laptop:mt-0 laptop:mb-[30px] text-14bold laptop:text-20bold">
               {t("homePage.catalog.yourData")}
             </h3>
           </div>
