@@ -21,9 +21,9 @@ interface CustomizedInputProps {
   mask?: string | RegExp | (string | RegExp)[];
 }
 
-const labelStyles = "relative flex flex-col w-full";
+const labelStyles = "relative flex flex-col w-full laptop:w-[49%]";
 const fieldStyles =
-  "relative w-full h-full pr-[18px] py-[14px] text-dark placeholder-grey border rounded-full outline-none text-12med transition duration-300 ease-out";
+  "relative w-full h-full pr-[18px] py-[14px] text-dark placeholder-grey border rounded-full outline-none text-12med laptop:text-14med deskxl:text-18med transition duration-300 ease-out";
 const fieldWrapperStyles =
   "relative group before:content-[''] before:absolute before:top-0 before:left-0 before:rounded-full before:w-full before:h-full before:blur-[3px] before:transition before:duration-300 before:ease-out before:will-change-transform";
 const errorStyles =
@@ -59,7 +59,7 @@ export default function CustomizedInput({
           placeholder={placeholder}
           className={`peer ${
             showPhonePrefix
-              ? "pl-[42px] placeholder-shown:pl-[18px]"
+              ? "pl-[42px] laptop:pl-[46px] placeholder-shown:pl-[18px]"
               : "px-[18px]"
           } ${fieldStyles} ${fieldClassName} ${
             errors[fieldName] && touched[fieldName]
@@ -68,7 +68,7 @@ export default function CustomizedInput({
           }`}
         ></Field>
         {showPhonePrefix && (
-          <span className="peer-placeholder-shown:hidden block absolute top-[23px] left-[18px] z-10 transform -translate-y-1/2 text-[12px] font-medium leading-none">
+          <span className="peer-placeholder-shown:hidden block absolute top-[23px] left-[18px] z-10 transform -translate-y-1/2 text-[12px] laptop:text-[14px] deskxl:text-[18px] font-medium leading-none">
             +38
           </span>
         )}

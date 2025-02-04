@@ -19,13 +19,13 @@ export default function CheckoutPopUp({
   return (
     <>
       <Modal isPopUpShown={isPopUpShown} setIsPopUpShown={setIsPopUpShown}>
-        <h3 className="mb-5 laptop:mb-[60px] text-16semi laptop:text-24bold">
+        <h3 className="mb-5 laptop:mb-[30px] deskxl:mb-[60px] text-16semi laptop:text-20bold deskxl:text-24bold">
           {t("homePage.catalog.checkout")}
         </h3>
         <div className="laptop:flex flex-row-reverse justify-between">
           <CartItemsList />
           <div className="laptop:w-[57%]">
-            <h3 className="my-5 laptop:mt-0 laptop:mb-[30px] text-14bold laptop:text-20bold">
+            <h3 className="my-5 laptop:mt-0 laptop:mb-5 mb-[30px] text-14bold laptop:text-16bold deskxl:text-20bold">
               {t("homePage.catalog.yourData")}
             </h3>
             <CheckoutForm />

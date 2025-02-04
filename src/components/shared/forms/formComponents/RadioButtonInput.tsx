@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, FormikErrors, FormikTouched } from "formik";
-import React from "react";
+import React, { ReactNode } from "react";
 
 interface Values {
   [fieldName: string]: string;
@@ -7,7 +7,7 @@ interface Values {
 
 interface CustomizedInputProps {
   fieldName: string;
-  label: string;
+  label: string | ReactNode;
   value: string;
   placeholder: string;
   errors: FormikErrors<Values>;
@@ -16,7 +16,7 @@ interface CustomizedInputProps {
 }
 
 const labelStyles =
-  "relative cursor-pointer flex items-center gap-x-2 text-12semi";
+  "relative cursor-pointer flex items-center gap-x-2 text-12semi laptop:text-14semi deskxl:text-18semi";
 const fieldStyles =
   "relative cursor-pointer appearance-none size-[14px] rounded-full outline-none transition duration-300 ease-out";
 const errorStyles =

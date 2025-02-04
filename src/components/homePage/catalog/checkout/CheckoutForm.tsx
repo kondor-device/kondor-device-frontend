@@ -77,7 +77,7 @@ export default function CheckoutForm({
       validationSchema={validationSchema}
     >
       {({ errors, touched, dirty, isValid }) => (
-        <Form className="flex flex-col gap-y-4 w-full h-full">
+        <Form className="flex flex-col laptop:flex-row laptop:flex-wrap laptop:justify-between gap-y-4 w-full">
           <CustomizedInput
             fieldName="name"
             label={t("forms.name")}
@@ -129,14 +129,18 @@ export default function CheckoutForm({
             errors={errors}
             touched={touched}
           />
-          <p id="radio-group" className="text-inputLabel text-sm">
-            {t("forms.paymentMethods")}
-          </p>
+
           <div
             role="group"
             aria-labelledby="radio-group"
-            className="flex flex-wrap gap-4"
+            className="flex flex-col gap-4"
           >
+            <p
+              id="radio-group"
+              className="text-inputLabel text-14bold laptop:text-16bold deskxl:text-20bold"
+            >
+              {t("forms.paymentMethods")}
+            </p>
             <RadioButtonInput
               fieldName="payment"
               label={t("forms.online")}
@@ -147,16 +151,24 @@ export default function CheckoutForm({
             />
             <RadioButtonInput
               fieldName="payment"
-              label={t("forms.postpaid")}
+              label={
+                <>
+                  <span>{t("forms.postpaid")}</span>
+                  <span className="text-yellow">{t("forms.comission")}</span>
+                </>
+              }
               value="Післяплата Нова пошта"
               placeholder={t("forms.postpaid")}
               errors={errors}
               touched={touched}
             />
+            <p className="text-10med laptop:text-12med deskxl:text-16med text-grey">
+              {t("forms.freeDelivery")}
+            </p>
           </div>
-          <SubmitButton dirty={dirty} isValid={isValid} isLoading={isLoading}>
+          {/* <SubmitButton dirty={dirty} isValid={isValid} isLoading={isLoading}>
             {t("buttons.makeOrder")}
-          </SubmitButton>
+          </SubmitButton> */}
         </Form>
       )}
     </Formik>
