@@ -30,8 +30,8 @@ export default function ImagePicker({
         className="h-full w-auto laptop:h-[221px] deskxl:h-[242px]"
       />
 
-      <div className="laptop:w-full h-full laptop:h-fit pt-[2px] pb-[2px] pl-[2px] pr-2 laptop:pr-[2px] laptop:pb-2 overflow-auto scrollbar scrollbar-w-[3px] scrollbar-h-[4px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll">
-        <ul className="flex flex-col laptop:flex-row gap-y-[8px] gap-x-4 deskxl:gap-x-8 w-fit h-fit">
+      <div className="laptop:w-full h-full laptop:h-fit pt-[2px] pb-[2px] pl-[2px] pr-2 laptop:pr-[2px] laptop:pb-2 overflow-y-auto scrollbar scrollbar-w-[3px] scrollbar-h-[4px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll">
+        <ul className="flex flex-col laptop:flex-row gap-y-[8px] gap-x-4 deskxl:gap-x-8 laptop:w-fit h-fit">
           {photos.map(({ url, alt }, idx) => (
             <li
               key={idx}
