@@ -22,7 +22,14 @@
       "color": "Колір: ",
       "yourOrder": "Ваше замовлення на {qty, plural, one {# товар} few {# товари} many {# товарів} other {# товарів}}",
       "totalSum": "Підсумкова вартість:",
-      "alsoChoose": "З цим товаром також обирають:"
+      "alsoChoose": "З цим товаром також обирають:",
+      "checkout": "Оформлення замовлення",
+      "yourData": "Ваші дані",
+      "paymentMethods": "Способи оплати",
+      "online": "Онлайн оплата (Wayforpay)",
+      "postpaid": "Післяплата Нова пошта ",
+      "comission": "(20 грн + 2%)",
+      "free delivery": "*Безкоштовка доставка"
     },
     "orderConditions": {
       "title": "Як зробити замовлення?",
@@ -125,6 +132,15 @@
     "goToCatalog": "Перейти до каталогу",
     "continueShopping": "Продовжити покупки",
     "next": "Далі"
+  },
+  "forms": {
+    "name": "Iм’я",
+    "surname": "Прізвище",
+    "email": "Email",
+    "phone": "Номер телефона",
+    "city": "Населений пункт",
+    "postOffice": "Відділення Нової пошти",
+    "promocode": "Введіть промокод"
   },
   "warrantyPage": {
     "title": "Положення про гарантію Kondor",
