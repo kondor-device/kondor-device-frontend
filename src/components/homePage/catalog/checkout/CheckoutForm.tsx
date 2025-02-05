@@ -58,7 +58,7 @@ export default function CheckoutForm({
       `Насeлений пункт: ${values.city.trim()}\n` +
       `Відділення Нової пошти: ${values.postOffice.trim() || ""}\n` +
       `Промокод: ${values.promocode?.trim()}\n` +
-      `\n`;
+      `Оплата: ${values.payment.trim()}\n`;
 
     await handleSubmitForm<ValuesCheckoutFormType>(
       formikHelpers,
@@ -166,9 +166,9 @@ export default function CheckoutForm({
               {t("forms.freeDelivery")}
             </p>
           </div>
-          {/* <SubmitButton dirty={dirty} isValid={isValid} isLoading={isLoading}>
+          <SubmitButton dirty={dirty} isValid={isValid} isLoading={isLoading}>
             {t("buttons.makeOrder")}
-          </SubmitButton> */}
+          </SubmitButton>
         </Form>
       )}
     </Formik>

@@ -29,7 +29,7 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
           className="w-full h-auto"
         />
       </div>
-      <div className="flex flex-col justify-between max-w-[45%] mob:max-w-[60%] mr-auto">
+      <div className="flex flex-col justify-between max-w-[45%] mob:max-w-[60%] laptop:max-w-[55%] mr-auto">
         <h4 className="mb-[5px] text-10med mob:text-12bold laptop:text-14bold deskxl:text-20bold">
           <p className="text-white">{generalName}</p>
           <p className="text-yellow">{name}</p>
@@ -45,7 +45,7 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
           className="w-fit h-fit text-white enabled:active:scale-95 enabled:active:text-yellow laptop:enabled:hover:text-yellow 
           enabled:focus-visible:text-yellow transition duration-300 ease-out"
         >
-          <IconClose className="size-3 deskxl:size-5 rotate-45 " />
+          <IconClose className="size-3 deskxl:size-5 rotate-45" />
         </IconButton>
         <div className="">
           <p className="w-fit ml-auto text-10med mob:text-12med deskxl:text-20med text-white">

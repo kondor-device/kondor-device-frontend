@@ -58,6 +58,6 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
           {t("homePage.catalog.hrn")}
         </p>
       </div>
-    </div>
+    </li>
   );
 }
