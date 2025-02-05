@@ -92,15 +92,20 @@ export default function CatalogSlider({
         <IconButton
           handleClick={() => setIsCartPopUpShown(true)}
           data-label={cartItems.length.toString()}
-          className="fixed z-[5] right-6 bottom-6 before:content-[attr(data-label)] before:absolute before:top-[-11px] before:right-[-11px] before:size-[22px] 
-          before:text-12semi before:text-white before:rounded-full before:bg-dark"
+          className="block fixed z-[5] right-6 bottom-6 size-14 laptop:size-[70px]"
         >
-          <Image
-            src="/images/icons/cart.svg"
-            alt="cart icon"
-            width="71"
-            height="71"
-          />
+          <>
+            <span className="absolute top-[-10px] right-[-10px] size-[22px] text-12semi text-white flex items-center justify-center rounded-full bg-dark">
+              {cartItems.length}
+            </span>
+            <Image
+              src="/images/icons/cart.svg"
+              alt="cart icon"
+              width="71"
+              height="71"
+              className="w-full h-auto"
+            />
+          </>
         </IconButton>
       ) : null}
     </li>
