@@ -36,11 +36,9 @@ export default function Modal({
   return createPortal(
     <div
       className={`${
-        isPopUpShown
-          ? " -translate-y-[calc(50dvh-50%)] opacity-100"
-          : "translate-y-1/2 pointer-events-none opacity-0"
-      } fixed z-50 left-1/2 bottom-0 transform -translate-x-1/2 transition duration-700 ease-out min-w-[312px] max-w-[390px] tab:max-w-[496px] laptop:max-w-[950px]
-      w-[90.5%] tab:w-[496px] laptop:w-[950px] max-h-[90dvh] overflow-y-auto px-5 py-[30px] laptop:px-[60px] laptop:py-14 rounded-[20px] laptop:rounded-[30px] bg-white
+        isPopUpShown ? "opacity-100" : "pointer-events-none opacity-0"
+      } fixed z-50 left-1/2 bottom-0 transform -translate-y-[calc(50dvh-50%)] -translate-x-1/2 min-w-[312px] max-w-[390px] tab:max-w-[496px] laptop:max-w-[950px]
+      w-[95.5%] tab:w-[496px] laptop:w-[950px] max-h-[90dvh] overflow-y-auto px-4 py-[30px] laptop:px-[60px] laptop:py-14 rounded-[20px] laptop:rounded-[30px] bg-white
        scrollbar scrollbar-w-[3px] laptop:scrollbar-w-[8px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll
        ${className}`}
     >
