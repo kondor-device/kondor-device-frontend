@@ -4,7 +4,7 @@ import { sendDataToGoogleSheet } from "@/utils/sendDataToGoogleSheet";
 
 const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID || "";
 
-const RANGE = "Аркуш1!A2:G2";
+const RANGE = "Аркуш1!A2";
 
 export async function POST(request: NextRequest) {
   const { name, surname, phone, city, postOffice, promocode, payment } =

@@ -1,4 +1,4 @@
-import { ValuesCheckoutFormType } from "@/components/homePage/catalog/checkout/CheckoutForm";
+import { ValuesCheckoutFormType } from "@/components/homePage/catalog/checkout/CheckoutPopUp";
 import axios from "axios";
 import { FormikHelpers } from "formik";
 import { Dispatch, SetStateAction } from "react";
