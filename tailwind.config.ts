@@ -83,6 +83,19 @@ export default {
         imagePicker: "0 0 0 2px #FFB300",
         radio: "0 0 0 1px #FFB300",
       },
+      keyframes: {
+        rotate: {
+          "0%": {
+            transform: "rotate(0deg)",
+          },
+          "100%": {
+            transform: "rotate(360deg)",
+          },
+        },
+      },
+      animation: {
+        rotation: "rotate 1600ms linear infinite",
+      },
     },
   },
   plugins: [
