@@ -1,3 +1,4 @@
+import { ValuesCheckoutFormType } from "@/components/homePage/catalog/checkout/CheckoutForm";
 import axios from "axios";
 import { FormikHelpers } from "formik";
 import { Dispatch, SetStateAction } from "react";
@@ -8,6 +9,7 @@ export const handleSubmitForm = async <T>(
   setIsError: Dispatch<SetStateAction<boolean>>,
   setIsNotificationShown: Dispatch<SetStateAction<boolean>>,
   data: string,
+  values: ValuesCheckoutFormType,
   setIsPopUpShown?: Dispatch<SetStateAction<boolean>>
 ) => {
   try {
@@ -17,6 +19,25 @@ export const handleSubmitForm = async <T>(
       method: "post",
       url: "/api/telegram",
       data,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const dataGoogle = {
+      name: values.name.trim(),
+      surname: values.surname.trim(),
+      phone: values.phone.trim(),
+      city: values.city.trim(),
+      postOffice: values.postOffice.trim(),
+      promocode: values.promocode.trim(),
+      payment: values.payment.trim(),
+    };
+
+    await axios({
+      method: "post",
+      url: "/api/googlesheet",
+      data: dataGoogle,
       headers: {
         "Content-Type": "application/json",
       },

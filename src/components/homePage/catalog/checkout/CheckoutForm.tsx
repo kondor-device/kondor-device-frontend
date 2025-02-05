@@ -65,7 +65,8 @@ export default function CheckoutForm({
       setIsLoading,
       setIsError,
       setIsNotificationShown,
-      data
+      data,
+      values
     );
   };
 
