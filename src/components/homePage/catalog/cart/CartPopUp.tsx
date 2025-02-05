@@ -45,8 +45,8 @@ export default function CartPopUp({
         <div className="flex flex-col laptop:flex-row-reverse laptop:justify-between gap-y-5 w-fit laptop:w-full mx-auto mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
           <Checkout
             onCheckoutClick={onCheckoutClick}
-            isPopUpShown={isCheckoutPopUpShown}
-            setIsPopUpShown={setIsCheckoutPopUpShown}
+            isCheckoutPopUpShown={isCheckoutPopUpShown}
+            setIsCheckoutPopUpShown={setIsCheckoutPopUpShown}
           />
           <Button
             onClick={() => setIsCartPopUpShown(false)}

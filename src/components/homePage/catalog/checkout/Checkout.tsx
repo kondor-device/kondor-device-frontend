@@ -6,14 +6,14 @@ import CheckoutPopUp from "./CheckoutPopUp";
 
 interface CheckoutProps {
   onCheckoutClick: () => void;
-  isPopUpShown: boolean;
-  setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
+  isCheckoutPopUpShown: boolean;
+  setIsCheckoutPopUpShown: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function Checkout({
   onCheckoutClick,
-  isPopUpShown,
-  setIsPopUpShown,
+  isCheckoutPopUpShown,
+  setIsCheckoutPopUpShown,
 }: CheckoutProps) {
   const t = useTranslations();
 
@@ -26,8 +26,8 @@ export default function Checkout({
         {t("buttons.next")}
       </Button>
       <CheckoutPopUp
-        isPopUpShown={isPopUpShown}
-        setIsPopUpShown={setIsPopUpShown}
+        isCheckoutPopUpShown={isCheckoutPopUpShown}
+        setIsCheckoutPopUpShown={setIsCheckoutPopUpShown}
       />
     </>
   );

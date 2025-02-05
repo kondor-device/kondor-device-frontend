@@ -8,6 +8,7 @@ export const handleSubmitForm = async <T>(
   { resetForm }: FormikHelpers<T>,
   setIsLoading: Dispatch<SetStateAction<boolean>>,
   setIsError: Dispatch<SetStateAction<boolean>>,
+  setIsCheckoutPopUpShown: Dispatch<SetStateAction<boolean>>,
   setIsNotificationShown: Dispatch<SetStateAction<boolean>>,
   data: string,
   values: ValuesCheckoutFormType,
@@ -47,6 +48,8 @@ export const handleSubmitForm = async <T>(
     resetForm();
     const { clearCart } = useCartStore.getState();
     clearCart();
+
+    setIsCheckoutPopUpShown(false)
 
     if (setIsPopUpShown) {
       setIsPopUpShown(false);

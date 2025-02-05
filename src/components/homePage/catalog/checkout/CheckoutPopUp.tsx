@@ -10,8 +10,8 @@ import FormWithNotifications from "./FormWithNotifications";
 import { handleSubmitForm } from "@/utils/handleSubmitForm";
 
 interface CheckoutPopUpProps {
-  isPopUpShown: boolean;
-  setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
+  isCheckoutPopUpShown: boolean;
+  setIsCheckoutPopUpShown: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface ValuesCheckoutFormType {
@@ -25,15 +25,14 @@ export interface ValuesCheckoutFormType {
 }
 
 export default function CheckoutPopUp({
-  isPopUpShown,
-  setIsPopUpShown,
+  isCheckoutPopUpShown,
+  setIsCheckoutPopUpShown,
 }: CheckoutPopUpProps) {
   const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isNotificationShown, setIsNotificationShown] = useState(false);
 
-  // Initial values для Formik
   const initialValues: ValuesCheckoutFormType = {
     name: "",
     surname: "",
@@ -64,6 +63,7 @@ export default function CheckoutPopUp({
       formikHelpers,
       setIsLoading,
       setIsError,
+      setIsCheckoutPopUpShown,
       setIsNotificationShown,
       data,
       values
@@ -72,8 +72,8 @@ export default function CheckoutPopUp({
 
   return (
     <Modal
-      isPopUpShown={isPopUpShown}
-      setIsPopUpShown={setIsPopUpShown}
+      isPopUpShown={isCheckoutPopUpShown}
+      setIsPopUpShown={setIsCheckoutPopUpShown}
       className="laptop:max-w-[1100px] laptop:w-[1100px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
     >
       <h3 className="mb-5 laptop:mb-[30px] deskxl:mb-[60px] text-16semi laptop:text-20bold deskxl:text-24bold">
@@ -95,14 +95,13 @@ export default function CheckoutPopUp({
         {(formik) => (
           <>
             <FormWithNotifications
-              formik={formik} // Передаємо formik як пропс
+              formik={formik}
               isError={isError}
               isNotificationShown={isNotificationShown}
               setIsLoading={setIsLoading}
               setIsError={setIsError}
               setIsNotificationShown={setIsNotificationShown}
             />
-            {/* Кнопка сабміту тепер тут в CheckoutPopUp, вона викликає formik.submitForm */}
             <div className="flex flex-col laptop:flex-row-reverse laptop:justify-between gap-y-5 w-fit laptop:w-full mx-auto mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
               <SubmitButton
                 className="w-full max-w-[350px] laptop:max-w-[330px] deskxl:max-w-[437px] max-h-[64px] deskxl:max-h-[85px]"
@@ -114,7 +113,7 @@ export default function CheckoutPopUp({
                 {t("buttons.makeOrder")}
               </SubmitButton>
               <Button
-                onClick={() => setIsPopUpShown(false)}
+                onClick={() => setIsCheckoutPopUpShown(false)}
                 variant="secondary"
                 className="w-full max-w-[350px] laptop:max-w-[330px] deskxl:max-w-[437px] max-h-[64px] deskxl:max-h-[85px]"
               >
