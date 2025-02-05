@@ -23,6 +23,10 @@ export const handleSubmitForm = async <T>(
     clearOrderData();
 
     const orderNumber = generateOrderNumber();
+    const totalSum = getTotalAmount();
+    const orderedListProducts = cartItems
+      .map((cartItem) => `${cartItem.generalName} ${cartItem.name}`)
+      .join(", ");
 
     const orderData = {
       orderNumber,
@@ -34,7 +38,7 @@ export const handleSubmitForm = async <T>(
       promocode: values.promocode.trim(),
       payment: values.payment.trim(),
       cartItems,
-      totalSum: getTotalAmount(),
+      totalSum,
     };
 
     setOrderData(orderData);
@@ -47,7 +51,9 @@ export const handleSubmitForm = async <T>(
       `Насeлений пункт: ${values.city.trim()}\n` +
       `Відділення Нової пошти: ${values.postOffice.trim() || ""}\n` +
       `Промокод: ${values.promocode?.trim()}\n` +
-      `Оплата: ${values.payment.trim()}\n`;
+      `Оплата: ${values.payment.trim()}\n` +
+      `Список товарів: ${orderedListProducts}\n` +
+      `Сума замовлення: ${totalSum} грн\n`;
 
     const dataGoogle = {
       orderNumber,
@@ -58,6 +64,7 @@ export const handleSubmitForm = async <T>(
       postOffice: values.postOffice.trim(),
       promocode: values.promocode.trim(),
       payment: values.payment.trim(),
+      totalSum: getTotalAmount(),
     };
 
     await axios({
