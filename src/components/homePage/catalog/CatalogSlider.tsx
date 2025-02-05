@@ -7,11 +7,13 @@ import "swiper/css/navigation";
 import "./sliderStyles.css";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
+import IconButton from "@/components/shared/buttons/IconButton";
 
 interface CatalogSliderProps {
   title: string;
@@ -81,6 +83,17 @@ export default function CatalogSlider({
           setIsCartPopUpShown(false);
         }}
       />
+      <IconButton
+        handleClick={() => setIsCartPopUpShown(true)}
+        className="fixed z-30 bottom-6 right-4"
+      >
+        <Image
+          src="/images/icons/cart.svg"
+          alt="cart icon"
+          width="71"
+          height="71"
+        />
+      </IconButton>
     </li>
   );
 }
