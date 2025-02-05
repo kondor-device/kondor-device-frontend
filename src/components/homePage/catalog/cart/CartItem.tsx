@@ -20,7 +20,7 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
 
   return (
     <li className="flex gap-x-[10px] deskxl:gap-x-[20px] justify-between">
-      <div className="size-12 laptop:size-14 deskxl:size-[85px] p-[10px] deskxl:p-[18px] rounded-[8px] deskxl:rounded-[15px] bg-white">
+      <div className="size-12 laptop:size-14 deskxl:size-[85px] p-[10px] deskxl:p-[18px] my-auto rounded-[8px] deskxl:rounded-[15px] bg-white">
         <Image
           src={image.url}
           alt={image.alt || "keyboard"}
@@ -29,8 +29,8 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
           className="w-full h-auto"
         />
       </div>
-      <div className="flex flex-col justify-between mr-auto">
-        <h4 className="text-10med mob:text-12bold laptop:text-14bold deskxl:text-20bold">
+      <div className="flex flex-col justify-between max-w-[45%] mob:max-w-[60%] mr-auto">
+        <h4 className="mb-[5px] text-10med mob:text-12bold laptop:text-14bold deskxl:text-20bold">
           <p className="text-white">{generalName}</p>
           <p className="text-yellow">{name}</p>
         </h4>
@@ -47,7 +47,7 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
         >
           <IconClose className="size-3 deskxl:size-5 rotate-45 " />
         </IconButton>
-        <div>
+        <div className="">
           <p className="w-fit ml-auto text-10med mob:text-12med deskxl:text-20med text-white">
             {priceDiscount || price}
             {t("homePage.catalog.hrn")}
