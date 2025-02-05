@@ -19,6 +19,7 @@ export default function SubmitButton({
   children,
   className = "",
 }: SubmitButtonProps) {
+  console.log("dirty", !(dirty && isValid) || isLoading);
   return (
     <Button
       type="submit"

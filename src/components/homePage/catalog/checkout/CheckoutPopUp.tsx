@@ -49,23 +49,12 @@ export default function CheckoutPopUp({
     values: ValuesCheckoutFormType,
     formikHelpers: FormikHelpers<ValuesCheckoutFormType>
   ) => {
-    const data =
-      `<b>Замовлення ""</b>\n` +
-      `Ім'я: ${values.name.trim()}\n` +
-      `Прізвище: ${values.surname.trim()}\n` +
-      `Телефон: +38${values.phone.replace(/[^\d+]/g, "")}\n` +
-      `Насeлений пункт: ${values.city.trim()}\n` +
-      `Відділення Нової пошти: ${values.postOffice.trim() || ""}\n` +
-      `Промокод: ${values.promocode?.trim()}\n` +
-      `Оплата: ${values.payment.trim()}\n`;
-
     await handleSubmitForm<ValuesCheckoutFormType>(
       formikHelpers,
       setIsLoading,
       setIsError,
       setIsCheckoutPopUpShown,
       setIsNotificationShown,
-      data,
       values
     );
   };
@@ -102,7 +91,7 @@ export default function CheckoutPopUp({
               setIsError={setIsError}
               setIsNotificationShown={setIsNotificationShown}
             />
-            <div className="flex flex-col laptop:flex-row-reverse laptop:justify-between gap-y-5 w-fit laptop:w-full mx-auto mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
+            <div className="flex flex-col laptop:flex-row-reverse laptop:justify-between gap-y-5 w-full mx-auto mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
               <SubmitButton
                 className="w-full max-w-[350px] laptop:max-w-[330px] deskxl:max-w-[437px] max-h-[64px] deskxl:max-h-[85px]"
                 onClick={formik.submitForm}
