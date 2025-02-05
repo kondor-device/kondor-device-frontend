@@ -3,6 +3,7 @@ import axios from "axios";
 import { FormikHelpers } from "formik";
 import { Dispatch, SetStateAction } from "react";
 import { useCartStore } from "@/store/cartStore";
+import { generateOrderNumber } from "./generateOrderNumber";
 
 export const handleSubmitForm = async <T>(
   { resetForm }: FormikHelpers<T>,
@@ -16,8 +17,10 @@ export const handleSubmitForm = async <T>(
   try {
     setIsLoading(true);
 
+    const orderNumber = generateOrderNumber();
+
     const dataTelegram =
-      `<b>Замовлення ""</b>\n` +
+      `<b>Замовлення #${orderNumber}</b>\n` +
       `Ім'я: ${values.name.trim()}\n` +
       `Прізвище: ${values.surname.trim()}\n` +
       `Телефон: +38${values.phone.replace(/[^\d+]/g, "")}\n` +
@@ -27,6 +30,7 @@ export const handleSubmitForm = async <T>(
       `Оплата: ${values.payment.trim()}\n`;
 
     const dataGoogle = {
+      orderNumber,
       name: values.name.trim(),
       surname: values.surname.trim(),
       phone: values.phone.trim(),
@@ -67,7 +71,6 @@ export const handleSubmitForm = async <T>(
     }
   } catch (error) {
     setIsError(true);
-    console.error(error);
     return error;
   } finally {
     setIsLoading(false);
