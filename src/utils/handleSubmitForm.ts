@@ -15,7 +15,7 @@ export const handleSubmitForm = async <T>(
 
     await axios({
       method: "post",
-      url: "/api/telegram",
+      url: "/api/sendDataTelegram",
       data,
       headers: {
         "Content-Type": "application/json",
@@ -29,9 +29,10 @@ export const handleSubmitForm = async <T>(
     }
   } catch (error) {
     setIsError(true);
+    console.error(error);
     return error;
   } finally {
     setIsLoading(false);
-    // setIsNotificationShown(true);
+    setIsNotificationShown(true);
   }
 };

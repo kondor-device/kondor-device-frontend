@@ -23,8 +23,8 @@ export interface ValuesCheckoutFormType {
 }
 
 interface CheckoutFormProps {
-  setIsError?: Dispatch<SetStateAction<boolean>>;
-  setIsNotificationShown?: Dispatch<SetStateAction<boolean>>;
+  setIsError: Dispatch<SetStateAction<boolean>>;
+  setIsNotificationShown: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function CheckoutForm({
@@ -65,8 +65,7 @@ export default function CheckoutForm({
       setIsLoading,
       setIsError,
       setIsNotificationShown,
-      data,
-      values
+      data
     );
   };
 
