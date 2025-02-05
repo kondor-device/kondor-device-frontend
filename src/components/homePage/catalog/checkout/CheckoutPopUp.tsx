@@ -30,8 +30,8 @@ export default function CheckoutPopUp({
 }: CheckoutPopUpProps) {
   const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [isNotificationShown, setIsNotificationShown] = useState(false);
+  const [isError, setIsError] = useState(true);
+  const [isNotificationShown, setIsNotificationShown] = useState(true);
 
   const initialValues: ValuesCheckoutFormType = {
     name: "",
