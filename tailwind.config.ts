@@ -73,6 +73,7 @@ export default {
       backgroundImage: {
         yellowGradient:
           "linear-gradient(115.41deg, #FFCC54 10.87%, #FFB300 81.45%)",
+        darkGradient: "linear-gradient(#191919 0%, #191919 100%)",
       },
       boxShadow: {
         card: "0px 0.74px 11.12px 0px rgba(103, 103, 103, 0.25)",
