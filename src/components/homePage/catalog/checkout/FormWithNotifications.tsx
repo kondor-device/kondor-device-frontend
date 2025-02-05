@@ -6,7 +6,7 @@ import { FormikProps } from "formik";
 import { ValuesCheckoutFormType } from "./CheckoutPopUp";
 
 interface FormWithNotificationsProps {
-  formik: FormikProps<ValuesCheckoutFormType>; // Тип для Formik пропсів
+  formik: FormikProps<ValuesCheckoutFormType>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsError: Dispatch<SetStateAction<boolean>>;
   setIsNotificationShown: Dispatch<SetStateAction<boolean>>;
@@ -22,10 +22,11 @@ export default function FormWithNotifications({
   setIsError,
   setIsNotificationShown,
 }: FormWithNotificationsProps) {
+ 
   return (
     <>
       <CheckoutForm
-        formik={formik} // Передаємо formik як пропс в CheckoutForm
+        formik={formik}
         setIsError={setIsError}
         setIsNotificationShown={setIsNotificationShown}
         setIsLoading={setIsLoading}

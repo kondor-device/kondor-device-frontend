@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useCartStore } from "@/store/cartStore";
 import Button from "../../buttons/Button";
 
 interface SubmitButtonProps {
@@ -19,13 +19,15 @@ export default function SubmitButton({
   children,
   className = "",
 }: SubmitButtonProps) {
+  const { cartItems } = useCartStore();
+
   return (
     <Button
       type="submit"
       onClick={onClick}
-      disabled={!(dirty && isValid) || isLoading}
+      disabled={!(dirty && isValid) || isLoading || !cartItems.length}
       isLoading={isLoading}
-      className={`mt-4 tab:mt-6 mr-auto ${className}`}
+      className={`${className}`}
     >
       {children}
     </Button>

@@ -1,6 +1,7 @@
-import { useTranslations } from "next-intl";
 import React, { Dispatch, SetStateAction } from "react";
 import ModalNotification from "../modal/ModalNotification";
+import SuccessfulMessage from "./SuccessfulMessage";
+import UnsuccessfulMessage from "./UnsuccessfulMessage";
 
 interface NotificationPopUpProps {
   isNotificationShown: boolean;
@@ -15,8 +16,6 @@ export default function NotificationPopUp({
   isError,
   setIsError,
 }: NotificationPopUpProps) {
-  const t = useTranslations("notifications");
-
   return (
     <>
       <ModalNotification
@@ -24,7 +23,15 @@ export default function NotificationPopUp({
         setIsPopUpShown={setIsNotificationShown}
         setIsError={setIsError}
       >
-        <p className="">{t(`${isError ? "unsuccessful" : "successful"}`)}</p>
+        <>
+          {isError ? (
+            <UnsuccessfulMessage />
+          ) : (
+            <SuccessfulMessage
+              setIsNotificationShown={setIsNotificationShown}
+            />
+          )}
+        </>
       </ModalNotification>
     </>
   );
