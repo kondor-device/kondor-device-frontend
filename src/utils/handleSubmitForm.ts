@@ -2,6 +2,7 @@ import { ValuesCheckoutFormType } from "@/components/homePage/catalog/checkout/C
 import axios from "axios";
 import { FormikHelpers } from "formik";
 import { Dispatch, SetStateAction } from "react";
+import { useCartStore } from "@/store/cartStore";
 
 export const handleSubmitForm = async <T>(
   { resetForm }: FormikHelpers<T>,
@@ -44,6 +45,8 @@ export const handleSubmitForm = async <T>(
     });
 
     resetForm();
+    const { clearCart } = useCartStore.getState();
+    clearCart();
 
     if (setIsPopUpShown) {
       setIsPopUpShown(false);
