@@ -14,6 +14,7 @@ import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
 import IconButton from "@/components/shared/buttons/IconButton";
+import { useCartStore } from "@/store/cartStore";
 
 interface CatalogSliderProps {
   title: string;
@@ -31,6 +32,10 @@ export default function CatalogSlider({
   const [isComplectationPopUpShown, setIsComplectationPopUpShown] =
     useState(false);
   const [isCartPopUpShown, setIsCartPopUpShown] = useState(false);
+
+  const { cartItems } = useCartStore();
+
+  console.log(cartItems);
 
   return (
     <li>
@@ -83,17 +88,21 @@ export default function CatalogSlider({
           setIsCartPopUpShown(false);
         }}
       />
-      <IconButton
-        handleClick={() => setIsCartPopUpShown(true)}
-        className="fixed z-30 bottom-6 right-4"
-      >
-        <Image
-          src="/images/icons/cart.svg"
-          alt="cart icon"
-          width="71"
-          height="71"
-        />
-      </IconButton>
+      {cartItems.length ? (
+        <IconButton
+          handleClick={() => setIsCartPopUpShown(true)}
+          data-label={cartItems.length.toString()}
+          className="fixed z-[5] right-6 bottom-6 before:content-[attr(data-label)] before:absolute before:top-[-11px] before:right-[-11px] before:size-[22px] 
+          before:text-12semi before:text-white before:rounded-full before:bg-dark"
+        >
+          <Image
+            src="/images/icons/cart.svg"
+            alt="cart icon"
+            width="71"
+            height="71"
+          />
+        </IconButton>
+      ) : null}
     </li>
   );
 }
