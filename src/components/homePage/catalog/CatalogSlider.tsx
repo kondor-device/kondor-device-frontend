@@ -7,14 +7,12 @@ import "swiper/css/navigation";
 import "./sliderStyles.css";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
-import IconButton from "@/components/shared/buttons/IconButton";
-import { useCartStore } from "@/store/cartStore";
+import CartButton from "./CartButton";
 
 interface CatalogSliderProps {
   title: string;
@@ -32,10 +30,6 @@ export default function CatalogSlider({
   const [isComplectationPopUpShown, setIsComplectationPopUpShown] =
     useState(false);
   const [isCartPopUpShown, setIsCartPopUpShown] = useState(false);
-
-  const { cartItems } = useCartStore();
-
-  console.log(cartItems);
 
   return (
     <li>
@@ -88,26 +82,7 @@ export default function CatalogSlider({
           setIsCartPopUpShown(false);
         }}
       />
-      {cartItems.length ? (
-        <IconButton
-          handleClick={() => setIsCartPopUpShown(true)}
-          data-label={cartItems.length.toString()}
-          className="block fixed z-[5] right-6 bottom-6 size-14 laptop:size-[70px]"
-        >
-          <>
-            <span className="absolute top-[-10px] right-[-10px] size-[22px] text-12semi text-white flex items-center justify-center rounded-full bg-dark">
-              {cartItems.length}
-            </span>
-            <Image
-              src="/images/icons/cart.svg"
-              alt="cart icon"
-              width="71"
-              height="71"
-              className="w-full h-auto"
-            />
-          </>
-        </IconButton>
-      ) : null}
+      <CartButton setIsCartPopUpShown={setIsCartPopUpShown} />
     </li>
   );
 }
