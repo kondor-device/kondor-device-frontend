@@ -12,6 +12,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
+import CartButton from "./CartButton";
 
 interface CatalogSliderProps {
   title: string;
@@ -86,6 +87,7 @@ export default function CatalogSlider({
           setIsCheckoutPopUpShown(false);
         }}
       />
+      <CartButton setIsCartPopUpShown={setIsCartPopUpShown} />
     </li>
   );
 }
