@@ -64,7 +64,8 @@ export const handleSubmitForm = async <T>(
       postOffice: values.postOffice.trim(),
       promocode: values.promocode.trim(),
       payment: values.payment.trim(),
-      totalSum: getTotalAmount(),
+      orderedListProducts,
+      totalSum: `${totalSum} грн`,
     };
 
     await axios({

@@ -16,6 +16,8 @@ export async function POST(request: NextRequest) {
     postOffice,
     promocode,
     payment,
+    orderedListProducts,
+    totalSum,
   } = await request.json();
 
   if (request.method === "POST") {
@@ -29,6 +31,8 @@ export async function POST(request: NextRequest) {
         postOffice,
         promocode,
         payment,
+        orderedListProducts,
+        totalSum,
       ]);
 
       return NextResponse.json({ message: "Data appended successfully" });

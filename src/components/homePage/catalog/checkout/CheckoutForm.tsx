@@ -100,7 +100,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
               <span className="text-yellow">{t("forms.comission")}</span>
             </>
           }
-          value="Оплата частинами (LiqPay)"
+          value="Післяплата Нова пошта"
           placeholder={t("forms.postpaid")}
           errors={formik.errors}
           touched={formik.touched}
