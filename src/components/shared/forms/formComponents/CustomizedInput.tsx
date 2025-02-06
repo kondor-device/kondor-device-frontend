@@ -20,8 +20,7 @@ interface CustomizedInputProps {
   mask?: string | RegExp | (string | RegExp)[];
 }
 
-const labelStyles =
-  "relative flex flex-col w-full laptop:w-[49%] deskxl:w-[31.5%]";
+const labelStyles = "relative flex flex-col w-full";
 const fieldStyles =
   "relative w-full h-full px-[18px] py-[14px] deskxl:py-[19px] text-dark placeholder-grey border rounded-full outline-none text-12med laptop:text-14med deskxl:text-18med transition duration-300 ease-out";
 const fieldWrapperStyles =

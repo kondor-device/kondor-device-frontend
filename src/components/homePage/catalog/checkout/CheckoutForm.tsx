@@ -9,6 +9,7 @@ import RadioButtonInput from "@/components/shared/forms/formComponents/RadioButt
 import { ValuesCheckoutFormType } from "./CheckoutPopUp";
 import { searchCities } from "@/utils/searchCities";
 import { searchWarehouses } from "@/utils/searchWarehouses";
+import LocationInput from "@/components/shared/forms/formComponents/LocationInput";
 
 interface City {
   Ref: string;
@@ -33,21 +34,41 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
   const [cities, setCities] = useState<City[]>([]);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [cityRef, setCityRef] = useState<string | null>(null);
+  const [isLoadingCities, setIsLoadingCities] = useState(false);
+  const [isLoadingWarehouses, setIsLoadingWarehouses] = useState(false);
 
   useEffect(() => {
     const fetchCities = async () => {
-      const result = await searchCities(formik.values.city);
-      setCities(result);
+      setIsLoadingCities(true);
+      try {
+        const result = await searchCities(formik.values.city ?? "");
+        setCities(result);
+      } catch (error) {
+        return error;
+      } finally {
+        setIsLoadingCities(false);
+      }
     };
 
     fetchCities();
   }, [formik.values.city]);
 
   useEffect(() => {
+    if (!cityRef) return;
+
     const fetchWarehouses = async () => {
-      if (!cityRef) return;
-      const result = await searchWarehouses(cityRef, formik.values.postOffice);
-      setWarehouses(result);
+      setIsLoadingWarehouses(true);
+      try {
+        const result = await searchWarehouses(
+          cityRef,
+          formik.values.postOffice
+        );
+        setWarehouses(result);
+      } catch (error) {
+        return error;
+      } finally {
+        setIsLoadingWarehouses(false);
+      }
     };
 
     fetchWarehouses();
@@ -62,6 +83,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         placeholder={t("forms.name")}
         errors={formik.errors}
         touched={formik.touched}
+        labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
       />
       <CustomizedInput
         fieldName="surname"
@@ -70,6 +92,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         placeholder={t("forms.surname")}
         errors={formik.errors}
         touched={formik.touched}
+        labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
       />
       <CustomizedInput
         fieldName="phone"
@@ -80,62 +103,41 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         touched={formik.touched}
         as={MaskedInput}
         mask={PHONE_NUMBER_MASK}
+        labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
       />
 
-      <div className="relative w-full">
-        <CustomizedInput
-          fieldName="city"
-          label={t("forms.city")}
-          required
-          placeholder={t("forms.city")}
-          errors={formik.errors}
-          touched={formik.touched}
-        />
-        {cities.length > 0 && (
-          <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded-lg max-h-[300px] overflow-auto z-10">
-            {cities.map((city) => (
-              <li
-                key={city.Ref}
-                className="p-2 cursor-pointer hover:bg-gray-200"
-                onClick={() => {
-                  formik.setFieldValue("city", city.Description);
-                  setCityRef(city.Ref);
-                  setCities([]);
-                }}
-              >
-                {city.Description}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <LocationInput
+        fieldName="city"
+        label={t("forms.city")}
+        placeholder={t("forms.city")}
+        formik={formik}
+        options={cities.map((city) => ({
+          key: city.Ref,
+          description: city.Description,
+        }))}
+        isLoading={isLoadingCities}
+        onSelect={(city) => {
+          formik.setFieldValue("city", city.description);
+          setCityRef(city.key);
+          setCities([]);
+        }}
+      />
 
-      <div className="relative w-full">
-        <CustomizedInput
-          fieldName="postOffice"
-          label={t("forms.postOffice")}
-          required
-          placeholder={t("forms.postOffice")}
-          errors={formik.errors}
-          touched={formik.touched}
-        />
-        {warehouses.length > 0 && (
-          <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded-lg max-h-[300px] overflow-auto z-10">
-            {warehouses.map((warehouse) => (
-              <li
-                key={warehouse.SiteKey}
-                className="p-2 cursor-pointer hover:bg-gray-200"
-                onClick={() => {
-                  formik.setFieldValue("postOffice", warehouse.Description);
-                  setWarehouses([]);
-                }}
-              >
-                {warehouse.Description}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <LocationInput
+        fieldName="postOffice"
+        label={t("forms.postOffice")}
+        placeholder={t("forms.postOffice")}
+        formik={formik}
+        options={warehouses.map((wh) => ({
+          key: wh.SiteKey,
+          description: wh.Description,
+        }))}
+        isLoading={isLoadingWarehouses}
+        onSelect={(wh) => {
+          formik.setFieldValue("postOffice", wh.description);
+          setWarehouses([]);
+        }}
+      />
       <CustomizedInput
         fieldName="promocode"
         label={t("forms.promocode")}
@@ -143,6 +145,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         placeholder={t("forms.promocode")}
         errors={formik.errors}
         touched={formik.touched}
+        labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
       />
 
       <div
