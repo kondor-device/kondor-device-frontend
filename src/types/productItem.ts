@@ -31,4 +31,5 @@ export interface ProductItem {
   complect: ComplectItem[];
   coloropts: ColorOpt[];
   chars: Characteristic[];
+  cat: { name: string };
 }
