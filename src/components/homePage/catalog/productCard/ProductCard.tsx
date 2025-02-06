@@ -84,26 +84,30 @@ export default function ProductCard({
       />
       <div className="flex flex-col gap-y-[5px] laptop:gap-y-[15px]">
         <CardTitle generalname={generalname} name={name} />
-        <ColorPicker
-          coloropts={coloropts}
-          selectedColorIndex={selectedColorIndex}
-          setSelectedColorIndex={setSelectedColorIndex}
-        />
+        {coloropts.length ? (
+          <ColorPicker
+            coloropts={coloropts}
+            selectedColorIndex={selectedColorIndex}
+            setSelectedColorIndex={setSelectedColorIndex}
+          />
+        ) : null}
         <div className="flex items-end gap-x-[10px] laptop:gap-x-[25px] mb-[10px] laptop:mb-[15px]">
           <p className="text-lg font-medium leading-none laptop:text-45bold deskxl:text-54bold text-white uppercase">
-            {priceDiscount || price}
+            {!!priceDiscount && priceDiscount < price ? priceDiscount : price}
             {t("homePage.catalog.hrn")}
           </p>
-          <div className="flex laptop:flex-col-reverse items-end laptop:items-start laptop:justify-center gap-x-[5px] h-[22px] laptop:h-[63px]">
-            <p className="text-sm font-bold leading-none laptop:text-22bold text-grey uppercase line-through">
-              {price}
-              {t("homePage.catalog.hrn")}
-            </p>
-            <p className="text-[10px] font-medium leading-none laptop:text-16med text-yellow">
-              {t("homePage.catalog.economy")}
-              {savings}%
-            </p>
-          </div>
+          {!!priceDiscount && priceDiscount < price ? (
+            <div className="flex laptop:flex-col-reverse items-end laptop:items-start laptop:justify-center gap-x-[5px] h-[22px] laptop:h-[63px]">
+              <p className="text-sm font-bold leading-none laptop:text-22bold text-grey uppercase line-through">
+                {price}
+                {t("homePage.catalog.hrn")}
+              </p>
+              <p className="text-[10px] font-medium leading-none laptop:text-16med text-yellow">
+                {t("homePage.catalog.economy")}
+                {savings}%
+              </p>
+            </div>
+          ) : null}
         </div>
         <div className="flex gap-x-[5px] laptop:gap-x-5 mb-[10px] laptop:mb-[5px]">
           <Characteristics

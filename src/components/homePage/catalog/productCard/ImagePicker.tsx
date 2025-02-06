@@ -23,7 +23,7 @@ export default function ImagePicker({
       rounded-[11px] laptop:rounded-[40px]"
     >
       <Image
-        src={photos[selectedPhotoIndex]?.url}
+        src={photos[selectedPhotoIndex]?.url || "/images/icons/logoSmall.svg"}
         alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
         width={1080}
         height={1080}
@@ -42,7 +42,7 @@ export default function ImagePicker({
               onClick={() => setSelectedPhotoIndex(idx)}
             >
               <Image
-                src={url}
+                src={url || "/images/icons/logoSmall.svg"}
                 alt={alt || "keyboard"}
                 width={1080}
                 height={1080}

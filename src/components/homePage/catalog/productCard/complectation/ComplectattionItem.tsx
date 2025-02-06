@@ -17,7 +17,7 @@ export default function ComplectationItem({
         before:h-full even:before:bg-yellowGradient before:rounded-[10px]"
     >
       <Image
-        src={icon?.url}
+        src={icon?.url || "/images/icons/logoSmall.svg"}
         alt={icon?.alt || "icon"}
         width={25}
         height={25}
