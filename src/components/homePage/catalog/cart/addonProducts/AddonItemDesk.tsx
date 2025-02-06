@@ -30,7 +30,7 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
     <li className="flex items-end">
       <div className="laptop:size-[64px] deskxl:size-[85px] p-[8px] deskxl:p-[18px] rounded-[15px] shadow-card my-auto">
         <Image
-          src={coloropts[0]?.photos[0]?.url}
+          src={coloropts[0]?.photos[0]?.url || "/images/icons/logoSmall.svg"}
           alt={coloropts[0]?.photos[0]?.alt || "keyboard"}
           width={1080}
           height={1080}
