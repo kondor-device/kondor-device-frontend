@@ -1,4 +1,4 @@
-import { performRequest } from "@/app/api/datocms/route";
+import { performRequest } from "@/app/api/datocms/request";
 
 export const getProducts = async (query: string) => {
   try {
