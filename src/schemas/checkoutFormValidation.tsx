@@ -20,12 +20,12 @@ export const CheckoutValidation = () => {
       .required(t("required")),
     phone: yup
       .string()
-      .test(
-        "starts-with-zero",
-        t("startsWithZero"),
-        (value) => value?.startsWith("0") || false
-      )
       .matches(phoneRegex, t("wrongPhone"))
+      .test(
+        "sixth-char-zero",
+        t("startsWithZero"),
+        (value) => !!value && value.length >= 6 && value[5] === "0"
+      )
       .required(t("required")),
     city: yup.string().required(t("required")),
     postOffice: yup.string().required(t("required")),

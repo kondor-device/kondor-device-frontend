@@ -45,7 +45,6 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         errors={formik.errors}
         touched={formik.touched}
         as={MaskedInput}
-        showPhonePrefix={true}
         mask={PHONE_NUMBER_MASK}
       />
       <CustomizedInput

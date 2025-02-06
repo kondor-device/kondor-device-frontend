@@ -17,14 +17,13 @@ interface CustomizedInputProps {
   labelClassName?: string;
   wrapperClassName?: string;
   fieldClassName?: string;
-  showPhonePrefix?: boolean;
   mask?: string | RegExp | (string | RegExp)[];
 }
 
 const labelStyles =
   "relative flex flex-col w-full laptop:w-[49%] deskxl:w-[31.5%]";
 const fieldStyles =
-  "relative w-full h-full pr-[18px] py-[14px] deskxl:py-[19px] text-dark placeholder-grey border rounded-full outline-none text-12med laptop:text-14med deskxl:text-18med transition duration-300 ease-out";
+  "relative w-full h-full px-[18px] py-[14px] deskxl:py-[19px] text-dark placeholder-grey border rounded-full outline-none text-12med laptop:text-14med deskxl:text-18med transition duration-300 ease-out";
 const fieldWrapperStyles =
   "relative group before:content-[''] before:absolute before:top-0 before:left-0 before:rounded-full before:w-full before:h-full before:blur-[3px] before:transition before:duration-300 before:ease-out before:will-change-transform";
 const errorStyles =
@@ -39,7 +38,6 @@ export default function CustomizedInput({
   labelClassName = "",
   wrapperClassName = "",
   fieldClassName = "",
-  showPhonePrefix = false,
   mask = "",
 }: CustomizedInputProps) {
   return (
@@ -58,21 +56,12 @@ export default function CustomizedInput({
           type="text"
           autoComplete="on"
           placeholder={placeholder}
-          className={`peer ${
-            showPhonePrefix
-              ? "pl-[42px] laptop:pl-[46px] deskxl:pl-[52px] placeholder-shown:pl-[18px]"
-              : "px-[18px]"
-          } ${fieldStyles} ${fieldClassName} ${
+          className={`${fieldStyles} ${fieldClassName} ${
             errors[fieldName] && touched[fieldName]
               ? "border-inputErrorLight"
               : "border-grey focus:border-yellow focus:border-opacity-50"
           }`}
         ></Field>
-        {showPhonePrefix && (
-          <span className="peer-placeholder-shown:hidden block absolute top-[23.5px] deskxl:top-[31px] left-[18px] z-10 transform -translate-y-1/2 text-[12px] laptop:text-[14px] deskxl:text-[18px] font-medium leading-none">
-            +38
-          </span>
-        )}
       </div>
       <ErrorMessage
         name={fieldName}

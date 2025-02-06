@@ -10,9 +10,15 @@ export const INSTAGRAM_URL = "https://www.instagram.com/kondor.ua";
 export const DATOCMS_URL = "https://graphql.datocms.com/";
 
 export const PHONE_NUMBER_MASK = [
+  "+",
+  "3",
+  "8",
+  " ",
+  "(",
+  /[0-9]/,
   /\d/,
   /\d/,
-  /\d/,
+  ")",
   " ",
   /\d/,
   /\d/,
