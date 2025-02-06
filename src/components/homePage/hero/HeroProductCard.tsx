@@ -13,9 +13,14 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
   const t = useTranslations();
   const locale = useLocale();
 
-  const { name, price, priceDiscount, coloropts } = product;
+  const { name, price, priceDiscount, coloropts, cat } = product;
 
   const { photos } = coloropts[0];
+
+  const localizedCatalogLink =
+    locale === "uk" ? `/#catalog` : `/${locale}#catalog`;
+  const localizedCategoryLink =
+    locale === "uk" ? `/#${cat?.name}` : `/${locale}#${cat?.name}`;
 
   return (
     <li
@@ -35,7 +40,7 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
         {name}
       </h3>
       <Link
-        href={locale === "uk" ? `/#catalog` : `/${locale}#catalog`}
+        href={cat?.name ? localizedCategoryLink : localizedCatalogLink}
         className="block w-fit mx-auto"
       >
         <SmallButton>{`${t("homePage.hero.from")} ${(
