@@ -69,6 +69,8 @@ export default function CatalogSlider({
                 isCartPopUpShown={isCartPopUpShown}
                 setIsCartPopUpShown={setIsCartPopUpShown}
                 shownOnAddonsProducts={shownOnAddonsProducts}
+                isCheckoutPopUpShown={isCheckoutPopUpShown}
+                setIsCheckoutPopUpShown={setIsCheckoutPopUpShown}
               />
             </SwiperSlide>
           ))}
