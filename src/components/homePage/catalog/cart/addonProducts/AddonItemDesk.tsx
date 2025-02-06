@@ -37,7 +37,7 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
           className="w-full h-auto"
         />
       </div>
-      <div className="flex flex-col justify-between mx-5">
+      <div className="flex flex-col justify-between w-[38%] mx-5">
         <h4 className="text-14bold deskxl:text-20bold">
           <p>{generalname}</p>
           <p className="text-yellow">{name}</p>
@@ -47,15 +47,17 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
           <span>{coloropts[0]?.color}</span>
         </p>
       </div>
-      <div className="flex flex-col mr-auto">
-        <p className="w-fit laptop:mb-[10px] laptop:text-14med deskxl:text-20med">
-          {priceDiscount || price}
+      <div className="flex flex-col laptop:selection:gap-y-[10px] mr-auto">
+        <p className="w-fit laptop:text-14med deskxl:text-20med">
+          {!!priceDiscount && priceDiscount < price ? priceDiscount : price}
           {t("homePage.catalog.hrn")}
         </p>
-        <p className="w-fit laptop:text-12med deskxl:text-16med text-grey line-through uppercase">
-          {price}
-          {t("homePage.catalog.hrn")}
-        </p>
+        {!!priceDiscount && priceDiscount < price ? (
+          <p className="w-fit laptop:text-12med deskxl:text-16med text-grey line-through uppercase">
+            {price}
+            {t("homePage.catalog.hrn")}
+          </p>
+        ) : null}
       </div>
       <Counter cartItem={cartItem} />
     </li>

@@ -50,13 +50,15 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
       </div>
       <div className="flex items-end">
         <p className="w-fit text-10med mob:text-12med">
-          {priceDiscount || price}
+          {!!priceDiscount && priceDiscount < price ? priceDiscount : price}
           {t("homePage.catalog.hrn")}
         </p>
-        <p className="w-fit ml-[5px] text-10med text-grey line-through uppercase">
-          {price}
-          {t("homePage.catalog.hrn")}
-        </p>
+        {!!priceDiscount && priceDiscount < price ? (
+          <p className="w-fit ml-[5px] text-10med text-grey line-through uppercase">
+            {price}
+            {t("homePage.catalog.hrn")}
+          </p>
+        ) : null}
       </div>
     </li>
   );
