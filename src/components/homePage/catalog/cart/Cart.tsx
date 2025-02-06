@@ -9,6 +9,8 @@ interface CartProps {
   shownOnAddonsProducts: ProductItem[];
   isPopUpShown: boolean;
   setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
+  isCheckoutPopUpShown: boolean;
+  setIsCheckoutPopUpShown: Dispatch<SetStateAction<boolean>>;
   onPlaceOrder: () => void;
 }
 
@@ -16,6 +18,8 @@ export default function Cart({
   shownOnAddonsProducts,
   isPopUpShown,
   setIsPopUpShown,
+  isCheckoutPopUpShown,
+  setIsCheckoutPopUpShown,
   onPlaceOrder,
 }: CartProps) {
   const t = useTranslations();
@@ -29,8 +33,10 @@ export default function Cart({
         {t("buttons.makeOrder")}
       </Button>
       <CartPopUp
-        isPopUpShown={isPopUpShown}
-        setIsPopUpShown={setIsPopUpShown}
+        isCartPopUpShown={isPopUpShown}
+        setIsCartPopUpShown={setIsPopUpShown}
+        isCheckoutPopUpShown={isCheckoutPopUpShown}
+        setIsCheckoutPopUpShown={setIsCheckoutPopUpShown}
         shownOnAddonsProducts={shownOnAddonsProducts}
       />
     </>

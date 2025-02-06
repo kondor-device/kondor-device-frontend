@@ -21,6 +21,8 @@ interface ProductCardProps {
   setIsComplectationPopUpShown: Dispatch<SetStateAction<boolean>>;
   isCartPopUpShown: boolean;
   setIsCartPopUpShown: Dispatch<SetStateAction<boolean>>;
+  isCheckoutPopUpShown: boolean;
+  setIsCheckoutPopUpShown: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ProductCard({
@@ -32,6 +34,8 @@ export default function ProductCard({
   setIsComplectationPopUpShown,
   isCartPopUpShown,
   setIsCartPopUpShown,
+  isCheckoutPopUpShown,
+  setIsCheckoutPopUpShown,
 }: ProductCardProps) {
   const t = useTranslations();
 
@@ -125,6 +129,8 @@ export default function ProductCard({
           onPlaceOrder={onAddToCart}
           isPopUpShown={isCartPopUpShown}
           setIsPopUpShown={setIsCartPopUpShown}
+          isCheckoutPopUpShown={isCheckoutPopUpShown}
+          setIsCheckoutPopUpShown={setIsCheckoutPopUpShown}
           shownOnAddonsProducts={shownOnAddonsProducts}
         />
       </div>

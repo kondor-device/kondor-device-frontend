@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ProductItem } from "@/types/productItem";
-import Counter from "../Counter";
+import Counter from "./Counter";
 import { v4 as uuidv4 } from "uuid";
 
 interface AddonItemMobProps {

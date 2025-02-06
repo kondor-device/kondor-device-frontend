@@ -69,6 +69,8 @@ export default {
         grey: "#A2A2A2",
         lightGrey: "#D9D9D9",
         dark: "#191919",
+        inputError: "#FF3838",
+        inputErrorLight: "#FFAFAF",
       },
       backgroundImage: {
         yellowGradient:
@@ -79,6 +81,21 @@ export default {
         colorPickerThin: "0 0 0 1px #FFFFFF",
         colorPicker: "0 0 0 2px #FFFFFF",
         imagePicker: "0 0 0 2px #FFB300",
+        radio: "0 0 0 1px #FFB300",
+        notification: "0px 66px 150px 0px rgba(25, 25, 25, 0.3)",
+      },
+      keyframes: {
+        rotate: {
+          "0%": {
+            transform: "rotate(0deg)",
+          },
+          "100%": {
+            transform: "rotate(360deg)",
+          },
+        },
+      },
+      animation: {
+        rotation: "rotate 1600ms linear infinite",
       },
     },
   },
