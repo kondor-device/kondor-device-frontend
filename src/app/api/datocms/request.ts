@@ -18,6 +18,8 @@ export const performRequest = async ({
 
   const responseBody = await response.json();
 
+  console.log(responseBody);
+
   if (!response.ok) {
     throw new Error(
       `${response.status} ${response.statusText}: ${JSON.stringify(
