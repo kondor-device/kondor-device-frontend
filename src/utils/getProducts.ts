@@ -1,12 +1,20 @@
-import { performRequest } from "@/app/api/datocms/request";
+import axios from "axios";
 
-export const getProducts = async (query: string) => {
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+export async function getProducts(query: string) {
   try {
-    const data = await performRequest({
-      query,
+    const response = await axios({
+      method: "post",
+      url: `${BASE_URL}api/datocms`,
+      data: {
+        query,
+        variables: {},
+        includeDrafts: true,
+      },
     });
-    return data;
+    return response.data;
   } catch (error) {
     return error;
   }
-};
+}
