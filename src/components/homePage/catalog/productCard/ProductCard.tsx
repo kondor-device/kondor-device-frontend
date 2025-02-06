@@ -84,11 +84,13 @@ export default function ProductCard({
       />
       <div className="flex flex-col gap-y-[5px] laptop:gap-y-[15px]">
         <CardTitle generalname={generalname} name={name} />
-        <ColorPicker
-          coloropts={coloropts}
-          selectedColorIndex={selectedColorIndex}
-          setSelectedColorIndex={setSelectedColorIndex}
-        />
+        {coloropts.length ? (
+          <ColorPicker
+            coloropts={coloropts}
+            selectedColorIndex={selectedColorIndex}
+            setSelectedColorIndex={setSelectedColorIndex}
+          />
+        ) : null}
         <div className="flex items-end gap-x-[10px] laptop:gap-x-[25px] mb-[10px] laptop:mb-[15px]">
           <p className="text-lg font-medium leading-none laptop:text-45bold deskxl:text-54bold text-white uppercase">
             {!!priceDiscount && priceDiscount < price ? priceDiscount : price}
