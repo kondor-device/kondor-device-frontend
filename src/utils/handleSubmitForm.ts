@@ -27,8 +27,8 @@ export const handleSubmitForm = async <T>(
     const orderNumber = generateOrderNumber();
     const totalSum = getTotalAmount();
     const orderedListProducts = cartItems
-      .map((cartItem) => `${cartItem.generalName} ${cartItem.name}`)
-      .join(", ");
+      .map((cartItem) => `- ${cartItem.generalName} ${cartItem.name}`)
+      .join("\n");
 
     const orderData = {
       orderNumber,
@@ -47,21 +47,21 @@ export const handleSubmitForm = async <T>(
 
     const dataTelegram =
       `<b>Замовлення #${orderNumber}</b>\n` +
-      `Ім'я: ${values.name.trim()}\n` +
-      `Прізвище: ${values.surname.trim()}\n` +
-      `Телефон: +38${values.phone.replace(/[^\d+]/g, "")}\n` +
-      `Насeлений пункт: ${values.city.trim()}\n` +
-      `Відділення Нової пошти: ${values.postOffice.trim() || ""}\n` +
-      `Промокод: ${values.promocode?.trim()}\n` +
-      `Оплата: ${values.payment.trim()}\n` +
-      `Список товарів: ${orderedListProducts}\n` +
-      `Сума замовлення: ${totalSum} грн\n`;
+      `<b>Ім'я:</b> ${values.name.trim()}\n` +
+      `<b>Прізвище:</b> ${values.surname.trim()}\n` +
+      `<b>Телефон:</b> ${values.phone.replace(/[^\d+]/g, "")}\n` +
+      `<b>Насeлений пункт:</b> ${values.city.trim()}\n` +
+      `<b>Відділення Нової пошти:</b> ${values.postOffice.trim() || ""}\n` +
+      `<b>Промокод:</b> ${values.promocode?.trim()}\n` +
+      `<b>Оплата:</b> ${values.payment.trim()}\n` +
+      `<b>Список товарів:</b>\n ${orderedListProducts}\n` +
+      `<b>Сума замовлення:</b> ${totalSum} грн\n`;
 
     const dataGoogle = {
       orderNumber,
       name: values.name.trim(),
       surname: values.surname.trim(),
-      phone: values.phone.trim(),
+      phone: values.phone.replace(/[^\d+]/g, ""),
       city: values.city.trim(),
       postOffice: values.postOffice.trim(),
       promocode: values.promocode.trim(),
