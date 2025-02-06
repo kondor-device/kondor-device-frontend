@@ -40,6 +40,9 @@ export const GET_ALL_DATA_QUERY = `
       name
       price
       priceDiscount
+      cat {
+      name
+      }
       coloropts {
         photos {
           url
