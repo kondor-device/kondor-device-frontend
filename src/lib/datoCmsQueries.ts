@@ -2,6 +2,7 @@ export const GET_ALL_DATA_QUERY = `
   query GetAllData {
     allCategories {
       name
+      pos
       items {
         id
         generalname
