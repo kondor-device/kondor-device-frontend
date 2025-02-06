@@ -6,6 +6,8 @@ import { useCartStore } from "@/store/cartStore";
 import { useOrderStore } from "@/store/orderStore";
 import { generateOrderNumber } from "./generateOrderNumber";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
 export const handleSubmitForm = async <T>(
   { resetForm }: FormikHelpers<T>,
   setIsLoading: Dispatch<SetStateAction<boolean>>,
@@ -70,7 +72,7 @@ export const handleSubmitForm = async <T>(
 
     await axios({
       method: "post",
-      url: "/api/telegram",
+      url: `${BASE_URL}api/telegram`,
       data: dataTelegram,
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +81,7 @@ export const handleSubmitForm = async <T>(
 
     await axios({
       method: "post",
-      url: "/api/googlesheet",
+      url: `${BASE_URL}api/googlesheet`,
       data: dataGoogle,
       headers: {
         "Content-Type": "application/json",

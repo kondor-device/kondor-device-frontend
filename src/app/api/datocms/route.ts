@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+import { DATOCMS_URL } from "@/constants/constants";
 
-const DATOCMS_URL = "https://graphql.datocms.com";
 const NEXT_DATOCMS_API_TOKEN = process.env.NEXT_PUBLIC_DATOCMS_API_TOKEN || "";
 
 export async function POST(req: Request) {
@@ -25,6 +25,7 @@ export async function POST(req: Request) {
     );
 
     return NextResponse.json(response.data);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return NextResponse.json({
       error: "Failed to fetch data from DatoCMS",
