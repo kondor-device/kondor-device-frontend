@@ -22,7 +22,7 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
     <li className="flex gap-x-[10px] deskxl:gap-x-[20px] justify-between">
       <div className="size-12 laptop:size-14 deskxl:size-[85px] p-[10px] deskxl:p-[18px] my-auto rounded-[8px] deskxl:rounded-[15px] bg-white">
         <Image
-          src={image.url}
+          src={image.url || "/images/icons/logoSmall.svg"}
           alt={image.alt || "keyboard"}
           width={1080}
           height={1080}
@@ -49,13 +49,15 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
         </IconButton>
         <div className="">
           <p className="w-fit ml-auto text-10med mob:text-12med deskxl:text-20med text-white">
-            {priceDiscount || price}
+            {!!priceDiscount && priceDiscount < price ? priceDiscount : price}
             {t("homePage.catalog.hrn")}
           </p>
-          <p className="w-fit ml-auto text-10med deskxl:text-16med text-grey line-through uppercase">
-            {price}
-            {t("homePage.catalog.hrn")}
-          </p>
+          {!!priceDiscount && priceDiscount < price ? (
+            <p className="w-fit ml-auto text-10med deskxl:text-16med text-grey line-through uppercase">
+              {price}
+              {t("homePage.catalog.hrn")}
+            </p>
+          ) : null}
         </div>
       </div>
     </li>

@@ -30,7 +30,7 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
     <li className="flex flex-col gap-y-[10px] max-w-[203px] tab:max-w-[219px] p-2 rounded-[10px]">
       <div className="flex flex-col justify-between w-full aspect-[1/1] px-5 tab:px-6 py-[10px] rounded-[20px] bg-white shadow-card">
         <Image
-          src={coloropts[0]?.photos[0]?.url}
+          src={coloropts[0]?.photos[0]?.url || "/images/icons/logoSmall.svg"}
           alt={coloropts[0]?.photos[0]?.alt || "keyboard"}
           width={1080}
           height={1080}
@@ -50,13 +50,15 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
       </div>
       <div className="flex items-end">
         <p className="w-fit text-10med mob:text-12med">
-          {priceDiscount || price}
+          {!!priceDiscount && priceDiscount < price ? priceDiscount : price}
           {t("homePage.catalog.hrn")}
         </p>
-        <p className="w-fit ml-[5px] text-10med text-grey line-through uppercase">
-          {price}
-          {t("homePage.catalog.hrn")}
-        </p>
+        {!!priceDiscount && priceDiscount < price ? (
+          <p className="w-fit ml-[5px] text-10med text-grey line-through uppercase">
+            {price}
+            {t("homePage.catalog.hrn")}
+          </p>
+        ) : null}
       </div>
     </li>
   );

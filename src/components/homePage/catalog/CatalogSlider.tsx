@@ -13,6 +13,7 @@ import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
 import CartButton from "./CartButton";
+import EmptyCategory from "./EmptyCategory";
 
 interface CatalogSliderProps {
   title: string;
@@ -37,42 +38,44 @@ export default function CatalogSlider({
       <h2 className="container w-full max-w-[1920px] mb-[30px] text-22bold laptop:text-40bold text-center">
         {title}
       </h2>
-      <Swiper
-        centeredSlides={true}
-        slidesPerView="auto"
-        breakpoints={{
-          0: {
-            spaceBetween: 10,
-          },
-          440: {
-            spaceBetween: 30,
-          },
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        loop={true}
-        speed={1000}
-        modules={[Pagination, Navigation]}
-      >
-        {products.map((product, idx) => (
-          <SwiperSlide key={idx}>
-            <ProductCard
-              product={product}
-              isCharacteristicsPopUpShown={isCharacteristicsPopUpShown}
-              setIsCharacteristicsPopUpShown={setIsCharacteristicsPopUpShown}
-              isComplectationPopUpShown={isComplectationPopUpShown}
-              setIsComplectationPopUpShown={setIsComplectationPopUpShown}
-              isCartPopUpShown={isCartPopUpShown}
-              setIsCartPopUpShown={setIsCartPopUpShown}
-              isCheckoutPopUpShown={isCheckoutPopUpShown}
-              setIsCheckoutPopUpShown={setIsCheckoutPopUpShown}
-              shownOnAddonsProducts={shownOnAddonsProducts}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {products.length ? (
+        <Swiper
+          centeredSlides={true}
+          slidesPerView="auto"
+          breakpoints={{
+            0: {
+              spaceBetween: 10,
+            },
+            440: {
+              spaceBetween: 30,
+            },
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          loop={true}
+          speed={1000}
+          modules={[Pagination, Navigation]}
+        >
+          {products.map((product, idx) => (
+            <SwiperSlide key={idx}>
+              <ProductCard
+                product={product}
+                isCharacteristicsPopUpShown={isCharacteristicsPopUpShown}
+                setIsCharacteristicsPopUpShown={setIsCharacteristicsPopUpShown}
+                isComplectationPopUpShown={isComplectationPopUpShown}
+                setIsComplectationPopUpShown={setIsComplectationPopUpShown}
+                isCartPopUpShown={isCartPopUpShown}
+                setIsCartPopUpShown={setIsCartPopUpShown}
+                shownOnAddonsProducts={shownOnAddonsProducts}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      ) : (
+        <EmptyCategory />
+      )}
       <Backdrop
         isVisible={
           isCharacteristicsPopUpShown ||
