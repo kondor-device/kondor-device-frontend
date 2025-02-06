@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, FormikErrors, FormikTouched } from "formik";
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import MaskedInput from "react-text-mask";
 import { useFormikContext } from "formik";
 
@@ -20,7 +20,7 @@ interface CustomizedInputProps {
   fieldClassName?: string;
   mask?: string | RegExp | (string | RegExp)[];
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocus?: Dispatch<SetStateAction<boolean>>;
+  onFocus?: () => void;
 }
 
 const labelStyles = "relative flex flex-col w-full";

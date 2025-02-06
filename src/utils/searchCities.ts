@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function searchCities(query: string) {
-    try {
+  try {
     const { data } = await axios.post("/api/novaposhta/cities", { query });
     return data;
   } catch (error) {
