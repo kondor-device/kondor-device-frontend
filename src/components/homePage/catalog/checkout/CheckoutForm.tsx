@@ -1,7 +1,7 @@
 "use client";
 import { Form, FormikProps } from "formik";
 import { useTranslations } from "next-intl";
-import { Dispatch, SetStateAction, useState, useEffect } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import MaskedInput from "react-text-mask";
 import { PHONE_NUMBER_MASK } from "@/constants/constants";
 import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
@@ -36,43 +36,48 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
   const [cityRef, setCityRef] = useState<string | null>(null);
   const [isLoadingCities, setIsLoadingCities] = useState(false);
   const [isLoadingWarehouses, setIsLoadingWarehouses] = useState(false);
+  const [isCitiesDropDownOpen, setIsCitiesDropDownOpen] = useState(false);
+  const [isWarehousesDropDownOpen, setIsWarehousesDropDownOpen] =
+    useState(false);
 
-  useEffect(() => {
-    const fetchCities = async () => {
-      setIsLoadingCities(true);
-      try {
-        const result = await searchCities(formik.values.city ?? "");
-        setCities(result);
-      } catch (error) {
-        return error;
-      } finally {
-        setIsLoadingCities(false);
-      }
-    };
+  const fetchCities = async (city: string) => {
+    setIsLoadingCities(true);
+    try {
+      const result = await searchCities(city);
+      setCities(result);
+    } catch (error) {
+      console.error("Помилка при пошуку міст:", error);
+    } finally {
+      setIsLoadingCities(false);
+    }
+  };
 
-    fetchCities();
-  }, [formik.values.city]);
-
-  useEffect(() => {
+  const fetchWarehouses = async () => {
     if (!cityRef) return;
+    setIsLoadingWarehouses(true);
+    try {
+      const result = await searchWarehouses(cityRef, formik.values.postOffice);
+      setWarehouses(result);
+    } catch (error) {
+      return error;
+    } finally {
+      setIsLoadingWarehouses(false);
+    }
+  };
 
-    const fetchWarehouses = async () => {
-      setIsLoadingWarehouses(true);
-      try {
-        const result = await searchWarehouses(
-          cityRef,
-          formik.values.postOffice
-        );
-        setWarehouses(result);
-      } catch (error) {
-        return error;
-      } finally {
-        setIsLoadingWarehouses(false);
-      }
-    };
+  const onCitiesLocationInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    formik.handleChange(e);
+    fetchCities(e.target.value);
+  };
 
+  const onWarehousesLocationInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    formik.handleChange(e);
     fetchWarehouses();
-  }, [formik.values.postOffice, cityRef]);
+  };
 
   return (
     <Form className="flex flex-col laptop:flex-row laptop:flex-wrap laptop:justify-between gap-y-4 w-full">
@@ -116,6 +121,9 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
           description: city.Description,
         }))}
         isLoading={isLoadingCities}
+        isDropDownOpen={isCitiesDropDownOpen}
+        setIsDropDownOpen={setIsCitiesDropDownOpen}
+        onChange={onCitiesLocationInputChange}
         onSelect={(city) => {
           formik.setFieldValue("city", city.description);
           setCityRef(city.key);
@@ -133,6 +141,9 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
           description: wh.Description,
         }))}
         isLoading={isLoadingWarehouses}
+        isDropDownOpen={isWarehousesDropDownOpen}
+        setIsDropDownOpen={setIsWarehousesDropDownOpen}
+        onChange={onWarehousesLocationInputChange}
         onSelect={(wh) => {
           formik.setFieldValue("postOffice", wh.description);
           setWarehouses([]);

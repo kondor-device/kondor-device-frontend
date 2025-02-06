@@ -8,18 +8,14 @@ export async function POST(req: Request) {
   try {
     const { query } = await req.json();
 
-    if (!query || query.length < 2) {
-      return NextResponse.json(
-        { error: "Query must be at least 2 characters long" },
-        { status: 400 }
-      );
-    }
+    const methodProperties =
+      query && query.length ? { FindByString: query } : {};
 
     const response = await axios.post(NOVA_POSHTA_API_URL, {
       apiKey: API_KEY,
       modelName: "Address",
       calledMethod: "getCities",
-      methodProperties: { FindByString: query },
+      methodProperties: methodProperties,
     });
 
     return NextResponse.json(response.data?.data || []);

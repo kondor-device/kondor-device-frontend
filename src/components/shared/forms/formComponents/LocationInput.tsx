@@ -1,5 +1,6 @@
 "use client";
 
+import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import Image from "next/image";
 import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
 import { FormikProps } from "formik";
@@ -17,7 +18,10 @@ interface LocationInputProps {
   formik: FormikProps<ValuesCheckoutFormType>;
   options: Option[];
   isLoading: boolean;
+  isDropDownOpen: boolean;
+  setIsDropDownOpen: Dispatch<SetStateAction<boolean>>;
   onSelect: (option: Option) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function LocationInput({
@@ -27,10 +31,39 @@ export default function LocationInput({
   formik,
   options,
   isLoading,
+  setIsDropDownOpen,
+  isDropDownOpen,
   onSelect,
+  onChange,
 }: LocationInputProps) {
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropDownOpen(false);
+      }
+    }
+
+    if (isDropDownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropDownOpen, setIsDropDownOpen]);
+
   return (
-    <div className="relative w-full laptop:w-[49%] deskxl:w-[31.5%]">
+    <div
+      ref={dropdownRef}
+      className="relative w-full laptop:w-[49%] deskxl:w-[31.5%]"
+    >
       <CustomizedInput
         fieldName={fieldName}
         label={label}
@@ -38,6 +71,8 @@ export default function LocationInput({
         placeholder={placeholder}
         errors={formik.errors}
         touched={formik.touched}
+        onChange={onChange}
+        onFocus={() => setIsDropDownOpen(true)}
       />
       {isLoading && (
         <Image
@@ -45,33 +80,30 @@ export default function LocationInput({
           alt="loader"
           width={24}
           height={24}
-          className="size-5 animate-rotation absolute right-3 top-1/2 transform -translate-y-1/2"
+          className="size-5 animate-rotation absolute right-3 top-[14px]"
         />
       )}
-      {options.length > 0 ? (
-        <ul
-          className="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-grey rounded-lg max-h-[270px] overflow-auto z-10 
-        text-12med laptop:text-14med deskxl:text-18med scrollbar scrollbar-w-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full 
-        scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll"
-        >
-          {options.map((item) => (
-            <li
-              key={item.key}
-              className="p-2 cursor-pointer hover:bg-lightGrey"
-              onClick={() => onSelect(item)}
-            >
-              {item.description}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div
-          className="absolute top-[calc(100%+4px)] left-0 z-10 w-full bg-white border border-grey rounded-lg py-5 px-2 text-grey text-center
-        text-12med laptop:text-14med deskxl:text-18med"
-        >
-          Нічого не знайдено
-        </div>
-      )}
+
+      <ul
+        className={`${
+          isDropDownOpen ? "block" : "hidden"
+        } absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-grey rounded-lg h-[220px] overflow-x-hidden overflow-y-auto z-50 
+        text-12med laptop:text-14med deskxl:text-18med scrollbar scrollbar-w-[2px] scrollbar-h-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full 
+        scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll`}
+      >
+        {options.map((item: Option) => (
+          <li
+            key={item.key}
+            className="p-2 cursor-pointer hover:bg-lightGrey"
+            onClick={() => {
+              onSelect(item);
+              setIsDropDownOpen(false);
+            }}
+          >
+            {item.description}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
