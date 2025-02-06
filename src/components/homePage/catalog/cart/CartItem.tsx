@@ -49,13 +49,15 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
         </IconButton>
         <div className="">
           <p className="w-fit ml-auto text-10med mob:text-12med deskxl:text-20med text-white">
-            {priceDiscount || price}
+            {!!priceDiscount && priceDiscount < price ? priceDiscount : price}
             {t("homePage.catalog.hrn")}
           </p>
-          <p className="w-fit ml-auto text-10med deskxl:text-16med text-grey line-through uppercase">
-            {price}
-            {t("homePage.catalog.hrn")}
-          </p>
+          {!!priceDiscount && priceDiscount < price ? (
+            <p className="w-fit ml-auto text-10med deskxl:text-16med text-grey line-through uppercase">
+              {price}
+              {t("homePage.catalog.hrn")}
+            </p>
+          ) : null}
         </div>
       </div>
     </li>
