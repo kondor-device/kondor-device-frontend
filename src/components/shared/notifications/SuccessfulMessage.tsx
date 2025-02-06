@@ -57,7 +57,7 @@ export default function SuccessfulMessage({
               <li
                 key={cartItem.uniqueId}
                 className="text-12semi laptop:text-18semi"
-              >{`– ${cartItem.generalName} ${cartItem.name}`}</li>
+              >{`– ${cartItem.generalName} ${cartItem.name}, колір: ${cartItem.color}`}</li>
             ))}
           </ul>
         </li>

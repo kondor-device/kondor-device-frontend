@@ -27,7 +27,10 @@ export const handleSubmitForm = async <T>(
     const orderNumber = generateOrderNumber();
     const totalSum = getTotalAmount();
     const orderedListProducts = cartItems
-      .map((cartItem) => `- ${cartItem.generalName} ${cartItem.name}`)
+      .map(
+        (cartItem) =>
+          `- ${cartItem.generalName} ${cartItem.name}, колір: ${cartItem.color}`
+      )
       .join("\n");
 
     const orderData = {
