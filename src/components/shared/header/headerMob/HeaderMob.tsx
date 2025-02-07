@@ -10,7 +10,9 @@ export default function HeaderMob() {
   const toggleHeaderMenuOpen = () => setIsHeaderMenuOpened(!isHeaderMenuOpened);
 
   return (
-    <div className={`tabxl:hidden w-full h-[82px] bg-white`}>
+    <div
+      className={`relative tabxl:hidden w-full h-[82px] bg-white overflow-x-clip`}
+    >
       <div className="container flex items-center justify-between max-w-[1920px] h-full">
         <LogoLink
           className="relative z-[60] w-[152px]"
