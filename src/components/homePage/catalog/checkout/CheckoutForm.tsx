@@ -2,25 +2,25 @@
 import { Form, FormikProps } from "formik";
 import { throttle } from "lodash";
 import { useTranslations } from "next-intl";
-import { Dispatch, SetStateAction, useState, useCallback } from "react";
+import { Dispatch, SetStateAction } from "react";
 // import MaskedInput from "react-text-mask";
 // import { PHONE_NUMBER_MASK } from "@/constants/constants";
-// import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
+import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
 import RadioButtonInput from "@/components/shared/forms/formComponents/RadioButtonInput";
 import { ValuesCheckoutFormType } from "./CheckoutPopUp";
 import { searchCities } from "@/utils/searchCities";
 import { searchWarehouses } from "@/utils/searchWarehouses";
-import LocationInput from "@/components/shared/forms/formComponents/LocationInput";
+// import LocationInput from "@/components/shared/forms/formComponents/LocationInput";
 
-interface City {
-  Ref: string;
-  Description: string;
-}
+// interface City {
+//   Ref: string;
+//   Description: string;
+// }
 
-interface Warehouse {
-  SiteKey: string;
-  Description: string;
-}
+// interface Warehouse {
+//   SiteKey: string;
+//   Description: string;
+// }
 
 interface CheckoutFormProps {
   formik: FormikProps<ValuesCheckoutFormType>;
@@ -32,72 +32,72 @@ interface CheckoutFormProps {
 export default function CheckoutForm({ formik }: CheckoutFormProps) {
   const t = useTranslations();
 
-  const [cities, setCities] = useState<City[]>([]);
-  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
-  const [cityRef, setCityRef] = useState<string | null>(null);
-  const [isLoadingCities, setIsLoadingCities] = useState(false);
-  const [isLoadingWarehouses, setIsLoadingWarehouses] = useState(false);
-  const [isCitiesDropDownOpen, setIsCitiesDropDownOpen] = useState(false);
-  const [isWarehousesDropDownOpen, setIsWarehousesDropDownOpen] =
-    useState(false);
+  // const [cities, setCities] = useState<City[]>([]);
+  // const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+  // const [cityRef, setCityRef] = useState<string | null>(null);
+  // const [isLoadingCities, setIsLoadingCities] = useState(false);
+  // const [isLoadingWarehouses, setIsLoadingWarehouses] = useState(false);
+  // const [isCitiesDropDownOpen, setIsCitiesDropDownOpen] = useState(false);
+  // const [isWarehousesDropDownOpen, setIsWarehousesDropDownOpen] =
+  //   useState(false);
 
-  const throttledFetchCities = throttle(async (city: string) => {
-    setIsLoadingCities(true);
-    try {
-      const result = await searchCities(city);
-      setCities(result);
-    } catch (error) {
-      console.error("Помилка при пошуку міст:", error);
-    } finally {
-      setIsLoadingCities(false);
-    }
-  }, 500);
+  // const throttledFetchCities = throttle(async (city: string) => {
+  //   setIsLoadingCities(true);
+  //   try {
+  //     const result = await searchCities(city);
+  //     setCities(result);
+  //   } catch (error) {
+  //     console.error("Помилка при пошуку міст:", error);
+  //   } finally {
+  //     setIsLoadingCities(false);
+  //   }
+  // }, 500);
 
-  const fetchCities = useCallback(
-    (city: string) => {
-      throttledFetchCities(city);
-    },
-    [throttledFetchCities]
-  );
+  // const fetchCities = useCallback(
+  //   (city: string) => {
+  //     throttledFetchCities(city);
+  //   },
+  //   [throttledFetchCities]
+  // );
 
-  const throttledFetchWarehouses = throttle(
-    async (cityRef: string, postOffice: string) => {
-      if (!cityRef) return;
-      setIsLoadingWarehouses(true);
-      try {
-        const result = await searchWarehouses(cityRef, postOffice);
-        setWarehouses(result);
-      } catch (error) {
-        console.error("Помилка при пошуку відділень:", error);
-      } finally {
-        setIsLoadingWarehouses(false);
-      }
-    },
-    500
-  );
+  // const throttledFetchWarehouses = throttle(
+  //   async (cityRef: string, postOffice: string) => {
+  //     if (!cityRef) return;
+  //     setIsLoadingWarehouses(true);
+  //     try {
+  //       const result = await searchWarehouses(cityRef, postOffice);
+  //       setWarehouses(result);
+  //     } catch (error) {
+  //       console.error("Помилка при пошуку відділень:", error);
+  //     } finally {
+  //       setIsLoadingWarehouses(false);
+  //     }
+  //   },
+  //   500
+  // );
 
-  const fetchWarehouses = useCallback(() => {
-    if (!cityRef) return;
-    throttledFetchWarehouses(cityRef, formik.values.postOffice);
-  }, [cityRef, formik.values.postOffice, throttledFetchWarehouses]);
+  // const fetchWarehouses = useCallback(() => {
+  //   if (!cityRef) return;
+  //   throttledFetchWarehouses(cityRef, formik.values.postOffice);
+  // }, [cityRef, formik.values.postOffice, throttledFetchWarehouses]);
 
-  const onCitiesLocationInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    formik.handleChange(e);
-    fetchCities(e.target.value);
-  };
+  // const onCitiesLocationInputChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   formik.handleChange(e);
+  //   fetchCities(e.target.value);
+  // };
 
-  const onWarehousesLocationInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    formik.handleChange(e);
-    fetchWarehouses();
-  };
+  // const onWarehousesLocationInputChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   formik.handleChange(e);
+  //   fetchWarehouses();
+  // };
 
   return (
     <Form className="flex flex-col laptop:flex-row laptop:flex-wrap laptop:justify-between gap-y-4 w-full">
-      {/* <CustomizedInput
+      <CustomizedInput
         fieldName="name"
         label={t("forms.name")}
         required={true}
@@ -115,7 +115,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         touched={formik.touched}
         labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
       />
-      <CustomizedInput
+      {/* <CustomizedInput
         fieldName="phone"
         label={t("forms.phone")}
         required={true}
@@ -127,7 +127,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
       /> */}
 
-      <LocationInput
+      {/* <LocationInput
         fieldName="city"
         label={t("forms.city")}
         placeholder={t("forms.city")}
@@ -174,8 +174,8 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
             fetchWarehouses();
           }
         }}
-      />
-      {/* <CustomizedInput
+      /> */}
+      <CustomizedInput
         fieldName="promocode"
         label={t("forms.promocode")}
         required={true}
@@ -183,7 +183,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         errors={formik.errors}
         touched={formik.touched}
         labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
-      /> */}
+      />
 
       <div
         role="group"

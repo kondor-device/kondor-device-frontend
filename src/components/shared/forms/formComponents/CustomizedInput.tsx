@@ -3,7 +3,7 @@
 import { ErrorMessage, Field, FormikErrors, FormikTouched } from "formik";
 import React from "react";
 import MaskedInput from "react-text-mask";
-import { useFormikContext } from "formik";
+// import { useFormikContext } from "formik";
 
 interface Values {
   [fieldName: string]: string;
@@ -43,10 +43,10 @@ export default function CustomizedInput({
   wrapperClassName = "",
   fieldClassName = "",
   mask = "",
-  onChange,
-  onFocus,
-}: CustomizedInputProps) {
-  const { handleChange } = useFormikContext();
+}: // onChange,
+// onFocus,
+CustomizedInputProps) {
+  // const { handleChange } = useFormikContext();
 
   return (
     <label className={`${labelStyles} ${labelClassName}`}>
@@ -64,8 +64,8 @@ export default function CustomizedInput({
           type="text"
           autoComplete="on"
           placeholder={placeholder}
-          onFocus={onFocus || (() => {})}
-          onChange={onChange || handleChange}
+          // onFocus={onFocus || (() => {})}
+          // onChange={onChange || handleChange}
           className={`${fieldStyles} ${fieldClassName} ${
             errors[fieldName] && touched[fieldName]
               ? "border-inputErrorLight"
