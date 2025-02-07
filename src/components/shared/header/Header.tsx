@@ -1,6 +1,6 @@
 import React from "react";
 import HeaderDesk from "./HeaderDesk";
-import HeaderMob from "./navMenu/headerMob/HeaderMob";
+import HeaderMob from "./headerMob/HeaderMob";
 
 export default function Header() {
   return (

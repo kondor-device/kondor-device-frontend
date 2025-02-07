@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 
-import NavMenu from "../NavMenu";
+import NavMenu from "../../navMenu/NavMenu";
 import SocialLinksList from "../../socialLinks/SocialLinksList";
 
 interface BurgerMenuMobTabProps {

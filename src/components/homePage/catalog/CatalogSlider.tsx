@@ -34,7 +34,7 @@ export default function CatalogSlider({
   const [isCheckoutPopUpShown, setIsCheckoutPopUpShown] = useState(false);
 
   return (
-    <li id={title || ""} className="scroll-mt-[102px] tab:scroll-mt-[133px]">
+    <li id={title || ""}>
       <h2 className="container w-full max-w-[1920px] mb-[30px] text-22bold laptop:text-40bold text-center">
         {title}
       </h2>
