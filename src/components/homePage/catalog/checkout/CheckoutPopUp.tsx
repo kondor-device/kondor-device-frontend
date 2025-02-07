@@ -1,14 +1,14 @@
 "use client";
 import Modal from "@/components/shared/modal/Modal";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Formik, FormikHelpers } from "formik";
 import CartItemsList from "../cart/cartProducts/CartItemsList";
 import { useTranslations } from "next-intl";
 // import SubmitButton from "@/components/shared/forms/formComponents/SubmitButton";
 // import Button from "@/components/shared/buttons/Button";
 import { CheckoutValidation } from "@/schemas/checkoutFormValidation";
-// import FormWithNotifications from "./FormWithNotifications";
-// import { handleSubmitForm } from "@/utils/handleSubmitForm";
+import FormWithNotifications from "./FormWithNotifications";
+import { handleSubmitForm } from "@/utils/handleSubmitForm";
 
 interface CheckoutPopUpProps {
   isCheckoutPopUpShown: boolean;
@@ -30,9 +30,9 @@ export default function CheckoutPopUp({
   setIsCheckoutPopUpShown,
 }: CheckoutPopUpProps) {
   const t = useTranslations();
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [isError, setIsError] = useState(false);
-  // const [isNotificationShown, setIsNotificationShown] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isNotificationShown, setIsNotificationShown] = useState(false);
 
   const initialValues: ValuesCheckoutFormType = {
     name: "",
@@ -44,14 +44,22 @@ export default function CheckoutPopUp({
     payment: "Онлайн оплата (Wayforpay)",
   };
 
+  console.log(isLoading);
+
   const validationSchema = CheckoutValidation();
 
   const submitForm = async (
     values: ValuesCheckoutFormType,
     formikHelpers: FormikHelpers<ValuesCheckoutFormType>
   ) => {
-    //
-    console.log(values, formikHelpers);
+    await handleSubmitForm<ValuesCheckoutFormType>(
+      formikHelpers,
+      setIsLoading,
+      setIsError,
+      setIsCheckoutPopUpShown,
+      setIsNotificationShown,
+      values
+    );
   };
 
   return (
@@ -65,14 +73,14 @@ export default function CheckoutPopUp({
         validationSchema={validationSchema}
         onSubmit={submitForm}
       >
-        {() => (
+        {(formik) => (
           <>
             <h3 className="mb-5 laptop:mb-[30px] deskxl:mb-[60px] text-16semi laptop:text-20bold deskxl:text-24bold">
               {t("homePage.catalog.checkout")}
             </h3>
             <div className="laptop:flex flex-row-reverse justify-between">
               <CartItemsList />
-              {/* <div className="laptop:w-[57%] laptop:my-auto">
+              <div className="laptop:w-[57%] laptop:my-auto">
                 <h3 className="my-5 laptop:mt-0 laptop:mb-5 mb-[30px] text-14bold laptop:text-16bold deskxl:text-20bold">
                   {t("homePage.catalog.yourData")}
                 </h3>
@@ -84,7 +92,7 @@ export default function CheckoutPopUp({
                   setIsError={setIsError}
                   setIsNotificationShown={setIsNotificationShown}
                 />
-              </div> */}
+              </div>
             </div>
             {/* <div className="flex flex-col laptop:flex-row-reverse laptop:justify-between laptop:items-center gap-y-5 w-full mx-auto mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
               <SubmitButton
