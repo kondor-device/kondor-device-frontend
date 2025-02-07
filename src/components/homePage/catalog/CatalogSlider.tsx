@@ -18,14 +18,9 @@ import EmptyCategory from "./EmptyCategory";
 interface CatalogSliderProps {
   title: string;
   products: ProductItem[];
-  shownOnAddonsProducts: ProductItem[];
 }
 
-export default function CatalogSlider({
-  title,
-  products,
-  shownOnAddonsProducts,
-}: CatalogSliderProps) {
+export default function CatalogSlider({ title, products }: CatalogSliderProps) {
   const [isCharacteristicsPopUpShown, setIsCharacteristicsPopUpShown] =
     useState(false);
   const [isComplectationPopUpShown, setIsComplectationPopUpShown] =
@@ -66,11 +61,6 @@ export default function CatalogSlider({
                 setIsCharacteristicsPopUpShown={setIsCharacteristicsPopUpShown}
                 isComplectationPopUpShown={isComplectationPopUpShown}
                 setIsComplectationPopUpShown={setIsComplectationPopUpShown}
-                isCartPopUpShown={isCartPopUpShown}
-                setIsCartPopUpShown={setIsCartPopUpShown}
-                shownOnAddonsProducts={shownOnAddonsProducts}
-                isCheckoutPopUpShown={isCheckoutPopUpShown}
-                setIsCheckoutPopUpShown={setIsCheckoutPopUpShown}
               />
             </SwiperSlide>
           ))}

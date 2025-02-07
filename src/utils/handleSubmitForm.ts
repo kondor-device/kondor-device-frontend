@@ -12,7 +12,7 @@ export const handleSubmitForm = async <T>(
   { resetForm }: FormikHelpers<T>,
   setIsLoading: Dispatch<SetStateAction<boolean>>,
   setIsError: Dispatch<SetStateAction<boolean>>,
-  setIsCheckoutPopUpShown: Dispatch<SetStateAction<boolean>>,
+  setIsCheckoutPopUpShown: (value: boolean) => void,
   setIsNotificationShown: Dispatch<SetStateAction<boolean>>,
   values: ValuesCheckoutFormType
 ) => {

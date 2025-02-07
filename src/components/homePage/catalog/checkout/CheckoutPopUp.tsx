@@ -1,6 +1,6 @@
 "use client";
 import Modal from "@/components/shared/modal/Modal";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { Formik, FormikHelpers } from "formik";
 import CartItemsList from "../cart/cartProducts/CartItemsList";
 import { useTranslations } from "next-intl";
@@ -9,11 +9,7 @@ import Button from "@/components/shared/buttons/Button";
 import { CheckoutValidation } from "@/schemas/checkoutFormValidation";
 import FormWithNotifications from "./FormWithNotifications";
 import { handleSubmitForm } from "@/utils/handleSubmitForm";
-
-interface CheckoutPopUpProps {
-  isCheckoutPopUpShown: boolean;
-  setIsCheckoutPopUpShown: Dispatch<SetStateAction<boolean>>;
-}
+import { usePopUpStore } from "@/store/popUpStore";
 
 export interface ValuesCheckoutFormType {
   name: string;
@@ -25,14 +21,13 @@ export interface ValuesCheckoutFormType {
   payment: string;
 }
 
-export default function CheckoutPopUp({
-  isCheckoutPopUpShown,
-  setIsCheckoutPopUpShown,
-}: CheckoutPopUpProps) {
+export default function CheckoutPopUp() {
   const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isNotificationShown, setIsNotificationShown] = useState(false);
+
+  const { isCheckoutPopUpShown, setIsCheckoutPopUpShown } = usePopUpStore();
 
   const initialValues: ValuesCheckoutFormType = {
     name: "",

@@ -1,18 +1,12 @@
 "use client";
-import React, {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import IconButton from "../buttons/IconButton";
 import IconClose from "../icons/IconCLose";
 
 interface ModalProps {
   isPopUpShown: boolean;
-  setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
+  setIsPopUpShown: (value: boolean) => void;
   children: ReactNode;
   className?: string;
 }
