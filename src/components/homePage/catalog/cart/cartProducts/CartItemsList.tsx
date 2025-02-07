@@ -23,7 +23,9 @@ export default function CartItemsList() {
             <CartProductItem key={cartItem.uniqueId} cartItem={cartItem} />
           ))}
         </ul>
-      ) : null}
+      ) : (
+        <div className="h-[150px] laptop:h-[225px] deskxl:h-[265px]"></div>
+      )}
       <div className="flex justify-between mt-[15px] deskxl:mt-[30px] pt-3 deskxl:pt-[20px] pr-[15px] deskxl:pr-[30px] border-t border-white border-opacity-80 text-white">
         <p className="text-12med laptop:text-14med deskxl:text-24med">
           {t("homePage.catalog.totalSum")}
