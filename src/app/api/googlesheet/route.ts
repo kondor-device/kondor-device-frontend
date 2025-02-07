@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { sendDataToGoogleSheet } from "@/utils/sendDataToGoogleSheet";
 
-const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID || "";
+const SPREADSHEET_ID = process.env.SPREADSHEET_ID || "";
 
 const RANGE = "Аркуш1!A2";
 
