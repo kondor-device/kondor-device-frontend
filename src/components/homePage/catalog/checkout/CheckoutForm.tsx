@@ -5,9 +5,10 @@ import { useTranslations } from "next-intl";
 import { Dispatch, SetStateAction } from "react";
 // import MaskedInput from "react-text-mask";
 // import { PHONE_NUMBER_MASK } from "@/constants/constants";
-import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
+// import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
 import RadioButtonInput from "@/components/shared/forms/formComponents/RadioButtonInput";
 import { ValuesCheckoutFormType } from "./CheckoutPopUp";
+import NewInput from "@/components/shared/forms/formComponents/NewInput";
 // import { searchCities } from "@/utils/searchCities";
 // import { searchWarehouses } from "@/utils/searchWarehouses";
 // import LocationInput from "@/components/shared/forms/formComponents/LocationInput";
@@ -97,16 +98,15 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
 
   return (
     <Form className="flex flex-col laptop:flex-row laptop:flex-wrap laptop:justify-between gap-y-4 w-full">
-      <CustomizedInput
+      <NewInput
         fieldName="name"
         label={t("forms.name")}
-        required={true}
         placeholder={t("forms.name")}
         errors={formik.errors}
         touched={formik.touched}
-        labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
+        // labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
       />
-      <CustomizedInput
+      {/* <CustomizedInput
         fieldName="surname"
         label={t("forms.surname")}
         required={true}
@@ -114,7 +114,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         errors={formik.errors}
         touched={formik.touched}
         labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
-      />
+      /> */}
       {/* <CustomizedInput
         fieldName="phone"
         label={t("forms.phone")}
@@ -175,7 +175,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
           }
         }}
       /> */}
-      <CustomizedInput
+      {/* <CustomizedInput
         fieldName="promocode"
         label={t("forms.promocode")}
         required={true}
@@ -183,7 +183,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         errors={formik.errors}
         touched={formik.touched}
         labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
-      />
+      /> */}
 
       <div
         role="group"
