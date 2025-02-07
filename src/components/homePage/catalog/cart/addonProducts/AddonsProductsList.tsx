@@ -1,7 +1,7 @@
 import { ProductItem } from "@/types/productItem";
 import React from "react";
 import { useTranslations } from "next-intl";
-import AddonsSliderMob from "./AddonsSliderMob";
+// import AddonsSliderMob from "./AddonsSliderMob";
 import AddonsListDesk from "./AddonsListDesk";
 
 interface AddonsProductsListProps {
