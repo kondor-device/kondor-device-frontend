@@ -9,11 +9,11 @@ import "./sliderStyles.css";
 import React, { useState } from "react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-// import ProductCard from "./productCard/ProductCard";
+import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
 import CartButton from "./CartButton";
-// import EmptyCategory from "./EmptyCategory";
+import EmptyCategory from "./EmptyCategory";
 
 interface CatalogSliderProps {
   title: string;
@@ -23,9 +23,9 @@ interface CatalogSliderProps {
 
 export default function CatalogSlider({
   title,
-}: // products,
-// shownOnAddonsProducts,
-CatalogSliderProps) {
+  products,
+  shownOnAddonsProducts,
+}: CatalogSliderProps) {
   const [isCharacteristicsPopUpShown, setIsCharacteristicsPopUpShown] =
     useState(false);
   const [isComplectationPopUpShown, setIsComplectationPopUpShown] =
@@ -33,34 +33,36 @@ CatalogSliderProps) {
   const [isCartPopUpShown, setIsCartPopUpShown] = useState(false);
   const [isCheckoutPopUpShown, setIsCheckoutPopUpShown] = useState(false);
 
+  console.log(products);
+
   return (
     <li id={title || ""} className="scroll-mt-[102px] tab:scroll-mt-[133px]">
       <h2 className="container w-full max-w-[1920px] mb-[30px] text-22bold laptop:text-40bold text-center">
         {title}
       </h2>
-      {/* {products.length ? ( */}
-      <Swiper
-        centeredSlides={true}
-        slidesPerView="auto"
-        breakpoints={{
-          0: {
-            spaceBetween: 10,
-          },
-          440: {
-            spaceBetween: 30,
-          },
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        loop={true}
-        speed={1000}
-        modules={[Pagination, Navigation]}
-      >
-        {/* {products.map((product, idx) => ( */}
-        <SwiperSlide>
-          {/* <ProductCard
+      {products.length > 0 ? (
+        <Swiper
+          centeredSlides={true}
+          slidesPerView="auto"
+          breakpoints={{
+            0: {
+              spaceBetween: 10,
+            },
+            440: {
+              spaceBetween: 30,
+            },
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          loop={true}
+          speed={1000}
+          modules={[Pagination, Navigation]}
+        >
+          {products.map((product, idx) => (
+            <SwiperSlide key={idx}>
+              <ProductCard
                 product={product}
                 isCharacteristicsPopUpShown={isCharacteristicsPopUpShown}
                 setIsCharacteristicsPopUpShown={setIsCharacteristicsPopUpShown}
@@ -71,15 +73,13 @@ CatalogSliderProps) {
                 shownOnAddonsProducts={shownOnAddonsProducts}
                 isCheckoutPopUpShown={isCheckoutPopUpShown}
                 setIsCheckoutPopUpShown={setIsCheckoutPopUpShown}
-              /> */}
-          1
-        </SwiperSlide>
-        <SwiperSlide>2</SwiperSlide>
-        {/* ))} */}
-      </Swiper>
-      {/* ) : (
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      ) : (
         <EmptyCategory />
-      )} */}
+      )}
       <Backdrop
         isVisible={
           isCharacteristicsPopUpShown ||

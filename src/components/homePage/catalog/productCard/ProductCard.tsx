@@ -8,9 +8,9 @@ import ColorPicker from "./ColorPicker";
 import CardTitle from "./CardTitle";
 import Characteristics from "./characteristics/Characteristics";
 import Complectation from "./complectation/Complectation";
-import { useCartStore } from "@/store/cartStore";
-import Cart from "../cart/Cart";
-import { v4 as uuidv4 } from "uuid";
+// import { useCartStore } from "@/store/cartStore";
+// import Cart from "../cart/Cart";
+// import { v4 as uuidv4 } from "uuid";
 
 interface ProductCardProps {
   product: ProductItem;
@@ -27,25 +27,25 @@ interface ProductCardProps {
 
 export default function ProductCard({
   product,
-  shownOnAddonsProducts,
+  // shownOnAddonsProducts,
   isCharacteristicsPopUpShown,
   setIsCharacteristicsPopUpShown,
   isComplectationPopUpShown,
   setIsComplectationPopUpShown,
-  isCartPopUpShown,
-  setIsCartPopUpShown,
-  isCheckoutPopUpShown,
-  setIsCheckoutPopUpShown,
-}: ProductCardProps) {
+}: // isCartPopUpShown,
+// setIsCartPopUpShown,
+// isCheckoutPopUpShown,
+// setIsCheckoutPopUpShown,
+ProductCardProps) {
   const t = useTranslations();
 
-  const { addToCart } = useCartStore();
+  // const { addToCart } = useCartStore();
 
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
 
   const {
-    id,
+    // id,
     generalname,
     name,
     price,
@@ -61,20 +61,20 @@ export default function ProductCard({
     0
   );
 
-  const onAddToCart = () => {
-    addToCart({
-      id,
-      uniqueId: uuidv4(),
-      generalName: generalname,
-      name,
-      priceDiscount,
-      price,
-      image: coloropts[selectedColorIndex]?.photos[0],
-      color: coloropts[selectedColorIndex]?.color,
-      quantity: 1,
-    });
-    setIsCartPopUpShown(true);
-  };
+  // const onAddToCart = () => {
+  //   addToCart({
+  //     id,
+  //     uniqueId: uuidv4(),
+  //     generalName: generalname,
+  //     name,
+  //     priceDiscount,
+  //     price,
+  //     image: coloropts[selectedColorIndex]?.photos[0],
+  //     color: coloropts[selectedColorIndex]?.color,
+  //     quantity: 1,
+  //   });
+  //   setIsCartPopUpShown(true);
+  // };
 
   return (
     <div
@@ -125,14 +125,14 @@ export default function ProductCard({
             complectation={complect}
           />
         </div>
-        <Cart
+        {/* <Cart
           onPlaceOrder={onAddToCart}
           isPopUpShown={isCartPopUpShown}
           setIsPopUpShown={setIsCartPopUpShown}
           isCheckoutPopUpShown={isCheckoutPopUpShown}
           setIsCheckoutPopUpShown={setIsCheckoutPopUpShown}
           shownOnAddonsProducts={shownOnAddonsProducts}
-        />
+        /> */}
       </div>
     </div>
   );
