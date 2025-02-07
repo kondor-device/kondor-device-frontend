@@ -1,6 +1,6 @@
 "use client";
 import { Form, FormikProps } from "formik";
-import { throttle } from "lodash";
+// import { throttle } from "lodash";
 import { useTranslations } from "next-intl";
 import { Dispatch, SetStateAction } from "react";
 // import MaskedInput from "react-text-mask";
@@ -8,8 +8,8 @@ import { Dispatch, SetStateAction } from "react";
 import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
 import RadioButtonInput from "@/components/shared/forms/formComponents/RadioButtonInput";
 import { ValuesCheckoutFormType } from "./CheckoutPopUp";
-import { searchCities } from "@/utils/searchCities";
-import { searchWarehouses } from "@/utils/searchWarehouses";
+// import { searchCities } from "@/utils/searchCities";
+// import { searchWarehouses } from "@/utils/searchWarehouses";
 // import LocationInput from "@/components/shared/forms/formComponents/LocationInput";
 
 // interface City {
