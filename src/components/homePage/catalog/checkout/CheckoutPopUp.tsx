@@ -1,3 +1,4 @@
+"use client";
 import Modal from "@/components/shared/modal/Modal";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { Formik, FormikHelpers } from "formik";

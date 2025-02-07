@@ -5,9 +5,9 @@ import Modal from "@/components/shared/modal/Modal";
 import CartItemsList from "./cartProducts/CartItemsList";
 import { ProductItem } from "@/types/productItem";
 import AddonsProductsList from "./addonProducts/AddonsProductsList";
-// import Button from "@/components/shared/buttons/Button";
-// import { useTranslations } from "next-intl";
-// import Checkout from "../checkout/Checkout";
+import Button from "@/components/shared/buttons/Button";
+import { useTranslations } from "next-intl";
+import Checkout from "../checkout/Checkout";
 
 interface CartPopUpProps {
   shownOnAddonsProducts: ProductItem[];
@@ -21,15 +21,15 @@ export default function CartPopUp({
   shownOnAddonsProducts,
   isCartPopUpShown,
   setIsCartPopUpShown,
-}: // isCheckoutPopUpShown,
-// setIsCheckoutPopUpShown,
-CartPopUpProps) {
-  // const t = useTranslations("buttons");
+  isCheckoutPopUpShown,
+  setIsCheckoutPopUpShown,
+}: CartPopUpProps) {
+  const t = useTranslations("buttons");
 
-  // const onCheckoutClick = () => {
-  //   setIsCartPopUpShown(false);
-  //   setIsCheckoutPopUpShown(true);
-  // };
+  const onCheckoutClick = () => {
+    setIsCartPopUpShown(false);
+    setIsCheckoutPopUpShown(true);
+  };
 
   return (
     <>
@@ -42,7 +42,7 @@ CartPopUpProps) {
           <CartItemsList />
           <AddonsProductsList shownOnAddonsProducts={shownOnAddonsProducts} />
         </div>
-        {/* <div className="flex flex-col laptop:flex-row-reverse laptop:justify-between gap-y-5 w-fit laptop:w-full mx-auto mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
+        <div className="flex flex-col laptop:flex-row-reverse laptop:justify-between gap-y-5 w-fit laptop:w-full mx-auto mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
           <Checkout
             onCheckoutClick={onCheckoutClick}
             isCheckoutPopUpShown={isCheckoutPopUpShown}
@@ -55,7 +55,7 @@ CartPopUpProps) {
           >
             {t("continueShopping")}
           </Button>
-        </div> */}
+        </div>
       </Modal>
     </>
   );
