@@ -60,8 +60,8 @@ export default function CatalogSlider({
           speed={1000}
           modules={[Pagination, Navigation]}
         >
-          {products.map((product, idx) => (
-            <SwiperSlide key={idx}>
+          {products.map((product) => (
+            <SwiperSlide key={product?.id}>
               <ProductCard
                 product={product}
                 isCharacteristicsPopUpShown={isCharacteristicsPopUpShown}
