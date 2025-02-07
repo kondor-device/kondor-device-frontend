@@ -9,11 +9,11 @@ import "./sliderStyles.css";
 import React, { useState } from "react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import ProductCard from "./productCard/ProductCard";
+// import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
 import CartButton from "./CartButton";
-import EmptyCategory from "./EmptyCategory";
+// import EmptyCategory from "./EmptyCategory";
 
 interface CatalogSliderProps {
   title: string;
@@ -23,9 +23,9 @@ interface CatalogSliderProps {
 
 export default function CatalogSlider({
   title,
-  products,
-  shownOnAddonsProducts,
-}: CatalogSliderProps) {
+}: // products,
+// shownOnAddonsProducts,
+CatalogSliderProps) {
   const [isCharacteristicsPopUpShown, setIsCharacteristicsPopUpShown] =
     useState(false);
   const [isComplectationPopUpShown, setIsComplectationPopUpShown] =
@@ -38,29 +38,29 @@ export default function CatalogSlider({
       <h2 className="container w-full max-w-[1920px] mb-[30px] text-22bold laptop:text-40bold text-center">
         {title}
       </h2>
-      {products.length ? (
-        <Swiper
-          centeredSlides={true}
-          slidesPerView="auto"
-          breakpoints={{
-            0: {
-              spaceBetween: 10,
-            },
-            440: {
-              spaceBetween: 30,
-            },
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          loop={true}
-          speed={1000}
-          modules={[Pagination, Navigation]}
-        >
-          {products.map((product, idx) => (
-            <SwiperSlide key={idx}>
-              <ProductCard
+      {/* {products.length ? ( */}
+      <Swiper
+        centeredSlides={true}
+        slidesPerView="auto"
+        breakpoints={{
+          0: {
+            spaceBetween: 10,
+          },
+          440: {
+            spaceBetween: 30,
+          },
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        loop={true}
+        speed={1000}
+        modules={[Pagination, Navigation]}
+      >
+        {/* {products.map((product, idx) => ( */}
+        <SwiperSlide>
+          {/* <ProductCard
                 product={product}
                 isCharacteristicsPopUpShown={isCharacteristicsPopUpShown}
                 setIsCharacteristicsPopUpShown={setIsCharacteristicsPopUpShown}
@@ -71,13 +71,15 @@ export default function CatalogSlider({
                 shownOnAddonsProducts={shownOnAddonsProducts}
                 isCheckoutPopUpShown={isCheckoutPopUpShown}
                 setIsCheckoutPopUpShown={setIsCheckoutPopUpShown}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      ) : (
+              /> */}
+          1
+        </SwiperSlide>
+        <SwiperSlide>2</SwiperSlide>
+        {/* ))} */}
+      </Swiper>
+      {/* ) : (
         <EmptyCategory />
-      )}
+      )} */}
       <Backdrop
         isVisible={
           isCharacteristicsPopUpShown ||
