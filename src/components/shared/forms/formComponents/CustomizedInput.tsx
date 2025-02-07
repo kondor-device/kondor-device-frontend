@@ -1,3 +1,5 @@
+"use client";
+
 import { ErrorMessage, Field, FormikErrors, FormikTouched } from "formik";
 import React from "react";
 import MaskedInput from "react-text-mask";
@@ -62,7 +64,7 @@ export default function CustomizedInput({
           type="text"
           autoComplete="on"
           placeholder={placeholder}
-          onFocus={onFocus}
+          onFocus={onFocus || (() => {})}
           onChange={onChange || handleChange}
           className={`${fieldStyles} ${fieldClassName} ${
             errors[fieldName] && touched[fieldName]
