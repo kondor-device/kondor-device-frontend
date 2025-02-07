@@ -38,10 +38,11 @@ export default function CatalogSlider({
       <h2 className="container w-full max-w-[1920px] mb-[30px] text-22bold laptop:text-40bold text-center">
         {title}
       </h2>
-      {products.length > 5 ? (
+      {products.length ? (
         <Swiper
           centeredSlides={true}
           slidesPerView="auto"
+          loopAdditionalSlides={5}
           breakpoints={{
             0: {
               spaceBetween: 10,
