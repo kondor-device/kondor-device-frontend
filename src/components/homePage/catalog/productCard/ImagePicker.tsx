@@ -18,7 +18,7 @@ export default function ImagePicker({
     <div className="flex flex-col deskxl:flex-row deskxl:justify-between gap-y-3 deskxl:gap-x-5 laptop:max-w-[340px] deskxl:max-w-full h-full deskxl:max-h-[466px]">
       <div
         className="flex justify-between items-center max-w-[306px] laptop:max-w-[340px] laptop:size-[340px] deskxl:max-w-[466px] deskxl:size-[466px] bg-grey 
-  aspect-[1/1] rounded-[11px] laptop:rounded-[40px]"
+  aspect-[1/1] rounded-[11px] laptop:rounded-[40px] overflow-hidden"
       >
         <Image
           src={photos[selectedPhotoIndex]?.url || "/images/icons/logoSmall.svg"}
