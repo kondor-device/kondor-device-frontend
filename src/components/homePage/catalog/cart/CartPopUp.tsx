@@ -8,6 +8,7 @@ import AddonsProductsList from "./addonProducts/AddonsProductsList";
 import Button from "@/components/shared/buttons/Button";
 import { useTranslations } from "next-intl";
 import { usePopUpStore } from "@/store/popUpStore";
+import Backdrop from "@/components/shared/backdrop/Backdrop";
 
 interface CartPopUpProps {
   shownOnAddonsProducts: ProductItem[];
@@ -51,6 +52,12 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
           </Button>
         </div>
       </Modal>
+      <Backdrop
+        isVisible={isCartPopUpShown}
+        onClick={() => {
+          setIsCartPopUpShown(false);
+        }}
+      />
     </>
   );
 }

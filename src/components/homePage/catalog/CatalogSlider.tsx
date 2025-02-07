@@ -12,7 +12,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
-import CartButton from "./CartButton";
 import EmptyCategory from "./EmptyCategory";
 
 interface CatalogSliderProps {
@@ -25,8 +24,6 @@ export default function CatalogSlider({ title, products }: CatalogSliderProps) {
     useState(false);
   const [isComplectationPopUpShown, setIsComplectationPopUpShown] =
     useState(false);
-  const [isCartPopUpShown, setIsCartPopUpShown] = useState(false);
-  const [isCheckoutPopUpShown, setIsCheckoutPopUpShown] = useState(false);
 
   return (
     <li id={title || ""}>
@@ -69,20 +66,12 @@ export default function CatalogSlider({ title, products }: CatalogSliderProps) {
         <EmptyCategory />
       )}
       <Backdrop
-        isVisible={
-          isCharacteristicsPopUpShown ||
-          isComplectationPopUpShown ||
-          isCartPopUpShown ||
-          isCheckoutPopUpShown
-        }
+        isVisible={isCharacteristicsPopUpShown || isComplectationPopUpShown}
         onClick={() => {
           setIsCharacteristicsPopUpShown(false);
           setIsComplectationPopUpShown(false);
-          setIsCartPopUpShown(false);
-          setIsCheckoutPopUpShown(false);
         }}
       />
-      <CartButton setIsCartPopUpShown={setIsCartPopUpShown} />
     </li>
   );
 }
