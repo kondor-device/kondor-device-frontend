@@ -12,7 +12,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { ProductItem } from "@/types/productItem";
 import AddonItemMob from "./AddonItemMob";
 
-
 interface AddonsSliderMobProps {
   shownOnAddonsProducts: ProductItem[];
 }
@@ -35,7 +34,7 @@ export default function AddonsSliderMob({
         clickable: true,
       }}
       navigation={true}
-      loop={false}
+      loop={true}
       speed={1000}
       modules={[Pagination, Navigation]}
       className="addons-slider"
