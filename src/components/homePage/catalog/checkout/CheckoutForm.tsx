@@ -2,10 +2,10 @@
 import { Form, FormikProps } from "formik";
 // import { throttle } from "lodash";
 import { useTranslations } from "next-intl";
-import { Dispatch, SetStateAction, useState } from "react";
-import MaskedInput from "react-text-mask";
-import { PHONE_NUMBER_MASK } from "@/constants/constants";
-import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
+import { Dispatch, SetStateAction } from "react";
+// import MaskedInput from "react-text-mask";
+// import { PHONE_NUMBER_MASK } from "@/constants/constants";
+// import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
 import RadioButtonInput from "@/components/shared/forms/formComponents/RadioButtonInput";
 import { ValuesCheckoutFormType } from "./CheckoutPopUp";
 // import { searchCities } from "@/utils/searchCities";
@@ -39,7 +39,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
   // const [isLoadingWarehouses, setIsLoadingWarehouses] = useState(false);
   // const [isCitiesDropDownOpen, setIsCitiesDropDownOpen] = useState(false);
   // const [isWarehousesDropDownOpen, setIsWarehousesDropDownOpen] =
-  useState(false);
+  // useState(false);
 
   // const throttledFetchCities = throttle(async (city: string) => {
   //   setIsLoadingCities(true);
@@ -97,7 +97,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
 
   return (
     <Form className="flex flex-col laptop:flex-row laptop:flex-wrap laptop:justify-between gap-y-4 w-full">
-      <CustomizedInput
+      {/* <CustomizedInput
         fieldName="name"
         label={t("forms.name")}
         required={true}
@@ -125,7 +125,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         as={MaskedInput}
         mask={PHONE_NUMBER_MASK}
         labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
-      />
+      /> */}
 
       {/* <LocationInput
         fieldName="city"
@@ -175,7 +175,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
           }
         }}
       /> */}
-      <CustomizedInput
+      {/* <CustomizedInput
         fieldName="promocode"
         label={t("forms.promocode")}
         required={true}
@@ -183,7 +183,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         errors={formik.errors}
         touched={formik.touched}
         labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
-      />
+      /> */}
 
       <div
         role="group"

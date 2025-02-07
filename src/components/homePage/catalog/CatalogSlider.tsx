@@ -33,8 +33,6 @@ export default function CatalogSlider({
   const [isCartPopUpShown, setIsCartPopUpShown] = useState(false);
   const [isCheckoutPopUpShown, setIsCheckoutPopUpShown] = useState(false);
 
-  console.log(products);
-
   return (
     <li id={title || ""}>
       <h2 className="container w-full max-w-[1920px] mb-[30px] text-22bold laptop:text-40bold text-center">
