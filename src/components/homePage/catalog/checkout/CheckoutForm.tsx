@@ -1,7 +1,8 @@
 "use client";
 import { Form, FormikProps } from "formik";
+import { throttle } from "lodash";
 import { useTranslations } from "next-intl";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState, useCallback } from "react";
 import MaskedInput from "react-text-mask";
 import { PHONE_NUMBER_MASK } from "@/constants/constants";
 import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
@@ -40,7 +41,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
   const [isWarehousesDropDownOpen, setIsWarehousesDropDownOpen] =
     useState(false);
 
-  const fetchCities = async (city: string) => {
+  const throttledFetchCities = throttle(async (city: string) => {
     setIsLoadingCities(true);
     try {
       const result = await searchCities(city);
@@ -50,20 +51,35 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
     } finally {
       setIsLoadingCities(false);
     }
-  };
+  }, 500);
 
-  const fetchWarehouses = async () => {
+  const fetchCities = useCallback(
+    (city: string) => {
+      throttledFetchCities(city);
+    },
+    [throttledFetchCities]
+  );
+
+  const throttledFetchWarehouses = throttle(
+    async (cityRef: string, postOffice: string) => {
+      if (!cityRef) return;
+      setIsLoadingWarehouses(true);
+      try {
+        const result = await searchWarehouses(cityRef, postOffice);
+        setWarehouses(result);
+      } catch (error) {
+        console.error("Помилка при пошуку відділень:", error);
+      } finally {
+        setIsLoadingWarehouses(false);
+      }
+    },
+    500
+  );
+
+  const fetchWarehouses = useCallback(() => {
     if (!cityRef) return;
-    setIsLoadingWarehouses(true);
-    try {
-      const result = await searchWarehouses(cityRef, formik.values.postOffice);
-      setWarehouses(result);
-    } catch (error) {
-      return error;
-    } finally {
-      setIsLoadingWarehouses(false);
-    }
-  };
+    throttledFetchWarehouses(cityRef, formik.values.postOffice);
+  }, [cityRef, formik.values.postOffice, throttledFetchWarehouses]);
 
   const onCitiesLocationInputChange = (
     e: React.ChangeEvent<HTMLInputElement>
