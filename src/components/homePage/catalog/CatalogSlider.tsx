@@ -38,7 +38,7 @@ export default function CatalogSlider({
       <h2 className="container w-full max-w-[1920px] mb-[30px] text-22bold laptop:text-40bold text-center">
         {title}
       </h2>
-      {products.length > 4 ? (
+      {products.length > 5 ? (
         <Swiper
           centeredSlides={true}
           slidesPerView="auto"
@@ -54,7 +54,7 @@ export default function CatalogSlider({
             clickable: true,
           }}
           navigation={true}
-          loop={false}
+          loop={true}
           speed={1000}
           modules={[Pagination, Navigation]}
         >
