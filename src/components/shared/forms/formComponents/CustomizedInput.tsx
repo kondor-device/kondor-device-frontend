@@ -1,6 +1,7 @@
 import { ErrorMessage, Field, FormikErrors, FormikTouched } from "formik";
 import React from "react";
 import MaskedInput from "react-text-mask";
+import { useFormikContext } from "formik";
 
 interface Values {
   [fieldName: string]: string;
@@ -18,10 +19,11 @@ interface CustomizedInputProps {
   wrapperClassName?: string;
   fieldClassName?: string;
   mask?: string | RegExp | (string | RegExp)[];
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: () => void;
 }
 
-const labelStyles =
-  "relative flex flex-col w-full laptop:w-[49%] deskxl:w-[31.5%]";
+const labelStyles = "relative flex flex-col w-full";
 const fieldStyles =
   "relative w-full h-full px-[18px] py-[14px] deskxl:py-[19px] text-dark placeholder-grey border rounded-full outline-none text-12med laptop:text-14med deskxl:text-18med transition duration-300 ease-out";
 const fieldWrapperStyles =
@@ -39,7 +41,11 @@ export default function CustomizedInput({
   wrapperClassName = "",
   fieldClassName = "",
   mask = "",
+  onChange,
+  onFocus,
 }: CustomizedInputProps) {
+  const { handleChange } = useFormikContext();
+
   return (
     <label className={`${labelStyles} ${labelClassName}`}>
       <div
@@ -56,6 +62,8 @@ export default function CustomizedInput({
           type="text"
           autoComplete="on"
           placeholder={placeholder}
+          onFocus={onFocus}
+          onChange={onChange || handleChange}
           className={`${fieldStyles} ${fieldClassName} ${
             errors[fieldName] && touched[fieldName]
               ? "border-inputErrorLight"
