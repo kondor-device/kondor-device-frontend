@@ -54,7 +54,6 @@ export default function CatalogSlider({
             clickable: true,
           }}
           navigation={true}
-          loop={true}
           speed={1000}
           modules={[Pagination, Navigation]}
         >
