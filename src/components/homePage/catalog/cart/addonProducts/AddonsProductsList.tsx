@@ -24,7 +24,7 @@ export default function AddonsProductsList({
           <h3 className="mb-5 laptop:mb-6 deskxl:mb-[36px] text-14bold laptop:text-22bold deskxl:text-24bold">
             {t("homePage.catalog.alsoChoose")}
           </h3>
-          <AddonsSliderMob shownOnAddonsProducts={shownOnAddonsProducts} />
+          {/* <AddonsSliderMob shownOnAddonsProducts={shownOnAddonsProducts} /> */}
           <AddonsListDesk shownOnAddonsProducts={shownOnAddonsProducts} />
         </div>
       ) : null}
