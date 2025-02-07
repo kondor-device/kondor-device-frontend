@@ -19,10 +19,6 @@ interface AddonsSliderMobProps {
 export default function AddonsSliderMob({
   shownOnAddonsProducts,
 }: AddonsSliderMobProps) {
-  if (!shownOnAddonsProducts.length) {
-    return null;
-  }
-
   return (
     <Swiper
       slidesPerView={2}
