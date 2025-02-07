@@ -1,5 +1,5 @@
 .swiper {
-  height: 634px;
+  height: 100%;
   padding-bottom: 34px;
   @media screen and (min-width: 1280px) {
     padding-bottom: 64px;
@@ -12,8 +12,9 @@
 
 .swiper-slide {
   width: 330px;
-  height: 100% !important;
-  min-height: 100% !important;
+  height: fit-content;
+  /* height: 100% !important;
+  min-height: 100% !important; */
   @media screen and (min-width: 1280px) {
     width: 978px;
   }
