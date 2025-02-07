@@ -7,13 +7,13 @@ import "swiper/css/navigation";
 import "./sliderStyles.css";
 
 import React, { useState } from "react";
-// import { Navigation, Pagination } from "swiper/modules";
-// import { Swiper, SwiperSlide } from "swiper/react";
-// import ProductCard from "./productCard/ProductCard";
+import { Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
 import CartButton from "./CartButton";
-// import EmptyCategory from "./EmptyCategory";
+import EmptyCategory from "./EmptyCategory";
 
 interface CatalogSliderProps {
   title: string;
@@ -23,9 +23,9 @@ interface CatalogSliderProps {
 
 export default function CatalogSlider({
   title,
-}: // products,
-// shownOnAddonsProducts,
-CatalogSliderProps) {
+  products,
+  shownOnAddonsProducts,
+}: CatalogSliderProps) {
   const [isCharacteristicsPopUpShown, setIsCharacteristicsPopUpShown] =
     useState(false);
   const [isComplectationPopUpShown, setIsComplectationPopUpShown] =
@@ -38,10 +38,10 @@ CatalogSliderProps) {
       <h2 className="container w-full max-w-[1920px] mb-[30px] text-22bold laptop:text-40bold text-center">
         {title}
       </h2>
-      {/* {products.length ? (
+      {products.length ? (
         <Swiper
           centeredSlides={true}
-          slidesPerView="auto"
+          slidesPerView={1.3}
           breakpoints={{
             0: {
               spaceBetween: 10,
@@ -77,7 +77,7 @@ CatalogSliderProps) {
         </Swiper>
       ) : (
         <EmptyCategory />
-      )} */}
+      )}
       <Backdrop
         isVisible={
           isCharacteristicsPopUpShown ||
