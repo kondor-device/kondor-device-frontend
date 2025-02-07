@@ -18,10 +18,10 @@ export default async function HomePage() {
     <>
       <Hero shownOnMainProducts={shownOnMainProducts} />
       <WeOffer />
-      <Catalog
+      {/* <Catalog
         categories={categories}
         shownOnAddonsProducts={shownOnAddonsProducts}
-      />
+      /> */}
       <OrderConditions />
       <Faq />
       <Benefits />
