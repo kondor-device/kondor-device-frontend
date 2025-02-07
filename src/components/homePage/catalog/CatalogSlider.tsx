@@ -41,7 +41,7 @@ export default function CatalogSlider({
       {products.length ? (
         <Swiper
           centeredSlides={true}
-          slidesPerView={1.3}
+          slidesPerView="auto"
           breakpoints={{
             0: {
               spaceBetween: 10,
