@@ -23,7 +23,7 @@ export default function ComplectationItem({
         height={25}
         className="size-[25px]"
       />
-      <p className="text-14bold laptop:text-18bold">{name}</p>
+      <p className="text-14bold laptop:text-18bold">{name || ""}</p>
     </li>
   );
 }

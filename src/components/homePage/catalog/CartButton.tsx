@@ -1,18 +1,18 @@
-import React, { Dispatch, SetStateAction } from "react";
+'use client'
+
+import React from "react";
 import Image from "next/image";
 import IconButton from "@/components/shared/buttons/IconButton";
 import { useCartStore } from "@/store/cartStore";
+import { usePopUpStore } from "@/store/popUpStore";
 
-interface CartButtonProps {
-  setIsCartPopUpShown: Dispatch<SetStateAction<boolean>>;
-}
-
-export default function CartButton({ setIsCartPopUpShown }: CartButtonProps) {
+export default function CartButton() {
   const { cartItems } = useCartStore();
+  const {setIsCartPopUpShown} = usePopUpStore()
 
   return (
     <>
-      {cartItems.length ? (
+      {cartItems.length > 0 ? (
         <IconButton
           handleClick={() => setIsCartPopUpShown(true)}
           data-label={cartItems.length.toString()}

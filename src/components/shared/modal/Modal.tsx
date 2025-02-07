@@ -1,18 +1,12 @@
 "use client";
-import React, {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import IconButton from "../buttons/IconButton";
 import IconClose from "../icons/IconCLose";
 
 interface ModalProps {
   isPopUpShown: boolean;
-  setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
+  setIsPopUpShown: (value: boolean) => void;
   children: ReactNode;
   className?: string;
 }
@@ -37,7 +31,7 @@ export default function Modal({
     <div
       className={`${
         isPopUpShown ? "opacity-100" : "pointer-events-none opacity-0"
-      } fixed z-50 left-1/2 bottom-0 transform -translate-y-[calc(50dvh-50%)] -translate-x-1/2 min-w-[312px] max-w-[390px] tab:max-w-[496px] laptop:max-w-[950px]
+      } fixed z-[80] left-1/2 bottom-0 transform -translate-y-[calc(50dvh-50%)] -translate-x-1/2 min-w-[312px] max-w-[390px] tab:max-w-[496px] laptop:max-w-[950px]
       w-[95.5%] tab:w-[496px] laptop:w-[950px] max-h-[90dvh] overflow-y-auto px-4 py-[30px] laptop:px-[60px] laptop:py-14 rounded-[20px] laptop:rounded-[30px] bg-white
        scrollbar scrollbar-w-[3px] laptop:scrollbar-w-[8px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll
        ${className}`}

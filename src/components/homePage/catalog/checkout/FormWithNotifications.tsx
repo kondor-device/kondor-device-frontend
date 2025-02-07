@@ -22,7 +22,6 @@ export default function FormWithNotifications({
   setIsError,
   setIsNotificationShown,
 }: FormWithNotificationsProps) {
- 
   return (
     <>
       <CheckoutForm
