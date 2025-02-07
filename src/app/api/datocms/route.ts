@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 import { DATOCMS_URL } from "@/constants/constants";
 
-const NEXT_DATOCMS_API_TOKEN = process.env.NEXT_PUBLIC_DATOCMS_API_TOKEN || "";
+const DATOCMS_API_TOKEN = process.env.DATOCMS_API_TOKEN || "";
 
 export async function POST(req: Request) {
   try {
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       { query, variables },
       {
         headers: {
-          Authorization: `Bearer ${NEXT_DATOCMS_API_TOKEN}`,
+          Authorization: `Bearer ${DATOCMS_API_TOKEN}`,
           "Content-Type": "application/json",
           ...(includeDrafts ? { "X-Include-Drafts": "true" } : {}),
         },
