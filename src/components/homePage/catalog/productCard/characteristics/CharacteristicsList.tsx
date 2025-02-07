@@ -12,7 +12,7 @@ export default function CharacteristicsList({
 }: CharacteristicsListProps) {
   return (
     <>
-      {characteristics.length ? (
+      {characteristics.length > 0 ? (
         <ul className="flex flex-col gap-y-5 laptop:gap-y-[8px]">
           {characteristics.map((characteristicItem, idx) => (
             <CharacteristicItem

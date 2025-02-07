@@ -88,7 +88,7 @@ ProductCardProps) {
       />
       <div className="flex flex-col gap-y-[5px] laptop:gap-y-[15px]">
         <CardTitle generalname={generalname} name={name} />
-        {coloropts.length ? (
+        {coloropts.length > 0 ? (
           <ColorPicker
             coloropts={coloropts}
             selectedColorIndex={selectedColorIndex}
