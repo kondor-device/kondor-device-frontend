@@ -14,7 +14,7 @@ export default function SecondaryButton({
       aria-label={ariaLabel}
       type={type}
       onClick={onClick}
-      className={`flex items-center justify-center w-fit p-2 laptop:py-5 laptop:px-[25px] text-12med laptop:text-18med deskxl:text-24bold rounded-full text-white bg-dark 
+      className={`flex items-center justify-center w-fit p-2 laptop:py-5 laptop:px-[25px] text-12med laptop:text-18med deskxl:text-22med rounded-full text-white bg-dark 
         border border-white transition duration-300 ease-out enabled:active:scale-95 laptop:enabled:hover:invert enabled:focus-visible:invert outline-none ${className}`}
     >
       {children}

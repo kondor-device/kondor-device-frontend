@@ -15,30 +15,31 @@ export default function ImagePicker({
   setSelectedPhotoIndex,
 }: ImagePickerProps) {
   return (
-    <div
-      className="flex laptop:flex-col justify-between items-center w-full max-w-[306px] 
-      laptop:max-w-full aspect-[327/257] laptop:w-[349px] laptop:aspect-[1/1] 
-      deskxl:w-[449px] laptop:h-[349px] deskxl:h-[449px] 
-      p-[15px] laptop:p-6 deskxl:p-[50px] mx-auto bg-white 
-      rounded-[11px] laptop:rounded-[40px]"
-    >
-      <Image
-        src={photos[selectedPhotoIndex]?.url || "/images/icons/logoSmall.svg"}
-        alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
-        width={1080}
-        height={1080}
-        className="h-full w-auto laptop:h-[221px] deskxl:h-[242px]"
-      />
-
-      <div className="laptop:w-full h-full laptop:h-fit pt-[2px] pb-[2px] pl-[2px] pr-2 laptop:pr-[2px] laptop:pb-2 overflow-y-auto scrollbar scrollbar-w-[3px] scrollbar-h-[4px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll">
-        <ul className="flex flex-col laptop:flex-row gap-y-[8px] gap-x-4 deskxl:gap-x-8 laptop:w-fit h-fit">
+    <div className="flex flex-col deskxl:flex-row deskxl:justify-between gap-y-3 deskxl:gap-x-5 laptop:max-w-[340px] deskxl:max-w-full h-full deskxl:max-h-[466px]">
+      <div
+        className="flex justify-between items-center max-w-[306px] laptop:max-w-[340px] laptop:size-[340px] deskxl:max-w-[466px] deskxl:size-[466px] bg-grey 
+  aspect-[1/1] rounded-[11px] laptop:rounded-[40px]"
+      >
+        <Image
+          src={photos[selectedPhotoIndex]?.url || "/images/icons/logoSmall.svg"}
+          alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
+          width={1080}
+          height={1080}
+          className="max-w-full max-h-full object-contain"
+        />
+      </div>
+      <div
+        className="w-full h-fit deskxl:w-fit deskxl:h-[466px] pt-[2px] pb-2 pl-[2px] pr-[2px] laptop:pr-2 laptop:pb-2 overflow-x-auto deskxl:overflow-x-visible deskxl:overflow-y-auto scrollbar 
+  scrollbar-w-[2px] scrollbar-h-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll"
+      >
+        <ul className="flex flex-row deskxl:flex-col gap-y-4 gap-x-4 deskxl:gap-y-[35px] w-fit h-fit mx-auto my-auto">
           {photos.map(({ url, alt }, idx) => (
             <li
               key={idx}
-              className={`cursor-pointer size-[45px] laptop:size-[62px] deskxl:size-[101px] bg-dark rounded-[2px] 
-              laptop:rounded-[6px] overflow-hidden ${
-                selectedPhotoIndex === idx ? "shadow-imagePicker" : ""
-              }`}
+              className={`cursor-pointer size-[46px] laptop:size-[62px] deskxl:size-[60px] bg-grey rounded-[2px] 
+          laptop:rounded-[6px] overflow-hidden ${
+            selectedPhotoIndex === idx ? "shadow-imagePicker" : ""
+          }`}
               onClick={() => setSelectedPhotoIndex(idx)}
             >
               <Image
@@ -46,6 +47,7 @@ export default function ImagePicker({
                 alt={alt || "keyboard"}
                 width={1080}
                 height={1080}
+                className="max-w-full max-h-full object-contain"
               />
             </li>
           ))}
