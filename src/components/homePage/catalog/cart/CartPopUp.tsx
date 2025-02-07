@@ -21,9 +21,9 @@ export default function CartPopUp({
   shownOnAddonsProducts,
   isCartPopUpShown,
   setIsCartPopUpShown,
-  isCheckoutPopUpShown,
-  setIsCheckoutPopUpShown,
-}: CartPopUpProps) {
+isCheckoutPopUpShown,
+setIsCheckoutPopUpShown,}:
+CartPopUpProps) {
   const t = useTranslations("buttons");
 
   const onCheckoutClick = () => {

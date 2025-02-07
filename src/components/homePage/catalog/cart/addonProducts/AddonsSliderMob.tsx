@@ -39,11 +39,13 @@ export default function AddonsSliderMob({
       modules={[Pagination, Navigation]}
       className="addons-slider"
     >
-      {shownOnAddonsProducts.map((addonItem) => (
-        <SwiperSlide key={addonItem.id}>
-          <AddonItemMob addonItem={addonItem} />
-        </SwiperSlide>
-      ))}
+      {shownOnAddonsProducts.length > 0
+        ? shownOnAddonsProducts.map((addonItem) => (
+            <SwiperSlide key={addonItem.id}>
+              <AddonItemMob addonItem={addonItem} />
+            </SwiperSlide>
+          ))
+        : null}
     </Swiper>
   );
 }

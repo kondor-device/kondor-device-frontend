@@ -12,7 +12,7 @@ export default function CartButton({ setIsCartPopUpShown }: CartButtonProps) {
 
   return (
     <>
-      {cartItems.length ? (
+      {cartItems.length > 0 ? (
         <IconButton
           handleClick={() => setIsCartPopUpShown(true)}
           data-label={cartItems.length.toString()}

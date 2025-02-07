@@ -78,7 +78,7 @@ export default function ProductCard({
 
   return (
     <div
-      className="flex flex-col gap-y-[15px] laptop:flex-row laptop:items-center laptop:gap-x-10 min-h-full h-auto p-3 laptop:p-8 deskxl:p-[35px] 
+      className="flex flex-col gap-y-[15px] laptop:flex-row laptop:items-center laptop:gap-x-8 min-h-full h-auto p-3 laptop:p-8 deskxl:p-[35px] 
     rounded-[8px] laptop:rounded-[30px] bg-dark"
     >
       <ImagePicker
@@ -88,7 +88,7 @@ export default function ProductCard({
       />
       <div className="flex flex-col gap-y-[5px] laptop:gap-y-[15px]">
         <CardTitle generalname={generalname} name={name} />
-        {coloropts.length ? (
+        {coloropts.length > 0 ? (
           <ColorPicker
             coloropts={coloropts}
             selectedColorIndex={selectedColorIndex}

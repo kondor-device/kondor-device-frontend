@@ -12,7 +12,7 @@ export default function ComplectationList({
 }: ComplectationListProps) {
   return (
     <>
-      {complectation.length ? (
+      {complectation.length > 0 ? (
         <ul className="flex flex-col gap-y-5 laptop:gap-y-[8px]">
           {complectation.map((complectationItem, idx) => (
             <ComplectationItem key={idx} complectation={complectationItem} />
