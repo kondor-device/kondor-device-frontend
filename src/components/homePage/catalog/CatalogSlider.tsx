@@ -12,26 +12,18 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
-import CartButton from "./CartButton";
 import EmptyCategory from "./EmptyCategory";
 
 interface CatalogSliderProps {
   title: string;
   products: ProductItem[];
-  shownOnAddonsProducts: ProductItem[];
 }
 
-export default function CatalogSlider({
-  title,
-  products,
-  shownOnAddonsProducts,
-}: CatalogSliderProps) {
+export default function CatalogSlider({ title, products }: CatalogSliderProps) {
   const [isCharacteristicsPopUpShown, setIsCharacteristicsPopUpShown] =
     useState(false);
   const [isComplectationPopUpShown, setIsComplectationPopUpShown] =
     useState(false);
-  const [isCartPopUpShown, setIsCartPopUpShown] = useState(false);
-  const [isCheckoutPopUpShown, setIsCheckoutPopUpShown] = useState(false);
 
   return (
     <li id={title || ""}>
@@ -66,11 +58,6 @@ export default function CatalogSlider({
                 setIsCharacteristicsPopUpShown={setIsCharacteristicsPopUpShown}
                 isComplectationPopUpShown={isComplectationPopUpShown}
                 setIsComplectationPopUpShown={setIsComplectationPopUpShown}
-                isCartPopUpShown={isCartPopUpShown}
-                setIsCartPopUpShown={setIsCartPopUpShown}
-                shownOnAddonsProducts={shownOnAddonsProducts}
-                isCheckoutPopUpShown={isCheckoutPopUpShown}
-                setIsCheckoutPopUpShown={setIsCheckoutPopUpShown}
               />
             </SwiperSlide>
           ))}
@@ -79,20 +66,12 @@ export default function CatalogSlider({
         <EmptyCategory />
       )}
       <Backdrop
-        isVisible={
-          isCharacteristicsPopUpShown ||
-          isComplectationPopUpShown ||
-          isCartPopUpShown ||
-          isCheckoutPopUpShown
-        }
+        isVisible={isCharacteristicsPopUpShown || isComplectationPopUpShown}
         onClick={() => {
           setIsCharacteristicsPopUpShown(false);
           setIsComplectationPopUpShown(false);
-          setIsCartPopUpShown(false);
-          setIsCheckoutPopUpShown(false);
         }}
       />
-      <CartButton setIsCartPopUpShown={setIsCartPopUpShown} />
     </li>
   );
 }

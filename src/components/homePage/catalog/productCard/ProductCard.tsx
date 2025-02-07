@@ -9,37 +9,29 @@ import CardTitle from "./CardTitle";
 import Characteristics from "./characteristics/Characteristics";
 import Complectation from "./complectation/Complectation";
 import { useCartStore } from "@/store/cartStore";
-import Cart from "../cart/Cart";
+import { usePopUpStore } from "@/store/popUpStore";
+import Button from "@/components/shared/buttons/Button";
 import { v4 as uuidv4 } from "uuid";
 
 interface ProductCardProps {
   product: ProductItem;
-  shownOnAddonsProducts: ProductItem[];
   isCharacteristicsPopUpShown: boolean;
   setIsCharacteristicsPopUpShown: Dispatch<SetStateAction<boolean>>;
   isComplectationPopUpShown: boolean;
   setIsComplectationPopUpShown: Dispatch<SetStateAction<boolean>>;
-  isCartPopUpShown: boolean;
-  setIsCartPopUpShown: Dispatch<SetStateAction<boolean>>;
-  isCheckoutPopUpShown: boolean;
-  setIsCheckoutPopUpShown: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ProductCard({
   product,
-  shownOnAddonsProducts,
   isCharacteristicsPopUpShown,
   setIsCharacteristicsPopUpShown,
   isComplectationPopUpShown,
   setIsComplectationPopUpShown,
-  isCartPopUpShown,
-  setIsCartPopUpShown,
-  isCheckoutPopUpShown,
-  setIsCheckoutPopUpShown,
 }: ProductCardProps) {
   const t = useTranslations();
 
   const { addToCart } = useCartStore();
+  const { setIsCartPopUpShown } = usePopUpStore();
 
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
@@ -125,14 +117,12 @@ export default function ProductCard({
             complectation={complect}
           />
         </div>
-        <Cart
-          onPlaceOrder={onAddToCart}
-          isPopUpShown={isCartPopUpShown}
-          setIsPopUpShown={setIsCartPopUpShown}
-          isCheckoutPopUpShown={isCheckoutPopUpShown}
-          setIsCheckoutPopUpShown={setIsCheckoutPopUpShown}
-          shownOnAddonsProducts={shownOnAddonsProducts}
-        />
+        <Button
+          onClick={onAddToCart}
+          className="w-full laptop:w-[350px] deskxl:w-[437px] max-w-[327px] laptop:max-w-[350px] deskxl:max-w-[437px] h-9"
+        >
+          {t("buttons.makeOrder")}
+        </Button>
       </div>
     </div>
   );
