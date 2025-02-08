@@ -1,13 +1,17 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useCartStore } from "@/store/cartStore";
 import CartProductItem from "./CartItem";
 import { useTranslations } from "next-intl";
 
 export default function CartItemsList() {
   const t = useTranslations();
-  const { cartItems } = useCartStore();
-  const totalAmount = useCartStore((state) => state.getTotalAmount());
+  const { cartItems, getTotalAmount } = useCartStore();
+  const [totalAmount, setTotalAmount] = useState<number | null>(null);
+
+  useEffect(() => {
+    setTotalAmount(getTotalAmount());
+  }, [getTotalAmount]);
 
   return (
     <div className="laptop:w-[40%] py-5 deskxl:py-10 pl-[15px] deskxl:pl-[30px] mt-4 tab:mt-8 laptop:mt-0 rounded-[20px] bg-dark">
@@ -31,12 +35,12 @@ export default function CartItemsList() {
         <p className="text-12med laptop:text-14med deskxl:text-24med">
           {t("homePage.catalog.totalSum")}
         </p>
-        {/* {totalAmount !== null ? (
+        {totalAmount !== null ? (
           <p className="text-14semi laptop:text-16semi deskxl:text-28semi uppercase">
             {totalAmount}
             {t("homePage.catalog.hrn")}
           </p>
-        ) : null} */}
+        ) : null}
       </div>
     </div>
   );
