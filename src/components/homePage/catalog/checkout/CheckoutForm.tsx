@@ -86,6 +86,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
   ) => {
     formik.handleChange(e);
     fetchCities(e.target.value);
+    setIsCitiesDropDownOpen(true);
   };
 
   const onWarehousesLocationInputChange = (
@@ -93,6 +94,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
   ) => {
     formik.handleChange(e);
     fetchWarehouses();
+    setIsWarehousesDropDownOpen(true);
   };
 
   return (
@@ -145,11 +147,6 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
           setCityRef(city.key);
           setCities([]);
         }}
-        onFocus={() => {
-          if (cities.length === 0) {
-            fetchCities("");
-          }
-        }}
       />
 
       <LocationInput
@@ -168,11 +165,6 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         onSelect={(wh) => {
           formik.setFieldValue("postOffice", wh.description);
           setWarehouses([]);
-        }}
-        onFocus={() => {
-          if (warehouses.length === 0) {
-            fetchWarehouses();
-          }
         }}
       />
       <CustomizedInput
