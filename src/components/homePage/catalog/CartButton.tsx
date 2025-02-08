@@ -4,17 +4,27 @@ import React from "react";
 import Image from "next/image";
 import IconButton from "@/components/shared/buttons/IconButton";
 import { useCartStore } from "@/store/cartStore";
-import { usePopUpStore } from "@/store/popUpStore";
+import { useModalStore } from "@/store/modalStore";
+import CartPopUp from "./cart/CartPopUp";
+import { ProductItem } from "@/types/productItem";
 
-export default function CartButton() {
+interface CartButtonProps {
+  shownOnAddonsProducts: ProductItem[];
+}
+
+export default function CartButton({ shownOnAddonsProducts }: CartButtonProps) {
   const { cartItems } = useCartStore();
-  const { setIsCartPopUpShown } = usePopUpStore();
+  const { openModal } = useModalStore();
 
   return (
     <>
       {cartItems.length > 0 ? (
         <IconButton
-          handleClick={() => setIsCartPopUpShown(true)}
+          handleClick={() =>
+            openModal(
+              <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />
+            )
+          }
           data-label={cartItems.length.toString()}
           className="block fixed z-[5] right-6 bottom-6 size-14 laptop:size-[70px] bg-yellow rounded-[10px] shadow-cartButton"
         >

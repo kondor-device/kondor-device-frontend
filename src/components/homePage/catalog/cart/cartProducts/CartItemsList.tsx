@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { useCartStore } from "@/store/cartStore";
 import CartProductItem from "./CartItem";
@@ -30,10 +31,12 @@ export default function CartItemsList() {
         <p className="text-12med laptop:text-14med deskxl:text-24med">
           {t("homePage.catalog.totalSum")}
         </p>
-        <p className="text-14semi laptop:text-16semi deskxl:text-28semi uppercase">
-          {totalAmount}
-          {t("homePage.catalog.hrn")}
-        </p>
+        {/* {totalAmount !== null ? (
+          <p className="text-14semi laptop:text-16semi deskxl:text-28semi uppercase">
+            {totalAmount}
+            {t("homePage.catalog.hrn")}
+          </p>
+        ) : null} */}
       </div>
     </div>
   );

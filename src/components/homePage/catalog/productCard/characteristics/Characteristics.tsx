@@ -1,33 +1,24 @@
 "use client";
-import React, { Dispatch, SetStateAction } from "react";
+
 import { useTranslations } from "next-intl";
-import CharacteristicsPopUp from "@/components/homePage/catalog/productCard/characteristics/CharacteristicsPopUp";
-import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
+import React from "react";
+import PopUpTitle from "../../../../shared/titles/PopUpTitle";
+import CharacteristicsList from "./CharacteristicsList";
 import { Characteristic } from "@/types/productItem";
 
-interface CharacteristicsProps {
-  isPopUpShown: boolean;
-  setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
+interface CharacteristicsPopUpProps {
   characteristics: Characteristic[];
 }
 
 export default function Characteristics({
-  isPopUpShown,
-  setIsPopUpShown,
   characteristics,
-}: CharacteristicsProps) {
+}: CharacteristicsPopUpProps) {
   const t = useTranslations();
 
   return (
     <>
-      <SecondaryButton onClick={() => setIsPopUpShown(true)}>
-        {t("homePage.catalog.characteristics")}
-      </SecondaryButton>
-      <CharacteristicsPopUp
-        isPopUpShown={isPopUpShown}
-        setIsPopUpShown={setIsPopUpShown}
-        characteristics={characteristics}
-      />
+      <PopUpTitle>{t("homePage.catalog.generalCharacteristics")}</PopUpTitle>
+      <CharacteristicsList characteristics={characteristics} />
     </>
   );
 }

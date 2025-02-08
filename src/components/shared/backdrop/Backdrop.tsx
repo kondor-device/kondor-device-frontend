@@ -1,20 +1,15 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect } from "react";
+import { useModalStore } from "@/store/modalStore";
 
-interface BackdropProps {
-  isVisible: boolean;
-  onClick: () => void;
-}
+export default function Backdrop() {
+  const { closeModal, isOpen } = useModalStore();
 
-export default function Backdrop({
-  isVisible = false,
-  onClick,
-}: BackdropProps) {
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isVisible) {
-        onClick();
+      if (event.key === "Escape" && isOpen) {
+        closeModal();
       }
     };
 
@@ -23,16 +18,14 @@ export default function Backdrop({
     return () => {
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [isVisible, onClick]);
+  }, [isOpen, closeModal]);
 
   return (
     <div
       className={`fixed z-[70] inset-0 ${
-        isVisible
-          ? "opacity-100 no-doc-scroll"
-          : "opacity-0 pointer-events-none"
+        isOpen ? "opacity-100 no-doc-scroll" : "opacity-0 pointer-events-none"
       }`}
-      onClick={onClick}
+      onClick={closeModal}
     >
       <Image
         src="/images/bgImages/backdrop.webp"
