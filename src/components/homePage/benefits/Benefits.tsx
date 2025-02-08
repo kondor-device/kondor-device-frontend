@@ -16,10 +16,12 @@ export default function Benefits() {
       <BenefitsList />
       <Link
         href={locale === "uk" ? `/#catalog` : `/${locale}#catalog`}
-        className="block w-fit max-w-[350px] deskxl:max-w-[437px] deskxl:w-[437px] 
+        className="block w-fit
       mx-auto mt-5 tabxl:mt-10 laptop::mt-[60px]"
       >
-        <Button>{t("buttons.makeOrder")}</Button>
+        <Button className="w-full laptop:w-[350px] deskxl:w-[437px] max-w-[327px] laptop:max-w-[350px] deskxl:max-w-[437px]">
+          {t("buttons.makeOrder")}
+        </Button>
       </Link>
     </Section>
   );
