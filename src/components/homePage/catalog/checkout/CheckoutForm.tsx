@@ -141,15 +141,7 @@ export default function CheckoutForm({
       validationSchema={validationSchema}
       onSubmit={submitForm}
     >
-      {({
-        errors,
-        touched,
-        dirty,
-        isValid,
-        values,
-        handleChange,
-        setFieldValue,
-      }) => (
+      {({ errors, touched, dirty, isValid, values, setFieldValue }) => (
         <Form className="flex flex-col laptop:flex-row laptop:flex-wrap laptop:justify-between gap-y-4 w-full">
           <CustomizedInput
             fieldName="name"
@@ -193,7 +185,8 @@ export default function CheckoutForm({
             isDropDownOpen={isCitiesDropDownOpen}
             setIsDropDownOpen={setIsCitiesDropDownOpen}
             onChange={(e) => {
-              handleChange(e);
+              const city = e.target.value;
+              setFieldValue("city", city);
               setIsCitiesDropDownOpen(true);
               fetchCities(values.city);
             }}
@@ -216,9 +209,10 @@ export default function CheckoutForm({
             isDropDownOpen={isWarehousesDropDownOpen}
             setIsDropDownOpen={setIsWarehousesDropDownOpen}
             onChange={(e) => {
-              handleChange(e);
+              const postOffice = e.target.value;
+              setFieldValue("postOffice", postOffice); // Оновлює значення у Formik
               setIsWarehousesDropDownOpen(true);
-              fetchWarehouses(values.postOffice);
+              fetchWarehouses(postOffice);
             }}
             onSelect={(wh) => {
               setFieldValue("postOffice", wh.description);
