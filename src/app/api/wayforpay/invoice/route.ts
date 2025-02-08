@@ -55,8 +55,6 @@ export async function POST(req: NextRequest) {
       apiVersion: 1,
     };
 
-    console.log(paymentData);
-
     return NextResponse.json({ status: "success", paymentData });
   } catch (error) {
     console.error("Помилка генерації платежу:", error);
