@@ -105,8 +105,6 @@ export const handleSubmitForm = async <T>(
     totalSum: `${totalSum} грн`,
   };
 
-  console.log(collectedOrderData);
-
   setOrderData(collectedOrderData);
 
   const productName = updatedCartItems.map(
