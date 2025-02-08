@@ -18,7 +18,8 @@ export default function SuccessfulMessage({
     return null;
   }
 
-  const { name, surname, phone, orderNumber, cartItems, totalSum } = orderData;
+  const { name, surname, phone, orderNumber, updatedCartItems, totalSum } =
+    orderData;
 
   return (
     <div>
@@ -53,7 +54,7 @@ export default function SuccessfulMessage({
         <li className="py-[20px] deskxl:py-[25px]">
           <p className="mb-2">{t("notifications.successful.products")}</p>
           <ul className="text-white">
-            {cartItems?.map((cartItem) => (
+            {updatedCartItems?.map((cartItem) => (
               <li
                 key={cartItem.uniqueId}
                 className="text-12semi laptop:text-18semi"
