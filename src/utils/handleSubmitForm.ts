@@ -89,7 +89,7 @@ export const handleSubmitForm = async <T>(
     `<b>Відділення Нової пошти:</b> ${values.postOffice.trim() || ""}\n` +
     `<b>Промокод:</b> ${values.promocode?.trim()}\n` +
     `<b>Оплата:</b> ${values.payment.trim()}\n` +
-    `<b>Список товарів:</b>\n ${orderedListProducts}\n` +
+    `<b>Список товарів:</b>\n${orderedListProducts}\n` +
     `<b>Сума замовлення:</b> ${totalSum} грн\n`;
 
   const dataGoogle = {
