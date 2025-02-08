@@ -20,7 +20,6 @@ interface CustomizedInputProps {
   fieldClassName?: string;
   mask?: string | RegExp | (string | RegExp)[];
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocus?: () => void;
 }
 
 const labelStyles = "relative flex flex-col w-full";
@@ -42,7 +41,6 @@ export default function CustomizedInput({
   fieldClassName = "",
   mask = "",
   onChange,
-  onFocus,
 }: CustomizedInputProps) {
   const { handleChange } = useFormikContext();
 
@@ -62,7 +60,6 @@ export default function CustomizedInput({
           type="text"
           autoComplete="on"
           placeholder={placeholder}
-          onFocus={onFocus}
           onChange={onChange || handleChange}
           className={`${fieldStyles} ${fieldClassName} ${
             errors[fieldName] && touched[fieldName]

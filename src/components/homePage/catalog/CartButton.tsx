@@ -16,7 +16,7 @@ export default function CartButton() {
         <IconButton
           handleClick={() => setIsCartPopUpShown(true)}
           data-label={cartItems.length.toString()}
-          className="block fixed z-[5] right-6 bottom-6 size-14 laptop:size-[70px]"
+          className="block fixed z-[5] right-6 bottom-6 size-14 laptop:size-[70px] bg-yellow rounded-[10px] shadow-cartButton"
         >
           <>
             <span className="absolute top-[-10px] right-[-10px] size-[22px] text-12semi text-white flex items-center justify-center rounded-full bg-dark">
