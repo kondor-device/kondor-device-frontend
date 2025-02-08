@@ -2,11 +2,8 @@
 import { Dispatch, SetStateAction } from "react";
 import NotificationPopUp from "@/components/shared/notifications/NotificationPopUp";
 import CheckoutForm from "./CheckoutForm";
-import { FormikProps } from "formik";
-import { ValuesCheckoutFormType } from "./CheckoutPopUp";
 
 interface FormWithNotificationsProps {
-  formik: FormikProps<ValuesCheckoutFormType>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsError: Dispatch<SetStateAction<boolean>>;
   setIsNotificationShown: Dispatch<SetStateAction<boolean>>;
@@ -15,8 +12,6 @@ interface FormWithNotificationsProps {
 }
 
 export default function FormWithNotifications({
-  formik,
-  setIsLoading,
   isError,
   isNotificationShown,
   setIsError,
@@ -24,12 +19,7 @@ export default function FormWithNotifications({
 }: FormWithNotificationsProps) {
   return (
     <>
-      <CheckoutForm
-        formik={formik}
-        setIsError={setIsError}
-        setIsNotificationShown={setIsNotificationShown}
-        setIsLoading={setIsLoading}
-      />
+      <CheckoutForm />
       <NotificationPopUp
         isNotificationShown={isNotificationShown}
         isError={isError}

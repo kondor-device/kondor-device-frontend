@@ -3,7 +3,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import Image from "next/image";
 import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
-import { FormikProps } from "formik";
+import { useFormikContext } from "formik";
 import { ValuesCheckoutFormType } from "@/components/homePage/catalog/checkout/CheckoutPopUp";
 
 interface Option {
@@ -15,7 +15,6 @@ interface LocationInputProps {
   fieldName: string;
   label: string;
   placeholder: string;
-  formik: FormikProps<ValuesCheckoutFormType>;
   options: Option[];
   isLoading: boolean;
   isDropDownOpen: boolean;
@@ -28,7 +27,6 @@ export default function LocationInput({
   fieldName,
   label,
   placeholder,
-  formik,
   options,
   isLoading,
   setIsDropDownOpen,
@@ -37,6 +35,7 @@ export default function LocationInput({
   onChange,
 }: LocationInputProps) {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const { errors, touched } = useFormikContext<ValuesCheckoutFormType>();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -69,8 +68,8 @@ export default function LocationInput({
         label={label}
         required
         placeholder={placeholder}
-        errors={formik.errors}
-        touched={formik.touched}
+        errors={errors}
+        touched={touched}
         onChange={onChange}
       />
       {isLoading && (

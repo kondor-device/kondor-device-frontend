@@ -80,7 +80,6 @@ export default function CheckoutPopUp() {
                     {t("homePage.catalog.yourData")}
                   </h3>
                   <FormWithNotifications
-                    formik={formik}
                     isError={isError}
                     isNotificationShown={isNotificationShown}
                     setIsLoading={setIsLoading}

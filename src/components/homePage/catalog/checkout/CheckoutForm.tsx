@@ -1,8 +1,8 @@
 "use client";
-import { Form, FormikProps } from "formik";
+import { Form } from "formik";
 import { throttle } from "lodash";
 import { useTranslations } from "next-intl";
-import { Dispatch, SetStateAction, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import MaskedInput from "react-text-mask";
 import { PHONE_NUMBER_MASK } from "@/constants/constants";
 import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
@@ -11,6 +11,7 @@ import { ValuesCheckoutFormType } from "./CheckoutPopUp";
 import { searchCities } from "@/utils/searchCities";
 import { searchWarehouses } from "@/utils/searchWarehouses";
 import LocationInput from "@/components/shared/forms/formComponents/LocationInput";
+import { useFormikContext } from "formik";
 
 interface City {
   Ref: string;
@@ -22,15 +23,11 @@ interface Warehouse {
   Description: string;
 }
 
-interface CheckoutFormProps {
-  formik: FormikProps<ValuesCheckoutFormType>;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-  setIsError: Dispatch<SetStateAction<boolean>>;
-  setIsNotificationShown: Dispatch<SetStateAction<boolean>>;
-}
-
-export default function CheckoutForm({ formik }: CheckoutFormProps) {
+export default function CheckoutForm() {
   const t = useTranslations();
+
+  const { errors, touched, values, handleChange, setFieldValue } =
+    useFormikContext<ValuesCheckoutFormType>();
 
   const [cities, setCities] = useState<City[]>([]);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
@@ -78,13 +75,13 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
 
   const fetchWarehouses = useCallback(() => {
     if (!cityRef) return;
-    throttledFetchWarehouses(cityRef, formik.values.postOffice);
-  }, [cityRef, formik.values.postOffice, throttledFetchWarehouses]);
+    throttledFetchWarehouses(cityRef, values.postOffice);
+  }, [cityRef, values.postOffice, throttledFetchWarehouses]);
 
   const onCitiesLocationInputChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    formik.handleChange(e);
+    handleChange(e);
     setIsCitiesDropDownOpen(true);
     fetchCities(e.target.value);
   };
@@ -92,7 +89,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
   const onWarehousesLocationInputChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    formik.handleChange(e);
+    handleChange(e);
     setIsWarehousesDropDownOpen(true);
     fetchWarehouses();
   };
@@ -104,8 +101,8 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         label={t("forms.name")}
         required={true}
         placeholder={t("forms.name")}
-        errors={formik.errors}
-        touched={formik.touched}
+        errors={errors}
+        touched={touched}
         labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
       />
       <CustomizedInput
@@ -113,8 +110,8 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         label={t("forms.surname")}
         required={true}
         placeholder={t("forms.surname")}
-        errors={formik.errors}
-        touched={formik.touched}
+        errors={errors}
+        touched={touched}
         labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
       />
       <CustomizedInput
@@ -122,8 +119,8 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         label={t("forms.phone")}
         required={true}
         placeholder={t("forms.phone")}
-        errors={formik.errors}
-        touched={formik.touched}
+        errors={errors}
+        touched={touched}
         as={MaskedInput}
         mask={PHONE_NUMBER_MASK}
         labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
@@ -133,7 +130,6 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         fieldName="city"
         label={t("forms.city")}
         placeholder={t("forms.city")}
-        formik={formik}
         options={cities.map((city) => ({
           key: city.Ref,
           description: city.Description,
@@ -143,7 +139,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         setIsDropDownOpen={setIsCitiesDropDownOpen}
         onChange={onCitiesLocationInputChange}
         onSelect={(city) => {
-          formik.setFieldValue("city", city.description);
+          setFieldValue("city", city.description);
           setCityRef(city.key);
           setCities([]);
         }}
@@ -153,7 +149,6 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         fieldName="postOffice"
         label={t("forms.postOffice")}
         placeholder={t("forms.postOffice")}
-        formik={formik}
         options={warehouses.map((wh) => ({
           key: wh.SiteKey,
           description: wh.Description,
@@ -163,7 +158,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         setIsDropDownOpen={setIsWarehousesDropDownOpen}
         onChange={onWarehousesLocationInputChange}
         onSelect={(wh) => {
-          formik.setFieldValue("postOffice", wh.description);
+          setFieldValue("postOffice", wh.description);
           setWarehouses([]);
         }}
       />
@@ -172,8 +167,8 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         label={t("forms.promocode")}
         required={true}
         placeholder={t("forms.promocode")}
-        errors={formik.errors}
-        touched={formik.touched}
+        errors={errors}
+        touched={touched}
         labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
       />
 
@@ -193,8 +188,8 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
           label={t("forms.online")}
           value="Онлайн оплата (Wayforpay)"
           placeholder={t("forms.online")}
-          errors={formik.errors}
-          touched={formik.touched}
+          errors={errors}
+          touched={touched}
         />
         <RadioButtonInput
           fieldName="payment"
@@ -206,8 +201,8 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
           }
           value="Післяплата Нова пошта"
           placeholder={t("forms.postpaid")}
-          errors={formik.errors}
-          touched={formik.touched}
+          errors={errors}
+          touched={touched}
         />
       </div>
     </Form>
