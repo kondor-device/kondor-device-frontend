@@ -22,7 +22,6 @@ interface LocationInputProps {
   setIsDropDownOpen: Dispatch<SetStateAction<boolean>>;
   onSelect: (option: Option) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocus?: () => void;
 }
 
 export default function LocationInput({
@@ -36,7 +35,6 @@ export default function LocationInput({
   isDropDownOpen,
   onSelect,
   onChange,
-  onFocus,
 }: LocationInputProps) {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -74,10 +72,6 @@ export default function LocationInput({
         errors={formik.errors}
         touched={formik.touched}
         onChange={onChange}
-        onFocus={() => {
-          setIsDropDownOpen(true);
-          onFocus?.();
-        }}
       />
       {isLoading && (
         <Image

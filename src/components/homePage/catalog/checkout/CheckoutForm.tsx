@@ -85,6 +85,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     formik.handleChange(e);
+    setIsCitiesDropDownOpen(true);
     fetchCities(e.target.value);
   };
 
@@ -92,6 +93,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     formik.handleChange(e);
+    setIsWarehousesDropDownOpen(true);
     fetchWarehouses();
   };
 
@@ -145,11 +147,6 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
           setCityRef(city.key);
           setCities([]);
         }}
-        onFocus={() => {
-          if (cities.length === 0) {
-            fetchCities("");
-          }
-        }}
       />
 
       <LocationInput
@@ -168,11 +165,6 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         onSelect={(wh) => {
           formik.setFieldValue("postOffice", wh.description);
           setWarehouses([]);
-        }}
-        onFocus={() => {
-          if (warehouses.length === 0) {
-            fetchWarehouses();
-          }
         }}
       />
       <CustomizedInput

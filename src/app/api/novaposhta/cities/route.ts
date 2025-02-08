@@ -8,8 +8,11 @@ export async function POST(req: Request) {
   try {
     const { query } = await req.json();
 
-    const methodProperties =
-      query && query.length ? { FindByString: query } : {};
+    if (!query || query.trim().length < 1) {
+      return NextResponse.json([]);
+    }
+
+    const methodProperties = { FindByString: query };
 
     const response = await axios.post(NOVA_POSHTA_API_URL, {
       apiKey: API_KEY,

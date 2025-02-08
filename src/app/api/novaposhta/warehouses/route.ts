@@ -15,13 +15,11 @@ export async function POST(req: Request) {
       );
     }
 
-    const methodProperties = cityRef
-      ? query && query.length
-        ? { CityRef: cityRef, FindByString: query }
-        : { CityRef: cityRef }
-      : query && query.length
-      ? { FindByString: query }
-      : {};
+    if (!query || query.trim().length < 1) {
+      return NextResponse.json([]);
+    }
+
+    const methodProperties = { CityRef: cityRef, FindByString: query };
 
     const response = await axios.post(NOVA_POSHTA_API_URL, {
       apiKey: API_KEY,
