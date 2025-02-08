@@ -4,7 +4,7 @@ import NotificationPopUp from "@/components/shared/notifications/NotificationPop
 import CheckoutForm from "./CheckoutForm";
 
 interface FormWithNotificationsProps {
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  // setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsError: Dispatch<SetStateAction<boolean>>;
   setIsNotificationShown: Dispatch<SetStateAction<boolean>>;
   isError: boolean;
@@ -19,7 +19,10 @@ export default function FormWithNotifications({
 }: FormWithNotificationsProps) {
   return (
     <>
-      <CheckoutForm />
+      <CheckoutForm
+        setIsError={setIsError}
+        setIsNotificationShown={setIsNotificationShown}
+      />
       <NotificationPopUp
         isNotificationShown={isNotificationShown}
         isError={isError}

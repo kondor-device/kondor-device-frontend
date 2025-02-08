@@ -3,7 +3,6 @@ import { useCartStore } from "@/store/cartStore";
 import Button from "../../buttons/Button";
 
 interface SubmitButtonProps {
-  onClick: () => void | Promise<void>;
   dirty: boolean;
   isValid: boolean;
   isLoading: boolean;
@@ -12,7 +11,6 @@ interface SubmitButtonProps {
 }
 
 export default function SubmitButton({
-  onClick,
   dirty,
   isValid,
   isLoading,
@@ -24,7 +22,6 @@ export default function SubmitButton({
   return (
     <Button
       type="submit"
-      onClick={onClick}
       disabled={!(dirty && isValid) || isLoading || !cartItems.length}
       isLoading={isLoading}
       className={`${className}`}
