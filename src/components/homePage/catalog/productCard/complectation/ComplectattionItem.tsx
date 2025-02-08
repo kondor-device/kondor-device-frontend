@@ -19,9 +19,9 @@ export default function ComplectationItem({
       <Image
         src={icon?.url || "/images/icons/logoSmall.svg"}
         alt={icon?.alt || "icon"}
-        width={25}
-        height={25}
-        className="size-[25px]"
+        width={24}
+        height={24}
+        className="size-[24px]"
       />
       <p className="text-14bold laptop:text-18bold">{name || ""}</p>
     </li>
