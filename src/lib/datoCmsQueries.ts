@@ -67,10 +67,9 @@ export const GET_ALL_DATA_QUERY = `
   }
 `;
 
-export const GET_PRODUCTS_BY_IDS = `query GetProductsByIds($ids: [ID!]) {
+export const GET_PRODUCTS_BY_IDS = `query GetProductsByIds($ids:[ItemId]) {
   allItems(filter: { id: { in: $ids } }) {
     id
-    name
     price
     priceDiscount
   }

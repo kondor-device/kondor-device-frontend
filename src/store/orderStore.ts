@@ -10,7 +10,7 @@ interface OrderData {
   postOffice: string;
   promocode: string;
   payment: string;
-  cartItems: CartItem[];
+  updatedCartItems: CartItem[];
   totalSum: number;
 }
 

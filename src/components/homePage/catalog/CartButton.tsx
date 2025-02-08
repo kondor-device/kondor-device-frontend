@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 import Image from "next/image";
@@ -8,7 +8,7 @@ import { usePopUpStore } from "@/store/popUpStore";
 
 export default function CartButton() {
   const { cartItems } = useCartStore();
-  const {setIsCartPopUpShown} = usePopUpStore()
+  const { setIsCartPopUpShown } = usePopUpStore();
 
   return (
     <>
