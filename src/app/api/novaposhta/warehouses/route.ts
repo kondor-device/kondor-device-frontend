@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+import { NOVA_POSHTA_API_URL } from "@/constants/constants";
 
-const NOVA_POSHTA_API_URL = "https://api.novaposhta.ua/v2.0/json/";
-const API_KEY = process.env.NEXT_PUBLIC_NOVA_POSHTA_API_KEY || "";
+const API_KEY = process.env.NOVA_POSHTA_API_KEY || "";
 
 export async function POST(req: Request) {
   try {

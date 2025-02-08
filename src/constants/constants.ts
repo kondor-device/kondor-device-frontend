@@ -9,6 +9,14 @@ export const INSTAGRAM_URL = "https://www.instagram.com/kondor.ua";
 
 export const DATOCMS_URL = "https://graphql.datocms.com/";
 
+export const NOVA_POSHTA_API_URL = "https://api.novaposhta.ua/v2.0/json/";
+
+export const SCOPES = [
+  "https://www.googleapis.com/auth/drive",
+  "https://www.googleapis.com/auth/drive.file",
+  "https://www.googleapis.com/auth/spreadsheets",
+];
+
 export const PHONE_NUMBER_MASK = [
   "+",
   "3",
