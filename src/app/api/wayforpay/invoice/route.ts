@@ -3,7 +3,7 @@ import crypto from "crypto";
 
 const MERCHANT_ACCOUNT = process.env.MERCHANT_ACCOUNT;
 const MERCHANT_SECRET_KEY = process.env.MERCHANT_SECRET_KEY;
-const MERCHANT_DOMAIN = process.env.NEXT_PUBLIC_BAE_URL;
+const MERCHANT_DOMAIN = process.env.MERCHANT_DOMAIN;
 
 export async function POST(req: NextRequest) {
   if (!MERCHANT_SECRET_KEY) {
