@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
+import axios from "axios";
 
 const MERCHANT_SECRET_KEY = process.env.MERCHANT_SECRET_KEY;
 
 export async function POST(req: NextRequest) {
+  if (!MERCHANT_SECRET_KEY) {
+    throw new Error("MERCHANT_SECRET_KEY не визначено в середовищі!");
+  }
+
   try {
     const body = await req.json();
-
     const {
       merchantAccount,
       orderReference,
@@ -26,27 +30,36 @@ export async function POST(req: NextRequest) {
       MERCHANT_SECRET_KEY,
     ].join(";");
 
-    const expectedSignature = crypto
-      .createHash("md5")
-      .update(signString)
-      .digest("hex");
+    const hmac = crypto.createHmac("md5", MERCHANT_SECRET_KEY);
+    hmac.update(signString, "utf8");
+    const expectedSignature = hmac.digest("hex");
 
     if (merchantSignature !== expectedSignature) {
       return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
     }
 
+    let statusMessage = "";
+    let orderStatus = "";
+
     if (transactionStatus === "Approved") {
-      // Тут можна виконати додаткові дії: зберегти замовлення, відправити email тощо
+      statusMessage = `✅ Платіж успішний: Замовлення #${orderReference} оплачено на суму ${amount} ${currency}`;
+      orderStatus = "success";
       console.log(`✅ Платіж успішний: ${orderReference}`);
     } else {
+      statusMessage = `❌ Платіж неуспішний: Замовлення #${orderReference} не було оплачено`;
+      orderStatus = "failed";
       console.log(`❌ Платіж неуспішний: ${orderReference}`);
     }
 
-    return NextResponse.json({ transactionStatus });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}api/telegram`, {
+      text: statusMessage,
+    });
+
+    return NextResponse.json({ transactionStatus: orderStatus });
   } catch (error) {
+    console.error("Помилка обробки платежу:", error);
     return NextResponse.json(
-      { error: "Error processing callback" },
+      { error: "Помилка обробки платежу" },
       { status: 500 }
     );
   }

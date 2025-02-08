@@ -1,21 +1,3 @@
-declare global {
-  interface WayforpayData {
-    orderReference: string;
-    orderDate: number;
-    amount: number;
-    currency: string;
-    productName: string[];
-    productPrice: number[];
-    productCount: number[];
-  }
-
-  interface Window {
-    Wayforpay: {
-      run: (data: WayforpayData) => void;
-    };
-  }
-}
-
 import { ValuesCheckoutFormType } from "@/components/homePage/catalog/checkout/CheckoutPopUp";
 import axios from "axios";
 import { FormikHelpers } from "formik";
@@ -34,7 +16,7 @@ export const handleSubmitForm = async <T>(
   setIsNotificationShown: Dispatch<SetStateAction<boolean>>,
   values: ValuesCheckoutFormType
 ) => {
-  const { clearOrderData, setOrderData, orderData } = useOrderStore.getState();
+  const { clearOrderData, setOrderData } = useOrderStore.getState();
   const { clearCart, cartItems, getTotalAmount } = useCartStore.getState();
 
   clearOrderData();
@@ -89,20 +71,21 @@ export const handleSubmitForm = async <T>(
   setOrderData(collectedOrderData);
 
   const productName = cartItems.map(
-    (item) => `${item.name} ${item.name}, колір: ${item.color}`
+    (item) => `${item.generalName} ${item.name}, колір: ${item.color}`
   );
-  const productPrice = cartItems.map(
-    (item) => item.priceDiscount ?? item.price
+  const productPrice = cartItems.map((item) =>
+    Number(item.priceDiscount ?? item.price)
   );
   const productCount = cartItems.map(() => 1);
 
-  if (values.payment.trim() === "Онлайн оплата (Wayforpay)") {
-    console.log("старт оплати");
+  setIsLoading(true);
+
+  if (collectedOrderData.payment === "Онлайн оплата (Wayforpay)") {
     try {
       const { data } = await axios.post(`${BASE_URL}api/wayforpay/invoice`, {
-        orderReference: `#${orderNumber}`,
+        orderReference: `${orderNumber}`,
         orderDate: Math.floor(Date.now() / 1000),
-        amount: totalSum,
+        amount: 1, //Змінити потім на реальну суму
         currency: "UAH",
         productName,
         productPrice,
@@ -110,10 +93,24 @@ export const handleSubmitForm = async <T>(
       });
 
       if (data?.status === "success") {
-        // Викликаємо платіжну форму WayForPay
-        window.Wayforpay.run(data.paymentData);
-      } else {
-        console.error("Помилка створення платежу:", data.error);
+        if (typeof window !== "undefined") {
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = "https://secure.wayforpay.com/pay";
+          form.target = "_blank";
+
+          Object.entries(data.paymentData).forEach(([key, value]) => {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = value as string;
+            form.appendChild(input);
+          });
+
+          document.body.appendChild(form);
+          form.submit();
+          document.body.removeChild(form);
+        }
       }
     } catch (error) {
       console.error("Помилка запиту на оплату:", error);
@@ -121,8 +118,6 @@ export const handleSubmitForm = async <T>(
   }
 
   try {
-    setIsLoading(true);
-
     await axios({
       method: "post",
       url: `${BASE_URL}api/telegram`,
