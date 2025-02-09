@@ -15,7 +15,7 @@ export default function WeOfferItem({ weOfferItem }: WeOfferItemProps) {
     <li className="flex items-center w-full max-w-[545px] px-[30px] deskxl:px-[39px] py-5 laptop:py-[30px] rounded-[20px] bg-yellowGradient">
       <Image
         src={`/images/icons/${icon}Black.svg`}
-        alt={title}
+        alt={icon}
         width="46"
         height="46"
         className="mr-[15px] laptop:mr-5"
