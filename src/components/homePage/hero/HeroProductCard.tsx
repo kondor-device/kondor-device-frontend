@@ -37,13 +37,14 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
             alt={photos[0].alt || "keyboard"}
             width={1080}
             height={1080}
+            priority
             className="w-full h-auto"
           />
         </Link>
       </div>
-      <h3 className="mt-auto mb-[11px] desk:mb-[15px] deskxl:mb-[25px] text-14bold sm:text-20bold deskxl:text-32bold text-center">
+      <h2 className="mt-auto mb-[11px] desk:mb-[15px] deskxl:mb-[25px] text-14bold sm:text-20bold deskxl:text-32bold text-center">
         {name}
-      </h3>
+      </h2>
       <Link
         href={cat?.name ? localizedCategoryLink : localizedCatalogLink}
         className="block w-fit mx-auto"
