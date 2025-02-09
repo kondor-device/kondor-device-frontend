@@ -59,8 +59,23 @@ export const handleSubmitForm = async <T>(
     return total + itemTotal;
   }, 0);
 
+  // Формуємо дату та час замовлення
+  const now = new Date();
+
+  // Форматуємо дату
+  // const dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" };
+  const formattedDate = now.toLocaleDateString("uk-UA");
+
+  // Форматуємо час
+  // const timeOptions = { hour: "2-digit", minute: "2-digit" };
+  const formattedTime = now.toLocaleTimeString("uk-UA");
+
+  // Об'єднуємо дату та час
+  const orderDate = `${formattedDate} ${formattedTime}`;
+
   //Формуємо повну інформацію по замовленню
   const collectedOrderData = {
+    orderDate,
     orderNumber,
     name: values.name.trim(),
     surname: values.surname.trim(),
@@ -83,6 +98,7 @@ export const handleSubmitForm = async <T>(
 
   const dataTelegram =
     `<b>Замовлення #${orderNumber}</b>\n` +
+    `<b>Дата замовлення:</b> ${orderDate}\n` +
     `<b>Ім'я:</b> ${values.name.trim()}\n` +
     `<b>Прізвище:</b> ${values.surname.trim()}\n` +
     `<b>Телефон:</b> ${values.phone.replace(/[^\d+]/g, "")}\n` +
@@ -94,6 +110,7 @@ export const handleSubmitForm = async <T>(
     `<b>Сума замовлення:</b> ${totalSum} грн\n`;
 
   const dataGoogle = {
+    orderDate,
     orderNumber,
     name: values.name.trim(),
     surname: values.surname.trim(),
