@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { CartItem } from "@/types/cartItem";
 
 interface OrderData {
+  orderDate: string;
   orderNumber: string;
   name: string;
   surname: string;

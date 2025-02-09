@@ -8,6 +8,7 @@ const RANGE = "Аркуш1!A2";
 
 export async function POST(request: NextRequest) {
   const {
+    orderDate,
     orderNumber,
     name,
     surname,
@@ -23,6 +24,7 @@ export async function POST(request: NextRequest) {
   if (request.method === "POST") {
     try {
       await sendDataToGoogleSheet(SPREADSHEET_ID, RANGE, [
+        orderDate,
         orderNumber,
         name,
         surname,
