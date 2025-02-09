@@ -83,6 +83,7 @@ export default {
         imagePicker: "0 0 0 2px #FFB300",
         radio: "0 0 0 1px #FFB300",
         notification: "0px 4px 100px 0px rgba(25, 25, 25, 0.6)",
+        notificationMob: "0px 30px 50px 0px rgba(25, 25, 25, 0.2)",
         cartButton: "0px 4px 40px 0px rgba(25, 25, 25, 0.3)",
       },
       keyframes: {

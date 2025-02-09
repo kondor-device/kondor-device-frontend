@@ -9,6 +9,7 @@ import { CheckoutValidation } from "@/schemas/checkoutFormValidation";
 import FormWithNotifications from "./FormWithNotifications";
 import { handleSubmitForm } from "@/utils/handleSubmitForm";
 import { useModalStore } from "@/store/modalStore";
+import { useRouter } from "next/navigation";
 
 export interface ValuesCheckoutFormType {
   name: string;
@@ -25,6 +26,8 @@ export default function CheckoutPopUp() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isNotificationShown, setIsNotificationShown] = useState(false);
+
+  const router = useRouter();
 
   const { closeModal } = useModalStore();
   const { activeModal } = useModalStore((state) => state);
@@ -50,7 +53,8 @@ export default function CheckoutPopUp() {
       setIsLoading,
       setIsError,
       setIsNotificationShown,
-      values
+      values,
+      router
     );
   };
 
