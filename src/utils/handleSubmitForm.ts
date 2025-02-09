@@ -9,6 +9,7 @@ import { getProductsByIds } from "@/utils/getProductsByIds";
 import { GET_PRODUCTS_BY_IDS } from "@/lib/datoCmsQueries";
 import { ProductItem } from "@/types/productItem";
 import { useModalStore } from "@/store/modalStore";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -17,7 +18,8 @@ export const handleSubmitForm = async <T>(
   setIsLoading: Dispatch<SetStateAction<boolean>>,
   setIsError: Dispatch<SetStateAction<boolean>>,
   setIsNotificationShown: Dispatch<SetStateAction<boolean>>,
-  values: ValuesCheckoutFormType
+  values: ValuesCheckoutFormType,
+  router: AppRouterInstance
 ) => {
   const { clearOrderData, setOrderData } = useOrderStore.getState();
   const { clearCart, cartItems } = useCartStore.getState();
@@ -189,9 +191,9 @@ export const handleSubmitForm = async <T>(
       },
     });
 
-    closeModal();
+    router.push("/uk/order-confirmation");
 
-    setIsNotificationShown(true);
+    setTimeout(() => closeModal(), 1000);
 
     resetForm();
 

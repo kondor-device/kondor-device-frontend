@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { CartItem } from "@/types/cartItem";
+import { persist } from "zustand/middleware";
 
 interface OrderData {
   orderDate: string;
@@ -21,8 +22,15 @@ interface OrderState {
   clearOrderData: () => void;
 }
 
-export const useOrderStore = create<OrderState>((set) => ({
-  orderData: null,
-  setOrderData: (data) => set({ orderData: data }),
-  clearOrderData: () => set({ orderData: null }),
-}));
+export const useOrderStore = create<OrderState>()(
+  persist(
+    (set) => ({
+      orderData: null,
+      setOrderData: (data) => set({ orderData: data }),
+      clearOrderData: () => set({ orderData: null }),
+    }),
+    {
+      name: "kondor-order-storage",
+    }
+  )
+);

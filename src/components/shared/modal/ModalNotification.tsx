@@ -6,7 +6,6 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { createPortal } from "react-dom";
 import IconButton from "../buttons/IconButton";
 import IconClose from "../icons/IconCLose";
 
@@ -40,7 +39,7 @@ export default function ModalNotification({
     setIsError(false);
   };
 
-  return createPortal(
+  return (
     <div
       className={`${
         isPopUpShown
@@ -62,7 +61,6 @@ export default function ModalNotification({
         </IconButton>
       </div>
       {children}
-    </div>,
-    document.body
+    </div>
   );
 }

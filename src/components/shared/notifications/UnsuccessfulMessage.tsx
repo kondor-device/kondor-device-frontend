@@ -9,7 +9,7 @@ export default function UnsuccessfulMessage() {
     <>
       <PopUpTitle>{t("title")}</PopUpTitle>
       <div className="flex justify-center items-center h-[120px]">
-        <p className="w-[90%] my-auto text-center text-12bold laptop:text-18bold">
+        <p className="w-[90%] my-auto text-center text-12med laptop:text-18med">
           {t("description")}
         </p>
       </div>

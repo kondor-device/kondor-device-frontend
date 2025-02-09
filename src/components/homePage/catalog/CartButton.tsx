@@ -21,8 +21,10 @@ export default function CartButton({ shownOnAddonsProducts }: CartButtonProps) {
       {cartItems.length > 0 ? (
         <IconButton
           handleClick={() =>
-            openModal("cartPopUp",
-              <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />
+            openModal(
+              "cartPopUp",
+              <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />,
+              "laptop:max-w-[1100px] laptop:w-[1100px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
             )
           }
           data-label={cartItems.length.toString()}
