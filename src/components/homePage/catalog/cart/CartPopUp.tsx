@@ -39,7 +39,7 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
         <CartItemsList />
         <AddonsProductsList shownOnAddonsProducts={shownOnAddonsProducts} />
       </div>
-      <div className="flex flex-col laptop:flex-row-reverse laptop:justify-between gap-y-5 w-fit laptop:w-full mx-auto mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
+      <div className="flex flex-col laptop:flex-row-reverse items-center laptop:justify-between gap-y-5 w-full mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
         <Button
           onClick={onCheckoutClick}
           className="w-full max-w-[350px] laptop:max-w-[330px] deskxl:max-w-[437px] max-h-[64px] deskxl:max-h-[85px]"
