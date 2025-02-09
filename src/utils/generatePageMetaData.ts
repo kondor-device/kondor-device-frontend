@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 
 import { Locale } from "@/types/locale";
 
-interface GenerateMetaDataParams {
+interface GeneratePageMetaDataParams {
   locale: Locale;
   namespace: string;
   canonical: string;
@@ -11,7 +11,7 @@ export async function generatePageMetaData({
   locale,
   namespace,
   canonical,
-}: GenerateMetaDataParams) {
+}: GeneratePageMetaDataParams) {
   const t = await getTranslations({
     locale,
     namespace,
