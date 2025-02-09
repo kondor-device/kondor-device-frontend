@@ -28,13 +28,18 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
     shadow-card bg-white"
     >
       <div className="flex items-center justify-center w-full tab:w-[85%] laptop:w-[65%] deskxl:size-[52.3%] aspect-[1/1] mx-auto my-auto">
-        <Image
-          src={photos[0].url}
-          alt={photos[0].alt || "keyboard"}
-          width={1080}
-          height={1080}
-          className="w-full h-auto"
-        />
+        <Link
+          href={cat?.name ? localizedCategoryLink : localizedCatalogLink}
+          className="block w-fit mx-auto"
+        >
+          <Image
+            src={photos[0].url}
+            alt={photos[0].alt || "keyboard"}
+            width={1080}
+            height={1080}
+            className="w-full h-auto"
+          />
+        </Link>
       </div>
       <h3 className="mt-auto mb-[11px] desk:mb-[15px] deskxl:mb-[25px] text-14bold sm:text-20bold deskxl:text-32bold text-center">
         {name}

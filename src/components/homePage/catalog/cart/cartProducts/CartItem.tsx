@@ -20,13 +20,13 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
 
   return (
     <li className="flex gap-x-[10px] deskxl:gap-x-[20px] justify-between">
-      <div className="size-12 laptop:size-14 deskxl:size-[85px] p-[10px] deskxl:p-[18px] my-auto rounded-[8px] deskxl:rounded-[15px] bg-white">
+      <div className="flex items-center justify-center size-12 laptop:size-14 deskxl:size-[85px] p-[10px] deskxl:p-[18px] my-auto rounded-[8px] deskxl:rounded-[15px] bg-white">
         <Image
           src={image.url || "/images/icons/logoSmall.svg"}
           alt={image.alt || "keyboard"}
           width={1080}
           height={1080}
-          className="w-full h-auto"
+          className="max-w-full max-h-full object-contain"
         />
       </div>
       <div className="flex flex-col justify-between max-w-[45%] mob:max-w-[60%] laptop:max-w-[55%] mr-auto">

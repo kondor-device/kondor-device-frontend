@@ -87,17 +87,17 @@ export default function ProductCard({
           />
         ) : null}
         <div className="flex items-end gap-x-[10px] laptop:gap-x-[25px] mb-[10px] laptop:mb-[15px]">
-          <p className="text-lg font-medium leading-none laptop:text-45bold deskxl:text-54bold text-white uppercase">
+          <p className="text-lg font-medium leading-[16px] laptop:text-45bold deskxl:text-54bold text-white uppercase">
             {!!priceDiscount && priceDiscount < price ? priceDiscount : price}
             {t("homePage.catalog.hrn")}
           </p>
           {!!priceDiscount && priceDiscount < price ? (
-            <div className="flex laptop:flex-col-reverse items-end laptop:items-start laptop:justify-center gap-x-[5px] h-[22px] laptop:h-[63px]">
+            <div className="flex laptop:flex-col-reverse items-end laptop:items-start laptop:justify-center gap-x-[5px]">
               <p className="text-sm font-bold leading-none laptop:text-22bold text-grey uppercase line-through">
                 {price}
                 {t("homePage.catalog.hrn")}
               </p>
-              <p className="text-[10px] font-medium leading-none laptop:text-16med text-yellow">
+              <p className="text-[10px] font-medium leading-[11px] laptop:text-16med text-yellow">
                 {t("homePage.catalog.economy")}
                 {savings}%
               </p>
