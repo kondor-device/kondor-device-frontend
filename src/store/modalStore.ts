@@ -1,18 +1,36 @@
 import { create } from "zustand";
+import { ReactNode } from "react";
 
-interface ModalState {
-  isOpen: boolean;
-  content: React.ReactNode;
-  modalStyles: string;
-  openModal: (content: React.ReactNode, styles?: string) => void;
+export interface ModalState {
+  activeModal: {
+    name: string | null;
+    content: ReactNode | null;
+    modalStyles: string;
+  };
+  openModal: (name: string, content: ReactNode, styles?: string) => void;
   closeModal: () => void;
 }
 
 export const useModalStore = create<ModalState>((set) => ({
-  isOpen: false,
-  content: null,
-  modalStyles: "",
-  openModal: (content, styles = "") =>
-    set({ isOpen: true, content, modalStyles: styles }),
-  closeModal: () => set({ isOpen: false, content: null, modalStyles: "" }),
+  activeModal: {
+    name: null,
+    content: null,
+    modalStyles: "",
+  },
+  openModal: (name, content, styles = "") =>
+    set({
+      activeModal: {
+        name,
+        content,
+        modalStyles: styles,
+      },
+    }),
+  closeModal: () =>
+    set({
+      activeModal: {
+        name: null,
+        content: null,
+        modalStyles: "",
+      },
+    }),
 }));

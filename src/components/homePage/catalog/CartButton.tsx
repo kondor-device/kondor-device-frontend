@@ -21,7 +21,7 @@ export default function CartButton({ shownOnAddonsProducts }: CartButtonProps) {
       {cartItems.length > 0 ? (
         <IconButton
           handleClick={() =>
-            openModal(
+            openModal("cartPopUp",
               <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />
             )
           }

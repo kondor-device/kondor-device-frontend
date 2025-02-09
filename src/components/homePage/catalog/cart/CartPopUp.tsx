@@ -18,17 +18,23 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
 
   const openModal = useModalStore((state) => state.openModal);
   const { closeModal } = useModalStore();
+  const { activeModal } = useModalStore((state) => state);
+
+  if (activeModal.name !== "cartPopUp") {
+    return null;
+  }
 
   const onCheckoutClick = () => {
     closeModal();
     openModal(
+      "checkoutPopUp",
       <CheckoutPopUp />,
       "laptop:max-w-[1100px] laptop:w-[1100px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
     );
   };
 
   return (
-    <>
+    <div className={activeModal.name === "cartPopUp" ? "block" : "hidden"}>
       <div className="flex flex-col gap-y-[30px] laptop:flex-row laptop:justify-between">
         <CartItemsList />
         <AddonsProductsList shownOnAddonsProducts={shownOnAddonsProducts} />
@@ -48,6 +54,6 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
           {t("continueShopping")}
         </Button>
       </div>
-    </>
+    </div>
   );
 }

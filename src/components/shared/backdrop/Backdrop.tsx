@@ -1,15 +1,25 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useModalStore } from "@/store/modalStore";
+import { useShallow } from "zustand/react/shallow";
 
 export default function Backdrop() {
-  const { closeModal, isOpen } = useModalStore();
+  const activeModalName = useModalStore(
+    useShallow((state) => state.activeModal.name)
+  );
+  const closeModal = useModalStore(useShallow((state) => state.closeModal));
+
+  const isOpen = activeModalName !== null;
+
+  const handleCloseModal = useCallback(() => {
+    closeModal();
+  }, [closeModal]);
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape" && isOpen) {
-        closeModal();
+        handleCloseModal();
       }
     };
 
@@ -18,7 +28,7 @@ export default function Backdrop() {
     return () => {
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [isOpen, closeModal]);
+  }, [handleCloseModal, isOpen]);
 
   return (
     <div

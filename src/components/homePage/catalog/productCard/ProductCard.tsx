@@ -60,7 +60,10 @@ export default function ProductCard({
       color: coloropts[selectedColorIndex]?.color,
       quantity: 1,
     });
-    openModal(<CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />);
+    openModal(
+      "cartPopUp",
+      <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />
+    );
   };
 
   return (
@@ -103,14 +106,20 @@ export default function ProductCard({
         <div className="flex gap-x-[5px] laptop:gap-x-5 mb-[10px] laptop:mb-[5px]">
           <SecondaryButton
             onClick={() =>
-              openModal(<Characteristics characteristics={chars} />)
+              openModal(
+                "characteristicsPopUp",
+                <Characteristics characteristics={chars} />
+              )
             }
           >
             {t("homePage.catalog.characteristics")}
           </SecondaryButton>
           <SecondaryButton
             onClick={() =>
-              openModal(<Complectation complectation={complect} />)
+              openModal(
+                "complectationPopUp",
+                <Complectation complectation={complect} />
+              )
             }
           >
             {t("homePage.catalog.set")}
