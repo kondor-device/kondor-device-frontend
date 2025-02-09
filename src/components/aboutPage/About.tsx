@@ -20,7 +20,7 @@ export default function About() {
           rel="noopener noreferrer nofollow"
           className="block w-fit mx-auto laptop:mx-0"
         >
-          <Button>{t("buttons.join")}</Button>
+          <Button className="w-[350px]">{t("buttons.join")}</Button>
         </a>
       </section>
     </>
