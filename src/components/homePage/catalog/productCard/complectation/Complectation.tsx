@@ -1,33 +1,28 @@
 "use client";
-import React, { Dispatch, SetStateAction } from "react";
-import { useTranslations } from "next-intl";
-import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
-import ComplectationPopUp from "./ComplectationPopUp";
-import { ComplectItem } from "@/types/productItem";
 
-interface ComplectationProps {
-  isPopUpShown: boolean;
-  setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
+import { useTranslations } from "next-intl";
+import React from "react";
+import PopUpTitle from "../../../../shared/titles/PopUpTitle";
+import { ComplectItem } from "@/types/productItem";
+import ComplectationList from "./ComplectationList";
+import { useModalStore } from "@/store/modalStore";
+
+interface CharacteristicsPopUpProps {
   complectation: ComplectItem[];
 }
 
 export default function Complectation({
-  isPopUpShown,
-  setIsPopUpShown,
   complectation,
-}: ComplectationProps) {
+}: CharacteristicsPopUpProps) {
   const t = useTranslations();
+  const { activeModal } = useModalStore((state) => state);
 
   return (
-    <>
-      <SecondaryButton onClick={() => setIsPopUpShown(true)}>
-        {t("homePage.catalog.set")}
-      </SecondaryButton>
-      <ComplectationPopUp
-        isPopUpShown={isPopUpShown}
-        setIsPopUpShown={setIsPopUpShown}
-        complectation={complectation}
-      />
-    </>
+    <div
+      className={activeModal.name === "complectationPopUp" ? "block" : "hidden"}
+    >
+      <PopUpTitle>{t("homePage.catalog.set")}</PopUpTitle>
+      <ComplectationList complectation={complectation} />
+    </div>
   );
 }

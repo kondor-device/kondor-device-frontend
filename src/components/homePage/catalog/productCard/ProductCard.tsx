@@ -2,36 +2,31 @@
 
 import { ProductItem } from "@/types/productItem";
 import ImagePicker from "./ImagePicker";
-import React, { useState, Dispatch, SetStateAction } from "react";
+import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import ColorPicker from "./ColorPicker";
 import CardTitle from "./CardTitle";
 import Characteristics from "./characteristics/Characteristics";
 import Complectation from "./complectation/Complectation";
 import { useCartStore } from "@/store/cartStore";
-import { usePopUpStore } from "@/store/popUpStore";
 import Button from "@/components/shared/buttons/Button";
 import { v4 as uuidv4 } from "uuid";
+import { useModalStore } from "@/store/modalStore";
+import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
+import CartPopUp from "../cart/CartPopUp";
 
 interface ProductCardProps {
   product: ProductItem;
-  isCharacteristicsPopUpShown: boolean;
-  setIsCharacteristicsPopUpShown: Dispatch<SetStateAction<boolean>>;
-  isComplectationPopUpShown: boolean;
-  setIsComplectationPopUpShown: Dispatch<SetStateAction<boolean>>;
+  shownOnAddonsProducts: ProductItem[];
 }
 
 export default function ProductCard({
   product,
-  isCharacteristicsPopUpShown,
-  setIsCharacteristicsPopUpShown,
-  isComplectationPopUpShown,
-  setIsComplectationPopUpShown,
+  shownOnAddonsProducts,
 }: ProductCardProps) {
   const t = useTranslations();
-
   const { addToCart } = useCartStore();
-  const { setIsCartPopUpShown } = usePopUpStore();
+  const openModal = useModalStore((state) => state.openModal);
 
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
@@ -65,7 +60,10 @@ export default function ProductCard({
       color: coloropts[selectedColorIndex]?.color,
       quantity: 1,
     });
-    setIsCartPopUpShown(true);
+    openModal(
+      "cartPopUp",
+      <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />
+    );
   };
 
   return (
@@ -106,16 +104,26 @@ export default function ProductCard({
           ) : null}
         </div>
         <div className="flex gap-x-[5px] laptop:gap-x-5 mb-[10px] laptop:mb-[5px]">
-          <Characteristics
-            isPopUpShown={isCharacteristicsPopUpShown}
-            setIsPopUpShown={setIsCharacteristicsPopUpShown}
-            characteristics={chars}
-          />
-          <Complectation
-            isPopUpShown={isComplectationPopUpShown}
-            setIsPopUpShown={setIsComplectationPopUpShown}
-            complectation={complect}
-          />
+          <SecondaryButton
+            onClick={() =>
+              openModal(
+                "characteristicsPopUp",
+                <Characteristics characteristics={chars} />
+              )
+            }
+          >
+            {t("homePage.catalog.characteristics")}
+          </SecondaryButton>
+          <SecondaryButton
+            onClick={() =>
+              openModal(
+                "complectationPopUp",
+                <Complectation complectation={complect} />
+              )
+            }
+          >
+            {t("homePage.catalog.set")}
+          </SecondaryButton>
         </div>
         <Button
           onClick={onAddToCart}

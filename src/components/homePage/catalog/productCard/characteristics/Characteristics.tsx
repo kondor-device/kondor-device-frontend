@@ -1,33 +1,30 @@
 "use client";
-import React, { Dispatch, SetStateAction } from "react";
-import { useTranslations } from "next-intl";
-import CharacteristicsPopUp from "@/components/homePage/catalog/productCard/characteristics/CharacteristicsPopUp";
-import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
-import { Characteristic } from "@/types/productItem";
 
-interface CharacteristicsProps {
-  isPopUpShown: boolean;
-  setIsPopUpShown: Dispatch<SetStateAction<boolean>>;
+import { useTranslations } from "next-intl";
+import React from "react";
+import PopUpTitle from "../../../../shared/titles/PopUpTitle";
+import CharacteristicsList from "./CharacteristicsList";
+import { Characteristic } from "@/types/productItem";
+import { useModalStore } from "@/store/modalStore";
+
+interface CharacteristicsPopUpProps {
   characteristics: Characteristic[];
 }
 
 export default function Characteristics({
-  isPopUpShown,
-  setIsPopUpShown,
   characteristics,
-}: CharacteristicsProps) {
+}: CharacteristicsPopUpProps) {
   const t = useTranslations();
+  const { activeModal } = useModalStore((state) => state);
 
   return (
-    <>
-      <SecondaryButton onClick={() => setIsPopUpShown(true)}>
-        {t("homePage.catalog.characteristics")}
-      </SecondaryButton>
-      <CharacteristicsPopUp
-        isPopUpShown={isPopUpShown}
-        setIsPopUpShown={setIsPopUpShown}
-        characteristics={characteristics}
-      />
-    </>
+    <div
+      className={
+        activeModal.name === "characteristicsPopUp" ? "block" : "hidden"
+      }
+    >
+      <PopUpTitle>{t("homePage.catalog.generalCharacteristics")}</PopUpTitle>
+      <CharacteristicsList characteristics={characteristics} />
+    </div>
   );
 }

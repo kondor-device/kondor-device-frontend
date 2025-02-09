@@ -8,6 +8,7 @@ import { generateOrderNumber } from "./generateOrderNumber";
 import { getProductsByIds } from "@/utils/getProductsByIds";
 import { GET_PRODUCTS_BY_IDS } from "@/lib/datoCmsQueries";
 import { ProductItem } from "@/types/productItem";
+import { useModalStore } from "@/store/modalStore";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -15,12 +16,12 @@ export const handleSubmitForm = async <T>(
   { resetForm }: FormikHelpers<T>,
   setIsLoading: Dispatch<SetStateAction<boolean>>,
   setIsError: Dispatch<SetStateAction<boolean>>,
-  setIsCheckoutPopUpShown: (value: boolean) => void,
   setIsNotificationShown: Dispatch<SetStateAction<boolean>>,
   values: ValuesCheckoutFormType
 ) => {
   const { clearOrderData, setOrderData } = useOrderStore.getState();
   const { clearCart, cartItems } = useCartStore.getState();
+  const { closeModal } = useModalStore.getState();
 
   clearOrderData();
 
@@ -171,7 +172,7 @@ export const handleSubmitForm = async <T>(
       },
     });
 
-    setIsCheckoutPopUpShown(false);
+    closeModal();
 
     setIsNotificationShown(true);
 
