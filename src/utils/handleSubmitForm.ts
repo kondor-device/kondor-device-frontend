@@ -85,11 +85,9 @@ export const handleSubmitForm = async <T>(
   const now = new Date();
 
   // Форматуємо дату
-  // const dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" };
   const formattedDate = now.toLocaleDateString("uk-UA");
 
   // Форматуємо час
-  // const timeOptions = { hour: "2-digit", minute: "2-digit" };
   const formattedTime = now.toLocaleTimeString("uk-UA");
 
   // Об'єднуємо дату та час
