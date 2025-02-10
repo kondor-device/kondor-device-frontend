@@ -12,7 +12,16 @@ interface AddonItemDeskProps {
 export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
   const t = useTranslations();
 
-  const { id, name, generalname, coloropts, priceDiscount, price, preorder } = addonItem;
+  const {
+    id,
+    name,
+    generalname,
+    coloropts,
+    priceDiscount,
+    price,
+    preorder,
+    preordertext,
+  } = addonItem;
 
   const actualPrice =
     !!priceDiscount && priceDiscount < price ? priceDiscount : price;
@@ -21,6 +30,7 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
     id,
     uniqueId: uuidv4(),
     preorder,
+    preordertext,
     generalName: generalname,
     name,
     priceDiscount,
