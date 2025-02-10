@@ -61,7 +61,7 @@ export default function LocationInput({
   return (
     <div
       ref={dropdownRef}
-      className="relative w-full laptop:w-[49%] deskxl:w-[31.5%]"
+      className="relative w-full laptop:w-[49%] deskxl:w-[31.5%] h-fit"
     >
       <CustomizedInput
         fieldName={fieldName}

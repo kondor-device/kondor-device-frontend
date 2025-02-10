@@ -59,7 +59,7 @@ export default function OrderConfirmation() {
                 <li
                   key={cartItem.uniqueId}
                   className="text-12semi laptop:text-18semi"
-                >{`– ${cartItem.preorder && "Передзамовлення: "}${
+                >{`– ${cartItem.preorder ? "Передзамовлення: " : ""}${
                   cartItem.generalName
                 } ${cartItem.name}, колір: ${cartItem.color}`}</li>
               ))}
