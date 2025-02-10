@@ -127,7 +127,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
     }
   };
 
-  const removePromo = () => {
+  const removePromo = async () => {
     removePromocode();
     formik.setFieldValue("promocode", "");
   };

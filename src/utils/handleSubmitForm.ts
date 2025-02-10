@@ -6,10 +6,14 @@ import { useCartStore } from "@/store/cartStore";
 import { useOrderStore } from "@/store/orderStore";
 import { generateOrderNumber } from "./generateOrderNumber";
 import { getProductsByIds } from "@/utils/getProductsByIds";
-import { GET_PRODUCTS_BY_IDS } from "@/lib/datoCmsQueries";
+import {
+  GET_PRODUCTS_BY_IDS,
+  GET_PROMOCODE_BY_CODE,
+} from "@/lib/datoCmsQueries";
 import { ProductItem } from "@/types/productItem";
 import { useModalStore } from "@/store/modalStore";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { getPromocode } from "./getPromocode";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -22,7 +26,7 @@ export const handleSubmitForm = async <T>(
   router: AppRouterInstance
 ) => {
   const { clearOrderData, setOrderData } = useOrderStore.getState();
-  const { clearCart, cartItems } = useCartStore.getState();
+  const { clearCart, cartItems, promocode } = useCartStore.getState();
   const { closeModal } = useModalStore.getState();
 
   clearOrderData();
@@ -34,11 +38,23 @@ export const handleSubmitForm = async <T>(
 
   //Запитуємо з cms актуальні ціни на товари в кошику
   const cartItemsIds = cartItems.map((cartItem) => cartItem.id);
-  const res = await getProductsByIds(GET_PRODUCTS_BY_IDS, cartItemsIds);
+
+  const resProducts = await getProductsByIds(GET_PRODUCTS_BY_IDS, cartItemsIds);
+
+  //Запитуємо з cms актуальний промокод
+  const resPromo = promocode
+    ? await getPromocode(GET_PROMOCODE_BY_CODE, promocode)
+    : null;
+  const updatedDiscount = resPromo
+    ? resPromo.data.allPromocodes[0].discount
+    : 0;
+  const updatedPromocode = resPromo
+    ? resPromo.data.allPromocodes[0].promocode
+    : null;
 
   //Оновлюємо ціни на товари в кошику
   const updatedCartItems = cartItems.filter((cartItem) => {
-    const productFromCms = res.data?.allItems?.find(
+    const productFromCms = resProducts.data?.allItems?.find(
       (product: ProductItem) => product.id === cartItem.id
     );
 
@@ -46,6 +62,13 @@ export const handleSubmitForm = async <T>(
       // Якщо товар знайдений, оновлюємо його ціни
       cartItem.price = productFromCms.price;
       cartItem.priceDiscount = productFromCms.priceDiscount;
+      cartItem.actualPrice = Math.floor(
+        (!!productFromCms.priceDiscount &&
+        productFromCms.priceDiscount < productFromCms.price
+          ? productFromCms.priceDiscount
+          : productFromCms.price) *
+          (1 - updatedDiscount / 100)
+      );
       return true;
     }
     // Якщо товар не знайдений в CMS, виключаємо його з кошика
@@ -54,10 +77,7 @@ export const handleSubmitForm = async <T>(
 
   //Розраховуємо суму замовлення з оновленими цінами
   const totalSum = updatedCartItems.reduce((total, item) => {
-    const itemTotal =
-      (item.priceDiscount && item.priceDiscount < item.price
-        ? item.priceDiscount
-        : item.price) * item.quantity;
+    const itemTotal = item.actualPrice * item.quantity;
     return total + itemTotal;
   }, 0);
 
@@ -84,9 +104,10 @@ export const handleSubmitForm = async <T>(
     phone: values.phone.trim(),
     city: values.city.trim(),
     postOffice: values.postOffice.trim(),
-    promocode: values.promocode.trim(),
     payment: values.payment.trim(),
     updatedCartItems,
+    promocode: updatedPromocode,
+    discount: updatedDiscount,
     totalSum,
   };
 
@@ -130,9 +151,7 @@ export const handleSubmitForm = async <T>(
   const productName = updatedCartItems.map(
     (item) => `${item.generalName} ${item.name}, колір: ${item.color}`
   );
-  const productPrice = updatedCartItems.map((item) =>
-    Number(item.priceDiscount ?? item.price)
-  );
+  const productPrice = updatedCartItems.map((item) => Number(item.actualPrice));
   const productCount = updatedCartItems.map(() => 1);
 
   if (collectedOrderData.payment === "Онлайн оплата (Wayforpay)") {
