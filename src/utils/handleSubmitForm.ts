@@ -159,7 +159,7 @@ export const handleSubmitForm = async <T>(
       const { data } = await axios.post(`${BASE_URL}api/wayforpay/invoice`, {
         orderReference: `${orderNumber}`,
         orderDate: Math.floor(Date.now() / 1000),
-        amount: 1, //Змінити потім на реальну суму
+        amount: totalSum, //Змінити потім на реальну суму
         currency: "UAH",
         productName,
         productPrice,
