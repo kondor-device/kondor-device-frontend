@@ -1,6 +1,6 @@
 "use client";
 import { Form, FormikProps } from "formik";
-import { throttle } from "lodash";
+import { debounce } from "lodash";
 import { useTranslations } from "next-intl";
 import { Dispatch, SetStateAction, useState, useCallback } from "react";
 import MaskedInput from "react-text-mask";
@@ -41,7 +41,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
   const [isWarehousesDropDownOpen, setIsWarehousesDropDownOpen] =
     useState(false);
 
-  const throttledFetchCities = throttle(async (city: string) => {
+  const throttledFetchCities = debounce(async (city: string) => {
     setIsLoadingCities(true);
     try {
       const result = await searchCities(city);
@@ -60,7 +60,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
     [throttledFetchCities]
   );
 
-  const throttledFetchWarehouses = throttle(
+  const throttledFetchWarehouses = debounce(
     async (cityRef: string, postOffice: string) => {
       if (!cityRef) return;
       setIsLoadingWarehouses(true);
@@ -76,10 +76,13 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
     500
   );
 
-  const fetchWarehouses = useCallback(() => {
-    if (!cityRef) return;
-    throttledFetchWarehouses(cityRef, formik.values.postOffice);
-  }, [cityRef, formik.values.postOffice, throttledFetchWarehouses]);
+  const fetchWarehouses = useCallback(
+    (postoffice: string) => {
+      if (!cityRef) return;
+      throttledFetchWarehouses(cityRef, postoffice);
+    },
+    [cityRef, throttledFetchWarehouses]
+  );
 
   const onCitiesLocationInputChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -93,7 +96,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     formik.handleChange(e);
-    fetchWarehouses();
+    fetchWarehouses(e.target.value);
     setIsWarehousesDropDownOpen(true);
   };
 
@@ -145,7 +148,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         onSelect={(city) => {
           formik.setFieldValue("city", city.description);
           setCityRef(city.key);
-          setCities([]);
+          // setCities([]);
         }}
       />
 
@@ -164,7 +167,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         onChange={onWarehousesLocationInputChange}
         onSelect={(wh) => {
           formik.setFieldValue("postOffice", wh.description);
-          setWarehouses([]);
+          // setWarehouses([]);
         }}
       />
       <CustomizedInput
