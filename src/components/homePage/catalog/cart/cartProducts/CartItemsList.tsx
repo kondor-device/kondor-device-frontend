@@ -23,7 +23,7 @@ export default function CartItemsList() {
       </h3>
       {cartItems.length > 0 ? (
         <ul
-          className="flex flex-col gap-y-3 deskxl:gap-y-[25px] h-[150px] laptop:h-[225px] deskxl:h-[265px] pr-[15px] deskxl:pr-[30px] overflow-y-auto scrollbar 
+          className="flex flex-col gap-y-3 deskxl:gap-y-[25px] max-h-[150px] laptop:max-h-full laptop:h-[225px] deskxl:h-[265px] pr-[15px] deskxl:pr-[30px] overflow-y-auto scrollbar 
       scrollbar-w-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow 
       scrollbar-track-transparent"
         >
@@ -32,7 +32,7 @@ export default function CartItemsList() {
           ))}
         </ul>
       ) : (
-        <div className="h-[150px] laptop:h-[225px] deskxl:h-[265px]"></div>
+        <div className="h-[48px] laptop:h-[225px] deskxl:h-[265px]"></div>
       )}
       <div className="flex justify-between mt-[15px] deskxl:mt-[30px] pt-3 deskxl:pt-[20px] pr-[15px] deskxl:pr-[30px] border-t border-white border-opacity-80 text-white">
         <p className="text-12med laptop:text-14med deskxl:text-24med">
