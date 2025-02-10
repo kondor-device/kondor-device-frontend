@@ -53,6 +53,7 @@ export const GET_ALL_DATA_QUERY = `
     }
   shownOnAddons: allItems(filter: {showonaddons: {eq: "true"}}) {
     id
+    preorder
     coloropts {
       color
       photos {
