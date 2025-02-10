@@ -2,14 +2,14 @@ import axios from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export async function getProductsByIds(query: string, productIds: string[]) {
+export async function getProducts(query: string, code: string) {
   try {
     const response = await axios({
       method: "post",
       url: `${BASE_URL}api/datocms`,
       data: {
         query,
-        variables: { ids: productIds },
+        variables: { code },
         includeDrafts: false,
       },
     });
