@@ -174,11 +174,23 @@ export const handleSubmitForm = async <T>(
           form.target = "_blank";
 
           Object.entries(data.paymentData).forEach(([key, value]) => {
-            const input = document.createElement("input");
-            input.type = "hidden";
-            input.name = key;
-            input.value = value as string;
-            form.appendChild(input);
+            if (Array.isArray(value)) {
+              // Якщо значення - масив, додаємо окремий інпут для кожного елемента
+              value.forEach((item) => {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = `${key}[]`; // Додаємо [] до імені
+                input.value = item.toString();
+                form.appendChild(input);
+              });
+            } else {
+              // Якщо значення - не масив, додаємо звичайний інпут
+              const input = document.createElement("input");
+              input.type = "hidden";
+              input.name = key;
+              input.value = String(value);
+              form.appendChild(input);
+            }
           });
 
           document.body.appendChild(form);
