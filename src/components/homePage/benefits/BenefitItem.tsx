@@ -21,10 +21,10 @@ export default function BenefitItem({ benefitItem }: BenefitItemProps) {
         height="40"
         className="w-10 laptop:w-20 h-auto mb-[15px] laptop:mb-[30px]"
       />
-      <h3 className="w-[140px] desk:max-w-[174px] mb-2 laptop:mb-4 text-12semi laptop:text-20semi desk:text-24semi">
+      <h3 className="max-w-[140px] desk:max-w-[174px] mb-2 laptop:mb-4 text-12semi laptop:text-20semi desk:text-24semi">
         {title}
       </h3>
-      <p className="w-[134px] tab:w-[235px] tabxl:w-[179px] desk:w-[229px] text-12med laptop:text-14med desk:text-18med">
+      <p className="max-w-[134px] tab:max-w-full tab:w-[235px] tabxl:w-[179px] desk:w-[229px] text-12med laptop:text-14med desk:text-18med">
         {description}
       </p>
     </li>

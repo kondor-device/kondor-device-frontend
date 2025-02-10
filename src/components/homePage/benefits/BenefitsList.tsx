@@ -29,7 +29,7 @@ export default function BenefitsList() {
   ];
   return (
     <ul
-      className="flex flex-row flex-wrap tabxl:flex-nowrap gap-x-[10px] laptop:gap-x-6 deskxl:gap-x-[30px] gap-y-[13px] justify-between w-full
+      className="flex flex-row flex-wrap tabxl:flex-nowrap gap-x-2 mob:gap-x-[10px] laptop:gap-x-6 deskxl:gap-x-[30px] gap-y-[13px] justify-between w-full
     max-w-[555px] tabxl:max-w-full mx-auto"
     >
       {benefitsList.map((benefitItem, idx) => (
