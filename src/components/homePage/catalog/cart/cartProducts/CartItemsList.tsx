@@ -1,17 +1,20 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useCartStore } from "@/store/cartStore";
 import CartProductItem from "./CartItem";
 import { useTranslations } from "next-intl";
 
 export default function CartItemsList() {
   const t = useTranslations();
-  const { cartItems, getTotalAmount } = useCartStore();
-  const [totalAmount, setTotalAmount] = useState<number | null>(null);
+
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    setTotalAmount(getTotalAmount());
-  }, [getTotalAmount]);
+    setIsHydrated(true);
+  }, []);
+
+  const cartItems = useCartStore((state) => state.cartItems);
+  const totalAmount = useCartStore((state) => state.getTotalAmount());
 
   return (
     <div className="laptop:w-[40%] py-5 deskxl:py-10 pl-[15px] deskxl:pl-[30px] mt-4 tab:mt-8 laptop:mt-0 rounded-[20px] bg-dark">
@@ -20,7 +23,7 @@ export default function CartItemsList() {
       </h3>
       {cartItems.length > 0 ? (
         <ul
-          className="flex flex-col gap-y-3 deskxl:gap-y-[25px] h-[150px] laptop:h-[225px] deskxl:h-[265px] pr-[15px] deskxl:pr-[30px] overflow-y-auto scrollbar 
+          className="flex flex-col gap-y-3 deskxl:gap-y-[25px] max-h-[150px] laptop:max-h-full laptop:h-[225px] deskxl:h-[265px] pr-[15px] deskxl:pr-[30px] overflow-y-auto scrollbar 
       scrollbar-w-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow 
       scrollbar-track-transparent"
         >
@@ -29,18 +32,17 @@ export default function CartItemsList() {
           ))}
         </ul>
       ) : (
-        <div className="h-[150px] laptop:h-[225px] deskxl:h-[265px]"></div>
+        <div className="h-[48px] laptop:h-[225px] deskxl:h-[265px]"></div>
       )}
       <div className="flex justify-between mt-[15px] deskxl:mt-[30px] pt-3 deskxl:pt-[20px] pr-[15px] deskxl:pr-[30px] border-t border-white border-opacity-80 text-white">
         <p className="text-12med laptop:text-14med deskxl:text-24med">
           {t("homePage.catalog.totalSum")}
         </p>
-        {totalAmount !== null ? (
-          <p className="text-14semi laptop:text-16semi deskxl:text-28semi uppercase">
-            {totalAmount}
-            {t("homePage.catalog.hrn")}
-          </p>
-        ) : null}
+
+        <p className="text-14semi laptop:text-16semi deskxl:text-28semi uppercase">
+          {isHydrated ? totalAmount : "-"}
+          {t("homePage.catalog.hrn")}
+        </p>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 import IconClose from "@/components/shared/icons/IconCLose";
 import IconMinus from "@/components/shared/icons/IconMinus";
 import { CartItem } from "@/types/cartItem";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCartStore } from "@/store/cartStore";
 
 interface CounterProps {
@@ -10,8 +10,15 @@ interface CounterProps {
 }
 
 export default function Counter({ cartItem }: CounterProps) {
+  const { addToCart, removeFromCart, cartItems } = useCartStore();
+  const getItemCount = (items: CartItem[], itemId: string): number => {
+    return items.filter((item) => item.id === itemId).length;
+  };
+
+  useEffect(() => {
+    setCount(getItemCount(cartItems, cartItem.id));
+  }, [cartItems, cartItem.id]);
   const [count, setCount] = useState(0);
-  const { addToCart, removeFromCart } = useCartStore();
 
   const onMinusClick = () => {
     removeFromCart(cartItem.id);
