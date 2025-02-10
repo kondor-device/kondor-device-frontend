@@ -11,23 +11,37 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
+
+    await axios({
+      method: "post",
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}api/telegram`,
+      data: "Коллбек спрацював",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
     const {
       merchantAccount,
       orderReference,
-      transactionStatus,
       amount,
       currency,
+      authCode,
+      cardPan,
+      transactionStatus,
+      reasonCode,
       merchantSignature,
     } = body;
 
-    // Формуємо підпис для перевірки
     const signString = [
       merchantAccount,
       orderReference,
       amount,
       currency,
+      authCode,
+      cardPan,
       transactionStatus,
-      MERCHANT_SECRET_KEY,
+      reasonCode,
     ].join(";");
 
     const hmac = crypto.createHmac("md5", MERCHANT_SECRET_KEY);
@@ -42,20 +56,43 @@ export async function POST(req: NextRequest) {
     let orderStatus = "";
 
     if (transactionStatus === "Approved") {
-      statusMessage = `✅ Платіж успішний: Замовлення #${orderReference} оплачено на суму ${amount} ${currency}`;
-      orderStatus = "success";
+      statusMessage = `✅ Платіж успішний: Замовлення #${orderReference} оплачено на суму ${amount} грн.`;
+      orderStatus = "accept";
       console.log(`✅ Платіж успішний: ${orderReference}`);
     } else {
-      statusMessage = `❌ Платіж неуспішний: Замовлення #${orderReference} не було оплачено`;
-      orderStatus = "failed";
+      statusMessage = `❌ Платіж неуспішний: Замовлення #${orderReference} не було оплачено.`;
+      orderStatus = "decline";
       console.log(`❌ Платіж неуспішний: ${orderReference}`);
     }
 
-    await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}api/telegram`, {
-      text: statusMessage,
+    await axios({
+      method: "post",
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}api/telegram`,
+      data: statusMessage,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
-    return NextResponse.json({ transactionStatus: orderStatus });
+    // Формуємо підпис для відповіді
+    const responseTime = Math.floor(Date.now() / 1000);
+    const responseSignString = [
+      orderReference,
+      orderStatus,
+      responseTime,
+      MERCHANT_SECRET_KEY,
+    ].join(";");
+
+    const responseHmac = crypto.createHmac("md5", MERCHANT_SECRET_KEY);
+    responseHmac.update(responseSignString, "utf8");
+    const responseSignature = responseHmac.digest("hex");
+
+    return NextResponse.json({
+      orderReference,
+      status: orderStatus,
+      time: responseTime,
+      signature: responseSignature,
+    });
   } catch (error) {
     console.error("Помилка обробки платежу:", error);
     return NextResponse.json(
