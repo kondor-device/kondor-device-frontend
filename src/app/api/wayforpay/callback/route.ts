@@ -12,15 +12,6 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    await axios({
-      method: "post",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}api/telegram`,
-      data: "Коллбек спрацював",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
     const {
       merchantAccount,
       orderReference,
@@ -44,6 +35,7 @@ export async function POST(req: NextRequest) {
       reasonCode,
     ].join(";");
 
+    // Перевірка підпису вхідного запиту
     const hmac = crypto.createHmac("md5", MERCHANT_SECRET_KEY);
     hmac.update(signString, "utf8");
     const expectedSignature = hmac.digest("hex");
@@ -65,6 +57,7 @@ export async function POST(req: NextRequest) {
       console.log(`❌ Платіж неуспішний: ${orderReference}`);
     }
 
+    // Відправка повідомлення через Telegram
     await axios({
       method: "post",
       url: `${process.env.NEXT_PUBLIC_BASE_URL}api/telegram`,
@@ -74,19 +67,18 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Формуємо підпис для відповіді
-    const responseTime = Math.floor(Date.now() / 1000);
-    const responseSignString = [
-      orderReference,
-      orderStatus,
-      responseTime,
-      MERCHANT_SECRET_KEY,
-    ].join(";");
+    // Формуємо підпис для відповіді WayForPay
+    const responseTime = Math.floor(Date.now() / 1000); // Поточний час (Unix timestamp)
+    const responseSignString = [orderReference, orderStatus, responseTime].join(
+      ";"
+    );
 
+    // Створення HMAC_MD5 підпису для відповіді
     const responseHmac = crypto.createHmac("md5", MERCHANT_SECRET_KEY);
     responseHmac.update(responseSignString, "utf8");
     const responseSignature = responseHmac.digest("hex");
 
+    // Повертаємо відповідь у форматі, який чекає WayForPay
     return NextResponse.json({
       orderReference,
       status: orderStatus,
