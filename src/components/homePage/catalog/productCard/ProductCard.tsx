@@ -41,6 +41,7 @@ export default function ProductCard({
     chars,
     complect,
     preorder,
+    preordertext,
   } = product;
 
   const { photos } = coloropts[selectedColorIndex];
@@ -57,6 +58,7 @@ export default function ProductCard({
       id,
       uniqueId: uuidv4(),
       preorder,
+      preordertext,
       generalName: generalname,
       name,
       priceDiscount,
@@ -75,7 +77,7 @@ export default function ProductCard({
 
   return (
     <div
-      className="flex flex-col gap-y-[15px] laptop:flex-row laptop:items-center laptop:gap-x-8 min-h-full h-auto p-3 laptop:p-8 deskxl:p-[35px] 
+      className="relative flex flex-col gap-y-[15px] laptop:flex-row laptop:items-center laptop:gap-x-8 min-h-full h-auto px-3 pt-3 pb-8 laptop:p-8 deskxl:p-[35px] 
     rounded-[8px] laptop:rounded-[30px] bg-dark"
     >
       <ImagePicker
@@ -138,6 +140,11 @@ export default function ProductCard({
         >
           {preorder ? t("buttons.preOrder") : t("buttons.makeOrder")}
         </Button>
+        {preorder && preordertext ? (
+          <p className="absolute bottom-3 laptop:bottom-4 px-4 deskxl:px-6 text-10med laptop:text-14med text-white">
+            {preordertext}
+          </p>
+        ) : null}
       </div>
     </div>
   );

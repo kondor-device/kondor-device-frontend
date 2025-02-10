@@ -33,4 +33,5 @@ export interface ProductItem {
   chars: Characteristic[];
   cat: { name: string };
   preorder: boolean;
+  preordertext: string;
 }

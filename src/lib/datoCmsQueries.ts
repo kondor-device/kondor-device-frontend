@@ -12,6 +12,7 @@ export const GET_ALL_DATA_QUERY = `
         showonaddons
         showonmain
         preorder
+        preordertext
         chars {
           name
           char
@@ -54,6 +55,7 @@ export const GET_ALL_DATA_QUERY = `
   shownOnAddons: allItems(filter: {showonaddons: {eq: "true"}}) {
     id
     preorder
+    preordertext
     coloropts {
       color
       photos {
