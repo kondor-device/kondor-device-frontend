@@ -31,6 +31,10 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
       <CheckoutPopUp />,
       "laptop:max-w-[1100px] laptop:w-[1100px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
     );
+    const modalContainer = document.getElementById("modal");
+    if (modalContainer) {
+      modalContainer.scrollTop = 0;
+    }
   };
 
   return (
