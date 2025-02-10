@@ -149,7 +149,7 @@ export const handleSubmitForm = async <T>(
   setOrderData(collectedOrderData);
 
   const productName = updatedCartItems.map(
-    (item) => `${item.generalName} ${item.name}, колір: ${item.color}`
+    (item) => `${item.generalName} ${item.name} колір: ${item.color}`
   );
   const productPrice = updatedCartItems.map((item) => Number(item.actualPrice));
   const productCount = updatedCartItems.map(() => 1);
@@ -159,7 +159,7 @@ export const handleSubmitForm = async <T>(
       const { data } = await axios.post(`${BASE_URL}api/wayforpay/invoice`, {
         orderReference: `${orderNumber}`,
         orderDate: Math.floor(Date.now() / 1000),
-        amount: totalSum, //Змінити потім на реальну суму
+        amount: 1, //Змінити потім на реальну суму
         currency: "UAH",
         productName,
         productPrice,

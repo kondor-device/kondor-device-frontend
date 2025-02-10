@@ -35,6 +35,8 @@ export async function POST(req: NextRequest) {
       productPrice.map((item: string) => Number(item).toFixed(2)).join(";"),
     ].join(";");
 
+    console.log(signString);
+
     const hmac = crypto.createHmac("md5", MERCHANT_SECRET_KEY);
     hmac.update(signString, "utf8");
     const merchantSignature = hmac.digest("hex");
@@ -54,6 +56,8 @@ export async function POST(req: NextRequest) {
       productPrice: productPrice.map((item: string) => Number(item).toFixed(2)),
       apiVersion: 1,
     };
+
+    console.log(JSON.stringify(paymentData, null, 2));
 
     return NextResponse.json({ status: "success", paymentData });
   } catch (error) {

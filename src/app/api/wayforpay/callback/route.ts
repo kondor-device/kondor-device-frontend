@@ -12,6 +12,15 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
+    await axios({
+      method: "post",
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}api/telegram`,
+      data: "Коллбек спрацював",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
     const {
       merchantAccount,
       orderReference,
@@ -56,8 +65,13 @@ export async function POST(req: NextRequest) {
       console.log(`❌ Платіж неуспішний: ${orderReference}`);
     }
 
-    await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}api/telegram`, {
-      text: statusMessage,
+    await axios({
+      method: "post",
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}api/telegram`,
+      data: statusMessage,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
     // Формуємо підпис для відповіді
