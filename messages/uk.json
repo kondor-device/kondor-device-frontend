@@ -133,7 +133,9 @@
     "goHome": "Повернутись на головну",
     "goToCatalog": "Перейти до каталогу",
     "continueShopping": "Продовжити покупки",
-    "next": "Далі"
+    "next": "Далі",
+    "applyPromocode": "Застосувати промокод",
+    "removePromocode": "Видалити промокод"
   },
   "forms": {
     "name": "Iм’я *",
@@ -152,7 +154,8 @@
       "wrongPhone": "Вкажіть правильний номер телефону",
       "nameMinMaxSymbols": "Ім’я повинно містити від 2 до 30 символів",
       "nameAllowedSymbols": "Допустимі літери та дефіс, апостроф, лапки",
-      "startsWithZero": "Після +38 має бути цифра 0"
+      "startsWithZero": "Після +38 має бути цифра 0",
+      "noPromocode": "Промокод не знайдений"
     }
   },
   "notifications": {

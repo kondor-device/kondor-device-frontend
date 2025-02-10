@@ -14,6 +14,9 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
 
   const { id, name, generalname, coloropts, priceDiscount, price } = addonItem;
 
+  const actualPrice =
+    !!priceDiscount && priceDiscount < price ? priceDiscount : price;
+
   const cartItem = {
     id,
     uniqueId: uuidv4(),
@@ -21,6 +24,7 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
     name,
     priceDiscount,
     price,
+    actualPrice,
     image: coloropts[0]?.photos[0],
     color: coloropts[0]?.color,
     quantity: 1,
@@ -50,7 +54,7 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
       </div>
       <div className="flex items-end">
         <p className="w-fit text-10med mob:text-12med">
-          {!!priceDiscount && priceDiscount < price ? priceDiscount : price}
+          {actualPrice}
           {t("homePage.catalog.hrn")}
         </p>
         {!!priceDiscount && priceDiscount < price ? (

@@ -15,8 +15,16 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
 
   const { removeSingleItem } = useCartStore();
 
-  const { name, generalName, image, priceDiscount, price, color, uniqueId } =
-    cartItem;
+  const {
+    name,
+    generalName,
+    image,
+    priceDiscount,
+    price,
+    color,
+    uniqueId,
+    actualPrice,
+  } = cartItem;
 
   return (
     <li className="flex gap-x-[10px] deskxl:gap-x-[20px] justify-between">
@@ -49,7 +57,7 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
         </IconButton>
         <div className="">
           <p className="w-fit ml-auto text-10med mob:text-12med deskxl:text-20med text-white">
-            {!!priceDiscount && priceDiscount < price ? priceDiscount : price}
+            {actualPrice}
             {t("homePage.catalog.hrn")}
           </p>
           {!!priceDiscount && priceDiscount < price ? (

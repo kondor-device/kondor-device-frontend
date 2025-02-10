@@ -9,6 +9,7 @@ import { CheckoutValidation } from "@/schemas/checkoutFormValidation";
 import FormWithNotifications from "./FormWithNotifications";
 import { handleSubmitForm } from "@/utils/handleSubmitForm";
 import { useModalStore } from "@/store/modalStore";
+import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
 
 export interface ValuesCheckoutFormType {
@@ -31,6 +32,7 @@ export default function CheckoutPopUp() {
 
   const { closeModal } = useModalStore();
   const { activeModal } = useModalStore((state) => state);
+  const { promocode } = useCartStore();
 
   const initialValues: ValuesCheckoutFormType = {
     name: "",
@@ -38,7 +40,7 @@ export default function CheckoutPopUp() {
     phone: "",
     city: "",
     postOffice: "",
-    promocode: "",
+    promocode: promocode || "",
     payment: "Онлайн оплата (Wayforpay)",
   };
 

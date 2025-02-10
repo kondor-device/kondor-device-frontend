@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export async function getProducts(query: string, code: string) {
+export async function getPromocode(query: string, code: string) {
   try {
     const response = await axios({
       method: "post",
