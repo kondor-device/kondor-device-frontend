@@ -40,6 +40,7 @@ export default function ProductCard({
     coloropts,
     chars,
     complect,
+    preorder,
   } = product;
 
   const { photos } = coloropts[selectedColorIndex];
@@ -55,6 +56,7 @@ export default function ProductCard({
     addToCart({
       id,
       uniqueId: uuidv4(),
+      preorder,
       generalName: generalname,
       name,
       priceDiscount,
@@ -134,7 +136,7 @@ export default function ProductCard({
           onClick={onAddToCart}
           className="w-full laptop:w-[350px] deskxl:w-[437px] max-w-[327px] laptop:max-w-[350px] deskxl:max-w-[437px] h-9"
         >
-          {t("buttons.makeOrder")}
+          {preorder ? t("buttons.preOrder") : t("buttons.makeOrder")}
         </Button>
       </div>
     </div>

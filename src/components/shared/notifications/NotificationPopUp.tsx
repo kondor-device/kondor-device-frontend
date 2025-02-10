@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction } from "react";
 import ModalNotification from "../modal/ModalNotification";
-import SuccessfulMessage from "./SuccessfulMessage";
 import UnsuccessfulMessage from "./UnsuccessfulMessage";
 
 interface NotificationPopUpProps {
@@ -23,15 +22,7 @@ export default function NotificationPopUp({
         setIsPopUpShown={setIsNotificationShown}
         setIsError={setIsError}
       >
-        <>
-          {isError ? (
-            <UnsuccessfulMessage />
-          ) : (
-            <SuccessfulMessage
-              setIsNotificationShown={setIsNotificationShown}
-            />
-          )}
-        </>
+        <>{isError ? <UnsuccessfulMessage /> : null}</>
       </ModalNotification>
     </>
   );

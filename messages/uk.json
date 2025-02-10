@@ -127,6 +127,7 @@
   },
   "buttons": {
     "makeOrder": "Оформити замовлення",
+    "preOrder": "Передзамовлення",
     "haveQuestions": "Залишилися запитання? Напишіть нам: ",
     "telegram": "t.me/kondor_device",
     "join": "Приєднатись",

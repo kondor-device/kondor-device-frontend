@@ -113,7 +113,9 @@ export const handleSubmitForm = async <T>(
   const orderedListProducts = updatedCartItems
     .map(
       (cartItem) =>
-        `- ${cartItem.generalName} ${cartItem.name}, колір: ${cartItem.color}`
+        `- ${cartItem.preorder ? "Передзамовлення: " : ""}${
+          cartItem.generalName
+        } ${cartItem.name}, колір: ${cartItem.color}`
     )
     .join("\n");
 

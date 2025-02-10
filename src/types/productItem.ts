@@ -32,4 +32,5 @@ export interface ProductItem {
   coloropts: ColorOpt[];
   chars: Characteristic[];
   cat: { name: string };
+  preorder: boolean;
 }

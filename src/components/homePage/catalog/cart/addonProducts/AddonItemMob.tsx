@@ -12,7 +12,8 @@ interface AddonItemMobProps {
 export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
   const t = useTranslations();
 
-  const { id, name, generalname, coloropts, priceDiscount, price } = addonItem;
+  const { id, name, generalname, coloropts, priceDiscount, price, preorder } =
+    addonItem;
 
   const actualPrice =
     !!priceDiscount && priceDiscount < price ? priceDiscount : price;
@@ -20,6 +21,7 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
   const cartItem = {
     id,
     uniqueId: uuidv4(),
+    preorder,
     generalName: generalname,
     name,
     priceDiscount,
