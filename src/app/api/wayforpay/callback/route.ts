@@ -50,11 +50,9 @@ export async function POST(req: NextRequest) {
     if (transactionStatus === "Approved") {
       statusMessage = `✅ Платіж успішний: Замовлення #${orderReference} оплачено на суму ${amount} грн.`;
       orderStatus = "accept";
-      console.log(`✅ Платіж успішний: ${orderReference}`);
     } else {
       statusMessage = `❌ Платіж неуспішний: Замовлення #${orderReference} не було оплачено.`;
       orderStatus = "decline";
-      console.log(`❌ Платіж неуспішний: ${orderReference}`);
     }
 
     // Відправка повідомлення через Telegram

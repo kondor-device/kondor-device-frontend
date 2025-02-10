@@ -28,14 +28,12 @@ export async function POST(req: NextRequest) {
       MERCHANT_DOMAIN,
       orderReference,
       orderDate,
-      Number(amount).toFixed(2),
+      amount,
       currency,
       productName.join(";"),
       productCount.join(";"),
-      productPrice.map((item: string) => Number(item).toFixed(2)).join(";"),
+      productPrice.join(";"),
     ].join(";");
-
-    console.log(signString);
 
     const hmac = crypto.createHmac("md5", MERCHANT_SECRET_KEY);
     hmac.update(signString, "utf8");
@@ -48,16 +46,14 @@ export async function POST(req: NextRequest) {
       merchantAuthType: "SimpleSignature",
       merchantSignature,
       orderReference,
-      amount: Number(amount).toFixed(2),
+      amount,
       orderDate,
       currency,
       productName,
       productCount,
-      productPrice: productPrice.map((item: string) => Number(item).toFixed(2)),
+      productPrice: productPrice.map((item: string) => Number(item)),
       apiVersion: 1,
     };
-
-    console.log(JSON.stringify(paymentData, null, 2));
 
     return NextResponse.json({ status: "success", paymentData });
   } catch (error) {
