@@ -11,6 +11,7 @@ export const GET_ALL_DATA_QUERY = `
         priceDiscount
         showonaddons
         showonmain
+        preorder
         chars {
           name
           char
