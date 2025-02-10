@@ -1,7 +1,6 @@
 "use client";
 
 import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
-import Image from "next/image";
 import CustomizedInput from "@/components/shared/forms/formComponents/CustomizedInput";
 import { FormikProps } from "formik";
 import { ValuesCheckoutFormType } from "@/components/homePage/catalog/checkout/CheckoutPopUp";
@@ -68,21 +67,12 @@ export default function LocationInput({
         fieldName={fieldName}
         label={label}
         required
+        isLoading={isLoading}
         placeholder={placeholder}
         errors={formik.errors}
         touched={formik.touched}
         onChange={onChange}
       />
-      {isLoading && (
-        <Image
-          src="/images/icons/loader.svg"
-          alt="loader"
-          width={24}
-          height={24}
-          className="size-5 animate-rotation absolute right-3 top-[14px]"
-        />
-      )}
-
       <ul
         className={`${
           isDropDownOpen ? "block" : "hidden"

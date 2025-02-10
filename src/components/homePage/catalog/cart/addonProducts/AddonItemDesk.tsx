@@ -14,6 +14,9 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
 
   const { id, name, generalname, coloropts, priceDiscount, price } = addonItem;
 
+  const actualPrice =
+    !!priceDiscount && priceDiscount < price ? priceDiscount : price;
+
   const cartItem = {
     id,
     uniqueId: uuidv4(),
@@ -21,6 +24,7 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
     name,
     priceDiscount,
     price,
+    actualPrice,
     image: coloropts[0]?.photos[0],
     color: coloropts[0]?.color,
     quantity: 1,
@@ -49,7 +53,7 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
       </div>
       <div className="flex flex-col laptop:selection:gap-y-[10px] mr-auto">
         <p className="w-fit laptop:text-14med deskxl:text-20med">
-          {!!priceDiscount && priceDiscount < price ? priceDiscount : price}
+          {actualPrice}
           {t("homePage.catalog.hrn")}
         </p>
         {!!priceDiscount && priceDiscount < price ? (

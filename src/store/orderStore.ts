@@ -10,7 +10,8 @@ interface OrderData {
   phone: string;
   city: string;
   postOffice: string;
-  promocode: string;
+  promocode: string | null;
+  discount: number;
   payment: string;
   updatedCartItems: CartItem[];
   totalSum: number;

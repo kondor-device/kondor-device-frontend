@@ -48,6 +48,9 @@ export default function ProductCard({
     0
   );
 
+  const actualPrice =
+    !!priceDiscount && priceDiscount < price ? priceDiscount : price;
+
   const onAddToCart = () => {
     addToCart({
       id,
@@ -56,6 +59,7 @@ export default function ProductCard({
       name,
       priceDiscount,
       price,
+      actualPrice,
       image: coloropts[selectedColorIndex]?.photos[0],
       color: coloropts[selectedColorIndex]?.color,
       quantity: 1,

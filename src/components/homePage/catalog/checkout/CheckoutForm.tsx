@@ -11,6 +11,10 @@ import { ValuesCheckoutFormType } from "./CheckoutPopUp";
 import { searchCities } from "@/utils/searchCities";
 import { searchWarehouses } from "@/utils/searchWarehouses";
 import LocationInput from "@/components/shared/forms/formComponents/LocationInput";
+import TextButton from "@/components/shared/buttons/TextButton";
+import { getPromocode } from "@/utils/getPromocode";
+import { GET_PROMOCODE_BY_CODE } from "@/lib/datoCmsQueries";
+import { useCartStore } from "@/store/cartStore";
 
 interface City {
   Ref: string;
@@ -32,11 +36,14 @@ interface CheckoutFormProps {
 export default function CheckoutForm({ formik }: CheckoutFormProps) {
   const t = useTranslations();
 
+  const { promocode, applyPromocode, removePromocode } = useCartStore();
+
   const [cities, setCities] = useState<City[]>([]);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [cityRef, setCityRef] = useState<string | null>(null);
   const [isLoadingCities, setIsLoadingCities] = useState(false);
   const [isLoadingWarehouses, setIsLoadingWarehouses] = useState(false);
+  const [isLoadingPromocode, setIsLoadingPromocode] = useState(false);
   const [isCitiesDropDownOpen, setIsCitiesDropDownOpen] = useState(false);
   const [isWarehousesDropDownOpen, setIsWarehousesDropDownOpen] =
     useState(false);
@@ -100,6 +107,31 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
     setIsWarehousesDropDownOpen(true);
   };
 
+  const verifyPromo = async () => {
+    try {
+      setIsLoadingPromocode(true);
+      const promocode = await getPromocode(
+        GET_PROMOCODE_BY_CODE,
+        formik.values.promocode
+      );
+      if (promocode?.data?.allPromocodes?.length > 0) {
+        const discount = promocode.data.allPromocodes[0].discount;
+        applyPromocode(formik.values.promocode, discount);
+      } else {
+        formik.setFieldError("promocode", t("forms.errors.noPromocode"));
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+    } finally {
+      setIsLoadingPromocode(false);
+    }
+  };
+
+  const removePromo = async () => {
+    removePromocode();
+    formik.setFieldValue("promocode", "");
+  };
+
   return (
     <Form className="flex flex-col laptop:flex-row laptop:flex-wrap laptop:justify-between gap-y-4 w-full">
       <CustomizedInput
@@ -148,7 +180,6 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         onSelect={(city) => {
           formik.setFieldValue("city", city.description);
           setCityRef(city.key);
-          // setCities([]);
         }}
       />
 
@@ -167,18 +198,28 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         onChange={onWarehousesLocationInputChange}
         onSelect={(wh) => {
           formik.setFieldValue("postOffice", wh.description);
-          // setWarehouses([]);
         }}
       />
-      <CustomizedInput
-        fieldName="promocode"
-        label={t("forms.promocode")}
-        required={true}
-        placeholder={t("forms.promocode")}
-        errors={formik.errors}
-        touched={formik.touched}
-        labelClassName="laptop:w-[49%] deskxl:w-[31.5%]"
-      />
+
+      <div className="laptop:w-[49%] deskxl:w-[31.5%]">
+        <CustomizedInput
+          fieldName="promocode"
+          label={t("forms.promocode")}
+          required={false}
+          isLoading={isLoadingPromocode}
+          placeholder={t("forms.promocode")}
+          errors={formik.errors}
+          touched={formik.touched}
+        />
+        <TextButton
+          onClick={promocode ? removePromo : verifyPromo}
+          className="block ml-auto mr-2 mt-2 laptop:mt-3"
+        >
+          {promocode
+            ? t("buttons.removePromocode")
+            : t("buttons.applyPromocode")}
+        </TextButton>
+      </div>
 
       <div
         role="group"

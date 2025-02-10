@@ -74,3 +74,10 @@ export const GET_PRODUCTS_BY_IDS = `query GetProductsByIds($ids:[ItemId]) {
     priceDiscount
   }
 }`;
+
+export const GET_PROMOCODE_BY_CODE = `query PromoByCode($code: String!) {
+  allPromocodes(filter: { promocode: { eq: $code } }) {
+    promocode
+    discount
+  }
+}`;

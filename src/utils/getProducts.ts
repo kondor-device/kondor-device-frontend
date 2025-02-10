@@ -10,7 +10,7 @@ export async function getProducts(query: string) {
       data: {
         query,
         variables: {},
-        includeDrafts: true,
+        includeDrafts: false,
       },
     });
     return response.data;
