@@ -13,12 +13,14 @@ export default function Modal() {
     }))
   );
 
-  if (!activeModal.name) return null;
-
   return (
     <div
       id="modal"
-      className={`fixed z-[80] left-1/2 bottom-0 transform -translate-y-[calc(50dvh-50%)] -translate-x-1/2 min-w-[312px] max-w-[390px] tab:max-w-[496px] laptop:max-w-[950px]
+      className={`${
+        activeModal.name
+          ? "opacity-100 -translate-y-[calc(50dvh-50%)] transition duration-700 ease-slow"
+          : "opacity-0 translate-y-[50px] tab:translate-y-[100px] pointer-events-none"
+      } fixed z-[80] left-1/2 bottom-0 transform -translate-x-1/2 min-w-[312px] max-w-[390px] tab:max-w-[496px] laptop:max-w-[950px]
       w-[95.5%] tab:w-[496px] laptop:w-[950px] max-h-[90dvh] overflow-y-auto px-4 py-[30px] laptop:px-[60px] laptop:py-14 rounded-[20px] laptop:rounded-[30px] bg-white
       scrollbar scrollbar-w-[3px] laptop:scrollbar-w-[8px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll
       shadow-notification ${activeModal.modalStyles}`}
