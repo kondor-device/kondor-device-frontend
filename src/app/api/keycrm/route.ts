@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    const API_KEY = process.env.KEYCRM_API_KEY;
+    const API_KEY = process.env.CRM_API_KEY;
 
     if (!API_KEY) {
       return NextResponse.json(
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const response = await axios.post(CRM_API_URL, body, {
+    const response = await axios.post(`${CRM_API_URL}/order`, body, {
       headers: {
         Authorization: `Bearer ${API_KEY}`,
         "Content-Type": "application/json",

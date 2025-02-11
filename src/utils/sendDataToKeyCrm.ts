@@ -1,6 +1,8 @@
 import axios from "axios";
 import { OrderData } from "@/types/orderData";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
 export async function sendDataToKeyCrm(data: OrderData) {
   const {
     orderDate,
@@ -37,15 +39,18 @@ export async function sendDataToKeyCrm(data: OrderData) {
       shipping_receive_point: postOffice,
     },
     products,
-    payments: { payment_method: payment, amount: totalSum },
+    payments: [{ payment_method: payment, amount: totalSum }],
   };
+
   try {
-    const response = await axios.post("/api/keycrm", crmOrderData, {
+    const response = await axios({
+      method: "post",
+      url: `${BASE_URL}api/keycrm`,
+      data: crmOrderData,
       headers: {
         "Content-Type": "application/json",
       },
     });
-
     return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
