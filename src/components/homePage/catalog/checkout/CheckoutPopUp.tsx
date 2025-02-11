@@ -88,7 +88,7 @@ export default function CheckoutPopUp() {
                 />
               </div>
             </div>
-            <div className="flex flex-col laptop:flex-row-reverse laptop:justify-between laptop:items-center gap-y-5 w-full mx-auto mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
+            <div className="flex flex-col laptop:flex-row-reverse items-center laptop:justify-between laptop:items-center gap-y-5 w-full mx-auto mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
               <SubmitButton
                 className="w-full max-w-[350px] laptop:max-w-[330px] deskxl:max-w-[437px] max-h-[64px] deskxl:max-h-[85px]"
                 onClick={formik.submitForm}
