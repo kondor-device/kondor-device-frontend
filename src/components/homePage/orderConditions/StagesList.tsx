@@ -27,7 +27,7 @@ export default function StagesList() {
   return (
     <ul className="flex flex-col gap-x-[10px] gap-y-4 laptop:gap-y-[30px] max-w-[332px] laptop:max-w-[451px] desk:max-w-[678px]">
       {stagesList.map((stageItem, idx) => (
-        <StageItem key={idx} stageItem={stageItem} />
+        <StageItem key={idx} stageItem={stageItem} idx={idx} />
       ))}
     </ul>
   );
