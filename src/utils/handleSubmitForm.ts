@@ -146,7 +146,7 @@ export const handleSubmitForm = async <T>(
     promocode: values.promocode.trim(),
     payment: values.payment.trim(),
     orderedListProducts,
-    totalSum: `${totalSum} грн`,
+    totalSum,
   };
 
   setOrderData(collectedOrderData);
