@@ -25,6 +25,7 @@ export async function sendDataToKeyCrm(data: OrderData) {
   }));
 
   const crmOrderData = {
+    source_id: 2,
     source_uuid: orderNumber,
     orderedAt: orderDate,
     promocode,
