@@ -11,6 +11,8 @@ export const DATOCMS_URL = "https://graphql.datocms.com/";
 
 export const NOVA_POSHTA_API_URL = "https://api.novaposhta.ua/v2.0/json/";
 
+export const CRM_API_URL = "https://openapi.keycrm.app/v1";
+
 export const SCOPES = [
   "https://www.googleapis.com/auth/drive",
   "https://www.googleapis.com/auth/drive.file",

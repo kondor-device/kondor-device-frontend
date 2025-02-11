@@ -1,21 +1,6 @@
 import { create } from "zustand";
-import { CartItem } from "@/types/cartItem";
+import { OrderData } from "@/types/orderData";
 import { persist } from "zustand/middleware";
-
-interface OrderData {
-  orderDate: string;
-  orderNumber: string;
-  name: string;
-  surname: string;
-  phone: string;
-  city: string;
-  postOffice: string;
-  promocode: string | null;
-  discount: number;
-  payment: string;
-  updatedCartItems: CartItem[];
-  totalSum: number;
-}
 
 interface OrderState {
   orderData: OrderData | null;
