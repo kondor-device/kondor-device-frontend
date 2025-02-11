@@ -6,12 +6,14 @@ import BenefitsList from "./BenefitsList";
 import Button from "@/components/shared/buttons/Button";
 import { Link } from "@/i18n/routing";
 
+const SECTION_ID = "home-page-benefits";
+
 export default function Benefits() {
   const t = useTranslations();
   const locale = useLocale();
 
   return (
-    <Section className="pb-[60px] laptop:pb-[100px]">
+    <Section id={SECTION_ID} className="pb-[60px] laptop:pb-[100px]">
       <SectionTitle>{t("homePage.benefits.title")}</SectionTitle>
       <BenefitsList />
       <Link
