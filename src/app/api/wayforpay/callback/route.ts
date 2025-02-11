@@ -50,20 +50,19 @@ export async function POST(req: NextRequest) {
     if (transactionStatus === "Approved") {
       statusMessage = `✅ Платіж успішний: Замовлення #${orderReference} оплачено на суму ${amount} грн.`;
       orderStatus = "accept";
+
+      // Відправка повідомлення через Telegram
+      await axios({
+        method: "post",
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}api/telegram`,
+        data: statusMessage,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     } else {
-      statusMessage = `❌ Платіж неуспішний: Замовлення #${orderReference} не було оплачено.`;
       orderStatus = "decline";
     }
-
-    // Відправка повідомлення через Telegram
-    await axios({
-      method: "post",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}api/telegram`,
-      data: statusMessage,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
 
     // Формуємо підпис для відповіді WayForPay
     const responseTime = Math.floor(Date.now() / 1000); // Поточний час (Unix timestamp)
