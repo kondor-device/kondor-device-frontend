@@ -22,10 +22,11 @@ export default function Catalog({
   return (
     <section id="catalog" className="pt-[60px] laptop:pt-[100px]">
       <ul className="flex flex-col gap-y-5 laptop:gap-y-[30px]">
-        {sortedCategories.map(({ name, items }: Category, idx: number) => (
+        {sortedCategories.map(({ name, id, items }: Category, idx: number) => (
           <CatalogSlider
             key={idx}
             title={name}
+            id={id}
             products={items}
             shownOnAddonsProducts={shownOnAddonsProducts}
           />
