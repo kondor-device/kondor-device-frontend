@@ -20,8 +20,8 @@ export default function WeOfferItem({ weOfferItem, idx }: WeOfferItemProps) {
         commonStyles={`w-[46px] h-[46px] transition duration-700 ease-slow ${
           idx === 0 ? "" : idx === 1 ? "delay-300" : "delay-[600ms]"
         }`}
-        visibleStyles="opacity-100 translate-y-0"
-        unVisibleStyles="opacity-0 translate-y-[10px] tab:translate-y-[10px]"
+        visibleStyles="opacity-100 translate-x-0"
+        unVisibleStyles="opacity-0 -translate-x-[20px]"
       >
         <Image
           src={`/images/icons/${icon}Black.svg`}
@@ -34,10 +34,14 @@ export default function WeOfferItem({ weOfferItem, idx }: WeOfferItemProps) {
       <AnimationWrapper
         sectionId="home-page-we-offer"
         commonStyles={`max-w-[70%] transition duration-700 ease-slow ${
-          idx === 0 ? "" : idx === 1 ? "delay-300" : "delay-[600ms]"
+          idx === 0
+            ? "delay-300"
+            : idx === 1
+            ? "delay-[600ms]"
+            : "delay-[900ms]"
         }`}
-        visibleStyles="opacity-100 translate-x-0"
-        unVisibleStyles="opacity-0 -translate-x-[10px]"
+        visibleStyles="opacity-100 translate-y-0"
+        unVisibleStyles="opacity-0 translate-y-[20px]"
       >
         <p className="text-14semi laptop:text-16semi deskxl:text-20semi">
           {title}
