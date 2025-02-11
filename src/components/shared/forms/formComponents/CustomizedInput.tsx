@@ -75,7 +75,7 @@ export default function CustomizedInput({
             alt="loader"
             width={24}
             height={24}
-            className="size-5 animate-rotation absolute right-3 top-[14px]"
+            className="size-5 animate-rotation absolute right-3 deskxl:right-5 top-[14px] deskxl:top-[22px]"
           />
         )}
       </div>
