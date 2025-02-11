@@ -14,6 +14,7 @@ import { ProductItem } from "@/types/productItem";
 import { useModalStore } from "@/store/modalStore";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { getPromocode } from "./getPromocode";
+import { sendDataToKeyCrm } from "./sendDataToKeyCrm";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -93,7 +94,7 @@ export const handleSubmitForm = async <T>(
   // Об'єднуємо дату та час
   const orderDate = `${formattedDate} ${formattedTime}`;
 
-  //Формуємо повну інформацію по замовленню
+  // Формуємо повну інформацію по замовленню
   const collectedOrderData = {
     orderDate,
     orderNumber,
@@ -109,7 +110,7 @@ export const handleSubmitForm = async <T>(
     totalSum,
   };
 
-  //Формуємо список товарів з переносами на новий рядок для Telegram та Google sheets
+  // Формуємо список товарів з переносами на новий рядок для Telegram та Google sheets
   const orderedListProducts = updatedCartItems
     .map(
       (cartItem) =>
@@ -119,6 +120,7 @@ export const handleSubmitForm = async <T>(
     )
     .join("\n");
 
+  // Формуємо дані для telegram
   const dataTelegram =
     `<b>Замовлення #${orderNumber}</b>\n` +
     `<b>Дата замовлення:</b> ${orderDate}\n` +
@@ -132,6 +134,7 @@ export const handleSubmitForm = async <T>(
     `<b>Список товарів:</b>\n${orderedListProducts}\n` +
     `<b>Сума замовлення:</b> ${totalSum} грн\n`;
 
+  // Формуємо дані для googlesheets
   const dataGoogle = {
     orderDate,
     orderNumber,
@@ -148,6 +151,7 @@ export const handleSubmitForm = async <T>(
 
   setOrderData(collectedOrderData);
 
+  // Формуємо дані для інвойсу
   const productName = updatedCartItems.map(
     (item) => `${item.generalName} ${item.name} колір: ${item.color}`
   );
@@ -184,7 +188,7 @@ export const handleSubmitForm = async <T>(
                 form.appendChild(input);
               });
             } else {
-              // Якщо значення - не масив, додаємо звичайний інпут
+              // Якщо значення не масив, додаємо звичайний інпут
               const input = document.createElement("input");
               input.type = "hidden";
               input.name = key;
@@ -221,6 +225,8 @@ export const handleSubmitForm = async <T>(
         "Content-Type": "application/json",
       },
     });
+
+    await sendDataToKeyCrm(collectedOrderData);
 
     router.push("/uk/order-confirmation");
 
