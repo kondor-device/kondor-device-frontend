@@ -16,7 +16,7 @@ export default function WeOfferList() {
   return (
     <ul className="flex flex-col tabxl:flex-row gap-x-6 gap-y-5 items-center tabxl:justify-between w-full">
       {weOfferList.map((weOffertItem, idx) => (
-        <WeOfferItem key={idx} weOfferItem={weOffertItem} />
+        <WeOfferItem key={idx} weOfferItem={weOffertItem} idx={idx} />
       ))}
     </ul>
   );

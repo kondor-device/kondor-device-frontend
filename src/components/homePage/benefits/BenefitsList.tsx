@@ -33,7 +33,7 @@ export default function BenefitsList() {
     max-w-[555px] tabxl:max-w-full mx-auto"
     >
       {benefitsList.map((benefitItem, idx) => (
-        <BenefitItem key={idx} benefitItem={benefitItem} />
+        <BenefitItem key={idx} benefitItem={benefitItem} idx={idx} />
       ))}
     </ul>
   );

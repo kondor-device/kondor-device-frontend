@@ -11,23 +11,31 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
 import EmptyCategory from "./EmptyCategory";
+import AnimationWrapper from "../hero/AnimationWrapper";
 
 interface CatalogSliderProps {
+  id: string;
   title: string;
   products: ProductItem[];
   shownOnAddonsProducts: ProductItem[];
 }
 
 export default function CatalogSlider({
+  id,
   title,
   products,
   shownOnAddonsProducts,
 }: CatalogSliderProps) {
   return (
-    <li id={title || ""}>
-      <h2 className="container w-full max-w-[1920px] mb-[30px] text-22bold laptop:text-40bold text-center">
-        {title}
-      </h2>
+    <li id={title || id}>
+      <AnimationWrapper
+        sectionId={title || id}
+        commonStyles={`container w-full max-w-[1920px] mb-[30px] transition duration-700 ease-slow `}
+        visibleStyles="opacity-100 translate-x-0"
+        unVisibleStyles="opacity-0 -translate-x-[50px]"
+      >
+        <h2 className="text-22bold laptop:text-40bold text-center">{title}</h2>
+      </AnimationWrapper>
       {products.length > 0 ? (
         <Swiper
           centeredSlides={true}
