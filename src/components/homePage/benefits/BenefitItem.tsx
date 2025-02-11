@@ -26,7 +26,13 @@ export default function BenefitItem({ benefitItem, idx }: BenefitItemProps) {
       <AnimationWrapper
         sectionId="home-page-benefits"
         commonStyles={`max-w-[140px] desk:max-w-[174px] mb-2 laptop:mb-4 transition duration-700 ease-slow ${
-          idx === 0 ? "" : idx === 1 ? "delay-300" : "delay-[600ms]"
+          idx === 0
+            ? ""
+            : idx === 1
+            ? "delay-300"
+            : idx === 2
+            ? "delay-[600ms]"
+            : "delay-[900ms]"
         }`}
         visibleStyles="opacity-100 translate-x-0"
         unVisibleStyles="opacity-0 -translate-x-[20px]"
@@ -43,8 +49,8 @@ export default function BenefitItem({ benefitItem, idx }: BenefitItemProps) {
             : idx === 1
             ? "delay-500"
             : idx === 2
-            ? "delay-700"
-            : "delay-[900ms]"
+            ? "delay-[800ms]"
+            : "delay-[1100ms]"
         }`}
         visibleStyles="opacity-100 translate-y-0"
         unVisibleStyles="opacity-0 translate-y-[20px]"
