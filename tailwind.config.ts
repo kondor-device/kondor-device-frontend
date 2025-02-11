@@ -86,6 +86,10 @@ export default {
         notificationMob: "0px 30px 50px 0px rgba(25, 25, 25, 0.2)",
         cartButton: "0px 4px 40px 0px rgba(25, 25, 25, 0.3)",
       },
+      transitionTimingFunction: {
+        gentle: "cubic-bezier(0.47, 0, 0.23, 1.38)",
+        slow: "cubic-bezier(0.4, 0.0, 0.2, 1)",
+      },
       keyframes: {
         rotate: {
           "0%": {
