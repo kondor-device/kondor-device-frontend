@@ -11,12 +11,17 @@ interface HeroProps {
   shownOnMainProducts: ProductItem[];
 }
 
+const SECTION_ID = "home-page-hero";
+
 export default function Hero({ shownOnMainProducts }: HeroProps) {
   const locale = useLocale();
   const t = useTranslations();
 
   return (
-    <section className="relative laptop:h-[710px] deskxl:h-[1020px]">
+    <section
+      id={SECTION_ID}
+      className="relative laptop:h-[710px] deskxl:h-[1020px]"
+    >
       <Image
         src="/images/bgImages/homeHero/keyboards.webp"
         alt="keyboards"
