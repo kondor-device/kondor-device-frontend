@@ -40,7 +40,9 @@ export async function sendDataToKeyCrm(data: OrderData) {
       shipping_receive_point: postOffice,
     },
     products,
-    payments: [{ payment_method: payment, amount: totalSum }],
+    payments: [
+      { payment_method: payment, amount: totalSum, status: "not_paid" },
+    ],
   };
 
   try {

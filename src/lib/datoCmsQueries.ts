@@ -59,6 +59,7 @@ export const GET_ALL_DATA_QUERY = `
     preordertext
     coloropts {
       color
+      code
       photos {
         alt
         url
