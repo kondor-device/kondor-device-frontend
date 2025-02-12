@@ -155,6 +155,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
       <CustomizedInput
         fieldName="phone"
         label={t("forms.phone")}
+        inputType="tel"
         required={true}
         placeholder={t("forms.phone")}
         errors={formik.errors}
