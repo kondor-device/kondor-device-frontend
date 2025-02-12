@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/third-parties": "^15.1.7",
     "axios": "^1.7.9",
     "formik": "^2.4.6",
     "googleapis": "^144.0.0",

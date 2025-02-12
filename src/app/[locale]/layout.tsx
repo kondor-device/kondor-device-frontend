@@ -8,6 +8,7 @@ import "./globals.css";
 import Header from "@/components/shared/header/Header";
 import Footer from "@/components/shared/footer/Footer";
 import { generatePageMetaData } from "@/utils/generatePageMetaData";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const montserrat = Montserrat({
   weight: ["400", "500", "600", "700"],
@@ -45,6 +46,9 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className="scroll-smooth">
+      <head>
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} />
+      </head>
       <body
         className={`${montserrat.variable} flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
       >
