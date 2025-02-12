@@ -9,6 +9,7 @@ export interface CartItem {
   quantity: number;
   image: { url: string; alt: string };
   color: string;
+  code: string;
   preorder: boolean;
   preordertext: string;
 }
