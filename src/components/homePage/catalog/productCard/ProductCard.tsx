@@ -66,6 +66,7 @@ export default function ProductCard({
       actualPrice,
       image: coloropts[selectedColorIndex]?.photos[0],
       color: coloropts[selectedColorIndex]?.color,
+      code: coloropts[selectedColorIndex]?.code,
       quantity: 1,
     });
     openModal(

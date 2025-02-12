@@ -38,6 +38,7 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
     actualPrice,
     image: coloropts[0]?.photos[0],
     color: coloropts[0]?.color,
+    code: coloropts[0]?.code,
     quantity: 1,
   };
 
