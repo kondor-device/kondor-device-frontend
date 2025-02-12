@@ -20,7 +20,7 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
   const localizedCatalogLink =
     locale === "uk" ? `/#catalog` : `/${locale}#catalog`;
   const localizedCategoryLink =
-    locale === "uk" ? `/#${cat?.name}` : `/${locale}#${cat?.name}`;
+    locale === "uk" ? `/#${cat?.id}` : `/${locale}#${cat?.id}`;
 
   return (
     <li

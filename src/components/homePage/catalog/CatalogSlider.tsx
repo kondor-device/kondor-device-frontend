@@ -27,9 +27,9 @@ export default function CatalogSlider({
   shownOnAddonsProducts,
 }: CatalogSliderProps) {
   return (
-    <li id={title || id}>
+    <li id={id}>
       <AnimationWrapper
-        sectionId={title || id}
+        sectionId={id}
         commonStyles={`container w-full max-w-[1920px] mb-[30px] transition duration-700 ease-slow `}
         visibleStyles="opacity-100 translate-x-0"
         unVisibleStyles="opacity-0 -translate-x-[50px]"
