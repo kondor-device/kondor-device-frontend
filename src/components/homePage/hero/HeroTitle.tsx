@@ -15,7 +15,7 @@ export default function HeroTitle() {
       >
         <AnimationWrapper
           sectionId="home-page-hero"
-          commonStyles="absolute -top-1 -right-4 -z-10 w-screen h-[39px] laptop:h-[49px] desk:h-[70px] rounded-[12px] rounded-[20px] bg-yellowGradient transition delay-700 duration-1000 ease-slow"
+          commonStyles="absolute -top-1 -right-4 -z-10 w-screen h-[39px] laptop:h-[49px] desk:h-[70px] rounded-[12px] laptop:rounded-[20px] bg-yellowGradient transition delay-700 duration-1000 ease-slow"
           visibleStyles="opacity-100 translate-x-0"
           unVisibleStyles="opacity-0 -translate-x-full"
         >
