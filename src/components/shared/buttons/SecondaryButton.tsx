@@ -14,8 +14,8 @@ export default function SecondaryButton({
       aria-label={ariaLabel}
       type={type}
       onClick={onClick}
-      className={`flex items-center justify-center w-fit p-2 laptop:py-5 laptop:px-[25px] text-12med laptop:text-16med deskxl:text-22med rounded-full text-white bg-dark 
-        border border-white transition duration-300 ease-out enabled:active:scale-95 laptop:enabled:hover:invert enabled:focus-visible:invert outline-none ${className}`}
+      className={`flex items-center justify-center w-fit p-2 tabxl:py-5 tabxl:px-[25px] text-12med tabxl:text-16med deskxl:text-22med rounded-full text-white bg-dark 
+        border border-white transition duration-300 ease-out enabled:active:scale-95 tabxl:enabled:hover:invert enabled:focus-visible:invert outline-none ${className}`}
     >
       {children}
 
@@ -24,7 +24,7 @@ export default function SecondaryButton({
         alt="arrow"
         width={14}
         height={8}
-        className="w-[7px] laptop:w-[14px] h-auto ml-3"
+        className="w-[7px] tabxl:w-[14px] h-auto ml-3"
       />
     </button>
   );

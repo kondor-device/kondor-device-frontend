@@ -18,7 +18,7 @@ export default function Button({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`flex items-center justify-center min-h-[36px] laptop:min-h-[64px] deskxl:min-h-[85px] px-8 laptop:px-[30px] py-[19px] laptop:py-[30px] text-14bold laptop:text-16bold 
+      className={`flex items-center justify-center min-h-[36px] tabxl:min-h-[64px] deskxl:min-h-[85px] px-8 laptop:px-[30px] py-[19px] laptop:py-[30px] text-14bold laptop:text-16bold 
         deskxl:text-24bold rounded-full transition duration-300 ease-out enabled:active:scale-95 outline-none ${
           variant === "primary"
             ? "enabled:bg-yellowGradient enabled:active:brightness-[115%] laptop:enabled:hover:brightness-[115%] enabled:focus-visible:brightness-[115%]"
