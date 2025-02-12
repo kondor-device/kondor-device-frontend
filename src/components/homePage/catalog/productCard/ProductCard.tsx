@@ -53,8 +53,6 @@ export default function ProductCard({
   const actualPrice =
     !!priceDiscount && priceDiscount < price ? priceDiscount : price;
 
-  console.log(coloropts);
-
   const onAddToCart = () => {
     addToCart({
       id,

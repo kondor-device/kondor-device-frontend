@@ -24,6 +24,7 @@ export async function sendDataToKeyCrm(data: OrderData) {
     purchased_price: item.actualPrice,
     quantity: item.quantity,
     name: `${item.generalName} ${item.name}`,
+    sku: item.code,
   }));
 
   const crmOrderData = {
