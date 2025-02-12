@@ -34,7 +34,9 @@ export default function CatalogSlider({
         visibleStyles="opacity-100 translate-x-0"
         unVisibleStyles="opacity-0 -translate-x-[50px]"
       >
-        <h2 className="text-22bold laptop:text-40bold text-center">{title}</h2>
+        <h2 className="text-22bold tabxl:text-32bold laptop:text-40bold text-center">
+          {title}
+        </h2>
       </AnimationWrapper>
       {products.length > 0 ? (
         <Swiper

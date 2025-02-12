@@ -78,15 +78,15 @@ export default function ProductCard({
 
   return (
     <div
-      className="relative flex flex-col gap-y-[15px] laptop:flex-row laptop:items-center laptop:gap-x-8 min-h-full h-auto px-3 pt-3 pb-8 laptop:p-8 deskxl:p-[35px] 
-    rounded-[8px] laptop:rounded-[30px] bg-dark"
+      className="relative flex flex-col gap-y-[15px] tabxl:flex-row tabxl:items-center tabxl:gap-x-8 min-h-full h-auto px-3 pt-3 pb-8 tabxl:p-8 deskxl:p-[35px] 
+    rounded-[8px] tabxl:rounded-[30px] bg-dark"
     >
       <ImagePicker
         photos={photos}
         selectedPhotoIndex={selectedPhotoIndex}
         setSelectedPhotoIndex={setSelectedPhotoIndex}
       />
-      <div className="flex flex-col gap-y-[5px] laptop:gap-y-[15px]">
+      <div className="flex flex-col gap-y-[5px] tabxl:gap-y-[15px]">
         <CardTitle generalname={generalname} name={name} />
         {coloropts.length > 0 ? (
           <ColorPicker
@@ -95,25 +95,25 @@ export default function ProductCard({
             setSelectedColorIndex={setSelectedColorIndex}
           />
         ) : null}
-        <div className="flex items-end gap-x-[10px] laptop:gap-x-[25px] mb-[10px] laptop:mb-[15px]">
-          <p className="text-lg font-medium leading-[16px] laptop:text-45bold deskxl:text-54bold text-white uppercase">
+        <div className="flex items-end gap-x-[10px] tabxl:gap-x-[25px] mb-[10px] tabxl:mb-[15px]">
+          <p className="text-lg font-medium leading-[16px] tabxl:text-45bold deskxl:text-54bold text-white uppercase">
             {!!priceDiscount && priceDiscount < price ? priceDiscount : price}
             {t("homePage.catalog.hrn")}
           </p>
           {!!priceDiscount && priceDiscount < price ? (
-            <div className="flex laptop:flex-col-reverse items-end laptop:items-start laptop:justify-center gap-x-[5px]">
-              <p className="text-sm font-bold leading-none laptop:text-22bold text-grey uppercase line-through">
+            <div className="flex tabxl:flex-col-reverse items-end tabxl:items-start tabxl:justify-center gap-x-[5px]">
+              <p className="text-sm font-bold leading-none tabxl:text-22bold text-grey uppercase line-through">
                 {price}
                 {t("homePage.catalog.hrn")}
               </p>
-              <p className="text-[10px] font-medium leading-[11px] laptop:text-16med text-yellow">
+              <p className="text-[10px] font-medium leading-[11px] tabxl:text-16med text-yellow">
                 {t("homePage.catalog.economy")}
                 {savings}%
               </p>
             </div>
           ) : null}
         </div>
-        <div className="flex gap-x-[5px] laptop:gap-x-5 mb-[10px] laptop:mb-[5px]">
+        <div className="flex gap-x-[5px] tabxl:gap-x-5 mb-[10px] tabxl:mb-[5px]">
           <SecondaryButton
             onClick={() =>
               openModal(
@@ -137,12 +137,12 @@ export default function ProductCard({
         </div>
         <Button
           onClick={onAddToCart}
-          className="w-full laptop:w-[350px] deskxl:w-[437px] max-w-[327px] laptop:max-w-[350px] deskxl:max-w-[437px] h-9"
+          className="w-full tabxl:w-[350px] deskxl:w-[437px] max-w-[327px] tabxl:max-w-[350px] deskxl:max-w-[437px] h-9"
         >
           {preorder ? t("buttons.preOrder") : t("buttons.makeOrder")}
         </Button>
         {preorder && preordertext ? (
-          <p className="absolute bottom-3 laptop:bottom-4 px-4 deskxl:px-6 text-10med laptop:text-14med text-white">
+          <p className="absolute bottom-3 tabxl:bottom-4 px-4 deskxl:px-6 text-10med tabxl:text-14med text-white">
             {preordertext}
           </p>
         ) : null}

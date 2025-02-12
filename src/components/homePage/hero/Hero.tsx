@@ -21,7 +21,7 @@ export default function Hero({ shownOnMainProducts }: HeroProps) {
   return (
     <section
       id={SECTION_ID}
-      className="relative laptop:h-[710px] deskxl:h-[1020px]"
+      className="relative tabxl:h-[710px] deskxl:h-[1020px]"
     >
       <AnimationWrapper
         sectionId={SECTION_ID}
@@ -34,10 +34,10 @@ export default function Hero({ shownOnMainProducts }: HeroProps) {
           alt="keyboards"
           width={1678}
           height={2045}
-          className="hidden laptop:block absolute top-0 left-0 -z-20 w-[35%] laptop:w-[570px] deskxl:w-[43.7%] max-w-[839px] h-auto"
+          className="hidden tabxl:block absolute top-0 left-0 -z-20 w-[35%] tabxl:w-[540px] laptop:w-[570px] deskxl:w-[43.7%] max-w-[839px] h-auto"
         />
       </AnimationWrapper>
-      <div className="flex flex-col laptop:flex-row laptop:justify-between laptop:gap-x-10 container w-full max-w-[1920px] pt-[40px] laptop:pt-[20px] deskxl:pt-[100px] h-full pb-[60px] laptop:pb-[50px] deskxl:pb-[100px]">
+      <div className="flex flex-col tabxl:flex-row laptop:justify-between tabxl:gap-x-10 container w-full max-w-[1920px] pt-[40px] tabxl:pt-[20px] deskxl:pt-[100px] h-full pb-[60px] tabxl:pb-[50px] deskxl:pb-[100px]">
         <div className="my-auto">
           <HeroTitle />
           <AnimationWrapper
@@ -48,7 +48,7 @@ export default function Hero({ shownOnMainProducts }: HeroProps) {
           >
             <Link
               href={locale === "uk" ? `/#catalog` : `/${locale}#catalog`}
-              className="hidden laptop:block w-full tab:w-fit max-w-[350px] laptop:max-w-[437px] laptop:w-[437px] laptop:h-[85px] mt-[30px] laptop:mt-[42px] mx-auto laptop:mx-0"
+              className="hidden tabxl:block w-[350px] max-w-[350px] laptop:max-w-[437px] laptop:w-[437px] tabxl:h-[85px] mt-[30px] tabxl:mt-[42px] mx-auto tabxl:mx-0"
             >
               <Button className="w-full">{t("buttons.goToCatalog")}</Button>
             </Link>
@@ -57,7 +57,7 @@ export default function Hero({ shownOnMainProducts }: HeroProps) {
         <HeroProducts shownOnMainProducts={shownOnMainProducts} />
         <Link
           href={locale === "uk" ? `/#catalog` : `/${locale}#catalog`}
-          className="block laptop:hidden w-full max-w-[350px] laptop:h-[85px] mx-auto"
+          className="block tabxl:hidden w-full max-w-[350px] tabxl:h-[85px] mx-auto"
         >
           <Button className="w-full">{t("buttons.goToCatalog")}</Button>
         </Link>

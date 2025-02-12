@@ -6,7 +6,7 @@ export default function HeroTitle() {
   const t = useTranslations("homePage.hero.title");
 
   return (
-    <h1 className="inline-flex flex-col text-22bold laptop:text-40bold desk:text-45bold leading-[33px] uppercase">
+    <h1 className="inline-flex flex-col text-22bold tabxl:text-32bold laptop:text-40bold desk:text-45bold leading-[33px] uppercase">
       <AnimationWrapper
         sectionId="home-page-hero"
         commonStyles="w-fit relative transition duration-1000 ease-slow"
@@ -15,7 +15,7 @@ export default function HeroTitle() {
       >
         <AnimationWrapper
           sectionId="home-page-hero"
-          commonStyles="absolute -top-1 -right-4 -z-10 w-screen h-[39px] laptop:h-[49px] desk:h-[70px] rounded-[12px] laptop:rounded-[20px] bg-yellowGradient transition delay-700 duration-1000 ease-slow"
+          commonStyles="absolute -top-1 -right-4 -z-10 w-screen h-[39px] tabxl:h-[44px] laptop:h-[49px] desk:h-[70px] rounded-[12px] laptop:rounded-[20px] bg-yellowGradient transition delay-700 duration-1000 ease-slow"
           visibleStyles="opacity-100 translate-x-0"
           unVisibleStyles="opacity-0 -translate-x-full"
         >
