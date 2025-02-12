@@ -44,6 +44,7 @@ export const GET_ALL_DATA_QUERY = `
       price
       priceDiscount
       cat {
+      id
       name
       }
       coloropts {

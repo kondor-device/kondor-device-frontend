@@ -31,7 +31,7 @@ export interface ProductItem {
   complect: ComplectItem[];
   coloropts: ColorOpt[];
   chars: Characteristic[];
-  cat: { name: string };
+  cat: { name: string; id: string };
   preorder: boolean;
   preordertext: string;
 }
