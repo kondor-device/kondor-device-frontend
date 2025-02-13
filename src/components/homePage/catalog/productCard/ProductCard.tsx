@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useModalStore } from "@/store/modalStore";
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
 import CartPopUp from "../cart/CartPopUp";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 interface ProductCardProps {
   product: ProductItem;
@@ -69,6 +70,7 @@ export default function ProductCard({
       code: coloropts[selectedColorIndex]?.code,
       quantity: 1,
     });
+    sendGTMEvent({ event: "add_to_cart" });
     openModal(
       "cartPopUp",
       <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />,
