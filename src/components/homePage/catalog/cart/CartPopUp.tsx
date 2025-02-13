@@ -8,6 +8,7 @@ import Button from "@/components/shared/buttons/Button";
 import { useTranslations } from "next-intl";
 import { useModalStore } from "@/store/modalStore";
 import CheckoutPopUp from "../checkout/CheckoutPopUp";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 interface CartPopUpProps {
   shownOnAddonsProducts: ProductItem[];
@@ -35,6 +36,7 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
     if (modalContainer) {
       modalContainer.scrollTop = 0;
     }
+    sendGTMEvent({ event: "start_checkout" });
   };
 
   return (

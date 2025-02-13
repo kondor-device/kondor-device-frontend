@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useModalStore } from "@/store/modalStore";
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
 import CartPopUp from "../cart/CartPopUp";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 interface ProductCardProps {
   product: ProductItem;
@@ -74,6 +75,7 @@ export default function ProductCard({
       <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />,
       "laptop:max-w-[1100px] laptop:w-[1100px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
     );
+    sendGTMEvent({ event: "add_to_cart" });
   };
 
   return (

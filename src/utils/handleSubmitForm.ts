@@ -15,6 +15,7 @@ import { useModalStore } from "@/store/modalStore";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { getPromocode } from "./getPromocode";
 import { sendDataToKeyCrm } from "./sendDataToKeyCrm";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -235,6 +236,8 @@ export const handleSubmitForm = async <T>(
     resetForm();
 
     clearCart();
+
+    sendGTMEvent({ event: "submit_order" });
   } catch (error) {
     setIsError(true);
     setIsNotificationShown(true);
