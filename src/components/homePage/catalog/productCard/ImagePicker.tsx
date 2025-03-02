@@ -25,7 +25,7 @@ export default function ImagePicker({
           alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
           width={1080}
           height={1080}
-          className="max-w-full max-h-full object-contain"
+          className="max-w-full max-h-full object-cover"
         />
       </div>
       <div
@@ -47,7 +47,7 @@ export default function ImagePicker({
                 alt={alt || "keyboard"}
                 width={1080}
                 height={1080}
-                className="max-w-full max-h-full object-contain"
+                className="max-w-full max-h-full object-cover"
               />
             </li>
           ))}
