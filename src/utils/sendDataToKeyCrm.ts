@@ -20,8 +20,7 @@ export async function sendDataToKeyCrm(data: OrderData) {
   } = data;
 
   const products = updatedCartItems.map((item) => ({
-    price: item.price,
-    purchased_price: item.actualPrice,
+    price: item.actualPrice,
     quantity: item.quantity,
     name: `${item.generalName} ${item.name}`,
     sku: item.code,
