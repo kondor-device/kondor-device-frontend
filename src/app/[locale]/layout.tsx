@@ -8,7 +8,7 @@ import "./globals.css";
 import Header from "@/components/shared/header/Header";
 import Footer from "@/components/shared/footer/Footer";
 import { generatePageMetaData } from "@/utils/generatePageMetaData";
-// import { GoogleTagManager } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 import type { Viewport } from "next";
 
@@ -16,9 +16,6 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  userScalable: false,
-  // Also supported but less commonly used
-  // interactiveWidget: 'resizes-visual',
 };
 
 const montserrat = Montserrat({
@@ -58,7 +55,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className="scroll-smooth">
       <head>
-        {/* <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} /> */}
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} />
       </head>
       <body
         className={`${montserrat.variable} flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
