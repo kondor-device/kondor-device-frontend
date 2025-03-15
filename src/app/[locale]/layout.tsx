@@ -8,7 +8,7 @@ import "./globals.css";
 import Header from "@/components/shared/header/Header";
 import Footer from "@/components/shared/footer/Footer";
 import { generatePageMetaData } from "@/utils/generatePageMetaData";
-import { GoogleTagManager } from "@next/third-parties/google";
+// import { GoogleTagManager } from "@next/third-parties/google";
 
 const montserrat = Montserrat({
   weight: ["400", "500", "600", "700"],
