@@ -51,7 +51,7 @@ export default async function LocaleLayout({
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
-        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} />
+        {/* <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} /> */}
       </head>
       <body
         className={`${montserrat.variable} flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
