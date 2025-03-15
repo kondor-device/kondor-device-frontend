@@ -10,6 +10,14 @@ import Footer from "@/components/shared/footer/Footer";
 import { generatePageMetaData } from "@/utils/generatePageMetaData";
 import { GoogleTagManager } from "@next/third-parties/google";
 
+import type { Viewport } from "next";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 const montserrat = Montserrat({
   weight: ["400", "500", "600", "700"],
   variable: "--font-montserrat",
@@ -48,10 +56,6 @@ export default async function LocaleLayout({
     <html lang={locale} className="scroll-smooth">
       <head>
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
-        />
       </head>
       <body
         className={`${montserrat.variable} flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
