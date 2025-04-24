@@ -3,6 +3,7 @@ import { ProductItem } from "@/types/productItem";
 import Image from "next/image";
 import React from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { formatSum } from "@/utils/formatSum";
 import { Link } from "@/i18n/routing";
 
 interface HeroProductCardProps {
@@ -49,7 +50,7 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
         href={cat?.name ? localizedCategoryLink : localizedCatalogLink}
         className="block w-fit mx-auto"
       >
-        <SmallButton>{`${t("homePage.hero.from")} ${(
+        <SmallButton>{`${t("homePage.hero.from")} ${formatSum(
           priceDiscount || price
         ).toString()} ${t("homePage.catalog.hrn")}`}</SmallButton>
       </Link>
