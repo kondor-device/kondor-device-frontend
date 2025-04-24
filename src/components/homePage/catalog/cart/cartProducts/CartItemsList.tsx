@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useCartStore } from "@/store/cartStore";
 import CartProductItem from "./CartItem";
 import { useTranslations } from "next-intl";
+import { formatSum } from "@/utils/formatSum";
 
 export default function CartItemsList() {
   const t = useTranslations();
@@ -40,7 +41,7 @@ export default function CartItemsList() {
         </p>
 
         <p className="text-14semi laptop:text-16semi deskxl:text-28semi uppercase">
-          {isHydrated ? totalAmount : "-"}
+          {isHydrated ? formatSum(totalAmount) : "-"}
           {t("homePage.catalog.hrn")}
         </p>
       </div>

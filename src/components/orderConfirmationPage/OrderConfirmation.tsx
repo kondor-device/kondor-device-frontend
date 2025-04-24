@@ -4,6 +4,7 @@ import PopUpTitle from "../shared/titles/PopUpTitle";
 import { useLocale, useTranslations } from "next-intl";
 import { useOrderStore } from "@/store/orderStore";
 import { Link } from "@/i18n/routing";
+import { formatSum } from "@/utils/formatSum";
 
 export default function OrderConfirmation() {
   const t = useTranslations("");
@@ -48,7 +49,7 @@ export default function OrderConfirmation() {
           <li className="flex items-center py-[20px] deskxl:py-[25px] border-b border-white border-opacity-[58%]">
             <p>{t("notifications.successful.total")}</p>
             <p className="ml-2 text-12med laptop:text-18med text-white">
-              {totalSum}
+              {formatSum(totalSum)}
               {t("homePage.catalog.hrn")}
             </p>
           </li>

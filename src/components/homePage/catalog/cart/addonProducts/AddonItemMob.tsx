@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { ProductItem } from "@/types/productItem";
 import Counter from "./Counter";
 import { v4 as uuidv4 } from "uuid";
+import { formatSum } from "@/utils/formatSum";
 
 interface AddonItemMobProps {
   addonItem: ProductItem;
@@ -71,7 +72,7 @@ export default function AddonItemMob({ addonItem }: AddonItemMobProps) {
         </p>
         {!!priceDiscount && priceDiscount < price ? (
           <p className="w-fit ml-[5px] text-10med text-grey line-through uppercase">
-            {price}
+            {formatSum(price)}
             {t("homePage.catalog.hrn")}
           </p>
         ) : null}

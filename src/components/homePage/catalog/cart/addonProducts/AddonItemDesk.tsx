@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import Counter from "./Counter";
 import { v4 as uuidv4 } from "uuid";
+import { formatSum } from "@/utils/formatSum";
 
 interface AddonItemDeskProps {
   addonItem: ProductItem;
@@ -70,7 +71,7 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
         </p>
         {!!priceDiscount && priceDiscount < price ? (
           <p className="w-fit laptop:text-12med deskxl:text-16med text-grey line-through uppercase">
-            {price}
+            {formatSum(price)}
             {t("homePage.catalog.hrn")}
           </p>
         ) : null}

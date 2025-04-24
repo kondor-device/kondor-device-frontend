@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import IconButton from "@/components/shared/buttons/IconButton";
 import IconClose from "@/components/shared/icons/IconCLose";
 import { useCartStore } from "@/store/cartStore";
+import { formatSum } from "@/utils/formatSum";
 
 interface CartItemProps {
   cartItem: CartItem;
@@ -57,12 +58,12 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
         </IconButton>
         <div className="">
           <p className="w-fit ml-auto text-10med mob:text-12med deskxl:text-20med text-white">
-            {actualPrice}
+            {formatSum(actualPrice)}
             {t("homePage.catalog.hrn")}
           </p>
           {!!priceDiscount && priceDiscount < price ? (
             <p className="w-fit ml-auto text-10med deskxl:text-16med text-grey line-through uppercase">
-              {price}
+              {formatSum(price)}
               {t("homePage.catalog.hrn")}
             </p>
           ) : null}

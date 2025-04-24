@@ -15,6 +15,7 @@ import { useModalStore } from "@/store/modalStore";
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
 import CartPopUp from "../cart/CartPopUp";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { formatSum } from "@/utils/formatSum";
 
 interface ProductCardProps {
   product: ProductItem;
@@ -99,13 +100,15 @@ export default function ProductCard({
         ) : null}
         <div className="flex items-end gap-x-[10px] tabxl:gap-x-[25px] mb-[10px] tabxl:mb-[15px]">
           <p className="text-lg font-medium leading-[16px] tabxl:text-45bold deskxl:text-54bold text-white uppercase">
-            {!!priceDiscount && priceDiscount < price ? priceDiscount : price}
+            {!!priceDiscount && priceDiscount < price
+              ? formatSum(priceDiscount)
+              : formatSum(price)}
             {t("homePage.catalog.hrn")}
           </p>
           {!!priceDiscount && priceDiscount < price ? (
             <div className="flex tabxl:flex-col-reverse items-end tabxl:items-start tabxl:justify-center gap-x-[5px]">
               <p className="text-sm font-bold leading-none tabxl:text-22bold text-grey uppercase line-through">
-                {price}
+                {formatSum(price)}
                 {t("homePage.catalog.hrn")}
               </p>
               <p className="text-[10px] font-medium leading-[11px] tabxl:text-16med text-yellow">
