@@ -3,7 +3,7 @@ import React from "react";
 
 export default function WarrantyPage() {
   return (
-    <div>
+    <div className="pt-[82px] tabxl:pt-[113px]">
       <Warranty />
     </div>
   );
