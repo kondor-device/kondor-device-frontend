@@ -16,7 +16,7 @@ export default function NavMenu({ setIsHeaderMenuOpened }: NavMenuProps) {
   const menuList = [
     { title: t("header.navMenu.home"), path: "" },
     { title: t("header.navMenu.catalog"), path: "#catalog" },
-    { title: t("header.navMenu.delivery"), path: "#delivery" },
+    { title: t("header.navMenu.delivery"), path: "delivery" },
     { title: t("header.navMenu.about"), path: "about" },
     { title: t("header.navMenu.faq"), path: "#faq" },
   ];
