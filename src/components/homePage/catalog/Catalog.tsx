@@ -23,19 +23,27 @@ export default function Catalog({
     <section id="catalog" className="pt-[60px] laptop:pt-[100px]">
       <ul className="flex flex-col gap-y-5 laptop:gap-y-[30px]">
         {sortedCategories.map(({ name, id, items }: Category, idx: number) => {
-          // 🔽 фільтрація продуктів, у яких showonmain === false
+          // фільтрація продуктів, у яких showonmain === false
           const filteredItems = items.filter(
             (item) => item.showonmain === false
           );
 
           if (filteredItems.length === 0) return null;
 
+          // якщо продуктів менше 5 — додаємо копії
+          const paddedItems = [...filteredItems];
+          while (paddedItems.length < 5) {
+            paddedItems.push(
+              filteredItems[paddedItems.length % filteredItems.length]
+            );
+          }
+
           return (
             <CatalogSlider
               key={idx}
               title={name}
               id={id}
-              products={filteredItems}
+              products={paddedItems}
               shownOnAddonsProducts={shownOnAddonsProducts}
             />
           );
