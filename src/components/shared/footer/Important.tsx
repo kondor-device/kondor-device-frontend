@@ -8,8 +8,8 @@ export default function Important() {
 
   const importantList = [
     { title: t("footer.important.list.home"), path: "/" },
-    { title: t("footer.important.list.catalog"), path: "/#catalog" },
-    { title: t("footer.important.list.delivery"), path: "/#delivery" },
+    { title: t("footer.important.list.catalog"), path: "/catalog" },
+    { title: t("footer.important.list.delivery"), path: "/delivery" },
     { title: t("footer.important.list.about"), path: "/about" },
   ];
 
