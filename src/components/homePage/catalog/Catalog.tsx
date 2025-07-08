@@ -22,15 +22,24 @@ export default function Catalog({
   return (
     <section id="catalog" className="pt-[60px] laptop:pt-[100px]">
       <ul className="flex flex-col gap-y-5 laptop:gap-y-[30px]">
-        {sortedCategories.map(({ name, id, items }: Category, idx: number) => (
-          <CatalogSlider
-            key={idx}
-            title={name}
-            id={id}
-            products={items}
-            shownOnAddonsProducts={shownOnAddonsProducts}
-          />
-        ))}
+        {sortedCategories.map(({ name, id, items }: Category, idx: number) => {
+          // 🔽 фільтрація продуктів, у яких showonmain === false
+          const filteredItems = items.filter(
+            (item) => item.showonmain === false
+          );
+
+          if (filteredItems.length === 0) return null;
+
+          return (
+            <CatalogSlider
+              key={idx}
+              title={name}
+              id={id}
+              products={filteredItems}
+              shownOnAddonsProducts={shownOnAddonsProducts}
+            />
+          );
+        })}
       </ul>
     </section>
   );
