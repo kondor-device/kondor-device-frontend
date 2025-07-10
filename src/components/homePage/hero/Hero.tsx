@@ -47,7 +47,11 @@ export default function Hero({ shownOnMainProducts }: HeroProps) {
             unVisibleStyles="opacity-0 laptop:translate-y-[50px]"
           >
             <Link
-              href={locale === "uk" ? `/#catalog` : `/${locale}#catalog`}
+              href={
+                locale === "uk"
+                  ? `/catalog?category=all`
+                  : `/${locale}/catalog?category=all`
+              }
               className="hidden tabxl:block w-[350px] max-w-[350px] laptop:max-w-[437px] laptop:w-[437px] tabxl:h-[85px] mt-[30px] tabxl:mt-[42px] mx-auto tabxl:mx-0"
             >
               <Button className="w-full">{t("buttons.goToCatalog")}</Button>
