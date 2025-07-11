@@ -1,11 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import LogoLink from "@/components/shared/logoLink/LogoLink";
 import BurgerMenu from "./burgerMenu/BurgerMenu";
 import BurgerMenuButton from "./burgerMenu/BurgerMenuButton";
 
-export default function HeaderMob() {
+interface HeaderMobProps {
+  setIsCatalogMenuOpened: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function HeaderMob({ setIsCatalogMenuOpened }: HeaderMobProps) {
   const [isHeaderMenuOpened, setIsHeaderMenuOpened] = useState(false);
   const toggleHeaderMenuOpen = () => setIsHeaderMenuOpened(!isHeaderMenuOpened);
 
@@ -21,9 +25,11 @@ export default function HeaderMob() {
         <BurgerMenuButton
           isHeaderMenuOpened={isHeaderMenuOpened}
           toggleHeaderMenuOpen={toggleHeaderMenuOpen}
+          setIsCatalogMenuOpened={setIsCatalogMenuOpened}
         />
       </div>
       <BurgerMenu
+        setIsCatalogMenuOpened={setIsCatalogMenuOpened}
         isHeaderMenuOpened={isHeaderMenuOpened}
         setIsHeaderMenuOpened={setIsHeaderMenuOpened}
       />

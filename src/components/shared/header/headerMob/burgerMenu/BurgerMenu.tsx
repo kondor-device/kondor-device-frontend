@@ -5,11 +5,13 @@ import SocialLinksList from "../../socialLinks/SocialLinksList";
 
 interface BurgerMenuMobTabProps {
   isHeaderMenuOpened: boolean;
+  setIsCatalogMenuOpened: Dispatch<SetStateAction<boolean>>;
   setIsHeaderMenuOpened: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function BurgerMenu({
   isHeaderMenuOpened,
+  setIsCatalogMenuOpened,
   setIsHeaderMenuOpened,
 }: BurgerMenuMobTabProps) {
   return (
@@ -22,7 +24,10 @@ export default function BurgerMenu({
       transition duration-[600ms] overflow-y-auto`}
     >
       <div className="container flex flex-col items-center gap-y-20 max-w-full">
-        <NavMenu setIsHeaderMenuOpened={setIsHeaderMenuOpened} />
+        <NavMenu
+          setIsHeaderMenuOpened={setIsHeaderMenuOpened}
+          setIsCatalogMenuOpened={setIsCatalogMenuOpened}
+        />
         <SocialLinksList setIsHeaderMenuOpened={setIsHeaderMenuOpened} />
       </div>
     </div>

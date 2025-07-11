@@ -85,6 +85,7 @@ export default {
         notification: "0px 4px 100px 0px rgba(25, 25, 25, 0.6)",
         notificationMob: "0px 30px 50px 0px rgba(25, 25, 25, 0.2)",
         cartButton: "0px 4px 40px 0px rgba(25, 25, 25, 0.3)",
+        catalogItem: "0px 2.18px 17.93px 0px rgba(0, 0, 0, 0.15)",
       },
       transitionTimingFunction: {
         gentle: "cubic-bezier(0.47, 0, 0.23, 1.38)",
