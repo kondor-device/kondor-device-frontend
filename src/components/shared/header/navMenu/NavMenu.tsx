@@ -5,10 +5,14 @@ import React, { Dispatch, SetStateAction } from "react";
 import MenuLink from "./MenuLink";
 
 interface NavMenuProps {
+  setIsCatalogMenuOpened: Dispatch<SetStateAction<boolean>>;
   setIsHeaderMenuOpened?: Dispatch<SetStateAction<boolean>> | undefined;
 }
 
-export default function NavMenu({ setIsHeaderMenuOpened }: NavMenuProps) {
+export default function NavMenu({
+  setIsCatalogMenuOpened,
+  setIsHeaderMenuOpened,
+}: NavMenuProps) {
   const t = useTranslations();
 
   const currentPath = usePathname().slice(1);
@@ -29,6 +33,7 @@ export default function NavMenu({ setIsHeaderMenuOpened }: NavMenuProps) {
             key={idx}
             menuItem={menuItem}
             setIsHeaderMenuOpened={setIsHeaderMenuOpened}
+            setIsCatalogMenuOpened={setIsCatalogMenuOpened}
             className={`${
               currentPath === menuItem.path
                 ? "text-yellow text-18semi"

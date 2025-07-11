@@ -88,3 +88,48 @@ export const GET_PROMOCODE_BY_CODE = `query PromoByCode($code: String!) {
     discount
   }
 }`;
+
+export const GET_ALL_CATEGORIES_QUERY = `query GetAllData {
+    allCategories {
+      id
+      name
+      pos
+      slug
+      image {
+        alt
+        url
+       }
+      items {
+        id
+        generalname
+        name
+        price
+        priceDiscount
+        showonaddons
+        showonmain
+        preorder
+        preordertext
+        chars {
+          name
+          char
+        }
+        coloropts {
+          code
+          color
+          colorset {
+            hex
+          }
+          photos {
+            alt
+            url
+          }
+        }
+        complect {
+          name
+          icon {
+            url
+            alt
+          }
+        }
+      }
+}}`;

@@ -1,6 +1,9 @@
+import { Dispatch, SetStateAction } from "react";
+
 interface BurgerMenuButtonProps {
   isHeaderMenuOpened?: boolean;
-  toggleHeaderMenuOpen?: () => void;
+  toggleHeaderMenuOpen: () => void;
+  setIsCatalogMenuOpened: Dispatch<SetStateAction<boolean>>;
 }
 
 const firstLineBaseStyles = "top-0 left-0 opacity-100";
@@ -13,12 +16,18 @@ const thirdLineTransformStyles = "bottom-[-2px] right-[3px] opacity-0";
 export default function BurgerMenuButton({
   isHeaderMenuOpened,
   toggleHeaderMenuOpen,
+  setIsCatalogMenuOpened,
 }: BurgerMenuButtonProps) {
+  const onBurgerButtonClick = () => {
+    setIsCatalogMenuOpened(false);
+    toggleHeaderMenuOpen();
+  };
+
   return (
     <button
       aria-label="open menu button"
       type="button"
-      onClick={toggleHeaderMenuOpen}
+      onClick={onBurgerButtonClick}
       className="group relative z-[60] size-[46px] px-[7.5px] py-[13px] outline-none before:content-['']
            before:absolute before:-z-10 before:top-0 before:left-0 before:rounded-full before:size-0 before:opacity-0 before:transition 
            before:duration-1000 before:ease-out active:before:opacity-100 focus-visible:before:opacity-100 laptop:hover:before:opacity-100 

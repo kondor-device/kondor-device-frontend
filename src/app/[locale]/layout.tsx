@@ -9,6 +9,8 @@ import Header from "@/components/shared/header/Header";
 import Footer from "@/components/shared/footer/Footer";
 import { generatePageMetaData } from "@/utils/generatePageMetaData";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { getProducts } from "@/utils/getProducts";
+import { GET_ALL_CATEGORIES_QUERY } from "@/lib/datoCmsQueries";
 
 import type { Viewport } from "next";
 
@@ -52,6 +54,10 @@ export default async function LocaleLayout({
 
   const messages = await getMessages();
 
+  const res = await getProducts(GET_ALL_CATEGORIES_QUERY);
+
+  console.log(res);
+
   return (
     <html lang={locale} className="scroll-smooth">
       <head>
@@ -61,7 +67,7 @@ export default async function LocaleLayout({
         className={`${montserrat.variable} flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
       >
         <NextIntlClientProvider messages={messages}>
-          <Header />
+          <Header categories={res.data.allCategories} />
           <main className="flex-1">{children}</main>
           <Footer />
         </NextIntlClientProvider>
