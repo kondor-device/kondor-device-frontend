@@ -14,7 +14,7 @@ export default function CatalogItem({
   const { title, category, icon } = catalogItem;
 
   return (
-    <li className="w-[calc(50%-8px)] py-5 px-6 rounded-[22px] shadow-catalogItem bg-white min-h-full">
+    <li className="w-[calc(50%-8px)] py-5 px-6 rounded-[22px] shadow-catalogItem bg-white min-h-full laptop:hover:scale-[102%] laptop:hover:-translate-y-1 transition duration-300 ease-out">
       <Link
         href={`/catalog?category=${category}`}
         className="flex flex-col justify-center items-center h-full"
