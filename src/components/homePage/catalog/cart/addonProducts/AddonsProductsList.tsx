@@ -13,7 +13,7 @@ export default function AddonsProductsList({
 }: AddonsProductsListProps) {
   const t = useTranslations();
 
-  if (!shownOnAddonsProducts.length) {
+  if (!shownOnAddonsProducts?.length) {
     return null;
   }
 

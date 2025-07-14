@@ -31,7 +31,10 @@ export default {
         },
       },
       fontSize: {
+        "8med": ["8px", { fontWeight: "500", lineHeight: "12px" }],
+        "9bold": ["9px", { fontWeight: "700", lineHeight: "12px" }],
         "10med": ["10px", { fontWeight: "500", lineHeight: "12px" }],
+        "10bold": ["10px", { fontWeight: "700", lineHeight: "12px" }],
         "12reg": ["12px", { fontWeight: "400", lineHeight: "15px" }],
         "12med": ["12px", { fontWeight: "500", lineHeight: "15px" }],
         "12semi": ["12px", { fontWeight: "600", lineHeight: "15px" }],
@@ -79,13 +82,15 @@ export default {
       boxShadow: {
         card: "0px 0.74px 11.12px 0px rgba(103, 103, 103, 0.25)",
         colorPickerThin: "0 0 0 1px #FFFFFF",
-        colorPicker: "0 0 0 2px #FFB300",
+        colorPicker: "0 0 0 1px #FFB300",
         imagePicker: "0 0 0 2px #FFB300",
         radio: "0 0 0 1px #FFB300",
         notification: "0px 4px 100px 0px rgba(25, 25, 25, 0.6)",
         notificationMob: "0px 30px 50px 0px rgba(25, 25, 25, 0.2)",
         cartButton: "0px 4px 40px 0px rgba(25, 25, 25, 0.3)",
         catalogItem: "0px 2.18px 17.93px 0px rgba(0, 0, 0, 0.15)",
+        catalogFilter: "0px 2px 30px 0px rgba(103, 103, 103, 0.25)",
+        catalogCard: "0px 2px 30px 0px rgba(103, 103, 103, 0.10)",
       },
       transitionTimingFunction: {
         gentle: "cubic-bezier(0.47, 0, 0.23, 1.38)",
