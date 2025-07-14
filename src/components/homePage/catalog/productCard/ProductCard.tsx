@@ -34,8 +34,6 @@ export default function ProductCard({
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
 
-  console.log(shownOnAddonsProducts);
-
   const {
     id,
     generalname,

@@ -13,8 +13,6 @@ export default function CatalogSlider({
 }: CatalogSliderProps) {
   const currentItems = currentCategories.flatMap((category) => category.items);
 
-  console.log(currentItems);
-
   return (
     <div className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
       {currentItems.map((item, idx) => (

@@ -61,8 +61,6 @@ export default async function LocaleLayout({
 
   const res = await getProducts(GET_ALL_CATEGORIES_QUERY);
 
-  console.log(res.data.shownonaddons);
-
   return (
     <html lang={locale} className="scroll-smooth">
       <head>

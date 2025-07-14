@@ -19,8 +19,6 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     categories: categoryArray,
   });
 
-  console.log(res);
-
   return (
     <div className="pt-[82px] tabxl:pt-[113px]">
       <Catalog
