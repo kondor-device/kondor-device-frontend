@@ -16,7 +16,7 @@ export default function CatalogItem({
   return (
     <li className="w-[calc(50%-8px)] py-5 px-6 rounded-[22px] shadow-catalogItem bg-white min-h-full laptop:hover:scale-[102%] laptop:hover:-translate-y-1 transition duration-300 ease-out">
       <Link
-        href={`/catalog?category=${category}`}
+        href={`/catalog?categories=${category}`}
         className="flex flex-col justify-center items-center h-full"
         onClick={() => setIsCatalogMenuOpened(false)}
       >

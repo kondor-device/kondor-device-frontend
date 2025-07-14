@@ -8,6 +8,7 @@ export const GET_ALL_DATA_QUERY = `
         id
         generalname
         name
+        slug
         price
         priceDiscount
         showonaddons
@@ -89,7 +90,8 @@ export const GET_PROMOCODE_BY_CODE = `query PromoByCode($code: String!) {
   }
 }`;
 
-export const GET_ALL_CATEGORIES_QUERY = `query GetAllData {
+export const GET_ALL_CATEGORIES_QUERY = `
+  query GetAllData {
     allCategories {
       id
       name
@@ -98,7 +100,7 @@ export const GET_ALL_CATEGORIES_QUERY = `query GetAllData {
       image {
         alt
         url
-       }
+      }
       items {
         id
         generalname
@@ -132,4 +134,91 @@ export const GET_ALL_CATEGORIES_QUERY = `query GetAllData {
           }
         }
       }
-}}`;
+    }
+
+    shownOnAddons: allItems(filter: { showonaddons: { eq: "true" } }) {
+      id
+      preorder
+      preordertext
+      coloropts {
+        color
+        code
+        photos {
+          alt
+          url
+        }
+      }
+      generalname
+      name
+      price
+      priceDiscount
+    }
+  }
+`;
+
+export const GET_CATEGORIES_BY_SLUGS_QUERY = `
+  query GetAllData($categories: [String!]!) {
+    allCategories(filter: { slug: { in: $categories } }) {
+      id
+      name
+      pos
+      slug
+      image {
+        alt
+        url
+      }
+      items {
+        id
+        generalname
+        name
+        slug
+        price
+        priceDiscount
+        showonaddons
+        showonmain
+        preorder
+        preordertext
+        chars {
+          name
+          char
+        }
+        coloropts {
+          code
+          color
+          colorset {
+            hex
+          }
+          photos {
+            alt
+            url
+          }
+        }
+        complect {
+          name
+          icon {
+            url
+            alt
+          }
+        }
+      }
+    }
+
+    shownOnAddons: allItems(filter: {showonaddons: {eq: "true"}}) {
+    id
+    preorder
+    preordertext
+    coloropts {
+      color
+      code
+      photos {
+        alt
+        url
+      }
+    }
+    generalname
+    name
+    price
+    priceDiscount
+  }
+  }
+`;

@@ -24,6 +24,7 @@ export interface ProductItem {
   id: string;
   generalname: string;
   name: string;
+  slug: string;
   price: number;
   priceDiscount: number;
   showonaddons: boolean;

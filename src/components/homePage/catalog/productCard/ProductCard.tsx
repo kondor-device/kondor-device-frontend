@@ -16,6 +16,7 @@ import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
 import CartPopUp from "../cart/CartPopUp";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { formatSum } from "@/utils/formatSum";
+import { Link } from "@/i18n/routing";
 
 interface ProductCardProps {
   product: ProductItem;
@@ -33,10 +34,13 @@ export default function ProductCard({
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
 
+  console.log(shownOnAddonsProducts);
+
   const {
     id,
     generalname,
     name,
+    slug,
     price,
     priceDiscount,
     coloropts,
@@ -90,7 +94,13 @@ export default function ProductCard({
         setSelectedPhotoIndex={setSelectedPhotoIndex}
       />
       <div className="flex flex-col gap-y-[5px] tabxl:gap-y-[15px]">
-        <CardTitle generalname={generalname} name={name} />
+        <Link
+          href={`/catalog/${slug}?color=${coloropts[
+            selectedColorIndex
+          ]?.color.toLowerCase()}`}
+        >
+          <CardTitle generalname={generalname} name={name} />
+        </Link>
         {coloropts.length > 0 ? (
           <ColorPicker
             coloropts={coloropts}
