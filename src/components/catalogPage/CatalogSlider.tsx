@@ -16,7 +16,7 @@ export default function CatalogSlider({
   console.log(currentItems);
 
   return (
-    <div className="flex flex-wrap gap-x-6 gap-y-[30px]">
+    <div className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
       {currentItems.map((item, idx) => (
         <CatalogCard key={idx} product={item} shownOnAddons={shownOnAddons} />
       ))}

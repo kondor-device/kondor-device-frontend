@@ -14,7 +14,7 @@ export default function Catalog({
 }: CatalogProps) {
   console.log(currentCategories);
   return (
-    <section className="flex gap-[30px] container max-w-[1920px] mt-6">
+    <section className="flex gap-4 laptop:gap-[30px] container max-w-[1920px] mt-6">
       <CatalogFilter />
       <CatalogSlider
         currentCategories={currentCategories}

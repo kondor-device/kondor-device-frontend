@@ -16,10 +16,10 @@ export default function ColorPicker({
   const selectedColorName = coloropts[selectedColorIndex]?.color || "";
 
   return (
-    <div className="mb-4">
-      <div className="text-14bold mb-4">
+    <div className="mb-5 desk:mb-4">
+      <div className="text-10bold desk:text-14bold mb-3 desk:mb-4">
         Колір:{" "}
-        <span className="text-14med lowercase text-grey">
+        <span className="text-10med desk:text-14med lowercase text-grey">
           {selectedColorName}
         </span>
       </div>
