@@ -7,11 +7,11 @@
   --dark: #191919;
   --yellow: #ffb300;
   --lightGrey: #d9d9d9;
-  /* scrollbar-gutter: stable; */
 }
 
 :root:has(.no-doc-scroll) {
   overflow: hidden;
+  scrollbar-gutter: stable;
 }
 
 body {

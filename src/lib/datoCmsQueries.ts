@@ -1,6 +1,6 @@
 export const GET_ALL_DATA_QUERY = `
   query GetAllData {
-    allCategories {
+    allCategories(orderBy: pos_ASC) {
       id
       name
       pos
@@ -158,7 +158,10 @@ export const GET_ALL_CATEGORIES_QUERY = `
 
 export const GET_CATEGORIES_BY_SLUGS_QUERY = `
   query GetAllData($categories: [String!]!) {
-    allCategories(filter: { slug: { in: $categories } }) {
+    allCategories(
+      filter: { slug: { in: $categories } }
+      orderBy: pos_ASC
+    ) {
       id
       name
       pos

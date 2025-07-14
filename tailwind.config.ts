@@ -82,7 +82,7 @@ export default {
       boxShadow: {
         card: "0px 0.74px 11.12px 0px rgba(103, 103, 103, 0.25)",
         colorPickerThin: "0 0 0 1px #FFFFFF",
-        colorPicker: "0 0 0 2px #FFB300",
+        colorPicker: "0 0 0 1px #FFB300",
         imagePicker: "0 0 0 2px #FFB300",
         radio: "0 0 0 1px #FFB300",
         notification: "0px 4px 100px 0px rgba(25, 25, 25, 0.6)",

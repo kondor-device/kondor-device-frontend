@@ -1,5 +1,8 @@
 import { getProducts } from "@/utils/getProducts";
-import { GET_CATEGORIES_BY_SLUGS_QUERY } from "@/lib/datoCmsQueries";
+import {
+  GET_ALL_DATA_QUERY,
+  GET_CATEGORIES_BY_SLUGS_QUERY,
+} from "@/lib/datoCmsQueries";
 import Catalog from "@/components/catalogPage/Catalog";
 
 interface CatalogPageProps {
@@ -15,9 +18,14 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     ? categories.split(",")
     : [];
 
-  const res = await getProducts(GET_CATEGORIES_BY_SLUGS_QUERY, {
-    categories: categoryArray,
-  });
+  const res =
+    categories === "all"
+      ? await getProducts(GET_ALL_DATA_QUERY, {
+          categories: categoryArray,
+        })
+      : await getProducts(GET_CATEGORIES_BY_SLUGS_QUERY, {
+          categories: categoryArray,
+        });
 
   return (
     <div className="pt-[82px] tabxl:pt-[113px]">

@@ -13,7 +13,7 @@ export default function Catalog({
   shownOnAddons,
 }: CatalogProps) {
   return (
-    <section className="flex gap-4 laptop:gap-[30px] container max-w-[1920px] mt-6">
+    <section className="flex gap-4 laptop:gap-[30px] container max-w-[1920px] mt-6 pb-8 laptop:pb-[100px]">
       <CatalogFilter />
       <CatalogSlider
         currentCategories={currentCategories}
