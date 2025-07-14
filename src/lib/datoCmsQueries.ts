@@ -225,3 +225,73 @@ export const GET_CATEGORIES_BY_SLUGS_QUERY = `
   }
   }
 `;
+
+export const GET_CATEGORY_BY_SLUG_QUERY = `
+  query GetCategory($slug: String!) {
+    allCategories(
+      filter: { slug: { eq: $slug } }
+      first: 1
+    ) {
+      id
+      name
+      pos
+      slug
+      image {
+        alt
+        url
+      }
+      items {
+        id
+        generalname
+        name
+        slug
+        price
+        priceDiscount
+        showonaddons
+        showonmain
+        preorder
+        preordertext
+        chars {
+          name
+          char
+        }
+        coloropts {
+          code
+          color
+          colorset {
+            hex
+          }
+          photos {
+            alt
+            url
+          }
+        }
+        complect {
+          name
+          icon {
+            url
+            alt
+          }
+        }
+      }
+    }
+
+    shownOnAddons: allItems(filter: { showonaddons: { eq: "true" } }) {
+      id
+      preorder
+      preordertext
+      coloropts {
+        color
+        code
+        photos {
+          alt
+          url
+        }
+      }
+      generalname
+      name
+      price
+      priceDiscount
+    }
+  }
+`;

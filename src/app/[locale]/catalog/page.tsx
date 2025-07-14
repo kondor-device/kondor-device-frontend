@@ -19,7 +19,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     : [];
 
   const res =
-    categories === "all"
+    categories === "all" || categories === "new"
       ? await getProducts(GET_ALL_DATA_QUERY, {
           categories: categoryArray,
         })
@@ -32,6 +32,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
       <Catalog
         currentCategories={res.data.allCategories}
         shownOnAddons={res.data.shownOnAddons}
+        categoryArray={categoryArray}
       />
     </div>
   );
