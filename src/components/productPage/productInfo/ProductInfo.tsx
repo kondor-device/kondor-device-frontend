@@ -12,7 +12,7 @@ interface ProductInfoProps {
 
 export default function ProductInfo({ product }: ProductInfoProps) {
   const t = useTranslations("productPage");
-  const { video, description, chars } = product;
+  const { video, description, chars, complect } = product;
 
   const html = description
     // 1. Списки: перетворюємо рядки, що починаються з "* ", на <li>...</li>
@@ -48,7 +48,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           </div>
         </div>
       ) : null}
-      <Complect />
+      {complect ? <Complect complectation={complect} /> : null}
     </div>
   );
 }

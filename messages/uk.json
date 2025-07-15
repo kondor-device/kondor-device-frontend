@@ -281,6 +281,7 @@
   },
   "productPage": {
     "description": "Опис",
+    "complect": "Комплект поставки:",
     "see": "Дивіться в дії"
   }
 }
