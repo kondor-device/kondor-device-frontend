@@ -33,9 +33,7 @@ export default function CatalogSlider({
   const currentItems = categoryArray.includes("new")
     ? currentCategories
         .flatMap((category) => category.items)
-        .filter(
-          (item) => item.priceDiscount != null && item.showonmain === false
-        )
+        .filter((item) => item.newItem === true && item.showonmain === false)
     : currentCategories
         .flatMap((category) => category.items)
         .filter((item) => item.showonmain === false);

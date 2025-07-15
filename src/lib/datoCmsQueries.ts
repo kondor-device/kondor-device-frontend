@@ -226,52 +226,46 @@ export const GET_CATEGORIES_BY_SLUGS_QUERY = `
   }
 `;
 
-export const GET_CATEGORY_BY_SLUG_QUERY = `
-  query GetCategory($slug: String!) {
-    allCategories(
-      filter: { slug: { eq: $slug } }
-      first: 1
-    ) {
+export const GET_ITEM_BY_SLUG_QUERY = `
+  query GetItemBySlug($slug: String!) {
+    allItems(filter: { slug: { eq: $slug } }, first: 1) {
       id
+      generalname
       name
-      pos
       slug
-      image {
-        alt
+      price
+      priceDiscount
+      description
+      manual
+      driver
+      video {
         url
       }
-      items {
-        id
-        generalname
+      newItem
+      showonaddons
+      showonmain
+      preorder
+      preordertext
+      chars {
         name
-        slug
-        price
-        priceDiscount
-        showonaddons
-        showonmain
-        preorder
-        preordertext
-        chars {
-          name
-          char
+        char
+      }
+      coloropts {
+        code
+        color
+        colorset {
+          hex
         }
-        coloropts {
-          code
-          color
-          colorset {
-            hex
-          }
-          photos {
-            alt
-            url
-          }
+        photos {
+          alt
+          url
         }
-        complect {
-          name
-          icon {
-            url
-            alt
-          }
+      }
+      complect {
+        name
+        icon {
+          url
+          alt
         }
       }
     }
