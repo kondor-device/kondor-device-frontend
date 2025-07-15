@@ -280,6 +280,7 @@
     }
   },
   "productPage": {
+    "description": "Опис",
     "see": "Дивіться в дії"
   }
 }
