@@ -5,6 +5,7 @@ import Characteristics from "./Characteristics";
 import Complect from "./Complect";
 import ReactPlayer from "react-player";
 import { useTranslations } from "next-intl";
+import Navigation from "./Navigation";
 
 interface ProductInfoProps {
   product: ProductItem;
@@ -12,7 +13,7 @@ interface ProductInfoProps {
 
 export default function ProductInfo({ product }: ProductInfoProps) {
   const t = useTranslations("productPage");
-  
+
   const { video, description, chars, complect } = product;
 
   const html = description
@@ -27,10 +28,14 @@ export default function ProductInfo({ product }: ProductInfoProps) {
 
   return (
     <section className="container max-w-[1920px]">
+      <Navigation product={product} />
       <ImagePicker />
       <ColorPicker />
       {description ? (
-        <div className="mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard">
+        <div
+          id="description"
+          className="mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px] scroll-mt-[82px] tabxl:scroll-mt-[113px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard"
+        >
           <h3 className="mb-5 text-14bold desk:text-24bold">
             {t("description")}
           </h3>
@@ -42,7 +47,10 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       ) : null}
       <Characteristics characteristics={chars} />
       {video ? (
-        <div className="mb-4 tab:mb-0 p-5 desk:py-[56px] desk:px-[76px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard">
+        <div
+          id="video"
+          className="mb-4 tab:mb-0 p-5 desk:py-[56px] desk:px-[76px] scroll-mt-[82px] tabxl:scroll-mt-[113px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard"
+        >
           <h3 className="mb-5 text-14bold desk:text-24bold">{t("see")}</h3>
           <div className="rounded-[20px] overflow-hidden">
             <ReactPlayer src={video?.url} width="100%" height="auto" controls />

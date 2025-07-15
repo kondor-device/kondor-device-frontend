@@ -14,7 +14,10 @@ export default function Characteristics({
 }: CharacteristicsPopUpProps) {
   const t = useTranslations();
   return (
-    <div className="relative -z-20 mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard">
+    <div
+      id="characteristics"
+      className="relative -z-20 mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px] scroll-mt-[82px] tabxl:scroll-mt-[113px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard"
+    >
       <PopUpTitle>{t("homePage.catalog.generalCharacteristics")}</PopUpTitle>
       {characteristics.length > 0 ? (
         <ul className="flex flex-col gap-y-5 laptop:gap-y-[14px]">

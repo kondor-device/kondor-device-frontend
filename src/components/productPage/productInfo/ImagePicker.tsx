@@ -1,6 +1,3 @@
-
 export default function ImagePicker() {
-  return (
-    <div>ImagePicker</div>
-  )
+  return <div id="all">ImagePicker</div>;
 }
