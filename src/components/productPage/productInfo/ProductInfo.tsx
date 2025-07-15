@@ -12,6 +12,7 @@ interface ProductInfoProps {
 
 export default function ProductInfo({ product }: ProductInfoProps) {
   const t = useTranslations("productPage");
+  
   const { video, description, chars, complect } = product;
 
   const html = description
@@ -25,8 +26,9 @@ export default function ProductInfo({ product }: ProductInfoProps) {
     .replace(/\n/g, "<br>");
 
   return (
-    <div className="container max-w-[1920px]">
+    <section className="container max-w-[1920px]">
       <ImagePicker />
+      <ColorPicker />
       {description ? (
         <div className="mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard">
           <h3 className="mb-5 text-14bold desk:text-24bold">
@@ -38,7 +40,6 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           ></div>
         </div>
       ) : null}
-      <ColorPicker />
       <Characteristics characteristics={chars} />
       {video ? (
         <div className="mb-4 tab:mb-0 p-5 desk:py-[56px] desk:px-[76px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard">
@@ -49,6 +50,6 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         </div>
       ) : null}
       {complect ? <Complect complectation={complect} /> : null}
-    </div>
+    </section>
   );
 }

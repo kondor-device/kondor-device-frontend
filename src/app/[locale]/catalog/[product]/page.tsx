@@ -21,7 +21,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <ProductInfo product={res.data.allItems[0]} />
       <AddonsSlider addons={res.data.shownOnAddons} />
       <SimilarProductsSlider />
-      <Manual />
+      <Manual product={res.data.allItems[0]} />
     </div>
   );
 }
