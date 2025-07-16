@@ -34,15 +34,15 @@ export default function Navigation({ product }: NavigationProps) {
 
   return (
     <ul
-      className="flex items-center gap-x-5 mb-8 overflow-x-auto py-2 scrollbar 
-      scrollbar-h-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow 
+      className="flex items-center gap-x-3 tab:gap-x-5 mb-8 overflow-x-auto py-2 scrollbar 
+      scrollbar-h-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow/40 
       scrollbar-track-transparent"
     >
       {navigationList.map((navigationItem, idx) => (
         <li key={idx} className="shrink-0">
           <a
             href={`/catalog/${slug}${navigationItem?.slug}`}
-            className={`flex justify-center items-center w-full h-full py-[6px] px-4 desk:py-2 desk:px-[22px] rounded-full text-[12px] desk:text-[18px] font-medium leading-none  ${
+            className={`flex justify-center items-center w-full h-full py-[6px] px-4 desk:py-2 desk:px-[22px] rounded-[12px] tab:rounded-full text-[12px] desk:text-[18px] font-medium leading-none  ${
               hash === navigationItem?.slug
                 ? "bg-[linear-gradient(115deg,_#FFCC54_10.87%,_#FFB300_81.45%)]"
                 : hash === "" && navigationItem?.slug === "#all"

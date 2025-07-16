@@ -11,7 +11,6 @@ export default function Manual({ product }: ManualProps) {
 
   const { manual, driver } = product;
 
-  console.log(manual, driver);
   return (
     <div className="flex flex-col tab:flex-row tab:gap-8 gap-4 container max-w-[1920px]">
       {manual ? (

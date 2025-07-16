@@ -5,6 +5,5 @@ interface AddonsSlider {
 }
 
 export default function AddonsSlider({ addons }: AddonsSlider) {
-  console.log(addons);
   return <section>AddonsSlider</section>;
 }

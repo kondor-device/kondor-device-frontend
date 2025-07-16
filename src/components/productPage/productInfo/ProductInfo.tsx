@@ -33,6 +33,8 @@ export default function ProductInfo({ product }: ProductInfoProps) {
     priceDiscount,
   } = product;
 
+  const { photos } = coloropts[selectedColorIndex];
+
   const savings = (((price - (priceDiscount ?? price)) / price) * 100).toFixed(
     0
   );
@@ -52,7 +54,11 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       <section className="container max-w-[1920px]">
         <Navigation product={product} />
         <div className="mb-5 tab:mb-[100px]">
-          <ImagePicker />
+          <ImagePicker
+            photos={photos}
+            selectedPhotoIndex={selectedPhotoIndex}
+            setSelectedPhotoIndex={setSelectedPhotoIndex}
+          />
           <div>
             <h1 className="flex flex-wrap items-center mb-5 desk:mb-9 text-24med desk:text-45med">
               <span>{generalname}</span>&nbsp;&nbsp;
