@@ -70,11 +70,11 @@ export default async function LocaleLayout({
         className={`${montserrat.variable} flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
       >
         <NextIntlClientProvider messages={messages}>
-          <Header categories={res.data.allCategories} />
+          <Header categories={res?.data?.allCategories} />
           <main className="flex-1">{children}</main>
           <Footer />
-          <CartButton shownOnAddonsProducts={res.data.shownOnAddons} />
-          <CartPopUp shownOnAddonsProducts={res.data.shownOnAddons} />
+          <CartButton shownOnAddonsProducts={res?.data?.shownOnAddons} />
+          <CartPopUp shownOnAddonsProducts={res?.data?.shownOnAddons} />
           <CheckoutPopUp />
           <Modal />
           <Backdrop />

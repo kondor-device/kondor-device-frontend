@@ -63,7 +63,7 @@ export default {
         "32bold": ["32px", { fontWeight: "700", lineHeight: "39px" }],
         "36med": ["36px", { fontWeight: "500", lineHeight: "45px" }],
         "40bold": ["40px", { fontWeight: "700", lineHeight: "49px" }],
-        "45med": ["45px", { fontWeight: "500", lineHeight: "63px" }],
+        "45med": ["45px", { fontWeight: "500", lineHeight: "56px" }],
         "45bold": ["45px", { fontWeight: "700", lineHeight: "63px" }],
         "54bold": ["54px", { fontWeight: "700", lineHeight: "66px" }],
       },

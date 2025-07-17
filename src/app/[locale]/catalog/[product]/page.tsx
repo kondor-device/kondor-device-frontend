@@ -16,12 +16,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
     slug: product,
   });
 
+  if (!res) {
+    return null;
+  }
+
   return (
     <div className="pt-[82px] tabxl:pt-[113px]">
-      <ProductInfo product={res.data.allItems[0]} />
-      <AddonsSlider addons={res.data.shownOnAddons} />
+      <ProductInfo
+        product={res?.data?.allItems[0]}
+        addons={res?.data?.shownOnAddons}
+      />
+      <AddonsSlider addons={res?.data?.shownOnAddons} />
       <SimilarProductsSlider />
-      <Manual product={res.data.allItems[0]} />
+      <Manual product={res?.data?.allItems[0]} />
     </div>
   );
 }

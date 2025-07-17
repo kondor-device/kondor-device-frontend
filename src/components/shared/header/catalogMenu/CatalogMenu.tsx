@@ -19,12 +19,14 @@ export default function CatalogMenu({
   const t = useTranslations("header.catalogMenu");
 
   const categoriesList = categories
-    .sort((a, b) => a.pos - b.pos)
-    .map((category) => ({
-      title: category.name,
-      category: category.slug,
-      icon: category.image?.url,
-    }));
+    ? categories
+        .sort((a, b) => a.pos - b.pos)
+        .map((category) => ({
+          title: category.name,
+          category: category.slug,
+          icon: category.image?.url,
+        }))
+    : [];
 
   const catalogList = [
     {
@@ -62,7 +64,10 @@ export default function CatalogMenu({
             <IconClose className="size-full rotate-45" />
           </IconButton>
         </div>
-        <CatalogList catalogList={catalogList} setIsCatalogMenuOpened={setIsCatalogMenuOpened} />
+        <CatalogList
+          catalogList={catalogList}
+          setIsCatalogMenuOpened={setIsCatalogMenuOpened}
+        />
       </div>
     </div>
   );

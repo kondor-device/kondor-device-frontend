@@ -5,6 +5,7 @@ import Image from "next/image";
 import Backdrop from "@/components/shared/header/catalogMenu/Backdrop";
 import IconButton from "@/components/shared/buttons/IconButton";
 import IconClose from "@/components/shared/icons/IconCLose";
+import { useSwipeable } from "react-swipeable";
 
 interface ImagePickerProps {
   photos: { url: string; alt?: string }[];
@@ -27,14 +28,20 @@ export default function ImagePicker({
     setSelectedPhotoIndex((prev) => (prev - 1 + photos.length) % photos.length);
   };
 
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: next,
+    onSwipedRight: prev,
+    trackMouse: true,
+  });
+
   return (
     <div
-      className="flex flex-col items-center deskxl:flex-row deskxl:justify-between gap-y-3 deskxl:gap-x-5 tabxl:max-w-[340px] deskxl:max-w-full h-full deskxl:max-h-[466px]
-    mb-8 tab:mb-0"
+      className="flex flex-col items-center tabxl:flex-row-reverse tabxl:justify-end gap-y-3 tabxl:gap-x-10 mb-8 laptop:mb-0"
+      {...swipeHandlers}
     >
       <div className="relative flex justify-center">
         <div
-          className="flex justify-between items-center max-w-[306px] tabxl:max-w-[340px] tabxl:size-[340px] deskxl:max-w-[466px] deskxl:size-[466px] bg-white 
+          className="flex justify-between items-center max-w-[306px] tabxl:max-w-[448px] laptop:size-[448px] bg-white 
   aspect-[1/1] rounded-[40px] overflow-hidden"
         >
           <Image
@@ -45,7 +52,7 @@ export default function ImagePicker({
             width={1080}
             height={1080}
             onClick={() => setIsModalOpen(true)}
-            className="max-w-full max-h-full object-cover cursor-pointer"
+            className="max-w-full max-h-full object-cover cursor-pointer laptop:hover:scale-110 transition duration-1000 ease-slow"
           />
         </div>
 
@@ -77,14 +84,14 @@ export default function ImagePicker({
       </div>
 
       <div
-        className="w-full h-fit deskxl:w-fit deskxl:h-[466px] pt-[2px] pb-2 pl-[2px] pr-[2px] tabxl:pr-2 tabxl:pb-2 overflow-x-auto deskxl:overflow-x-visible deskxl:overflow-y-auto scrollbar 
+        className="shrink-0 w-full h-fit tabxl:w-fit tabxl:h-[360px] laptop:h-[448px] pt-[2px] pb-2 pl-[2px] pr-[2px] tabxl:pr-2 tabxl:pb-2 tab:overflow-x-auto tab:overflow-y-visible overflow-y-auto scrollbar 
   scrollbar-w-[2px] scrollbar-h-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow/30 scrollbar-track-transparent popup-scroll"
       >
-        <ul className="flex flex-row deskxl:flex-col gap-y-3 gap-x-3 deskxl:gap-y-[35px] w-fit h-fit mx-auto my-auto">
+        <ul className="flex flex-row tabxl:flex-col gap-y-3 gap-x-3 deskxl:gap-y-[35px] w-fit h-fit mx-auto my-auto">
           {photos.map(({ url, alt }, idx) => (
             <li
               key={idx}
-              className={`cursor-pointer flex items-center justify-center size-[78px] tabxl:size-[62px] deskxl:size-[60px] bg-white rounded-[4px] 
+              className={`cursor-pointer flex items-center justify-center size-[78px] laptop:size-[100px] bg-white rounded-[4px] 
           tabxl:rounded-[6px] overflow-hidden ${
             selectedPhotoIndex === idx ? "shadow-imagePicker" : ""
           }`}
@@ -95,12 +102,14 @@ export default function ImagePicker({
                 alt={alt || "keyboard"}
                 width={1080}
                 height={1080}
-                className="max-w-full max-h-full object-cover"
+                className="max-w-full max-h-full object-cover laptop:hover:scale-110 transition duration-1000 ease-slow"
               />
             </li>
           ))}
         </ul>
       </div>
+
+      {/* Модалка зі збільшеним фото */}
       <div
         className={`fixed z-[80] left-1/2 bottom-0 transform -translate-x-1/2 w-[90vw] tabxl:w-[75vw] max-w-[1440px] h-[90vh] max-h-[700px] bg-white 
           p-5 desk:p-[70px] rounded-[20px] desk:rounded-[30px] shadow-notification ${
@@ -108,6 +117,7 @@ export default function ImagePicker({
               ? "opacity-100 -translate-y-[calc(50dvh-50%)]"
               : "opacity-0 translate-y-[50px] tab:translate-y-[100px] pointer-events-none"
           } transition duration-500 ease-slow`}
+        {...swipeHandlers}
       >
         {" "}
         <div
@@ -131,7 +141,7 @@ export default function ImagePicker({
                 }
                 alt="full-size image"
                 fill
-                className="object-contain rounded-[40px] desk:rounded-[64px]"
+                className="object-contain rounded-[40px] desk:rounded-[64px] laptop:hover:scale-110 transition duration-1000 ease-slow"
               />
             </div>{" "}
             <button
