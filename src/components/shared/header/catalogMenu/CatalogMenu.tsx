@@ -28,10 +28,12 @@ export default function CatalogMenu({
         }))
     : [];
 
+  const allCategoriesSlugs = categoriesList.map((c) => c.category).join(",");
+
   const catalogList = [
     {
       title: t("all"),
-      category: "all",
+      category: allCategoriesSlugs,
       icon: "/images/icons/all-products.svg",
     },
     ...categoriesList,

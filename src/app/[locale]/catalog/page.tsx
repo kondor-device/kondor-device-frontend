@@ -20,19 +20,22 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
 
   const res =
     categories === "all" || categories === "new"
-      ? await getProducts(GET_ALL_DATA_QUERY, {
-          categories: categoryArray,
-        })
+      ? await getProducts(GET_ALL_DATA_QUERY)
       : await getProducts(GET_CATEGORIES_BY_SLUGS_QUERY, {
           categories: categoryArray,
         });
 
   console.log(res.data.allCategories);
+  console.log(res.data.selectedCategories);
 
   return (
     <div className="pt-[82px] tabxl:pt-[113px]">
       <Catalog
-        currentCategories={res.data.selectedCategories}
+        currentCategories={
+          categories === "all" || categories === "new"
+            ? res.data.allCategories
+            : res.data.selectedCategories
+        }
         allCategories={res.data.allCategories}
         shownOnAddons={res.data.shownOnAddons}
         categoryArray={categoryArray}
