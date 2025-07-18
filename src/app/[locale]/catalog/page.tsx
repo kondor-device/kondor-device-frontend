@@ -27,10 +27,13 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           categories: categoryArray,
         });
 
+  console.log(res.data.allCategories);
+
   return (
     <div className="pt-[82px] tabxl:pt-[113px]">
       <Catalog
-        currentCategories={res.data.allCategories}
+        currentCategories={res.data.selectedCategories}
+        allCategories={res.data.allCategories}
         shownOnAddons={res.data.shownOnAddons}
         categoryArray={categoryArray}
       />

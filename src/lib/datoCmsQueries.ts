@@ -158,7 +158,7 @@ export const GET_ALL_CATEGORIES_QUERY = `
 
 export const GET_CATEGORIES_BY_SLUGS_QUERY = `
   query GetAllData($categories: [String!]!) {
-    allCategories(
+    selectedCategories: allCategories(
       filter: { slug: { in: $categories } }
       orderBy: pos_ASC
     ) {
@@ -206,23 +206,30 @@ export const GET_CATEGORIES_BY_SLUGS_QUERY = `
       }
     }
 
-    shownOnAddons: allItems(filter: {showonaddons: {eq: "true"}}) {
-    id
-    preorder
-    preordertext
-    coloropts {
-      color
-      code
-      photos {
-        alt
-        url
-      }
+    allCategories: allCategories(orderBy: pos_ASC) {
+      id
+      name
+      pos
+      slug
     }
-    generalname
-    name
-    price
-    priceDiscount
-  }
+
+    shownOnAddons: allItems(filter: { showonaddons: { eq: "true" } }) {
+      id
+      preorder
+      preordertext
+      coloropts {
+        color
+        code
+        photos {
+          alt
+          url
+        }
+      }
+      generalname
+      name
+      price
+      priceDiscount
+    }
   }
 `;
 
