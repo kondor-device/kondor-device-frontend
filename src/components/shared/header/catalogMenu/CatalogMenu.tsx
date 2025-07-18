@@ -44,7 +44,7 @@ export default function CatalogMenu({
         isCatalogMenuOpened
           ? "translate-x-0 opacity-100 no-doc-scroll"
           : "-translate-x-full opacity-0"
-      } absolute top-[82px] sm:top-0 left-0 z-[70] w-[100vw] sm:w-[400px] h-[calc(100dvh-82px)] sm:h-[100dvh] bg-white sm:rounded-r-[32px]
+      } fixed top-[82px] sm:top-0 left-0 z-[70] w-[100vw] sm:w-[400px] h-[calc(100dvh-82px)] sm:h-[100dvh] bg-white sm:rounded-r-[32px]
       transition duration-[600ms] overflow-hidden flex flex-col`}
     >
       <div className="hidden sm:block fixed -z-10 sm:left-[-9px] sm:top-[-125px] w-[303px] h-[288px] rounded-full bg-gradient-to-b from-[#FFB300] to-[#FFF1D0]" />

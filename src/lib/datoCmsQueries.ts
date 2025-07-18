@@ -287,5 +287,46 @@ export const GET_ITEM_BY_SLUG_QUERY = `
       price
       priceDiscount
     }
+
+      allCategories(orderBy: pos_ASC) {
+      id
+      name
+      pos
+      items {
+        id
+        generalname
+        name
+        slug
+        price
+        priceDiscount
+        showonaddons
+        showonmain
+        preorder
+        preordertext
+        chars {
+          name
+          char
+        }
+        coloropts {
+          code
+          color
+          colorset {
+            hex
+          }
+          photos {
+            alt
+            url
+          }
+        }
+        complect {
+          name
+          icon {
+            url
+            alt
+          }
+        }
+      }
+    }
+      
   }
 `;

@@ -83,14 +83,14 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
     openModal(
       "cartPopUp",
       <CartPopUp shownOnAddonsProducts={addons} />,
-      "desk:max-w-[1100px] desk:w-[1100px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
+      "desk:max-w-[950px] desk:w-[950px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
     );
     sendGTMEvent({ event: "add_to_cart" });
   };
 
   return (
     <>
-      <section className="container max-w-[1920px]">
+      <section className="container max-w-[1920px] mb-8 desk:mb-[69px]">
         <Navigation product={product} />
 
         <div className="tabxl:flex gap-x-[80px] desk:gap-x-[120px] w-full mb-5 tab:mb-[100px]">

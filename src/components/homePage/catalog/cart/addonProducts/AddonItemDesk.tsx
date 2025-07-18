@@ -76,7 +76,10 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
           </p>
         ) : null}
       </div>
-      <Counter cartItem={cartItem} />
+      <Counter
+        cartItem={cartItem}
+        className="laptop:w-[94px] deskxl:w-[164px]"
+      />
     </li>
   );
 }
