@@ -18,11 +18,13 @@ import ColorPicker from "./ColorPicker";
 interface CatalogCardProps {
   product: ProductItem;
   shownOnAddons: ProductItem[];
+  className?: string;
 }
 
 export default function CatalogCard({
   product,
   shownOnAddons,
+  className = "",
 }: CatalogCardProps) {
   const t = useTranslations();
   const { addToCart } = useCartStore();
@@ -71,7 +73,7 @@ export default function CatalogCard({
     openModal(
       "cartPopUp",
       <CartPopUp shownOnAddonsProducts={shownOnAddons} />,
-      "desk:max-w-[1100px] desk:w-[1100px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
+      "desk:max-w-[950px] desk:w-[950px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
     );
     sendGTMEvent({ event: "add_to_cart" });
   };
@@ -94,7 +96,9 @@ export default function CatalogCard({
   }, []);
 
   return (
-    <div className="flex flex-col justify-between w-[calc(50%-6px)] tabxl:w-[calc(33.33%-16px)] p-3 desk:p-4 rounded-[8px] desk:rounded-[20px] shadow-catalogCard bg-white">
+    <div
+      className={`flex flex-col justify-between p-3 desk:p-4 rounded-[8px] desk:rounded-[20px] shadow-catalogCard bg-white ${className}`}
+    >
       <div className="rounded-[12px] aspect-square w-full mb-2 desk:mb-3">
         <Image
           src={

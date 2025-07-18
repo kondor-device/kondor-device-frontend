@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { usePathname } from "@/i18n/routing";
 import Image from "next/image";
 import IconButton from "@/components/shared/buttons/IconButton";
 import { useCartStore } from "@/store/cartStore";
@@ -16,6 +16,9 @@ export default function CartButton({ shownOnAddonsProducts }: CartButtonProps) {
   const { cartItems } = useCartStore();
   const { openModal } = useModalStore();
 
+  const pathname = usePathname();
+  const isCatalogPage = /^\/catalog\/[^/]+$/.test(pathname);
+
   return (
     <>
       {cartItems.length > 0 ? (
@@ -28,7 +31,9 @@ export default function CartButton({ shownOnAddonsProducts }: CartButtonProps) {
             )
           }
           data-label={cartItems.length.toString()}
-          className="block fixed z-[5] right-6 bottom-6 size-14 laptop:size-[70px] bg-yellow rounded-[10px] shadow-cartButton"
+          className={`block fixed z-[5] right-6 size-14 laptop:size-[70px] bg-yellow rounded-[10px] shadow-cartButton ${
+            isCatalogPage ? "bottom-24 tab:bottom-6" : "bottom-6"
+          }`}
         >
           <>
             <span className="absolute top-[-10px] right-[-10px] size-[22px] text-12semi text-white flex items-center justify-center rounded-full bg-dark">

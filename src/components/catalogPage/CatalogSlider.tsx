@@ -16,11 +16,13 @@ import { useCatalogItemsPerPage } from "@/hooks/useCatalogItemsPerPage";
 interface CatalogSliderProps {
   currentCategories: CategoryItem[];
   shownOnAddons: ProductItem[];
+  categoryArray: string[];
 }
 
 export default function CatalogSlider({
   currentCategories,
   shownOnAddons,
+  categoryArray,
 }: CatalogSliderProps) {
   const swiperRef = useRef<SwiperType | null>(null);
 
@@ -28,7 +30,13 @@ export default function CatalogSlider({
     swiperRef.current?.slideToLoop(0, 0);
   }, [currentCategories]);
 
-  const currentItems = currentCategories.flatMap((category) => category.items);
+  const currentItems = categoryArray.includes("new")
+    ? currentCategories
+        .flatMap((category) => category.items)
+        .filter((item) => item.newItem === true && item.showonmain === false)
+    : currentCategories
+        .flatMap((category) => category.items)
+        .filter((item) => item.showonmain === false);
 
   const itemsPerView = useCatalogItemsPerPage();
 
@@ -72,6 +80,7 @@ export default function CatalogSlider({
                 key={item.id ?? idx}
                 product={item}
                 shownOnAddons={shownOnAddons}
+                className=" w-[calc(50%-6px)] tabxl:w-[calc(33.33%-16px)]"
               />
             ))}
           </div>

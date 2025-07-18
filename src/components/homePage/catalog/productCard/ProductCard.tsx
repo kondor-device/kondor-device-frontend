@@ -76,7 +76,7 @@ export default function ProductCard({
     openModal(
       "cartPopUp",
       <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />,
-      "laptop:max-w-[1100px] laptop:w-[1100px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
+      "desk:max-w-[950px] desk:w-[950px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
     );
     sendGTMEvent({ event: "add_to_cart" });
   };

@@ -42,7 +42,7 @@ export default function AddonsSliderMob({
       {shownOnAddonsProducts.length > 0
         ? shownOnAddonsProducts.map((addonItem) => (
             <SwiperSlide key={addonItem.id}>
-              <AddonItemMob addonItem={addonItem} />
+              <AddonItemMob addonItem={addonItem} className="max-w-[203px] tab:max-w-[219px]" />
             </SwiperSlide>
           ))
         : null}

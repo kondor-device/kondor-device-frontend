@@ -225,3 +225,108 @@ export const GET_CATEGORIES_BY_SLUGS_QUERY = `
   }
   }
 `;
+
+export const GET_ITEM_BY_SLUG_QUERY = `
+  query GetItemBySlug($slug: String!) {
+    allItems(filter: { slug: { eq: $slug } }, first: 1) {
+      id
+      generalname
+      name
+      slug
+      price
+      priceDiscount
+      description
+      manual
+      driver
+      video {
+        url
+      }
+      newItem
+      showonaddons
+      showonmain
+      preorder
+      preordertext
+      chars {
+        name
+        char
+      }
+      coloropts {
+        code
+        color
+        colorset {
+          hex
+        }
+        photos {
+          alt
+          url
+        }
+      }
+      complect {
+        name
+        icon {
+          url
+          alt
+        }
+      }
+    }
+
+    shownOnAddons: allItems(filter: { showonaddons: { eq: "true" } }) {
+      id
+      preorder
+      preordertext
+      coloropts {
+        color
+        code
+        photos {
+          alt
+          url
+        }
+      }
+      generalname
+      name
+      price
+      priceDiscount
+    }
+
+      allCategories(orderBy: pos_ASC) {
+      id
+      name
+      pos
+      items {
+        id
+        generalname
+        name
+        slug
+        price
+        priceDiscount
+        showonaddons
+        showonmain
+        preorder
+        preordertext
+        chars {
+          name
+          char
+        }
+        coloropts {
+          code
+          color
+          colorset {
+            hex
+          }
+          photos {
+            alt
+            url
+          }
+        }
+        complect {
+          name
+          icon {
+            url
+            alt
+          }
+        }
+      }
+    }
+      
+  }
+`;
