@@ -36,14 +36,17 @@ export default function TypeFilter({
   return (
     <FilterLayout title={t("type")}>
       {" "}
-      {typesList.map((type, idx) => (
-        <Checkbox
-          key={idx}
-          label={type.title}
-          checked={value.includes(type.category)}
-          onChange={() => toggleType(type.category)}
-        />
-      ))}
+      <div className="flex flex-col gap-1">
+        {" "}
+        {typesList.map((type, idx) => (
+          <Checkbox
+            key={idx}
+            label={type.title}
+            checked={value.includes(type.category)}
+            onChange={() => toggleType(type.category)}
+          />
+        ))}
+      </div>
     </FilterLayout>
   );
 }
