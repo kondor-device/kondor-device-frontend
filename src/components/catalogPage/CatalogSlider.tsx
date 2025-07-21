@@ -19,22 +19,26 @@ interface CatalogSliderProps {
   currentCategories: CategoryItem[];
   shownOnAddons: ProductItem[];
   categoryArray: string[];
+  isOpenDropdown: boolean;
 }
 
 export default function CatalogSlider({
   currentCategories,
   shownOnAddons,
   categoryArray,
+  isOpenDropdown,
 }: CatalogSliderProps) {
   const searchParams = useSearchParams();
   const availability = searchParams.get("availability");
   const priceFrom = Number(searchParams.get("priceFrom"));
   const priceTo = Number(searchParams.get("priceTo"));
+  const sort = searchParams.get("sort");
 
   const swiperRef = useRef<SwiperType | null>(null);
 
   useEffect(() => {
     swiperRef.current?.slideToLoop(0, 0);
+    swiperRef.current?.update();
   }, [currentCategories]);
 
   let currentItems = currentCategories
@@ -59,6 +63,42 @@ export default function CatalogSlider({
     if (!isNaN(priceFrom) && actualPrice < priceFrom) return false;
     if (!isNaN(priceTo) && actualPrice > priceTo) return false;
     return true;
+  });
+
+  // Сортування
+  currentItems.sort((a, b) => {
+    const priceA = a.priceDiscount ?? a.price;
+    const priceB = b.priceDiscount ?? b.price;
+
+    const getModelName = (fullName: string) => {
+      if (!fullName) return "";
+      const parts = fullName.trim().split(/\s+/); // видаляє зайві пробіли
+      return parts.slice(1).join(" ").toLowerCase(); // повертає модель
+    };
+
+    switch (sort) {
+      case "price-ascending":
+        return priceA - priceB;
+
+      case "price-descending":
+        return priceB - priceA;
+
+      case "discount":
+        const discountA =
+          ((a.price - (a.priceDiscount ?? a.price)) / a.price) * 100;
+        const discountB =
+          ((b.price - (b.priceDiscount ?? b.price)) / b.price) * 100;
+        return discountB - discountA;
+
+      case "name-ascending":
+        return getModelName(a.name).localeCompare(getModelName(b.name));
+
+      case "name-descending":
+        return getModelName(b.name).localeCompare(getModelName(a.name));
+
+      default:
+        return 0;
+    }
   });
 
   const itemsPerView = useCatalogItemsPerPage();
@@ -93,7 +133,7 @@ export default function CatalogSlider({
       loop={true}
       speed={1000}
       modules={[Pagination, Navigation]}
-      className="catalog-page-slider"
+      className={`${isOpenDropdown ? "pointer-events-none" : ""}`}
     >
       {groupedItems.map((group, groupIdx) => (
         <SwiperSlide key={groupIdx}>

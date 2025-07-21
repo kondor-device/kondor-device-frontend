@@ -1,10 +1,12 @@
 "use client";
+import { useState } from "react";
 import { CategoryItem } from "@/types/categoryItem";
 import CatalogFilter from "./catalogFilter/CatalogFilter";
 import CatalogSlider from "./CatalogSlider";
 import { ProductItem } from "@/types/productItem";
 import { useSearchParams, useRouter } from "next/navigation";
 import { FiltersState } from "./catalogFilter/CatalogFilter";
+import CatalogSorting from "./CatalogSorting";
 
 interface CatalogProps {
   currentCategories: CategoryItem[];
@@ -19,6 +21,9 @@ export default function Catalog({
   shownOnAddons,
   categoryArray,
 }: CatalogProps) {
+
+   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
+
   const searchParams = useSearchParams();
 
   const router = useRouter();
@@ -70,12 +75,17 @@ export default function Catalog({
       <CatalogFilter
         allCategories={allCategories}
         handleApplyFilters={handleApplyFilters}
+       
       />
-      <CatalogSlider
-        currentCategories={currentCategories}
-        shownOnAddons={shownOnAddons}
-        categoryArray={categoryArray}
-      />
+      <div className="flex flex-col w-full tabxl:w-[calc(100%-311px-16px)] laptop:w-[calc(100%-311px-30px)] gap-y-4 tabxl:gap-y-[30px]">
+        <CatalogSorting isOpenDropdown={isOpenDropdown} setIsOpenDropdown={setIsOpenDropdown} />
+        <CatalogSlider
+          currentCategories={currentCategories}
+          shownOnAddons={shownOnAddons}
+          categoryArray={categoryArray}
+           isOpenDropdown={isOpenDropdown}
+        />
+      </div>
     </section>
   );
 }
