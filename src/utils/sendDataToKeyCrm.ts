@@ -31,7 +31,6 @@ export async function sendDataToKeyCrm(data: OrderData) {
     source_uuid: orderNumber,
     orderedAt: orderDate,
     promocode,
-    discount_percent: discount,
     buyer: { full_name: `${name} ${surname}`, phone },
     shipping: {
       shipping_service: "Нова пошта",
