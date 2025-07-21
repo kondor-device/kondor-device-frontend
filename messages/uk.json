@@ -304,6 +304,12 @@
     "inStock": "Є в наявності",
     "preOrder": "Передзамовлення",
     "sort": "Сортувати:",
-    "sortingOptions": { "priceAscending": "за ціною від найнижчої" }
+    "sortingOptions": {
+      "priceAscending": "за ціною від найнижчої",
+      "priceDescending": "ціною від найвищої",
+      "discount": "знижкою",
+      "nameAscending": "назвою від А до Я",
+      "nameDescending": "назвою від Я до А"
+    }
   }
 }
