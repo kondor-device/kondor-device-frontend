@@ -13,7 +13,6 @@ export async function sendDataToKeyCrm(data: OrderData) {
     city,
     postOffice,
     promocode,
-    discount,
     payment,
     totalSum,
     updatedCartItems,
