@@ -16,6 +16,7 @@ import CartPopUp from "@/components/homePage/catalog/cart/CartPopUp";
 import CartButton from "@/components/homePage/catalog/CartButton";
 import Modal from "@/components/shared/modal/Modal";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
+import { HeroUIProvider } from "@heroui/react";
 
 import type { Viewport } from "next";
 
@@ -67,18 +68,20 @@ export default async function LocaleLayout({
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} />
       </head>
       <body
-        className={`${montserrat.variable} flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
+        className={`${montserrat.variable} relative z-[1] flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
       >
-        <NextIntlClientProvider messages={messages}>
-          <Header categories={res?.data?.allCategories} />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <CartButton shownOnAddonsProducts={res?.data?.shownOnAddons} />
-          <CartPopUp shownOnAddonsProducts={res?.data?.shownOnAddons} />
-          <CheckoutPopUp />
-          <Modal />
-          <Backdrop />
-        </NextIntlClientProvider>
+        <HeroUIProvider>
+          <NextIntlClientProvider messages={messages}>
+            <Header categories={res?.data?.allCategories} />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <CartButton shownOnAddonsProducts={res?.data?.shownOnAddons} />
+            <CartPopUp shownOnAddonsProducts={res?.data?.shownOnAddons} />
+            <CheckoutPopUp />
+            <Modal />
+            <Backdrop />
+          </NextIntlClientProvider>
+        </HeroUIProvider>
       </body>
     </html>
   );

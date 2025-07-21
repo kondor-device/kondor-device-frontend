@@ -16,7 +16,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero shownOnMainProducts={shownOnMainProducts} />
+      <Hero shownOnMainProducts={shownOnMainProducts} categories={categories} />
       <WeOffer />
       <Catalog
         categories={categories}

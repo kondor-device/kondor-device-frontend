@@ -1,10 +1,12 @@
 "use client";
+
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "../homePage/catalog/sliderStyles.css";
 
 import { useRef, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Swiper as SwiperType } from "swiper";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -24,19 +26,40 @@ export default function CatalogSlider({
   shownOnAddons,
   categoryArray,
 }: CatalogSliderProps) {
+  const searchParams = useSearchParams();
+  const availability = searchParams.get("availability");
+  const priceFrom = Number(searchParams.get("priceFrom"));
+  const priceTo = Number(searchParams.get("priceTo"));
+
   const swiperRef = useRef<SwiperType | null>(null);
 
   useEffect(() => {
     swiperRef.current?.slideToLoop(0, 0);
   }, [currentCategories]);
 
-  const currentItems = categoryArray.includes("new")
-    ? currentCategories
-        .flatMap((category) => category.items)
-        .filter((item) => item.newItem === true && item.showonmain === false)
-    : currentCategories
-        .flatMap((category) => category.items)
-        .filter((item) => item.showonmain === false);
+  let currentItems = currentCategories
+    .flatMap((category) => category.items)
+    .filter((item) => item.showonmain === false);
+
+  // Логіка availability (in-stock або pre-order)
+  if (availability === "in-stock") {
+    currentItems = currentItems.filter((item) => item.preorder !== true);
+  } else if (availability === "pre-order") {
+    currentItems = currentItems.filter((item) => item.preorder === true);
+  }
+
+  // Логіка "new"
+  if (categoryArray.includes("new")) {
+    currentItems = currentItems.filter((item) => item.newItem === true);
+  }
+
+  // Логіка priceFrom / priceTo
+  currentItems = currentItems.filter((item) => {
+    const actualPrice = item.priceDiscount ?? item.price;
+    if (!isNaN(priceFrom) && actualPrice < priceFrom) return false;
+    if (!isNaN(priceTo) && actualPrice > priceTo) return false;
+    return true;
+  });
 
   const itemsPerView = useCatalogItemsPerPage();
 
@@ -80,7 +103,7 @@ export default function CatalogSlider({
                 key={item.id ?? idx}
                 product={item}
                 shownOnAddons={shownOnAddons}
-                className=" w-[calc(50%-6px)] tabxl:w-[calc(33.33%-16px)]"
+                className="w-[calc(50%-6px)] tabxl:w-[calc(33.33%-16px)]"
               />
             ))}
           </div>
