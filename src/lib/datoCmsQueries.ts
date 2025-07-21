@@ -4,6 +4,7 @@ export const GET_ALL_DATA_QUERY = `
       id
       name
       pos
+      slug
       items {
         id
         generalname

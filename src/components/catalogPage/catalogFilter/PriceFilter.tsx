@@ -1,11 +1,14 @@
 import { useTranslations } from "next-intl";
 import FilterLayout from "./FilterLayout";
-import { useState } from "react";
 import { Slider } from "@heroui/react";
 
-export default function PriceFilter() {
+interface PriceFilterProps {
+  value: [number, number];
+  onChange: (val: [number, number]) => void;
+}
+
+export default function PriceFilter({ value, onChange }: PriceFilterProps) {
   const t = useTranslations("catalogPage");
-  const [value, setValue] = useState([599, 4999]);
 
   return (
     <FilterLayout title={t("price")}>
@@ -21,7 +24,7 @@ export default function PriceFilter() {
         showTooltip
         tooltipProps={{
           classNames: {
-            base: ["before:bg-yellow "],
+            base: ["before:bg-yellow"],
             content: ["py-2 shadow-xl", "text-white bg-yellow"],
           },
         }}
@@ -32,7 +35,9 @@ export default function PriceFilter() {
         endContent="4999 ₴"
         size="sm"
         value={value}
-        onChange={setValue}
+        onChange={(val) => {
+          if (Array.isArray(val)) onChange([val[0], val[1]]);
+        }}
       />
     </FilterLayout>
   );

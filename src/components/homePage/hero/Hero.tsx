@@ -7,16 +7,29 @@ import Image from "next/image";
 import HeroProducts from "./HeroProducts";
 import { ProductItem } from "@/types/productItem";
 import AnimationWrapper from "./AnimationWrapper";
+import { CategoryItem } from "@/types/categoryItem";
 
 interface HeroProps {
   shownOnMainProducts: ProductItem[];
+  categories: CategoryItem[];
 }
 
 const SECTION_ID = "home-page-hero";
 
-export default function Hero({ shownOnMainProducts }: HeroProps) {
+export default function Hero({ shownOnMainProducts, categories }: HeroProps) {
   const locale = useLocale();
   const t = useTranslations();
+
+  const categoriesList = categories
+    ? categories
+        .sort((a, b) => a.pos - b.pos)
+        .map((category) => ({
+          title: category.name,
+          category: category.slug,
+        }))
+    : [];
+
+  const allCategoriesSlugs = categoriesList.map((c) => c.category).join(",");
 
   return (
     <section
@@ -49,8 +62,8 @@ export default function Hero({ shownOnMainProducts }: HeroProps) {
             <Link
               href={
                 locale === "uk"
-                  ? `/catalog?categories=all`
-                  : `/${locale}/catalog?categories=all`
+                  ? `/catalog?type=${allCategoriesSlugs}`
+                  : `/${locale}/catalog?type=${allCategoriesSlugs}`
               }
               className="hidden tabxl:block w-[350px] max-w-[350px] laptop:max-w-[437px] laptop:w-[437px] tabxl:h-[85px] mt-[30px] tabxl:mt-[42px] mx-auto tabxl:mx-0"
             >

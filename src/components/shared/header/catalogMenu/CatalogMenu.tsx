@@ -30,6 +30,8 @@ export default function CatalogMenu({
 
   const allCategoriesSlugs = categoriesList.map((c) => c.category).join(",");
 
+  const allCategoriesNewProducts = allCategoriesSlugs.concat("&new=true");
+
   const catalogList = [
     {
       title: t("all"),
@@ -37,7 +39,11 @@ export default function CatalogMenu({
       icon: "/images/icons/all-products.svg",
     },
     ...categoriesList,
-    { title: t("new"), category: "new", icon: "/images/icons/sets.svg" },
+    {
+      title: t("new"),
+      category: allCategoriesNewProducts,
+      icon: "/images/icons/sets.svg",
+    },
   ];
 
   return (
