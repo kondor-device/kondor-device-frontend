@@ -149,7 +149,7 @@ export default function CatalogSlider({
                     key={item.id ?? idx}
                     product={item}
                     shownOnAddons={shownOnAddons}
-                    className="w-[calc(50%-6px)] tabxl:w-[calc(33.33%-16px)]"
+                    className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
                   />
                 ))}
               </div>
