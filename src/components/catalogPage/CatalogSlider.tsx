@@ -13,27 +13,30 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { CategoryItem } from "@/types/categoryItem";
 import CatalogCard from "./CatalogCard";
 import { ProductItem } from "@/types/productItem";
+import EmptyCategory from "../homePage/catalog/EmptyCategory";
 
 interface CatalogSliderProps {
   currentCategories: CategoryItem[];
   shownOnAddons: ProductItem[];
-  categoryArray: string[];
   isOpenDropdown: boolean;
 }
 
 export default function CatalogSlider({
   currentCategories,
   shownOnAddons,
-  categoryArray,
   isOpenDropdown,
 }: CatalogSliderProps) {
   const searchParams = useSearchParams();
+
+  const newItems = searchParams.get("new");
   const availability = searchParams.get("availability");
   const priceFrom = Number(searchParams.get("priceFrom"));
   const priceTo = Number(searchParams.get("priceTo"));
   const sort = searchParams.get("sort");
 
   const swiperRef = useRef<SwiperType | null>(null);
+
+  console.log(currentCategories);
 
   useEffect(() => {
     swiperRef.current?.slideToLoop(0, 0);
@@ -52,7 +55,7 @@ export default function CatalogSlider({
   }
 
   // Логіка "new"
-  if (categoryArray.includes("new")) {
+  if (newItems === "true") {
     currentItems = currentItems.filter((item) => item.newItem === true);
   }
 
@@ -113,45 +116,51 @@ export default function CatalogSlider({
   const groupedItems = chunkArray(currentItems, itemsPerView);
 
   return (
-    <Swiper
-      onSwiper={(swiper) => (swiperRef.current = swiper)}
-      onSlideChange={() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }}
-      centeredSlides={true}
-      slidesPerView={1}
-      autoHeight={true}
-      breakpoints={{
-        0: {
-          spaceBetween: 12,
-        },
-        1550: {
-          spaceBetween: 24,
-        },
-      }}
-      pagination={{
-        clickable: true,
-      }}
-      navigation={groupedItems.length > 1}
-      loop={true}
-      speed={1000}
-      modules={[Pagination, Navigation]}
-      className={`${isOpenDropdown ? "pointer-events-none" : ""}`}
-    >
-      {groupedItems.map((group, groupIdx) => (
-        <SwiperSlide key={groupIdx}>
-          <div className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
-            {group.map((item, idx) => (
-              <CatalogCard
-                key={item.id ?? idx}
-                product={item}
-                shownOnAddons={shownOnAddons}
-                className="w-[calc(50%-6px)] tabxl:w-[calc(33.33%-16px)]"
-              />
-            ))}
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <>
+      {currentItems.length > 0 ? (
+        <Swiper
+          onSwiper={(swiper) => (swiperRef.current = swiper)}
+          onSlideChange={() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          centeredSlides={true}
+          slidesPerView={1}
+          autoHeight={true}
+          breakpoints={{
+            0: {
+              spaceBetween: 12,
+            },
+            1550: {
+              spaceBetween: 24,
+            },
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={groupedItems.length > 1}
+          loop={true}
+          speed={1000}
+          modules={[Pagination, Navigation]}
+          className={`${isOpenDropdown ? "pointer-events-none" : ""}`}
+        >
+          {groupedItems.map((group, groupIdx) => (
+            <SwiperSlide key={groupIdx}>
+              <div className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
+                {group.map((item, idx) => (
+                  <CatalogCard
+                    key={item.id ?? idx}
+                    product={item}
+                    shownOnAddons={shownOnAddons}
+                    className="w-[calc(50%-6px)] tabxl:w-[calc(33.33%-16px)]"
+                  />
+                ))}
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      ) : (
+        <EmptyCategory className="mt-[120px] tabxl:mt-[160px]" />
+      )}
+    </>
   );
 }

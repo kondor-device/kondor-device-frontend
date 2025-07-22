@@ -70,8 +70,8 @@ export default async function LocaleLayout({
       <body
         className={`${montserrat.variable} relative z-[1] flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
       >
-        <HeroUIProvider>
-          <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider messages={messages}>
+          <HeroUIProvider className="flex min-h-screen flex-col">
             <Header categories={res?.data?.allCategories} />
             <main className="flex-1">{children}</main>
             <Footer />
@@ -80,8 +80,8 @@ export default async function LocaleLayout({
             <CheckoutPopUp />
             <Modal />
             <Backdrop />
-          </NextIntlClientProvider>
-        </HeroUIProvider>
+          </HeroUIProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

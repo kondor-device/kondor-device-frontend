@@ -21,7 +21,6 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
         currentCategories={res.data.selectedCategories}
         allCategories={res.data.allCategories}
         shownOnAddons={res.data.shownOnAddons}
-        categoryArray={categoryArray}
       />
     </div>
   );
