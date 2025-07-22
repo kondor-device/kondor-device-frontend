@@ -13,7 +13,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { CategoryItem } from "@/types/categoryItem";
 import CatalogCard from "./CatalogCard";
 import { ProductItem } from "@/types/productItem";
-import { useCatalogItemsPerPage } from "@/hooks/useCatalogItemsPerPage";
 
 interface CatalogSliderProps {
   currentCategories: CategoryItem[];
@@ -101,7 +100,7 @@ export default function CatalogSlider({
     }
   });
 
-  const itemsPerView = useCatalogItemsPerPage();
+  const itemsPerView = 6;
 
   const chunkArray = (array: ProductItem[], size: number): ProductItem[][] => {
     const chunks: ProductItem[][] = [];
@@ -116,6 +115,9 @@ export default function CatalogSlider({
   return (
     <Swiper
       onSwiper={(swiper) => (swiperRef.current = swiper)}
+      onSlideChange={() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }}
       centeredSlides={true}
       slidesPerView={1}
       autoHeight={true}
