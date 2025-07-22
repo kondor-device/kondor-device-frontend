@@ -5,6 +5,8 @@ import AddonsSlider from "@/components/productPage/AddonsSlider";
 import SimilarProductsSlider from "@/components/productPage/SimilarProductsSlider";
 import Manual from "@/components/productPage/Manual";
 import { CategoryItem } from "@/types/categoryItem";
+import { Suspense } from "react";
+import Loader from "@/components/shared/loader/Loader";
 
 interface ProductPageProps {
   params: Promise<{ product: string }>;
@@ -41,16 +43,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <div className="pt-[82px] tabxl:pt-[113px]">
-      <ProductInfo
-        product={res?.data?.allItems[0]}
-        addons={res?.data?.shownOnAddons}
-      />
-      <AddonsSlider addons={res?.data?.shownOnAddons} />
-      <SimilarProductsSlider
-        similarProducts={similarProducts}
-        addons={res?.data?.shownOnAddons}
-      />
-      <Manual product={res?.data?.allItems[0]} />
+      <Suspense fallback={<Loader />}>
+        <ProductInfo
+          product={res?.data?.allItems[0]}
+          addons={res?.data?.shownOnAddons}
+        />
+        <AddonsSlider addons={res?.data?.shownOnAddons} />
+        <SimilarProductsSlider
+          similarProducts={similarProducts}
+          addons={res?.data?.shownOnAddons}
+        />
+        <Manual product={res?.data?.allItems[0]} />
+      </Suspense>
     </div>
   );
 }

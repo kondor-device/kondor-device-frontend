@@ -36,8 +36,6 @@ export default function CatalogSlider({
 
   const swiperRef = useRef<SwiperType | null>(null);
 
-  console.log(currentCategories);
-
   useEffect(() => {
     swiperRef.current?.slideToLoop(0, 0);
     swiperRef.current?.update();
@@ -159,7 +157,7 @@ export default function CatalogSlider({
           ))}
         </Swiper>
       ) : (
-        <EmptyCategory className="mt-[120px] tabxl:mt-[160px]" />
+        <EmptyCategory className="mt-[80px] tabxl:mt-[160px]" />
       )}
     </>
   );
