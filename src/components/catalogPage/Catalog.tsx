@@ -15,14 +15,12 @@ interface CatalogProps {
   currentCategories: CategoryItem[];
   allCategories: CategoryItem[];
   shownOnAddons: ProductItem[];
-  categoryArray: string[];
 }
 
 export default function Catalog({
   currentCategories,
   allCategories,
   shownOnAddons,
-  categoryArray,
 }: CatalogProps) {
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const [isOpenFilter, setIsOpenFilter] = useState(false);
@@ -102,7 +100,6 @@ export default function Catalog({
         <CatalogSlider
           currentCategories={currentCategories}
           shownOnAddons={shownOnAddons}
-          categoryArray={categoryArray}
           isOpenDropdown={isOpenDropdown}
         />
       </div>
