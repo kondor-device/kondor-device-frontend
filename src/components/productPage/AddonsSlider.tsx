@@ -11,10 +11,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { ProductItem } from "@/types/productItem";
 import AddonItemMob from "../homePage/catalog/cart/addonProducts/AddonItemMob";
 import { useTranslations } from "next-intl";
+import AnimationWrapper from "../homePage/hero/AnimationWrapper";
 
 interface AddonsSliderMobProps {
   addons: ProductItem[];
 }
+
+const SECTION_ID = "product-page-addons";
 
 export default function AddonsSlider({ addons }: AddonsSliderMobProps) {
   const t = useTranslations("productPage");
@@ -33,10 +36,21 @@ export default function AddonsSlider({ addons }: AddonsSliderMobProps) {
   }
 
   return (
-    <section className="container max-w-[1920px] mb-8 desk:mb-[100px]">
-      <h2 className="mb-[30px] desk:mb-[60px] text-[22px] desk:text-[36px] font-bold leading-[120%]">
-        {t("addons")}
-      </h2>
+    <section
+      id={SECTION_ID}
+      className="container max-w-[1920px] mb-8 desk:mb-[100px]"
+    >
+      {" "}
+      <AnimationWrapper
+        sectionId={SECTION_ID}
+        commonStyles={`transition duration-700 ease-slow `}
+        visibleStyles="opacity-100 translate-x-0"
+        unVisibleStyles="opacity-0 -translate-x-[50px]"
+      >
+        <h2 className="mb-[30px] desk:mb-[60px] text-[22px] desk:text-[36px] font-bold leading-[120%]">
+          {t("addons")}
+        </h2>
+      </AnimationWrapper>
       <Swiper
         breakpoints={{
           0: {
