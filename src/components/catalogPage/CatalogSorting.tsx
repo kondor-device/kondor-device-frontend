@@ -66,12 +66,12 @@ export default function CatalogSorting({
 
   return (
     <div
-      className="relative z-[60] w-full max-w-[306px] xl:max-w-[386px] "
+      className="relative z-20 w-full max-w-[306px] xl:max-w-[386px] "
       ref={dropdownRef}
     >
       <button
         onClick={() => setIsOpenDropdown((prev) => !prev)}
-        className="relative z-[60] group cursor-pointer flex items-center gap-x-2 w-full h-8 xl:h-11 px-3 xl:px-7 rounded-[8px] border border-dark text-[10px] xl:text-[16px] font-bold text-dark bg-white xl:hover:brightness-110 focus-visible:brightness-110 transition duration-300 ease-in-out"
+        className="relative z-20 group cursor-pointer flex items-center gap-x-2 w-full h-8 xl:h-11 px-3 xl:px-7 rounded-[8px] border border-dark text-[10px] xl:text-[16px] font-bold text-dark bg-white xl:hover:brightness-110 focus-visible:brightness-110 transition duration-300 ease-in-out"
       >
         <p>{t("sort")}</p>
         <span className="truncate text-[10px] xl:text-[16px] font-medium">

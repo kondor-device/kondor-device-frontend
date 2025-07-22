@@ -162,7 +162,7 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
               {" "}
               <Button
                 onClick={onAddToCart}
-                className="hidden tab:block w-full tab:w-[350px] desk:w-[437px] max-w-[327px] laptop:max-w-[350px] desk:max-w-[437px]"
+                className="hidden tabxl:block w-full tab:w-[350px] desk:w-[437px] max-w-[327px] laptop:max-w-[350px] desk:max-w-[437px]"
               >
                 {preorder ? t("buttons.preOrder") : t("buttons.makeOrder")}
               </Button>
@@ -211,15 +211,10 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
           </div>
         </div>
       </section>
-      <div className="fixed tab:hidden z-50 left-0 bottom-0 flex items-center justify-center w-dvw h-[88px] px-5 py-4 rounded-t-[12px] bg-white shadow-catalogCard">
+      <div className="fixed tabxl:hidden z-50 left-0 bottom-0 flex items-center justify-center w-full min-h-[88px] px-5 py-4 rounded-t-[12px] bg-white shadow-catalogCard">
         <Button onClick={onAddToCart} className="w-full max-w-[437px]">
           {preorder ? t("buttons.preOrder") : t("buttons.makeOrder")}
         </Button>
-        {preorder && preordertext ? (
-          <p className="absolute bottom-3 tabxl:bottom-4 px-4 deskxl:px-6 text-10med tabxl:text-14med text-white">
-            {preordertext}
-          </p>
-        ) : null}
       </div>
     </>
   );
