@@ -7,7 +7,8 @@ import { Locale } from "@/types/locale";
 import "./globals.css";
 import Header from "@/components/shared/header/Header";
 import Footer from "@/components/shared/footer/Footer";
-import { generatePageMetaData } from "@/utils/generatePageMetaData";
+import { getTranslations } from "next-intl/server";
+import { getDefaultMetadata } from "@/utils/getDefaultMetadata";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { getProducts } from "@/utils/getProducts";
 import { GET_ALL_CATEGORIES_QUERY } from "@/lib/datoCmsQueries";
@@ -32,17 +33,10 @@ const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
 });
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { locale: Locale };
-}) {
-  const { locale } = await params;
-  return generatePageMetaData({
-    locale,
-    namespace: "metadata",
-    canonical: "/",
-  });
+export async function generateMetadata() {
+  const t = await getTranslations("metadata");
+
+  return getDefaultMetadata(t);
 }
 
 export default async function LocaleLayout({

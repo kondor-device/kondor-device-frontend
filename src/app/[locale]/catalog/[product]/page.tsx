@@ -7,9 +7,47 @@ import Manual from "@/components/productPage/Manual";
 import { CategoryItem } from "@/types/categoryItem";
 import { Suspense } from "react";
 import Loader from "@/components/shared/loader/Loader";
+import { getDefaultMetadata } from "@/utils/getDefaultMetadata";
+import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
 
 interface ProductPageProps {
   params: Promise<{ product: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: ProductPageProps): Promise<Metadata> {
+  const { product } = await params;
+  const t = await getTranslations("metadata");
+
+  const res = await getProducts(GET_ITEM_BY_SLUG_QUERY, {
+    slug: product,
+  });
+
+  const currentProduct = res?.data?.allItems[0];
+
+  return {
+    title:
+      currentProduct?.seoTitle ||
+      currentProduct?.name ||
+      getDefaultMetadata(t).title,
+    description:
+      currentProduct?.seoDescription || getDefaultMetadata(t).description,
+    openGraph: {
+      images: [
+        {
+          url:
+            currentProduct?.seoImage?.url ||
+            currentProduct?.coloropts[0]?.photos[0]?.url ||
+            "/opengraph-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: "Kondor Device",
+        },
+      ],
+    },
+  };
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {

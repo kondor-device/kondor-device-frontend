@@ -240,6 +240,11 @@ export const GET_ITEM_BY_SLUG_QUERY = `
       id
       generalname
       name
+      seoTitle
+      seoDescription
+      seoImage {
+      url
+        }
       slug
       price
       priceDiscount
