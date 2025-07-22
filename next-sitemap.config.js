@@ -6,9 +6,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const GET_ALL_PRODUCTS = `query GetAllProducts {
   allItems {
-    id
-    price
-    priceDiscount
+    slug
   }
 }`;
 
@@ -38,11 +36,11 @@ async function getDynamicPages() {
   return productsPages;
 }
 
-module.exports = {
+const sitemapConfig = {
   siteUrl: process.env.NEXT_PUBLIC_BASE_URL,
-  changefreq: "monthly",
+  changefreq: "weekly",
   sitemapSize: 5000,
-  priority: 0.7,
+  priority: 0.9,
   generateIndexSitemap: false,
   exclude: ["/api/*"],
   generateRobotsTxt: true,
@@ -111,3 +109,6 @@ module.exports = {
     return [...staticPaths, ...dynamicPaths];
   },
 };
+
+// Експортуємо конфігурацію
+export default sitemapConfig;
