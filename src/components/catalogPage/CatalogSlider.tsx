@@ -118,6 +118,7 @@ export default function CatalogSlider({
       onSwiper={(swiper) => (swiperRef.current = swiper)}
       centeredSlides={true}
       slidesPerView={1}
+      autoHeight={true}
       breakpoints={{
         0: {
           spaceBetween: 12,

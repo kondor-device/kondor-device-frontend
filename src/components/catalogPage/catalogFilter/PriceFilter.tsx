@@ -18,8 +18,10 @@ export default function PriceFilter({ value, onChange }: PriceFilterProps) {
           track: "bg-[#D4D4D8] opacity-50 h-1 rounded-[8px] mt-[47px]",
           filler: "bg-yellow h-1 rounded-[8px]",
           thumb: "bg-yellow range-thumb",
-          startContent: "absolute left-0 bottom-[25px] text-[18px] font-medium",
-          endContent: "absolute bottom-[25px] right-0 text-[18px] font-medium",
+          startContent:
+            "absolute left-0 bottom-[25px] text-[12px] desk:text-[18px] font-medium",
+          endContent:
+            "absolute bottom-[25px] right-0 text-[12px] desk:text-[18px] font-medium",
         }}
         showTooltip
         tooltipProps={{

@@ -100,16 +100,19 @@ export default function CatalogCard({
       className={`flex flex-col justify-between p-3 desk:p-4 rounded-[8px] desk:rounded-[20px] shadow-catalogCard bg-white ${className}`}
     >
       <div className="rounded-[12px] aspect-square w-full mb-2 desk:mb-3">
-        <Image
-          src={
-            coloropts[selectedColorIndex].photos[0]?.url ||
-            "/images/icons/logoSmall.svg"
-          }
-          alt={coloropts[selectedColorIndex].photos[0]?.alt || "keyboard"}
-          width={1080}
-          height={1080}
-          className="max-w-full max-h-full object-cover"
-        />
+        <Link href={`/catalog/${slug}`}>
+          {" "}
+          <Image
+            src={
+              coloropts[selectedColorIndex].photos[0]?.url ||
+              "/images/icons/logoSmall.svg"
+            }
+            alt={coloropts[selectedColorIndex].photos[0]?.alt || "keyboard"}
+            width={1080}
+            height={1080}
+            className="max-w-full max-h-full object-cover laptop:hover:scale-105 transition duration-1000 ease-in-out"
+          />
+        </Link>
       </div>
       <Link href={`/catalog/${slug}`} className="block mb-3 desk:mb-4">
         <h3 className="flex flex-wrap items-center text-10bold desk:text-18bold">

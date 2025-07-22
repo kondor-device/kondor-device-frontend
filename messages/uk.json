@@ -307,7 +307,7 @@
     "sortingOptions": {
       "priceAscending": "за ціною від найнижчої",
       "priceDescending": "ціною від найвищої",
-      "discount": "знижкою",
+      "discount": "за знижкою",
       "nameAscending": "назвою від А до Я",
       "nameDescending": "назвою від Я до А"
     }

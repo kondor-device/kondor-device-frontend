@@ -92,6 +92,7 @@ export default {
         notificationMob: "0px 30px 50px 0px rgba(25, 25, 25, 0.2)",
         cartButton: "0px 4px 40px 0px rgba(25, 25, 25, 0.3)",
         catalogItem: "0px 2.18px 17.93px 0px rgba(0, 0, 0, 0.15)",
+        filterButton: "0px 2.777px 22.842px 0px rgba(0, 0, 0, 0.15)",
         catalogFilter: "0px 2px 30px 0px rgba(103, 103, 103, 0.25)",
         catalogCard: "0px 2px 30px 0px rgba(103, 103, 103, 0.10)",
       },
