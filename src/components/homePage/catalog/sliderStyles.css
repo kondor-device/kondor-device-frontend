@@ -1,6 +1,6 @@
 .swiper {
   width: 100%;
-  /* height: 100%; */
+  height: 100%;
   padding-bottom: 34px;
   @media screen and (min-width: 1024px) {
     padding-bottom: 64px;
@@ -8,20 +8,29 @@
 }
 
 .swiper-wrapper {
-  /* height: 100%; */
+  height: 100%;
 }
 
 .swiper-slide {
   width: 330px;
   height: fit;
-  /* height: 100% !important; */
-  /* min-height: 100% !important; */
+  height: 100% !important;
+  min-height: 100% !important;
   @media screen and (min-width: 1024px) {
     width: 978px;
   }
   @media screen and (min-width: 1920px) {
     width: 1252px;
   }
+}
+
+.swiper-wrapper {
+  align-items: stretch !important;
+}
+
+.swiper-slide {
+  flex-grow: 1 0;
+  height: auto !important;
 }
 
 .swiper-pagination {

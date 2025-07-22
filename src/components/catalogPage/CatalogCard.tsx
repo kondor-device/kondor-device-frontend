@@ -97,7 +97,7 @@ export default function CatalogCard({
 
   return (
     <div
-      className={`flex flex-col justify-between p-3 desk:p-4 rounded-[8px] desk:rounded-[20px] shadow-catalogCard bg-white ${className}`}
+      className={`flex flex-col justify-between p-3 desk:p-4 rounded-[8px] desk:rounded-[20px] shadow-catalogCard bg-white min-h-full ${className}`}
     >
       <div className="rounded-[12px] aspect-square w-full mb-2 desk:mb-3">
         <Link href={`/catalog/${slug}`}>
