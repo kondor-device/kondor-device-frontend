@@ -19,7 +19,7 @@ export default function Manual({ product }: ManualProps) {
             href={manual}
             target="_blank"
             rel="noopener noreferrer nofollow"
-            className="flex justify-between items-center w-full"
+            className="group flex justify-between items-center w-full"
           >
             <span className="text-16semi desk:text-24bold"> {t("manual")}</span>
             <Image
@@ -27,7 +27,7 @@ export default function Manual({ product }: ManualProps) {
               width={24}
               height={24}
               alt="link icon"
-              className="w-6 desk:w-8 h-auto"
+              className="w-6 desk:w-8 h-auto laptop:group-hover:brightness-125 transition duration-300 ease-in-out"
             />
           </a>
         </div>
@@ -38,7 +38,7 @@ export default function Manual({ product }: ManualProps) {
             href={driver}
             target="_blank"
             rel="noopener noreferrer nofollow"
-            className="flex justify-between items-center w-full"
+            className="group flex justify-between items-center w-full"
           >
             <span className="text-16semi desk:text-24bold"> {t("driver")}</span>
             <Image
@@ -46,7 +46,7 @@ export default function Manual({ product }: ManualProps) {
               width={24}
               height={24}
               alt="link icon"
-              className="w-6 desk:w-8 h-auto"
+              className="w-6 desk:w-8 h-auto laptop:group-hover:brightness-125 transition duration-300 ease-in-out"
             />
           </a>
         </div>

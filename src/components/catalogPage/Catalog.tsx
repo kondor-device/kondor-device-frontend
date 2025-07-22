@@ -1,10 +1,15 @@
 "use client";
+import { useState } from "react";
+import Image from "next/image";
 import { CategoryItem } from "@/types/categoryItem";
 import CatalogFilter from "./catalogFilter/CatalogFilter";
 import CatalogSlider from "./CatalogSlider";
 import { ProductItem } from "@/types/productItem";
 import { useSearchParams, useRouter } from "next/navigation";
 import { FiltersState } from "./catalogFilter/CatalogFilter";
+import CatalogSorting from "./CatalogSorting";
+import CatalogFiltersModal from "./CatalogFilterModal";
+import Backdrop from "../shared/header/catalogMenu/Backdrop";
 
 interface CatalogProps {
   currentCategories: CategoryItem[];
@@ -19,6 +24,9 @@ export default function Catalog({
   shownOnAddons,
   categoryArray,
 }: CatalogProps) {
+  const [isOpenDropdown, setIsOpenDropdown] = useState(false);
+  const [isOpenFilter, setIsOpenFilter] = useState(false);
+
   const searchParams = useSearchParams();
 
   const router = useRouter();
@@ -70,11 +78,43 @@ export default function Catalog({
       <CatalogFilter
         allCategories={allCategories}
         handleApplyFilters={handleApplyFilters}
+        className="hidden tabxl:block"
       />
-      <CatalogSlider
-        currentCategories={currentCategories}
-        shownOnAddons={shownOnAddons}
-        categoryArray={categoryArray}
+      <div className="flex flex-col w-full tabxl:w-[calc(100%-311px-16px)] laptop:w-[calc(100%-311px-30px)] gap-y-4 tabxl:gap-y-[30px]">
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setIsOpenFilter(true)}
+            className="tabxl:hidden cursor-pointer outline-none"
+          >
+            <Image
+              src="/images/icons/filter.svg"
+              alt="filter icon"
+              width={32}
+              height={32}
+            />
+          </button>
+          <CatalogSorting
+            isOpenDropdown={isOpenDropdown}
+            setIsOpenDropdown={setIsOpenDropdown}
+          />
+        </div>
+        <CatalogSlider
+          currentCategories={currentCategories}
+          shownOnAddons={shownOnAddons}
+          categoryArray={categoryArray}
+          isOpenDropdown={isOpenDropdown}
+        />
+      </div>
+      <CatalogFiltersModal
+        allCategories={allCategories}
+        handleApplyFilters={handleApplyFilters}
+        isOpen={isOpenFilter}
+        onClose={() => setIsOpenFilter(false)}
+      />
+      <Backdrop
+        isVisible={isOpenFilter}
+        onClick={() => setIsOpenFilter(false)}
       />
     </section>
   );

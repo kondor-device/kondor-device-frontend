@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { ProductItem } from "@/types/productItem";
 import CatalogCard from "../catalogPage/CatalogCard";
 import { useTranslations } from "next-intl";
+import AnimationWrapper from "../homePage/hero/AnimationWrapper";
 
 interface SimilarProductsSliderProps {
   similarProducts: {
@@ -20,6 +21,8 @@ interface SimilarProductsSliderProps {
   } | null;
   addons: ProductItem[];
 }
+
+const SECTION_ID = "product-page-similar";
 
 export default function SimilarProductsSlider({
   similarProducts,
@@ -47,10 +50,20 @@ export default function SimilarProductsSlider({
   if (extendedItems.length === 0) return null;
 
   return (
-    <section className="container max-w-[1920px] mb-8 desk:mb-[100px]">
-      <h2 className="mb-[30px] desk:mb-[60px] text-[22px] desk:text-[36px] font-bold leading-[120%]">
-        {t("similar")}
-      </h2>
+    <section
+      id={SECTION_ID}
+      className="container max-w-[1920px] mb-8 desk:mb-[100px]"
+    >
+      <AnimationWrapper
+        sectionId={SECTION_ID}
+        commonStyles={`transition duration-700 ease-slow `}
+        visibleStyles="opacity-100 translate-x-0"
+        unVisibleStyles="opacity-0 -translate-x-[50px]"
+      >
+        <h2 className="mb-[30px] desk:mb-[60px] text-[22px] desk:text-[36px] font-bold leading-[120%]">
+          {t("similar")}
+        </h2>
+      </AnimationWrapper>
       <Swiper
         breakpoints={{
           0: {

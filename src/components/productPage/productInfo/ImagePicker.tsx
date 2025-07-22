@@ -6,6 +6,7 @@ import Backdrop from "@/components/shared/header/catalogMenu/Backdrop";
 import IconButton from "@/components/shared/buttons/IconButton";
 import IconClose from "@/components/shared/icons/IconCLose";
 import { useSwipeable } from "react-swipeable";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface ImagePickerProps {
   photos: { url: string; alt?: string }[];
@@ -35,7 +36,27 @@ export default function ImagePicker({
   });
 
   return (
-    <div
+    <motion.div
+      initial={{
+        opacity: 0,
+      }}
+      whileInView={{
+        opacity: 1,
+
+        transition: {
+          duration: 0.5,
+          delay: 0,
+          ease: [0.25, 0.1, 0.25, 1],
+        },
+      }}
+      exit={{
+        opacity: 0,
+        transition: {
+          duration: 0.6,
+          ease: [0.42, 0, 1, 1],
+        },
+      }}
+      viewport={{ once: true, amount: 0.5 }}
       className="flex flex-col items-center tabxl:flex-row-reverse tabxl:justify-end gap-y-3 tabxl:gap-x-10 mb-8 laptop:mb-0"
       {...swipeHandlers}
     >
@@ -44,16 +65,23 @@ export default function ImagePicker({
           className="flex justify-between items-center max-w-[306px] tabxl:max-w-[448px] laptop:size-[448px] bg-white 
   aspect-[1/1] rounded-[40px] overflow-hidden"
         >
-          <Image
-            src={
-              photos[selectedPhotoIndex]?.url || "/images/icons/logoSmall.svg"
-            }
-            alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
-            width={1080}
-            height={1080}
-            onClick={() => setIsModalOpen(true)}
-            className="max-w-full max-h-full object-cover cursor-pointer laptop:hover:scale-110 transition duration-1000 ease-slow"
-          />
+          <AnimatePresence>
+            <motion.img
+              key={photos[selectedPhotoIndex]?.url}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              src={
+                photos[selectedPhotoIndex]?.url || "/images/icons/logoSmall.svg"
+              }
+              alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
+              width={1080}
+              height={1080}
+              onClick={() => setIsModalOpen(true)}
+              className="max-w-full max-h-full object-cover cursor-pointer laptop:hover:scale-110 transition duration-1000 ease-slow"
+            />
+          </AnimatePresence>
         </div>
 
         {/* Навігація */}
@@ -134,16 +162,27 @@ export default function ImagePicker({
           <div className="relative flex justify-center items-center">
             {" "}
             <div className="relative size-[290px] sm:size-[540px] desk:size-[600px] rounded-[40px] desk:rounded-[64px] overflow-hidden">
-              <Image
-                src={
-                  photos[selectedPhotoIndex]?.url ||
-                  "/images/icons/logoSmall.svg"
-                }
-                alt="full-size image"
-                fill
-                className="object-contain rounded-[40px] desk:rounded-[64px] laptop:hover:scale-110 transition duration-1000 ease-slow"
-              />
-            </div>{" "}
+              <AnimatePresence>
+                <motion.div
+                  key={photos[selectedPhotoIndex]?.url}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {" "}
+                  <Image
+                    src={
+                      photos[selectedPhotoIndex]?.url ||
+                      "/images/icons/logoSmall.svg"
+                    }
+                    alt="full-size image"
+                    fill
+                    className="object-contain rounded-[40px] desk:rounded-[64px] laptop:hover:scale-110 transition duration-1000 ease-slow"
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
             <button
               onClick={prev}
               className="absolute top-[calc(50%-10px)] desk:top-[calc(50%-32px)] -left-5 desk:left-[-160px] flex items-center justify-center size-5 desk:size-16  cursor-pointer active:scale-95 transition duration-300 ease-in-out"
@@ -172,6 +211,6 @@ export default function ImagePicker({
         </div>
       </div>
       <Backdrop isVisible={isModalOpen} onClick={() => setIsModalOpen(false)} />
-    </div>
+    </motion.div>
   );
 }

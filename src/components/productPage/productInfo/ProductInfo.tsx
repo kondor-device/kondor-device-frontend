@@ -15,11 +15,18 @@ import { useModalStore } from "@/store/modalStore";
 import CartPopUp from "@/components/homePage/catalog/cart/CartPopUp";
 import { sendGTMEvent } from "@next/third-parties/google";
 import Video from "./Video";
+import AnimationWrapper from "@/components/homePage/hero/AnimationWrapper";
 
 interface ProductInfoProps {
   product: ProductItem;
   addons: ProductItem[];
 }
+
+const SECTION_ID = "product-page-info";
+
+const PRICE_ID = "product-page-price";
+
+const DESCRIPTION_ID = "description";
 
 export default function ProductInfo({ product, addons }: ProductInfoProps) {
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
@@ -99,11 +106,18 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
             selectedPhotoIndex={selectedPhotoIndex}
             setSelectedPhotoIndex={setSelectedPhotoIndex}
           />
-          <div className="w-fit">
-            <h1 className="flex flex-wrap items-center mb-5 desk:mb-9 text-[24px] font-medium leading-[110%] desk:text-[45px]">
-              <span>{generalname}</span>&nbsp;&nbsp;
-              <span className="text-yellow">{name}</span>
-            </h1>
+          <div id={SECTION_ID} className="w-fit">
+            <AnimationWrapper
+              sectionId={SECTION_ID}
+              commonStyles={`transition duration-700 ease-slow `}
+              visibleStyles="opacity-100 translate-x-0"
+              unVisibleStyles="opacity-0 translate-x-[50px]"
+            >
+              <h1 className="flex flex-wrap items-center mb-5 desk:mb-9 text-[24px] font-medium leading-[110%] desk:text-[45px]">
+                <span>{generalname}</span>&nbsp;&nbsp;
+                <span className="text-yellow">{name}</span>
+              </h1>
+            </AnimationWrapper>
             {coloropts?.length > 0 ? (
               <ColorPicker
                 coloropts={coloropts}
@@ -111,8 +125,16 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
                 setSelectedColorIndex={setSelectedColorIndex}
               />
             ) : null}
-            <div className="flex flex-row items-end gap-x-6 mb-5 desk:mb-9">
-              <p className="text-[40px] desk:text-[54px] font-bold uppercase leading-none">
+            <AnimationWrapper
+              sectionId={PRICE_ID}
+              commonStyles={`flex flex-row items-end gap-x-6 mb-5 desk:mb-9 transition duration-700 ease-slow `}
+              visibleStyles="opacity-100 translate-y-0 delay-[800ms]"
+              unVisibleStyles="opacity-0 translate-y-[50px]"
+            >
+              <p
+                id={PRICE_ID}
+                className="text-[40px] desk:text-[54px] font-bold uppercase leading-none"
+              >
                 {!!priceDiscount && priceDiscount < price
                   ? formatSum(priceDiscount)
                   : formatSum(price)}
@@ -130,13 +152,21 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
                   </p>
                 </div>
               ) : null}
-            </div>
-            <Button
-              onClick={onAddToCart}
-              className="hidden tab:block w-full tab:w-[350px] desk:w-[437px] max-w-[327px] laptop:max-w-[350px] desk:max-w-[437px]"
+            </AnimationWrapper>
+            <AnimationWrapper
+              sectionId={PRICE_ID}
+              commonStyles={`flex flex-row items-end gap-x-6 mb-5 desk:mb-9 transition duration-1000 ease-slow`}
+              visibleStyles="opacity-100 translate-y-0 scale-[100%] delay-[1000ms]"
+              unVisibleStyles="opacity-0 translate-y-0 scale-[70%]"
             >
-              {preorder ? t("buttons.preOrder") : t("buttons.makeOrder")}
-            </Button>
+              {" "}
+              <Button
+                onClick={onAddToCart}
+                className="hidden tab:block w-full tab:w-[350px] desk:w-[437px] max-w-[327px] laptop:max-w-[350px] desk:max-w-[437px]"
+              >
+                {preorder ? t("buttons.preOrder") : t("buttons.makeOrder")}
+              </Button>
+            </AnimationWrapper>
             {preorder && preordertext ? (
               <p className="absolute bottom-3 tabxl:bottom-4 px-4 deskxl:px-6 text-10med tabxl:text-14med text-white">
                 {preordertext}
@@ -149,12 +179,21 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
           <div className="tabxl:w-[calc(50%-16px)]">
             {description ? (
               <div
-                id="description"
+                id={DESCRIPTION_ID}
                 className="mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px] scroll-mt-[82px] tabxl:scroll-mt-[113px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard"
               >
-                <h3 className="mb-5 text-14bold desk:text-24bold">
-                  {t("productPage.description")}
-                </h3>
+                <AnimationWrapper
+                  sectionId={DESCRIPTION_ID}
+                  commonStyles={`transition duration-700 ease-slow`}
+                  visibleStyles="opacity-100 translate-x-0"
+                  unVisibleStyles="opacity-0 -translate-x-[50px]"
+                >
+                  {" "}
+                  <h3 className="mb-5 text-14bold desk:text-24bold">
+                    {t("productPage.description")}
+                  </h3>
+                </AnimationWrapper>
+
                 <div
                   className="text-12med desk:text-18med"
                   dangerouslySetInnerHTML={{ __html: html }}

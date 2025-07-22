@@ -1,13 +1,15 @@
 "use client";
 
 import { ColorOpt } from "@/types/productItem";
-import React from "react";
+import AnimationWrapper from "@/components/homePage/hero/AnimationWrapper";
 
 interface ColorPickerProps {
   coloropts: ColorOpt[];
   selectedColorIndex: number;
   setSelectedColorIndex: (index: number) => void;
 }
+
+const SECTION_ID = "product-page-info";
 
 export default function ColorPicker({
   coloropts,
@@ -17,8 +19,16 @@ export default function ColorPicker({
   const selectedColorName = coloropts[selectedColorIndex]?.color || "";
 
   return (
-    <div className="mb-10">
-      <div className="mb-5 desk:mb-9 text-16bold desk:text-18bold">
+    <AnimationWrapper
+      sectionId={SECTION_ID}
+      commonStyles={`mb-10 transition duration-700 ease-slow `}
+      visibleStyles="opacity-100 translate-y-0 delay-[400ms]"
+      unVisibleStyles="opacity-0 translate-y-[50px]"
+    >
+      <div
+        id={SECTION_ID}
+        className="mb-5 desk:mb-9 text-16bold desk:text-18bold"
+      >
         Колір:{" "}
         <span className="text-16med lg:text-18med lowercase text-grey">
           {selectedColorName}
@@ -57,6 +67,6 @@ export default function ColorPicker({
           );
         })}
       </ul>
-    </div>
+    </AnimationWrapper>
   );
 }
