@@ -28,8 +28,6 @@ export default function CatalogMenu({
         }))
     : [];
 
-
-
   const allCategoriesSlugs = categoriesList.map((c) => c.category).join(",");
 
   const allCategoriesNewProducts = allCategoriesSlugs.concat("&new=true");

@@ -119,8 +119,8 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
                 visibleStyles="opacity-100 translate-x-0"
                 unVisibleStyles="opacity-0 translate-x-[50px]"
               >
-                <h1 className="flex flex-wrap items-center mb-5 desk:mb-9 text-[24px] font-medium leading-[110%] desk:text-[45px]">
-                  <span>{generalname}</span>&nbsp;&nbsp;
+                <h1 className="flex flex-wrap gap-x-2 items-center mb-5 desk:mb-9 text-[24px] font-medium leading-[110%] desk:text-[45px]">
+                  <span>{generalname}</span>
                   <span className="text-yellow">{name}</span>
                 </h1>
               </AnimationWrapper>

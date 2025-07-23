@@ -12,7 +12,8 @@ type NavigationItem = { title: string; slug: string };
 
 export default function Navigation({ product }: NavigationProps) {
   const [selected, setSelected] = useState("all");
-  const isManuallySelecting = useRef(false); // ← нове
+  const isManuallySelecting = useRef(false);
+  const tabListRef = useRef<HTMLDivElement>(null);
 
   const t = useTranslations("productPage.navigation");
 
@@ -42,44 +43,59 @@ export default function Navigation({ product }: NavigationProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (isManuallySelecting.current) return; // ← блокуємо, якщо вручну
+      if (isManuallySelecting.current) return;
 
-      const viewportHeight = window.innerHeight;
-      const triggerStart = viewportHeight * 0.2;
-      const triggerEnd = viewportHeight * 0.4;
-
-      let activeSlug = selected;
+      const vh = window.innerHeight;
+      const start = vh * 0.2;
+      const end = vh * 0.4;
+      let active = selected;
 
       for (const item of navigationList) {
         const el = document.getElementById(item.slug);
         if (!el) continue;
-
-        const rectTop = el.getBoundingClientRect().top;
-
-        if (rectTop >= triggerStart && rectTop <= triggerEnd) {
-          activeSlug = item.slug;
+        const top = el.getBoundingClientRect().top;
+        if (top >= start && top <= end) {
+          active = item.slug;
           break;
         }
       }
 
-      if (activeSlug !== selected) {
-        setSelected(activeSlug);
-      }
+      if (active !== selected) setSelected(active);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // ініціалізація
+    handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [navigationList, selected]);
 
+  // Автоскрол табів
+  useEffect(() => {
+    const tabList = tabListRef.current;
+    if (!tabList) return;
+
+    const activeTab = tabList.querySelector<HTMLElement>(
+      '[role="tab"][aria-selected="true"]'
+    );
+    if (activeTab) {
+      activeTab.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+  }, [selected]);
+
   return (
     <div className="relative mb-8 overflow-x-auto h-[43px] bg-white">
       <div
-        className="fixed z-30 top-[78px] tabxl:top-[109px] left-0 tabxl:container tabxl:max-w-[1920px] pt-2.5 pb-1.5 w-dvw rounded-b-[12px] bg-white
-       shadow-catalogFilter tabxl:shadow-none"
+        ref={tabListRef}
+        className="fixed z-30 top-[78px] tabxl:top-[109px] left-0 tabxl:container tabxl:max-w-[1920px] pt-2.5 pb-1.5 w-full rounded-b-[12px] bg-white
+       shadow-catalogFilter tabxl:shadow-none  overflow-x-auto  scrollbar 
+      scrollbar-h-0 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-transparent 
+      scrollbar-track-transparent"
       >
         <Tabs
           selectedKey={selected}
