@@ -101,117 +101,119 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
 
   return (
     <>
-      <section className="container max-w-[1920px] mb-8 desk:mb-[69px]">
+      <section className="mb-8 desk:mb-[69px]">
         <Navigation product={product} />
 
-        <div className="tabxl:flex gap-x-[80px] desk:gap-x-[120px] w-full mb-5 tab:mb-[100px]">
-          <ImagePicker
-            photos={photos}
-            selectedPhotoIndex={selectedPhotoIndex}
-            setSelectedPhotoIndex={setSelectedPhotoIndex}
-          />
-          <div id={SECTION_ID} className="w-fit">
-            <AnimationWrapper
-              sectionId={SECTION_ID}
-              commonStyles={`transition duration-700 ease-slow `}
-              visibleStyles="opacity-100 translate-x-0"
-              unVisibleStyles="opacity-0 translate-x-[50px]"
-            >
-              <h1 className="flex flex-wrap items-center mb-5 desk:mb-9 text-[24px] font-medium leading-[110%] desk:text-[45px]">
-                <span>{generalname}</span>&nbsp;&nbsp;
-                <span className="text-yellow">{name}</span>
-              </h1>
-            </AnimationWrapper>
-            {coloropts?.length > 0 ? (
-              <ColorPicker
-                coloropts={coloropts}
-                selectedColorIndex={selectedColorIndex}
-                setSelectedColorIndex={setSelectedColorIndex}
-              />
-            ) : null}
-            <AnimationWrapper
-              sectionId={PRICE_ID}
-              commonStyles={`flex flex-row items-end gap-x-6 mb-5 desk:mb-9 transition duration-700 ease-slow `}
-              visibleStyles="opacity-100 translate-y-0 tabxl:delay-[800ms]"
-              unVisibleStyles="opacity-0 translate-y-[50px]"
-            >
-              <p
-                id={PRICE_ID}
-                className="text-[40px] desk:text-[54px] font-bold uppercase leading-none"
+        <div className="container max-w-[1920px]">
+          {" "}
+          <div className="tabxl:flex gap-x-[80px] desk:gap-x-[120px] w-full mb-5 tab:mb-[100px]">
+            <ImagePicker
+              photos={photos}
+              selectedPhotoIndex={selectedPhotoIndex}
+              setSelectedPhotoIndex={setSelectedPhotoIndex}
+            />
+            <div id={SECTION_ID} className="w-fit">
+              <AnimationWrapper
+                sectionId={SECTION_ID}
+                commonStyles={`transition duration-700 ease-slow `}
+                visibleStyles="opacity-100 translate-x-0"
+                unVisibleStyles="opacity-0 translate-x-[50px]"
               >
-                {!!priceDiscount && priceDiscount < price
-                  ? formatSum(priceDiscount)
-                  : formatSum(price)}
-                {t("homePage.catalog.hrn")}
-              </p>
-              {!!priceDiscount && priceDiscount < price ? (
-                <div className="flex flex-col-reverse items-end justify-center gap-x-[5px]">
-                  <p className="text-[16px] desk:text-[22px] text-grey uppercase line-through font-bold leading-[150%]">
-                    {formatSum(price)}
-                    {t("homePage.catalog.hrn")}
-                  </p>
-                  <p className="text-[12px] desk:text-[16px] font-medium desk:leading-[20px] text-yellow">
-                    {t("homePage.catalog.economy")}
-                    {savings}%
-                  </p>
+                <h1 className="flex flex-wrap items-center mb-5 desk:mb-9 text-[24px] font-medium leading-[110%] desk:text-[45px]">
+                  <span>{generalname}</span>&nbsp;&nbsp;
+                  <span className="text-yellow">{name}</span>
+                </h1>
+              </AnimationWrapper>
+              {coloropts?.length > 0 ? (
+                <ColorPicker
+                  coloropts={coloropts}
+                  selectedColorIndex={selectedColorIndex}
+                  setSelectedColorIndex={setSelectedColorIndex}
+                />
+              ) : null}
+              <AnimationWrapper
+                sectionId={PRICE_ID}
+                commonStyles={`flex flex-row items-end gap-x-6 mb-5 desk:mb-9 transition duration-700 ease-slow `}
+                visibleStyles="opacity-100 translate-y-0 tabxl:delay-[800ms]"
+                unVisibleStyles="opacity-0 translate-y-[50px]"
+              >
+                <p
+                  id={PRICE_ID}
+                  className="text-[40px] desk:text-[54px] font-bold uppercase leading-none"
+                >
+                  {!!priceDiscount && priceDiscount < price
+                    ? formatSum(priceDiscount)
+                    : formatSum(price)}
+                  {t("homePage.catalog.hrn")}
+                </p>
+                {!!priceDiscount && priceDiscount < price ? (
+                  <div className="flex flex-col-reverse items-end justify-center gap-x-[5px]">
+                    <p className="text-[16px] desk:text-[22px] text-grey uppercase line-through font-bold leading-[150%]">
+                      {formatSum(price)}
+                      {t("homePage.catalog.hrn")}
+                    </p>
+                    <p className="text-[12px] desk:text-[16px] font-medium desk:leading-[20px] text-yellow">
+                      {t("homePage.catalog.economy")}
+                      {savings}%
+                    </p>
+                  </div>
+                ) : null}
+              </AnimationWrapper>
+              <AnimationWrapper
+                sectionId={PRICE_ID}
+                commonStyles={`flex flex-row items-end gap-x-6 mb-5 desk:mb-9 transition duration-1000 ease-slow`}
+                visibleStyles="opacity-100 translate-y-0 scale-[100%] delay-[1000ms]"
+                unVisibleStyles="opacity-0 translate-y-0 scale-[70%]"
+              >
+                {" "}
+                <Button
+                  onClick={onAddToCart}
+                  className="hidden tabxl:block w-full tab:w-[350px] desk:w-[437px] max-w-[327px] laptop:max-w-[350px] desk:max-w-[437px]"
+                >
+                  {preorder ? t("buttons.preOrder") : t("buttons.makeOrder")}
+                </Button>
+              </AnimationWrapper>
+              {preorder && preordertext ? (
+                <p className="absolute bottom-3 tabxl:bottom-4 px-4 deskxl:px-6 text-10med tabxl:text-14med text-white">
+                  {preordertext}
+                </p>
+              ) : null}
+            </div>
+          </div>
+          <div className="tabxl:flex gap-x-8">
+            <div className="tabxl:w-[calc(50%-16px)]">
+              {description ? (
+                <div
+                  id={DESCRIPTION_ID}
+                  className="mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px]  scroll-mt-[142px] tabxl:scroll-mt-[173px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard"
+                >
+                  <AnimationWrapper
+                    sectionId={DESCRIPTION_ID}
+                    commonStyles={`transition duration-700 ease-slow`}
+                    visibleStyles="opacity-100 translate-x-0"
+                    unVisibleStyles="opacity-0 -translate-x-[50px]"
+                  >
+                    {" "}
+                    <h3 className="mb-5 text-14bold desk:text-24bold">
+                      {t("productPage.description")}
+                    </h3>
+                  </AnimationWrapper>
+
+                  <div
+                    className="text-12med desk:text-18med"
+                    dangerouslySetInnerHTML={{ __html: html }}
+                  ></div>
                 </div>
               ) : null}
-            </AnimationWrapper>
-            <AnimationWrapper
-              sectionId={PRICE_ID}
-              commonStyles={`flex flex-row items-end gap-x-6 mb-5 desk:mb-9 transition duration-1000 ease-slow`}
-              visibleStyles="opacity-100 translate-y-0 scale-[100%] delay-[1000ms]"
-              unVisibleStyles="opacity-0 translate-y-0 scale-[70%]"
-            >
-              {" "}
-              <Button
-                onClick={onAddToCart}
-                className="hidden tabxl:block w-full tab:w-[350px] desk:w-[437px] max-w-[327px] laptop:max-w-[350px] desk:max-w-[437px]"
-              >
-                {preorder ? t("buttons.preOrder") : t("buttons.makeOrder")}
-              </Button>
-            </AnimationWrapper>
-            {preorder && preordertext ? (
-              <p className="absolute bottom-3 tabxl:bottom-4 px-4 deskxl:px-6 text-10med tabxl:text-14med text-white">
-                {preordertext}
-              </p>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="tabxl:flex gap-x-8">
-          <div className="tabxl:w-[calc(50%-16px)]">
-            {description ? (
-              <div
-                id={DESCRIPTION_ID}
-                className="mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px] scroll-mt-[82px] tabxl:scroll-mt-[113px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard"
-              >
-                <AnimationWrapper
-                  sectionId={DESCRIPTION_ID}
-                  commonStyles={`transition duration-700 ease-slow`}
-                  visibleStyles="opacity-100 translate-x-0"
-                  unVisibleStyles="opacity-0 -translate-x-[50px]"
-                >
-                  {" "}
-                  <h3 className="mb-5 text-14bold desk:text-24bold">
-                    {t("productPage.description")}
-                  </h3>
-                </AnimationWrapper>
-
-                <div
-                  className="text-12med desk:text-18med"
-                  dangerouslySetInnerHTML={{ __html: html }}
-                ></div>
-              </div>
-            ) : null}
-            {isDesktop ? <Video video={video} /> : null}
-          </div>
-          <div className="tabxl:w-[calc(50%-16px)]">
-            {chars?.length > 0 ? (
-              <Characteristics characteristics={chars} />
-            ) : null}
-            {!isDesktop ? <Video video={video} /> : null}
-            {complect ? <Complect complectation={complect} /> : null}
+              {isDesktop ? <Video video={video} /> : null}
+            </div>
+            <div className="tabxl:w-[calc(50%-16px)]">
+              {chars?.length > 0 ? (
+                <Characteristics characteristics={chars} />
+              ) : null}
+              {!isDesktop ? <Video video={video} /> : null}
+              {complect ? <Complect complectation={complect} /> : null}
+            </div>
           </div>
         </div>
       </section>
