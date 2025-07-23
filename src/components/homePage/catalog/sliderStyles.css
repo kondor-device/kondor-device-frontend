@@ -24,14 +24,12 @@
   }
 }
 
-/* Застосовуємо всім swiper-wrapper */
 .swiper-wrapper {
   align-items: stretch !important;
 }
 
-/* Виняток — всередині .catalog-page-slider */
 .catalog-page-slider .swiper-wrapper {
-  align-items: flex-start !important; /* або baseline / initial, або значення, яке потрібно */
+  align-items: flex-start !important;
 }
 
 .swiper-slide {

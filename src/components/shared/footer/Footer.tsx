@@ -5,8 +5,13 @@ import { usePathname } from "next/navigation";
 import Important from "./Important";
 import Details from "./Details";
 import Contacts from "./Contacts";
+import { CategoryItem } from "@/types/categoryItem";
 
-export default function Footer() {
+interface FooterProps {
+  categories: CategoryItem[];
+}
+
+export default function Footer({ categories }: FooterProps) {
   const t = useTranslations();
 
   const pathname = usePathname();
@@ -22,7 +27,7 @@ export default function Footer() {
             {t("footer.rights")}
           </p>
         </div>
-        <Important />
+        <Important categories={categories}/>
         <Details />
         <Contacts />
       </div>

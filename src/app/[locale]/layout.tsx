@@ -68,7 +68,7 @@ export default async function LocaleLayout({
           <HeroUIProvider className="flex min-h-screen flex-col">
             <Header categories={res?.data?.allCategories} />
             <main className="flex-1">{children}</main>
-            <Footer />
+            <Footer categories={res?.data?.allCategories} />
             <CartButton shownOnAddonsProducts={res?.data?.shownOnAddons} />
             <CartPopUp shownOnAddonsProducts={res?.data?.shownOnAddons} />
             <CheckoutPopUp />
