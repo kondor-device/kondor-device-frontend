@@ -9,7 +9,10 @@ interface ManualProps {
 export default function Manual({ product }: ManualProps) {
   const t = useTranslations("productPage");
 
-  const { manual, driver } = product;
+  const manual = product?.manual;
+  const driver = product?.driver;
+
+  if (!manual && !driver) return null;
 
   return (
     <div className="flex flex-col tab:flex-row tab:gap-8 gap-4 container max-w-[1920px]">
