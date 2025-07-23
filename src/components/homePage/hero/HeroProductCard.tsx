@@ -18,10 +18,13 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
 
   const { photos } = coloropts[0];
 
+  const searchParams =
+    "&priceTo=4999&sort=price-ascending&priceFrom=599&availability=in-stock%2Cpre-order";
+
   const localizedCatalogLink =
     locale === "uk"
-      ? `/catalog?type=${slug}`
-      : `/${locale}/catalog?type=${slug}`;
+      ? `/catalog?type=${slug}${searchParams}`
+      : `/${locale}/catalog?type=${slug}${searchParams}`;
 
   return (
     <li

@@ -20,13 +20,16 @@ export default function Important({ categories }: ImportantProps) {
         }))
     : [];
 
+  const searchParams =
+    "&priceTo=4999&sort=price-ascending&priceFrom=599&availability=in-stock%2Cpre-order";
+
   const allCategoriesSlugs = categoriesList.map((c) => c.category).join(",");
 
   const importantList = [
     { title: t("footer.important.list.home"), path: "/" },
     {
       title: t("footer.important.list.catalog"),
-      path: `/catalog?type=${allCategoriesSlugs}`,
+      path: `/catalog?type=${allCategoriesSlugs}${searchParams}`,
     },
     { title: t("footer.important.list.delivery"), path: "/delivery" },
     { title: t("footer.important.list.about"), path: "/about" },

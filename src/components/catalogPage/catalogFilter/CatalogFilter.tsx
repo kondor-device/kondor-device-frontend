@@ -27,6 +27,7 @@ interface CatalogFilterProps {
 export default function CatalogFilter({
   allCategories,
   handleApplyFilters,
+
   isOpenModal = false,
   closeModal,
   className = "",
@@ -54,8 +55,6 @@ export default function CatalogFilter({
     : [];
 
   const allCategoriesSlugs = categoriesList.map((c) => c.category).join(",");
-
-  console.log(allCategoriesSlugs);
 
   useEffect(() => {
     if (!searchParams) return;
