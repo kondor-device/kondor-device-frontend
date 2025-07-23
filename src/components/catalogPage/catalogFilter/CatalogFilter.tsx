@@ -44,6 +44,19 @@ export default function CatalogFilter({
     availability: [],
   });
 
+  const categoriesList = allCategories
+    ? allCategories
+        .sort((a, b) => a.pos - b.pos)
+        .map((category) => ({
+          title: category.name,
+          category: category.slug,
+        }))
+    : [];
+
+  const allCategoriesSlugs = categoriesList.map((c) => c.category).join(",");
+
+  console.log(allCategoriesSlugs);
+
   useEffect(() => {
     if (!searchParams) return;
 
@@ -52,6 +65,13 @@ export default function CatalogFilter({
     const availabilityParam = searchParams.get("availability");
     const priceFromParam = searchParams.get("priceFrom");
     const priceToParam = searchParams.get("priceTo");
+
+    if (!typeParam) {
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.set("type", allCategoriesSlugs);
+
+      router.replace(`${pathname}?${newParams.toString()}`);
+    }
 
     // Якщо відсутній параметр — встановлюємо "in-stock"
     if (!availabilityParam) {
@@ -106,7 +126,7 @@ export default function CatalogFilter({
       priceFrom: priceFromParam ? Number(priceFromParam) : undefined,
       priceTo: priceToParam ? Number(priceToParam) : undefined,
     });
-  }, [searchParams, allCategories, t, router, pathname]);
+  }, [searchParams, allCategories, t, router, pathname, allCategoriesSlugs]);
 
   const applyFilters = () => {
     handleApplyFilters(filters);
