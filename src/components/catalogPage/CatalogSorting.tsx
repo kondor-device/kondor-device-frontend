@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 interface CatalogSortingProps {
   isOpenDropdown: boolean;
@@ -71,18 +72,29 @@ export default function CatalogSorting({
     >
       <button
         onClick={() => setIsOpenDropdown((prev) => !prev)}
-        className="relative z-20 group cursor-pointer flex items-center gap-x-2 w-full h-8 xl:h-11 px-3 xl:px-7 rounded-[8px] border border-dark text-[10px] xl:text-[16px] font-bold text-dark bg-white xl:hover:brightness-110 focus-visible:brightness-110 transition duration-300 ease-in-out"
+        className="relative z-20 group cursor-pointer flex items-center justify-between w-full h-8 xl:h-11 px-3 rounded-[8px] border border-dark text-[10px] xl:text-[16px] font-bold text-dark bg-white xl:hover:brightness-110 focus-visible:brightness-110 transition duration-300 ease-in-out"
       >
-        <p>{t("sort")}</p>
-        <span className="truncate text-[10px] xl:text-[16px] font-medium">
-          {selected.title}
-        </span>
+        <div className="flex items-center gap-x-2">
+          <p>{t("sort")}</p>
+          <span className="truncate text-[10px] xl:text-[16px] font-medium">
+            {selected.title}
+          </span>
+        </div>
+        <Image
+          src="/images/icons/arrow.svg"
+          alt="arrow"
+          width={14}
+          height={8}
+          className={`w-2 tabxl:w-3 h-auto ml-3 transition duration-500 ease-in-out ${
+            isOpenDropdown ? "rotate-180" : "rotate-0"
+          }`}
+        />
       </button>
 
       <div
         className={`${
           isOpenDropdown ? "opacity-100" : "opacity-0 pointer-events-none"
-        } absolute z-50 top-[calc(100%-4px)] right-0 w-full px-3 bg-white rounded-b-[8px] border-x border-r border-b border-dark
+        } absolute z-10 top-[calc(100%-5px)] right-0 w-full px-3 bg-white rounded-b-[8px] border-x border-r border-b border-dark
             shadow-catalogCard overflow-hidden text-[10px] xl:text-[16px] font-medium transition duration-500 ease-in-out`}
       >
         <div className="w-full h-1"></div>

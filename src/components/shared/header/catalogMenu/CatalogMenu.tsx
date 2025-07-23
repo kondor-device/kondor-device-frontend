@@ -28,6 +28,8 @@ export default function CatalogMenu({
         }))
     : [];
 
+
+
   const allCategoriesSlugs = categoriesList.map((c) => c.category).join(",");
 
   const allCategoriesNewProducts = allCategoriesSlugs.concat("&new=true");
@@ -52,18 +54,18 @@ export default function CatalogMenu({
         isCatalogMenuOpened
           ? "translate-x-0 opacity-100 no-doc-scroll"
           : "-translate-x-full opacity-0"
-      } fixed top-[82px] sm:top-0 left-0 z-[70] w-[100vw] sm:w-[400px] h-[calc(100dvh-82px)] sm:h-[100dvh] bg-white sm:rounded-r-[32px]
+      } fixed top-[82px] tabxl:top-0 left-0 z-[70] w-[100vw] tabxl:w-[400px] h-[calc(100dvh-82px)] tabxl:h-[100dvh] bg-white tabxl:rounded-r-[32px]
       transition duration-[600ms] overflow-hidden flex flex-col`}
     >
-      <div className="hidden sm:block fixed -z-10 sm:left-[-9px] sm:top-[-125px] w-[303px] h-[288px] rounded-full bg-gradient-to-b from-[#FFB300] to-[#FFF1D0] blur-md" />
-      <div className="fixed -z-10 left-[calc(50%-195px)] sm:left-[calc(50%-195px-43px)] bottom-[-172px] sm:bottom-[-159px] w-[390px] h-[380px] rounded-full bg-gradient-to-b from-[#FFE19B] to-[#FFB300] blur-md" />
+      <div className="hidden tabxl:block fixed -z-10 tabxl:left-[-9px] tabxl:top-[-125px] w-[303px] h-[288px] rounded-full bg-gradient-to-b from-[#FFB300] to-[#FFF1D0] blur-md" />
+      <div className="fixed -z-10 left-[calc(50%-195px)] tabxl:left-[calc(50%-195px-43px)] bottom-[-172px] tabxl:bottom-[-159px] w-[390px] h-[380px] rounded-full bg-gradient-to-b from-[#FFE19B] to-[#FFB300] blur-md" />
 
       <div
-        className="flex-1 relative px-5 pt-[45px] pb-[45px] sm:pb-[122px] overflow-y-auto scrollbar 
+        className="flex-1 relative px-5 pt-3 tabxl:pt-[45px] pb-[45px] tabxl:pb-[122px] overflow-y-auto scrollbar 
       scrollbar-w-[2px] tabxl:scrollbar-w-[4px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow 
       scrollbar-track-transparent"
       >
-        <div className="flex justify-between items-center mb-[43px] sm:mb-12">
+        <div className="hidden tabxl:flex justify-between items-center mb-[43px] tabxl:mb-12">
           <h2 className="ml-5 text-24bold">{t("title")}</h2>{" "}
           <IconButton
             handleClick={() => setIsCatalogMenuOpened(false)}

@@ -24,7 +24,10 @@ export default function Header({ categories }: HeaderProps) {
         className={`w-[100dvw] ${!isHomePage ? "fixed z-50 top-0 left-0" : ""}`}
       >
         <HeaderDesk setIsCatalogMenuOpened={setIsCatalogMenuOpened} />
-        <HeaderMob setIsCatalogMenuOpened={setIsCatalogMenuOpened} />
+        <HeaderMob
+          setIsCatalogMenuOpened={setIsCatalogMenuOpened}
+          categories={categories}
+        />
       </header>
       <CatalogMenu
         categories={categories}
@@ -34,7 +37,7 @@ export default function Header({ categories }: HeaderProps) {
       <Backdrop
         isVisible={isCatalogMenuOpened}
         onClick={() => setIsCatalogMenuOpened(false)}
-        className="hidden sm:block"
+        className="hidden tabxl:block"
       />
     </>
   );

@@ -31,6 +31,9 @@ export default function Hero({ shownOnMainProducts, categories }: HeroProps) {
 
   const allCategoriesSlugs = categoriesList.map((c) => c.category).join(",");
 
+  const searchParams =
+    "&priceTo=4999&sort=price-ascending&priceFrom=599&availability=in-stock%2Cpre-order";
+
   return (
     <section
       id={SECTION_ID}
@@ -62,8 +65,8 @@ export default function Hero({ shownOnMainProducts, categories }: HeroProps) {
             <Link
               href={
                 locale === "uk"
-                  ? `/catalog?type=${allCategoriesSlugs}`
-                  : `/${locale}/catalog?type=${allCategoriesSlugs}`
+                  ? `/catalog?type=${allCategoriesSlugs}${searchParams}`
+                  : `/${locale}/catalog?type=${allCategoriesSlugs}${searchParams}`
               }
               className="hidden tabxl:block w-[350px] max-w-[350px] laptop:max-w-[437px] laptop:w-[437px] tabxl:h-[85px] mt-[30px] tabxl:mt-[42px] mx-auto tabxl:mx-0"
             >
@@ -75,8 +78,8 @@ export default function Hero({ shownOnMainProducts, categories }: HeroProps) {
         <Link
           href={
             locale === "uk"
-              ? `/catalog?type=${allCategoriesSlugs}`
-              : `/${locale}/catalog?type=${allCategoriesSlugs}`
+              ? `/catalog?type=${allCategoriesSlugs}${searchParams}`
+              : `/${locale}/catalog?type=${allCategoriesSlugs}${searchParams}`
           }
           className="block tabxl:hidden w-full max-w-[350px] tabxl:h-[85px] mx-auto"
         >

@@ -9,17 +9,7 @@ import { FiltersState } from "./catalogFilter/CatalogFilter";
 import CatalogSorting from "./CatalogSorting";
 import CatalogFiltersModal from "./CatalogFilterModal";
 import Backdrop from "../shared/header/catalogMenu/Backdrop";
-import dynamic from "next/dynamic";
-import Loader from "../shared/loader/Loader";
-
-const CatalogSlider = dynamic(() => import("./CatalogSlider"), {
-  ssr: false,
-  loading: () => (
-    <div className="flex justify-center items-center min-h-[700px] w-full">
-      <Loader />
-    </div>
-  ),
-});
+import CatalogSlider from "./CatalogSlider";
 
 interface CatalogProps {
   currentCategories: CategoryItem[];

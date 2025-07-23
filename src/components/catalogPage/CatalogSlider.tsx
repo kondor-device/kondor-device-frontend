@@ -5,7 +5,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "../homePage/catalog/sliderStyles.css";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { Swiper as SwiperType } from "swiper";
 import { Navigation, Pagination } from "swiper/modules";
@@ -14,6 +14,7 @@ import { CategoryItem } from "@/types/categoryItem";
 import CatalogCard from "./CatalogCard";
 import { ProductItem } from "@/types/productItem";
 import EmptyCategory from "../homePage/catalog/EmptyCategory";
+import Loader from "../shared/loader/Loader";
 
 interface CatalogSliderProps {
   currentCategories: CategoryItem[];
@@ -41,69 +42,88 @@ export default function CatalogSlider({
     swiperRef.current?.update();
   }, [currentCategories]);
 
-  let currentItems = currentCategories
-    .flatMap((category) => category.items)
-    .filter((item) => item.showonmain === false);
+  const getFilteredAndSortedItems = (
+    currentCategories: CategoryItem[],
+    availability: string | null,
+    newItems: string | null,
+    priceFrom: number,
+    priceTo: number,
+    sort: string | null
+  ): ProductItem[] => {
+    return currentCategories
+      .flatMap((category) => category.items)
+      .filter((item) => {
+        if (item.showonmain === true) return false;
 
-  // Логіка availability (in-stock або pre-order)
-  if (availability === "in-stock") {
-    currentItems = currentItems.filter((item) => item.preorder !== true);
-  } else if (availability === "pre-order") {
-    currentItems = currentItems.filter((item) => item.preorder === true);
-  }
+        // availability filter
+        if (availability === "in-stock" && item.preorder === true) return false;
+        if (availability === "pre-order" && item.preorder !== true)
+          return false;
 
-  // Логіка "new"
-  if (newItems === "true") {
-    currentItems = currentItems.filter((item) => item.newItem === true);
-  }
+        // newItems filter
+        if (newItems === "true" && item.newItem !== true) return false;
 
-  // Логіка priceFrom / priceTo
-  currentItems = currentItems.filter((item) => {
-    const actualPrice = item.priceDiscount ?? item.price;
-    if (!isNaN(priceFrom) && actualPrice < priceFrom) return false;
-    if (!isNaN(priceTo) && actualPrice > priceTo) return false;
-    return true;
-  });
+        // price filter
+        const actualPrice = item.priceDiscount ?? item.price;
+        if (!isNaN(priceFrom) && actualPrice < priceFrom) return false;
+        if (!isNaN(priceTo) && actualPrice > priceTo) return false;
 
-  // Сортування
-  currentItems.sort((a, b) => {
-    const priceA = a.priceDiscount ?? a.price;
-    const priceB = b.priceDiscount ?? b.price;
+        return true;
+      })
+      .sort((a, b) => {
+        const priceA = a.priceDiscount ?? a.price;
+        const priceB = b.priceDiscount ?? b.price;
 
-    const getModelName = (fullName: string) => {
-      if (!fullName) return "";
-      const parts = fullName.trim().split(/\s+/); // видаляє зайві пробіли
-      return parts.slice(1).join(" ").toLowerCase(); // повертає модель
-    };
+        const getModelName = (fullName: string) => {
+          if (!fullName) return "";
+          const parts = fullName.trim().split(/\s+/);
+          return parts.slice(1).join(" ").toLowerCase();
+        };
 
-    switch (sort) {
-      case "price-ascending":
-        return priceA - priceB;
+        switch (sort) {
+          case "price-ascending":
+            return priceA - priceB;
 
-      case "price-descending":
-        return priceB - priceA;
+          case "price-descending":
+            return priceB - priceA;
 
-      case "discount":
-        const discountA =
-          ((a.price - (a.priceDiscount ?? a.price)) / a.price) * 100;
-        const discountB =
-          ((b.price - (b.priceDiscount ?? b.price)) / b.price) * 100;
-        return discountB - discountA;
+          case "discount": {
+            const discountA =
+              ((a.price - (a.priceDiscount ?? a.price)) / a.price) * 100;
+            const discountB =
+              ((b.price - (b.priceDiscount ?? b.price)) / b.price) * 100;
+            return discountB - discountA;
+          }
 
-      case "name-ascending":
-        return getModelName(a.name).localeCompare(getModelName(b.name));
+          case "name-ascending":
+            return getModelName(a.name).localeCompare(getModelName(b.name));
 
-      case "name-descending":
-        return getModelName(b.name).localeCompare(getModelName(a.name));
+          case "name-descending":
+            return getModelName(b.name).localeCompare(getModelName(a.name));
 
-      default:
-        return 0;
-    }
-  });
+          default:
+            return 0;
+        }
+      });
+  };
+
+  const currentItems = getFilteredAndSortedItems(
+    currentCategories,
+    availability,
+    newItems,
+    priceFrom,
+    priceTo,
+    sort
+  );
 
   const itemsPerView = 6;
 
-  const chunkArray = (array: ProductItem[], size: number): ProductItem[][] => {
+  const chunkArray = (
+    array: ProductItem[] | null | undefined,
+    size: number
+  ): ProductItem[][] | null => {
+    if (!array) return null; // Ще не готово (напр. початковий стан)
+
     const chunks: ProductItem[][] = [];
     for (let i = 0; i < array.length; i += size) {
       chunks.push(array.slice(i, i + size));
@@ -111,11 +131,16 @@ export default function CatalogSlider({
     return chunks;
   };
 
-  const groupedItems = chunkArray(currentItems, itemsPerView);
+  const groupedItems = useMemo(
+    () => chunkArray(currentItems, itemsPerView),
+    [currentItems]
+  );
 
   return (
     <>
-      {currentItems.length > 0 ? (
+      {!currentItems || !groupedItems ? (
+        <Loader />
+      ) : groupedItems?.length > 0 ? (
         <Swiper
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           onSlideChange={() => {
@@ -148,7 +173,7 @@ export default function CatalogSlider({
           loop={true}
           speed={1000}
           modules={[Pagination, Navigation]}
-          className={`!!!scroll-auto ${
+          className={`catalog-page-slider ${
             isOpenDropdown ? "pointer-events-none" : ""
           }`}
         >
