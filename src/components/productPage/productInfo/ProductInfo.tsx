@@ -132,7 +132,7 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
             <AnimationWrapper
               sectionId={PRICE_ID}
               commonStyles={`flex flex-row items-end gap-x-6 mb-5 desk:mb-9 transition duration-700 ease-slow `}
-              visibleStyles="opacity-100 translate-y-0 delay-[800ms]"
+              visibleStyles="opacity-100 translate-y-0 tabxl:delay-[800ms]"
               unVisibleStyles="opacity-0 translate-y-[50px]"
             >
               <p
