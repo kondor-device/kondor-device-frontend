@@ -17,9 +17,9 @@ export default function ColorPicker({
 
   return (
     <div className="mb-5 desk:mb-4">
-      <div className="text-10bold desk:text-14bold mb-3 desk:mb-4">
+      <div className="text-10bold laptop:text-12bold desk:text-14bold mb-3 desk:mb-4">
         Колір:{" "}
-        <span className="text-10med desk:text-14med lowercase text-grey">
+        <span className="text-10med laptop:text-12bold desk:text-14med lowercase text-grey">
           {selectedColorName}
         </span>
       </div>
