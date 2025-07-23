@@ -12,10 +12,12 @@ import ProductCard from "./productCard/ProductCard";
 import { ProductItem } from "@/types/productItem";
 import EmptyCategory from "./EmptyCategory";
 import AnimationWrapper from "../hero/AnimationWrapper";
+import { Link } from "@/i18n/routing";
 
 interface CatalogSliderProps {
   id: string;
   title: string;
+  slug: string;
   products: ProductItem[];
   shownOnAddonsProducts: ProductItem[];
 }
@@ -23,6 +25,7 @@ interface CatalogSliderProps {
 export default function CatalogSlider({
   id,
   title,
+  slug,
   products,
   shownOnAddonsProducts,
 }: CatalogSliderProps) {
@@ -34,9 +37,11 @@ export default function CatalogSlider({
         visibleStyles="opacity-100 translate-x-0"
         unVisibleStyles="opacity-0 -translate-x-[50px]"
       >
-        <h2 className="text-22bold tabxl:text-32bold laptop:text-40bold text-center">
-          {title}
-        </h2>
+        <Link href={`/catalog?type=${slug}`} className="group">
+          <h2 className="text-22bold tabxl:text-32bold laptop:text-40bold text-center laptop:group-hover:text-yellow focus-visible:text-yellow active:text-yellow active:scale-95 transition duration-300 ease-in-out">
+            {title}
+          </h2>
+        </Link>
       </AnimationWrapper>
       {products.length > 0 ? (
         <Swiper

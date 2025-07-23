@@ -119,7 +119,16 @@ export default function CatalogSlider({
         <Swiper
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           onSlideChange={() => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            const html = document.documentElement;
+            // Вимикаємо smooth перед прокруткою
+            html.style.scrollBehavior = "auto";
+
+            window.scrollTo({ top: 0 });
+
+            // Повертаємо smooth назад через 100ms
+            setTimeout(() => {
+              html.style.scrollBehavior = "";
+            }, 100);
           }}
           centeredSlides={true}
           slidesPerView={1}
@@ -139,7 +148,9 @@ export default function CatalogSlider({
           loop={true}
           speed={1000}
           modules={[Pagination, Navigation]}
-          className={`${isOpenDropdown ? "pointer-events-none" : ""}`}
+          className={`!!!scroll-auto ${
+            isOpenDropdown ? "pointer-events-none" : ""
+          }`}
         >
           {groupedItems.map((group, groupIdx) => (
             <SwiperSlide key={groupIdx}>

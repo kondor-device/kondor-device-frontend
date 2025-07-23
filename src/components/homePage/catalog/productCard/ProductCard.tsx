@@ -90,12 +90,16 @@ export default function ProductCard({
         photos={photos}
         selectedPhotoIndex={selectedPhotoIndex}
         setSelectedPhotoIndex={setSelectedPhotoIndex}
+        productUrl={`/catalog/${slug}?color=${coloropts[
+            selectedColorIndex
+          ]?.color.toLowerCase()}`}
       />
       <div className="flex flex-col gap-y-[5px] tabxl:gap-y-[15px]">
         <Link
           href={`/catalog/${slug}?color=${coloropts[
             selectedColorIndex
           ]?.color.toLowerCase()}`}
+          className="group"
         >
           <CardTitle generalname={generalname} name={name} />
         </Link>

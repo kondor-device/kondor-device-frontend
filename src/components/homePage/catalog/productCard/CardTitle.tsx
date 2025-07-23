@@ -7,7 +7,7 @@ interface CardTitleProps {
 
 export default function CardTitle({ name, generalname }: CardTitleProps) {
   return (
-    <h3 className="mb-[5px] tabxl:mb-[10px] text-18bold tabxl:text-32bold deskxl:text-36med">
+    <h3 className="mb-[5px] tabxl:mb-[10px] text-18bold tabxl:text-32bold deskxl:text-36med laptop:group-hover:brightness-125 focus-visible:brightness-125 active:brightness-125 active:scale-95 transition duration-300 ease-in-out">
       <p className="text-white line-clamp-1">{generalname}&nbsp;</p>
       <p className="flex gap-x-4 items-center text-yellow line-clamp-1">
         <span>{name}</span>

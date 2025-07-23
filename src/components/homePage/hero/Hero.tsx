@@ -73,7 +73,11 @@ export default function Hero({ shownOnMainProducts, categories }: HeroProps) {
         </div>
         <HeroProducts shownOnMainProducts={shownOnMainProducts} />
         <Link
-          href={locale === "uk" ? `/#catalog` : `/${locale}#catalog`}
+          href={
+            locale === "uk"
+              ? `/catalog?type=${allCategoriesSlugs}`
+              : `/${locale}/catalog?type=${allCategoriesSlugs}`
+          }
           className="block tabxl:hidden w-full max-w-[350px] tabxl:h-[85px] mx-auto"
         >
           <Button className="w-full">{t("buttons.goToCatalog")}</Button>

@@ -1,18 +1,20 @@
 "use client";
 
+import { Link } from "@/i18n/routing";
 import Image from "next/image";
-import React from "react";
 
 interface ImagePickerProps {
   photos: { url: string; alt?: string }[];
   selectedPhotoIndex: number;
   setSelectedPhotoIndex: (index: number) => void;
+  productUrl: string;
 }
 
 export default function ImagePicker({
   photos,
   selectedPhotoIndex,
   setSelectedPhotoIndex,
+  productUrl,
 }: ImagePickerProps) {
   return (
     <div className="flex flex-col deskxl:flex-row deskxl:justify-between gap-y-3 deskxl:gap-x-5 tabxl:max-w-[340px] deskxl:max-w-full h-full deskxl:max-h-[466px]">
@@ -20,13 +22,17 @@ export default function ImagePicker({
         className="flex justify-between items-center max-w-[306px] tabxl:max-w-[340px] tabxl:size-[340px] deskxl:max-w-[466px] deskxl:size-[466px] bg-white 
   aspect-[1/1] rounded-[11px] tabxl:rounded-[40px] overflow-hidden"
       >
-        <Image
-          src={photos[selectedPhotoIndex]?.url || "/images/icons/logoSmall.svg"}
-          alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
-          width={1080}
-          height={1080}
-          className="max-w-full max-h-full object-cover"
-        />
+        <Link href={productUrl}>
+          <Image
+            src={
+              photos[selectedPhotoIndex]?.url || "/images/icons/logoSmall.svg"
+            }
+            alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
+            width={1080}
+            height={1080}
+            className="max-w-full max-h-full object-cover"
+          />
+        </Link>
       </div>
       <div
         className="w-full h-fit deskxl:w-fit deskxl:h-[466px] pt-[2px] pb-2 pl-[2px] pr-[2px] tabxl:pr-2 tabxl:pb-2 overflow-x-auto deskxl:overflow-x-visible deskxl:overflow-y-auto scrollbar 

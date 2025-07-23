@@ -30,7 +30,7 @@ export interface ProductItem {
   description: string;
   newItem: boolean;
   driver?: string;
-  manual: string;
+  manual?: string;
   video?: { url: string };
   showonaddons: boolean;
   showonmain: boolean;

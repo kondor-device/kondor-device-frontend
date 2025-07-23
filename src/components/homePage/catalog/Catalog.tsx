@@ -22,32 +22,35 @@ export default function Catalog({
   return (
     <section id="catalog" className="pt-[60px] laptop:pt-[100px]">
       <ul className="flex flex-col gap-y-5 laptop:gap-y-[30px]">
-        {sortedCategories.map(({ name, id, items }: Category, idx: number) => {
-          // фільтрація продуктів, у яких showonmain === false
-          const filteredItems = items.filter(
-            (item) => item.showonmain === false
-          );
+        {sortedCategories.map(
+          ({ name, id, slug, items }: Category, idx: number) => {
+            // фільтрація продуктів, у яких showonmain === false
+            const filteredItems = items.filter(
+              (item) => item.showonmain === false
+            );
 
-          if (filteredItems.length === 0) return null;
+            if (filteredItems.length === 0) return null;
 
-          // якщо продуктів менше 5 — додаємо копії
-          const paddedItems = [...filteredItems];
-          while (paddedItems.length < 5) {
-            paddedItems.push(
-              filteredItems[paddedItems.length % filteredItems.length]
+            // якщо продуктів менше 5 — додаємо копії
+            const paddedItems = [...filteredItems];
+            while (paddedItems.length < 5) {
+              paddedItems.push(
+                filteredItems[paddedItems.length % filteredItems.length]
+              );
+            }
+
+            return (
+              <CatalogSlider
+                key={idx}
+                title={name}
+                id={id}
+                slug={slug}
+                products={paddedItems}
+                shownOnAddonsProducts={shownOnAddonsProducts}
+              />
             );
           }
-
-          return (
-            <CatalogSlider
-              key={idx}
-              title={name}
-              id={id}
-              products={paddedItems}
-              shownOnAddonsProducts={shownOnAddonsProducts}
-            />
-          );
-        })}
+        )}
       </ul>
     </section>
   );

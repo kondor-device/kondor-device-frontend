@@ -55,8 +55,8 @@ export default function CatalogMenu({
       } fixed top-[82px] sm:top-0 left-0 z-[70] w-[100vw] sm:w-[400px] h-[calc(100dvh-82px)] sm:h-[100dvh] bg-white sm:rounded-r-[32px]
       transition duration-[600ms] overflow-hidden flex flex-col`}
     >
-      <div className="hidden sm:block fixed -z-10 sm:left-[-9px] sm:top-[-125px] w-[303px] h-[288px] rounded-full bg-gradient-to-b from-[#FFB300] to-[#FFF1D0]" />
-      <div className="fixed -z-10 left-[calc(50%-195px)] sm:left-[calc(50%-195px-43px)] bottom-[-172px] sm:bottom-[-159px] w-[390px] h-[380px] rounded-full bg-gradient-to-b from-[#FFE19B] to-[#FFB300]" />
+      <div className="hidden sm:block fixed -z-10 sm:left-[-9px] sm:top-[-125px] w-[303px] h-[288px] rounded-full bg-gradient-to-b from-[#FFB300] to-[#FFF1D0] blur-md" />
+      <div className="fixed -z-10 left-[calc(50%-195px)] sm:left-[calc(50%-195px-43px)] bottom-[-172px] sm:bottom-[-159px] w-[390px] h-[380px] rounded-full bg-gradient-to-b from-[#FFE19B] to-[#FFB300] blur-md" />
 
       <div
         className="flex-1 relative px-5 pt-[45px] pb-[45px] sm:pb-[122px] overflow-y-auto scrollbar 

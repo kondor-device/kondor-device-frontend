@@ -16,6 +16,7 @@ import CartPopUp from "@/components/homePage/catalog/cart/CartPopUp";
 import { sendGTMEvent } from "@next/third-parties/google";
 import Video from "./Video";
 import AnimationWrapper from "@/components/homePage/hero/AnimationWrapper";
+import { useScreenWidth } from "@/hooks/useScreenWidth";
 
 interface ProductInfoProps {
   product: ProductItem;
@@ -36,6 +37,9 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
 
   const { addToCart } = useCartStore();
   const openModal = useModalStore((state) => state.openModal);
+
+  const screenWidth = useScreenWidth();
+  const isDesktop = screenWidth >= 1024 ? true : false;
 
   const {
     id,
@@ -200,13 +204,13 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
                 ></div>
               </div>
             ) : null}
-            <Video video={video} className="hidden tabxl:block" />
+            {isDesktop ? <Video video={video} /> : null}
           </div>
           <div className="tabxl:w-[calc(50%-16px)]">
             {chars?.length > 0 ? (
               <Characteristics characteristics={chars} />
             ) : null}
-            <Video video={video} className="tabxl:hidden" />
+            {!isDesktop ? <Video video={video} /> : null}
             {complect ? <Complect complectation={complect} /> : null}
           </div>
         </div>
