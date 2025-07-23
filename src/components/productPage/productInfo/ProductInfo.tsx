@@ -41,8 +41,6 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
   const screenWidth = useScreenWidth();
   const isDesktop = screenWidth >= 1024 ? true : false;
 
-  console.log(isDesktop);
-
   const {
     id,
     video,
