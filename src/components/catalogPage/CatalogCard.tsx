@@ -114,8 +114,8 @@ export default function CatalogCard({
           />
         </Link>
       </div>
-      <Link href={`/catalog/${slug}`} className="block mb-3 desk:mb-4">
-        <h3 className="flex flex-wrap items-center text-10bold laptop:text-14bold desk:text-18bold">
+      <Link href={`/catalog/${slug}`} className="group block mb-3 desk:mb-4">
+        <h3 className="flex flex-wrap items-center text-10bold laptop:text-14bold desk:text-18bold  laptop:group-hover:brightness-125 focus-visible:brightness-125 active:brightness-125 active:scale-95 transition duration-300 ease-in-out">
           <span>{generalname}</span>&nbsp;&nbsp;
           <span className="text-yellow">{name}</span>
           &nbsp;&nbsp;

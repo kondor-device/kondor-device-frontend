@@ -99,6 +99,7 @@ export default function ProductCard({
           href={`/catalog/${slug}?color=${coloropts[
             selectedColorIndex
           ]?.color.toLowerCase()}`}
+          className="group"
         >
           <CardTitle generalname={generalname} name={name} />
         </Link>
