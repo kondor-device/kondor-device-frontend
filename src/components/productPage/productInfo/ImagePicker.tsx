@@ -60,7 +60,10 @@ export default function ImagePicker({
       className="flex flex-col items-center tabxl:flex-row-reverse tabxl:justify-end gap-y-3 tabxl:gap-x-10 mb-8 laptop:mb-0"
       {...swipeHandlers}
     >
-      <div className="relative flex justify-center">
+      <div
+        id="all"
+        className="relative flex justify-center scroll-mt-[142px] tabxl:scroll-mt-[173px]"
+      >
         <div
           className="flex justify-between items-center max-w-[306px] tabxl:max-w-[448px] laptop:size-[448px] bg-white 
   aspect-[1/1] rounded-[40px] overflow-hidden"

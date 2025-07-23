@@ -17,7 +17,7 @@ export default function Video({ video, className = "" }: VideoProps) {
       {video ? (
         <div
           id={VIDEO_ID}
-          className={`mb-4 tab:mb-0 p-5 desk:py-[56px] desk:px-[76px] scroll-mt-[82px] tabxl:scroll-mt-[113px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard ${className}`}
+          className={`mb-4 tab:mb-0 p-5 desk:py-[56px] desk:px-[76px]  scroll-mt-[142px] tabxl:scroll-mt-[173px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard ${className}`}
         >
           <AnimationWrapper
             sectionId={VIDEO_ID}
