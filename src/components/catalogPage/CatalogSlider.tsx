@@ -148,7 +148,7 @@ export default function CatalogSlider({
           loop={true}
           speed={1000}
           modules={[Pagination, Navigation]}
-          className={`!!!scroll-auto ${
+          className={`catalog-page-slider ${
             isOpenDropdown ? "pointer-events-none" : ""
           }`}
         >

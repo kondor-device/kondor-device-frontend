@@ -14,8 +14,8 @@
 .swiper-slide {
   width: 330px;
   height: fit;
-  height: 100% !important;
-  min-height: 100% !important;
+  /* height: 100% !important; */
+  /* min-height: 100% !important; */
   @media screen and (min-width: 1024px) {
     width: 978px;
   }
@@ -24,8 +24,14 @@
   }
 }
 
+/* Застосовуємо всім swiper-wrapper */
 .swiper-wrapper {
   align-items: stretch !important;
+}
+
+/* Виняток — всередині .catalog-page-slider */
+.catalog-page-slider .swiper-wrapper {
+  align-items: flex-start !important; /* або baseline / initial, або значення, яке потрібно */
 }
 
 .swiper-slide {
