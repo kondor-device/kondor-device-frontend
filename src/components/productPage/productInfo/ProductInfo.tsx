@@ -71,11 +71,17 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
   const html = description
     // 1. Списки: перетворюємо рядки, що починаються з "* ", на <li>...</li>
     .replace(/(?:^|\n)\* (.+)/g, "<li>$1</li>")
-    // 2. Обгортаємо всі <li> в один <ul> — якщо є, додаємо перенос перед списком
+
+    // 2. Обгортаємо всі <li> в один <ul>
     .replace(/((?:<li>.*?<\/li>\n?)+)/g, "\n<ul class='list-disc pl-6'>$1</ul>")
-    // 2.5 Видаляємо переноси після </ul>, щоб не було зайвих <br> після списку
+
+    // 2.5 Видаляємо переноси після </ul>
     .replace(/<\/ul>\n+/g, "</ul>")
-    // 3. Всі залишкові перенос рядків → <br>
+
+    // 3. Жирний текст: **текст** → <strong>текст</strong>
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+
+    // 4. Залишкові перенос рядків → <br>
     .replace(/\n/g, "<br>");
 
   const actualPrice =
