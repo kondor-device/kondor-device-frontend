@@ -43,6 +43,19 @@ ul {
   padding: 0;
 }
 
+.fullscreen-modal {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 9999 !important;
+  background-color: white !important;
+  overflow: hidden !important;
+}
+
 /* React Gallery styles */
 .custom-thumbnail {
   border-radius: 6px;
@@ -113,19 +126,7 @@ ul {
   color: var(--yellow);
 }
 
-/* .image-gallery-fullscreen-button {
-  color: var(--yellow) !important;
-  box-shadow: none !important;
-  transition: all 0.3s ease-out !important;
-} */
-
-/* :not(:root):fullscreen::backdrop {
-  background-color: var(--white);
-} */
-
 .image-gallery.fullscreen .image-gallery-content {
-  /* background: var(--white) !important; */
-
   @media (orientation: portrait) {
     top: calc(50dvh - 50vw) !important; /* Висота більша за ширину */
   }
