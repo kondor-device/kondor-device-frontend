@@ -1,6 +1,8 @@
-import type { Config } from "tailwindcss";
+import type { Config, Plugin } from "tailwindcss";
 import tailwindScrollbar from "tailwind-scrollbar";
 import { heroui } from "@heroui/react";
+
+const herouiPlugin = heroui() as unknown as Plugin;
 
 export default {
   content: [
@@ -116,7 +118,7 @@ export default {
     },
   },
   plugins: [
-    heroui(),
+    herouiPlugin,
     tailwindScrollbar({
       nocompatible: true,
       preferredStrategy: "pseudoelements",

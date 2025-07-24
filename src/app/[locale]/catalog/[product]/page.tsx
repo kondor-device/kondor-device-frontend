@@ -59,7 +59,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   function findCategoryBySlug(categories: CategoryItem[], slug: string) {
     // Знаходимо категорію, де є товар з потрібним slug
-    const category = categories.find((cat) =>
+    const category = categories?.find((cat) =>
       cat.items.some((item) => item.slug === slug)
     );
 

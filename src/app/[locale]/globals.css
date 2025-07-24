@@ -51,7 +51,8 @@ ul {
 }
 
 .image-gallery-thumbnail.custom-thumbnail.active,
-.image-gallery-thumbnail.custom-thumbnail:focus {
+.image-gallery-thumbnail.custom-thumbnail:focus,
+.image-gallery-thumbnail.custom-thumbnail:hover {
   border: 3px solid var(--yellow);
 }
 
@@ -69,6 +70,51 @@ ul {
 
 .image-gallery-fullscreen-button {
   color: var(--yellow) !important;
+}
+
+:not(:root):fullscreen::backdrop {
+  background-color: var(--white);
+}
+.image-gallery-content.fullscreen {
+  background: var(--white) !important;
+
+  @media (orientation: portrait) {
+    top: calc(50% - 50vw - 40px) !important; /* Висота більша за ширину */
+  }
+
+  @media (orientation: landscape) {
+    top: calc(50% - 50dvh) !important; /* Ширина більша за висоту */
+  }
+}
+
+.image-gallery-bullets {
+  display: none;
+}
+
+.image-gallery-content.fullscreen .image-gallery-bullets {
+  display: block;
+  bottom: 20px !important;
+  @media screen and (min-width: 768px) {
+    bottom: 30px !important;
+  }
+}
+
+.image-gallery-bullets .image-gallery-bullet {
+  border: 1px solid var(--yellow) !important;
+  box-shadow: none !important;
+}
+
+.image-gallery-bullets .image-gallery-bullet.active {
+  border: 1px solid var(--yellow) !important;
+  background: var(--yellow) !important;
+}
+
+.image-gallery-content.fullscreen .image-gallery-thumbnails {
+  display: none !important;
+}
+
+.image-gallery-content .image-gallery-slide .image-gallery-image {
+  max-height: 100dvh !important;
 }
 
 @layer components {

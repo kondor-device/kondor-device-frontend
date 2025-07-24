@@ -16,18 +16,23 @@ export default function ImagePicker({ photos }: ImagePickerProps) {
     thumbnailAlt: photo.alt || "thumbnail",
     thumbnailHeight: 48,
     thumbnailWidth: 48,
-    originalClass: "tabxl:rounded-[8px] overflow-hidden",
+    originalClass:
+      "rounded-[8px] tabxl:rounded-[12px] overflow-hidden px-[1px]",
     thumbnailClass: "custom-thumbnail",
   }));
 
   return (
-    <div id="all" className="w-full mb-8 tabxl:mb-0">
+    <div
+      id="all"
+      className="w-full max-w-[380px] mx-auto mb-8 tabxl:mb-0 scroll-mt-[142px] tabxl:scroll-mt-[173px]"
+    >
       <ImageGallery
         items={galleryItems}
         showPlayButton={false}
         showFullscreenButton={true}
         showThumbnails={true}
         useBrowserFullscreen={true}
+        showBullets
         slideOnThumbnailOver={true}
         disableThumbnailScroll={false}
       />
