@@ -30,7 +30,7 @@ export default function CatalogSlider({
   shownOnAddonsProducts,
 }: CatalogSliderProps) {
   const searchParams =
-    "&priceTo=4999&sort=price-ascending&priceFrom=599&availability=in-stock%2Cpre-order";
+    "&priceTo=4999&sort=default&priceFrom=599&availability=in-stock%2Cpre-order";
 
   return (
     <li id={id}>
