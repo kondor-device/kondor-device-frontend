@@ -17,6 +17,7 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import Video from "./Video";
 import AnimationWrapper from "@/components/homePage/hero/AnimationWrapper";
 import { useScreenWidth } from "@/hooks/useScreenWidth";
+import { useSearchParams } from "next/navigation";
 
 interface ProductInfoProps {
   product: ProductItem;
@@ -30,16 +31,6 @@ const PRICE_ID = "product-page-price";
 const DESCRIPTION_ID = "description";
 
 export default function ProductInfo({ product, addons }: ProductInfoProps) {
-  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
-
-  const t = useTranslations();
-
-  const { addToCart } = useCartStore();
-  const openModal = useModalStore((state) => state.openModal);
-
-  const screenWidth = useScreenWidth();
-  const isDesktop = screenWidth >= 1024 ? true : false;
-
   const {
     id,
     video,
@@ -54,6 +45,22 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
     preorder,
     preordertext,
   } = product;
+
+  const searchParams = useSearchParams();
+  const initialColor = searchParams.get("color");
+
+  const initialIndex = coloropts.findIndex((opt) => opt.color === initialColor);
+  const [selectedColorIndex, setSelectedColorIndex] = useState(
+    initialIndex !== -1 ? initialIndex : 0
+  );
+
+  const t = useTranslations();
+
+  const { addToCart } = useCartStore();
+  const openModal = useModalStore((state) => state.openModal);
+
+  const screenWidth = useScreenWidth();
+  const isDesktop = screenWidth >= 1024 ? true : false;
 
   const { photos } = coloropts[selectedColorIndex];
 

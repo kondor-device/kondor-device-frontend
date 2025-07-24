@@ -100,7 +100,11 @@ export default function CatalogCard({
       className={`flex flex-col justify-between p-3 desk:p-4 rounded-[8px] desk:rounded-[20px] shadow-catalogCard bg-white min-h-full ${className}`}
     >
       <div className="rounded-[12px] aspect-square w-full mb-2 desk:mb-3">
-        <Link href={`/catalog/${slug}`}>
+        <Link
+          href={`/catalog/${slug}?color=${coloropts[
+            selectedColorIndex
+          ]?.color.toLowerCase()}`}
+        >
           {" "}
           <Image
             src={
@@ -114,7 +118,12 @@ export default function CatalogCard({
           />
         </Link>
       </div>
-      <Link href={`/catalog/${slug}`} className="group block mb-3 desk:mb-4">
+      <Link
+        href={`/catalog/${slug}?color=${coloropts[
+          selectedColorIndex
+        ]?.color.toLowerCase()}`}
+        className="group block mb-3 desk:mb-4"
+      >
         <h3 className="flex flex-wrap gap-x-2 items-center text-10bold laptop:text-14bold desk:text-18bold laptop:group-hover:brightness-125 focus-visible:brightness-125 active:brightness-125 active:scale-95 transition duration-300 ease-in-out">
           <span>{generalname}</span>
           <span className="text-yellow">{name}</span>
