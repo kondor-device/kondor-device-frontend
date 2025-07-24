@@ -59,8 +59,13 @@ ul {
   border: 3px solid var(--yellow);
 }
 
+.image-gallery-slides {
+  touch-action: pan-y !important;
+}
+
 .image-gallery-slide-wrapper {
   margin-bottom: 20px !important;
+
   @media screen and (min-width: 1024px) {
     margin-bottom: 0px !important;
     margin-left: 140px !important;
