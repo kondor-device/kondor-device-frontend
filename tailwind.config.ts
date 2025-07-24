@@ -1,8 +1,8 @@
-import type { Config, Plugin } from "tailwindcss";
+import type { Config } from "tailwindcss";
 import tailwindScrollbar from "tailwind-scrollbar";
 import { heroui } from "@heroui/react";
 
-const herouiPlugin = heroui() as unknown as Plugin;
+const herouiPlugin = heroui();
 
 export default {
   content: [

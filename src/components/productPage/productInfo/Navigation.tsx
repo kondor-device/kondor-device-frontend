@@ -46,7 +46,7 @@ export default function Navigation({ product }: NavigationProps) {
       if (isManuallySelecting.current) return;
 
       const vh = window.innerHeight;
-      const start = vh * 0.2;
+      const start = vh * 0.1;
       const end = vh * 0.4;
       let active = selected;
 

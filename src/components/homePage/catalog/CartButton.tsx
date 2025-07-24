@@ -32,7 +32,7 @@ export default function CartButton({ shownOnAddonsProducts }: CartButtonProps) {
           }
           data-label={cartItems.length.toString()}
           className={`block fixed z-[5] right-6 size-14 laptop:size-[70px] bg-yellow rounded-[10px] shadow-cartButton ${
-            isCatalogPage ? "bottom-24 tab:bottom-6" : "bottom-6"
+            isCatalogPage ? "bottom-24 tabxl:bottom-6" : "bottom-6"
           }`}
         >
           <>
