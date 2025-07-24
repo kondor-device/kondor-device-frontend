@@ -72,7 +72,7 @@ ul {
   }
 }
 
-.image-gallery-content.fullscreen .image-gallery-slide-wrapper {
+.image-gallery.fullscreen .image-gallery-slide-wrapper {
   @media screen and (min-width: 1024px) {
     margin-left: 0px !important;
   }
@@ -94,13 +94,13 @@ ul {
   }
 }
 
-.image-gallery-content.fullscreen .image-gallery-left-nav {
+.image-gallery.fullscreen .image-gallery-left-nav {
   @media screen and (min-width: 1024px) {
     left: 10% !important;
   }
 }
 
-.image-gallery-content.fullscreen .image-gallery-right-nav {
+.image-gallery.fullscreen .image-gallery-right-nav {
   @media screen and (min-width: 1024px) {
     right: 10% !important;
   }
@@ -113,20 +113,21 @@ ul {
   color: var(--yellow);
 }
 
-.image-gallery-fullscreen-button {
+/* .image-gallery-fullscreen-button {
   color: var(--yellow) !important;
   box-shadow: none !important;
   transition: all 0.3s ease-out !important;
-}
+} */
 
-:not(:root):fullscreen::backdrop {
+/* :not(:root):fullscreen::backdrop {
   background-color: var(--white);
-}
-.image-gallery-content.fullscreen {
-  background: var(--white) !important;
+} */
+
+.image-gallery.fullscreen .image-gallery-content {
+  /* background: var(--white) !important; */
 
   @media (orientation: portrait) {
-    top: calc(50% - 50vw - 40px) !important; /* Висота більша за ширину */
+    top: calc(50dvh - 50vw) !important; /* Висота більша за ширину */
   }
 
   @media (orientation: landscape) {
@@ -138,7 +139,7 @@ ul {
   display: none;
 }
 
-.image-gallery-content.fullscreen .image-gallery-bullets {
+.image-gallery.fullscreen .image-gallery-bullets {
   display: block;
   bottom: 20px !important;
   @media screen and (min-width: 768px) {
@@ -156,7 +157,7 @@ ul {
   background: var(--yellow) !important;
 }
 
-.image-gallery-content.fullscreen .image-gallery-thumbnails {
+.image-gallery.fullscreen .image-gallery-thumbnails {
   display: none !important;
 }
 
@@ -164,9 +165,9 @@ ul {
   max-height: 100dvh !important;
 }
 
-.image-gallery-content.fullscreen
+.image-gallery.fullscreen
   .image-gallery-slide-wrapper.image-gallery-thumbnails-left,
-.image-gallery-content.fullscreen
+.image-gallery.fullscreen
   .image-gallery-slide-wrapper.image-gallery-thumbnails-right {
   width: 100% !important;
 }
