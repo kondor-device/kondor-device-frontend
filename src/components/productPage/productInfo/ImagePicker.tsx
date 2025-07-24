@@ -21,7 +21,7 @@ export default function ImagePicker({ photos }: ImagePickerProps) {
     thumbnailHeight: 48,
     thumbnailWidth: 48,
     originalClass:
-      "rounded-[8px] tabxl:rounded-[12px] overflow-hidden px-[1px] max-w-[507px]",
+      "rounded-[8px] tabxl:rounded-[12px] overflow-hidden px-[1px]",
     thumbnailClass: "custom-thumbnail",
   }));
 
