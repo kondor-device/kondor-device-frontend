@@ -15,7 +15,7 @@ export default async function HomePage() {
   const shownOnAddonsProducts = res?.data?.shownOnAddons;
 
   return (
-    <>
+    <div className="pt-[82px] tabxl:pt-[113px]">
       <Hero shownOnMainProducts={shownOnMainProducts} categories={categories} />
       <WeOffer />
       <Catalog
@@ -25,6 +25,6 @@ export default async function HomePage() {
       <OrderConditions />
       <Faq />
       <Benefits />
-    </>
+    </div>
   );
 }
