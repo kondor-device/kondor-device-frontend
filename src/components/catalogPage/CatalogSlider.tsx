@@ -51,7 +51,7 @@ export default function CatalogSlider({
     priceTo: number,
     sort: string | null
   ): ProductItem[] => {
-    return currentCategories
+    const filteredItems = currentCategories
       .flatMap((category) => category.items)
       .filter((item) => {
         if (item.showonmain === true) return false;
@@ -70,42 +70,46 @@ export default function CatalogSlider({
         if (!isNaN(priceTo) && actualPrice > priceTo) return false;
 
         return true;
-      })
-      .sort((a, b) => {
-        const priceA = a.priceDiscount ?? a.price;
-        const priceB = b.priceDiscount ?? b.price;
-
-        const getModelName = (fullName: string) => {
-          if (!fullName) return "";
-          const parts = fullName.trim().split(/\s+/);
-          return parts.slice(1).join(" ").toLowerCase();
-        };
-
-        switch (sort) {
-          case "price-ascending":
-            return priceA - priceB;
-
-          case "price-descending":
-            return priceB - priceA;
-
-          case "discount": {
-            const discountA =
-              ((a.price - (a.priceDiscount ?? a.price)) / a.price) * 100;
-            const discountB =
-              ((b.price - (b.priceDiscount ?? b.price)) / b.price) * 100;
-            return discountB - discountA;
-          }
-
-          case "name-ascending":
-            return getModelName(a.name).localeCompare(getModelName(b.name));
-
-          case "name-descending":
-            return getModelName(b.name).localeCompare(getModelName(a.name));
-
-          default:
-            return 0;
-        }
       });
+
+    // Якщо сортування відсутнє або "default" — повертаємо як є
+    if (!sort || sort === "default") return filteredItems;
+
+    const getModelName = (fullName: string) => {
+      if (!fullName) return "";
+      const parts = fullName.trim().split(/\s+/);
+      return parts.slice(1).join(" ").toLowerCase();
+    };
+
+    return filteredItems.sort((a, b) => {
+      const priceA = a.priceDiscount ?? a.price;
+      const priceB = b.priceDiscount ?? b.price;
+
+      switch (sort) {
+        case "price-ascending":
+          return priceA - priceB;
+
+        case "price-descending":
+          return priceB - priceA;
+
+        case "discount": {
+          const discountA =
+            ((a.price - (a.priceDiscount ?? a.price)) / a.price) * 100;
+          const discountB =
+            ((b.price - (b.priceDiscount ?? b.price)) / b.price) * 100;
+          return discountB - discountA;
+        }
+
+        case "name-ascending":
+          return getModelName(a.name).localeCompare(getModelName(b.name));
+
+        case "name-descending":
+          return getModelName(b.name).localeCompare(getModelName(a.name));
+
+        default:
+          return 0;
+      }
+    });
   };
 
   const currentItems = getFilteredAndSortedItems(

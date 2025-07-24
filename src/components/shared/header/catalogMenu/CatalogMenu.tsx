@@ -33,12 +33,12 @@ export default function CatalogMenu({
   const allCategoriesNewProducts = allCategoriesSlugs.concat("&new=true");
 
   const catalogList = [
+    ...categoriesList,
     {
       title: t("all"),
       category: allCategoriesSlugs,
       icon: "/images/icons/all-products.svg",
     },
-    ...categoriesList,
     {
       title: t("new"),
       category: allCategoriesNewProducts,

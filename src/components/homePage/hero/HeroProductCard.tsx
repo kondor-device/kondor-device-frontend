@@ -19,7 +19,7 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
   const { photos } = coloropts[0];
 
   const searchParams =
-    "&priceTo=4999&sort=price-ascending&priceFrom=599&availability=in-stock%2Cpre-order";
+    "&priceTo=4999&sort=default&priceFrom=599&availability=in-stock%2Cpre-order";
 
   const localizedCatalogLink =
     locale === "uk"

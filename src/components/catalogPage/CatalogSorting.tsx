@@ -20,6 +20,7 @@ export default function CatalogSorting({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const sortingOptions = [
+    { title: t("sortingOptions.default"), value: "default" },
     { title: t("sortingOptions.priceAscending"), value: "price-ascending" },
     { title: t("sortingOptions.priceDescending"), value: "price-descending" },
     { title: t("sortingOptions.discount"), value: "discount" },
@@ -27,7 +28,7 @@ export default function CatalogSorting({
     { title: t("sortingOptions.nameDescending"), value: "name-descending" },
   ];
 
-  const initialSort = searchParams.get("sort") || "price-ascending";
+  const initialSort = searchParams.get("sort") || "default";
   const initialSelected =
     sortingOptions.find((opt) => opt.value === initialSort) ||
     sortingOptions[0];
@@ -46,7 +47,7 @@ export default function CatalogSorting({
   useEffect(() => {
     if (!searchParams.get("sort")) {
       const newParams = new URLSearchParams(Array.from(searchParams.entries()));
-      newParams.set("sort", "price-ascending");
+      newParams.set("sort", "default");
 
       router.replace(`?${newParams.toString()}`, { scroll: false });
     }

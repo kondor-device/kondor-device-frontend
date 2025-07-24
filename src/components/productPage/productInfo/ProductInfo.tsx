@@ -31,7 +31,6 @@ const DESCRIPTION_ID = "description";
 
 export default function ProductInfo({ product, addons }: ProductInfoProps) {
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
-  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
 
   const t = useTranslations();
 
@@ -105,13 +104,8 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
         <Navigation product={product} />
 
         <div className="container max-w-[1920px]">
-          {" "}
           <div className="tabxl:flex gap-x-[80px] desk:gap-x-[120px] w-full mb-5 tab:mb-[100px]">
-            <ImagePicker
-              photos={photos}
-              selectedPhotoIndex={selectedPhotoIndex}
-              setSelectedPhotoIndex={setSelectedPhotoIndex}
-            />
+            <ImagePicker photos={photos} />
             <div id={SECTION_ID} className="w-fit">
               <AnimationWrapper
                 sectionId={SECTION_ID}

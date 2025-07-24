@@ -46,7 +46,7 @@ export default function Navigation({ product }: NavigationProps) {
       if (isManuallySelecting.current) return;
 
       const vh = window.innerHeight;
-      const start = vh * 0.2;
+      const start = vh * 0.1;
       const end = vh * 0.4;
       let active = selected;
 
@@ -93,7 +93,7 @@ export default function Navigation({ product }: NavigationProps) {
       <div
         ref={tabListRef}
         className="fixed z-30 top-[78px] tabxl:top-[109px] left-0 tabxl:container tabxl:max-w-[1920px] pt-2.5 pb-1.5 w-full rounded-b-[12px] bg-white
-       shadow-catalogFilter tabxl:shadow-none  overflow-x-auto  scrollbar 
+       shadow-catalogFilter tabxl:shadow-none  overflow-x-auto scrollbar 
       scrollbar-h-0 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-transparent 
       scrollbar-track-transparent"
       >
@@ -108,7 +108,7 @@ export default function Navigation({ product }: NavigationProps) {
             tabList: "bg-white",
             cursor:
               "bg-yellow py-1.5 tabxl:py-2 px-4 tabxl:px-[22.5px] rounded-[12px] tabxl:rounded-full",
-            tab: "py-1.5 tabxl:py-2 px-4 tabxl:px-[22.5px]",
+            tab: "py-1.5 tabxl:py-2 px-4 tabxl:px-[22.5px] w-fit",
             tabContent: "text-12med tabxl:text-14med desk:text-18med",
           }}
         >
