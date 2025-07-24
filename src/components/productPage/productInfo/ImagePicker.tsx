@@ -3,12 +3,16 @@
 import "react-image-gallery/styles/css/image-gallery.css";
 
 import ImageGallery from "react-image-gallery";
+import { useScreenWidth } from "@/hooks/useScreenWidth";
 
 interface ImagePickerProps {
   photos: { url: string; alt?: string }[];
 }
 
 export default function ImagePicker({ photos }: ImagePickerProps) {
+  const screenWidth = useScreenWidth();
+  const isDesktop = screenWidth >= 1024;
+
   const galleryItems = photos.map((photo) => ({
     original: photo.url,
     thumbnail: photo.url,
@@ -24,7 +28,7 @@ export default function ImagePicker({ photos }: ImagePickerProps) {
   return (
     <div
       id="all"
-      className="w-full max-w-[380px] mx-auto mb-8 tabxl:mb-0 scroll-mt-[142px] tabxl:scroll-mt-[173px]"
+      className="w-full max-w-[380px] tab:max-w-[514px] mx-auto mb-8 tabxl:mb-0 scroll-mt-[142px] tabxl:scroll-mt-[173px]"
     >
       <ImageGallery
         items={galleryItems}
@@ -35,6 +39,7 @@ export default function ImagePicker({ photos }: ImagePickerProps) {
         showBullets
         slideOnThumbnailOver={true}
         disableThumbnailScroll={false}
+        thumbnailPosition={isDesktop ? "left" : "bottom"}
       />
     </div>
   );

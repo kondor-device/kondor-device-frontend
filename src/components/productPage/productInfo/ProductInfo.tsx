@@ -102,9 +102,10 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
     <>
       <section className="mb-8 desk:mb-[69px]">
         <Navigation product={product} />
-        <ImagePicker photos={photos} />
+
         <div className="container max-w-[1920px]">
           <div className="tabxl:flex gap-x-[80px] desk:gap-x-[120px] w-full mb-5 tab:mb-[100px]">
+            <ImagePicker photos={photos} />
             <div id={SECTION_ID} className="w-fit">
               <AnimationWrapper
                 sectionId={SECTION_ID}

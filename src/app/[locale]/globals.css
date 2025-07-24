@@ -48,6 +48,9 @@ ul {
   border-radius: 6px;
   max-width: 48px;
   overflow: hidden;
+  @media screen and (min-width: 1024px) {
+    max-width: 100px;
+  }
 }
 
 .image-gallery-thumbnail.custom-thumbnail.active,
@@ -58,18 +61,57 @@ ul {
 
 .image-gallery-slide-wrapper {
   margin-bottom: 20px !important;
+  @media screen and (min-width: 1024px) {
+    margin-bottom: 0px !important;
+    margin-left: 140px !important;
+  }
+}
+
+.image-gallery-content.fullscreen .image-gallery-slide-wrapper {
+  @media screen and (min-width: 1024px) {
+    margin-left: 0px !important;
+  }
 }
 
 .image-gallery-right-nav {
   display: none;
+  @media screen and (min-width: 1024px) {
+    display: block;
+    right: -50px !important;
+  }
 }
 
 .image-gallery-left-nav {
   display: none;
+  @media screen and (min-width: 1024px) {
+    display: block;
+    left: -50px !important;
+  }
+}
+
+.image-gallery-content.fullscreen .image-gallery-left-nav {
+  @media screen and (min-width: 1024px) {
+    left: 10% !important;
+  }
+}
+
+.image-gallery-content.fullscreen .image-gallery-right-nav {
+  @media screen and (min-width: 1024px) {
+    right: 10% !important;
+  }
+}
+
+.image-gallery-left-nav .image-gallery-svg,
+.image-gallery-right-nav .image-gallery-svg {
+  width: 40px !important;
+  height: 40px !important;
+  color: var(--yellow);
 }
 
 .image-gallery-fullscreen-button {
   color: var(--yellow) !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease-out !important;
 }
 
 :not(:root):fullscreen::backdrop {
@@ -115,6 +157,13 @@ ul {
 
 .image-gallery-content .image-gallery-slide .image-gallery-image {
   max-height: 100dvh !important;
+}
+
+.image-gallery-content.fullscreen
+  .image-gallery-slide-wrapper.image-gallery-thumbnails-left,
+.image-gallery-content.fullscreen
+  .image-gallery-slide-wrapper.image-gallery-thumbnails-right {
+  width: 100% !important;
 }
 
 @layer components {
