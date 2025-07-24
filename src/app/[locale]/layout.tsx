@@ -1,10 +1,12 @@
+import "react-image-gallery/styles/css/image-gallery.css";
+import "./globals.css";
+
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Montserrat } from "next/font/google";
 import { Locale } from "@/types/locale";
-import "./globals.css";
 import Header from "@/components/shared/header/Header";
 import Footer from "@/components/shared/footer/Footer";
 import { getTranslations } from "next-intl/server";

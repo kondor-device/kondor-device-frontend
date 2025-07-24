@@ -108,7 +108,7 @@ export default function Navigation({ product }: NavigationProps) {
             tabList: "bg-white",
             cursor:
               "bg-yellow py-1.5 tabxl:py-2 px-4 tabxl:px-[22.5px] rounded-[12px] tabxl:rounded-full",
-            tab: "py-1.5 tabxl:py-2 px-4 tabxl:px-[22.5px]",
+            tab: "py-1.5 tabxl:py-2 px-4 tabxl:px-[22.5px] w-fit",
             tabContent: "text-12med tabxl:text-14med desk:text-18med",
           }}
         >

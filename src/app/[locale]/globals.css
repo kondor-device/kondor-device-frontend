@@ -43,6 +43,34 @@ ul {
   padding: 0;
 }
 
+/* React Gallery styles */
+.custom-thumbnail {
+  border-radius: 6px;
+  max-width: 48px;
+  overflow: hidden;
+}
+
+.image-gallery-thumbnail.custom-thumbnail.active,
+.image-gallery-thumbnail.custom-thumbnail:focus {
+  border: 3px solid var(--yellow);
+}
+
+.image-gallery-slide-wrapper {
+  margin-bottom: 20px !important;
+}
+
+.image-gallery-right-nav {
+  display: none;
+}
+
+.image-gallery-left-nav {
+  display: none;
+}
+
+.image-gallery-fullscreen-button {
+  color: var(--yellow) !important;
+}
+
 @layer components {
   .popup-scroll::-webkit-scrollbar-track {
     margin-top: 15px;
