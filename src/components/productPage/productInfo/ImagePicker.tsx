@@ -21,14 +21,14 @@ export default function ImagePicker({ photos }: ImagePickerProps) {
     thumbnailHeight: 48,
     thumbnailWidth: 48,
     originalClass:
-      "rounded-[8px] tabxl:rounded-[12px] overflow-hidden px-[1px]",
+      "rounded-[8px] tabxl:rounded-[12px] overflow-hidden px-[1px] max-w-[507px]",
     thumbnailClass: "custom-thumbnail",
   }));
 
   return (
     <div
       id="all"
-      className="w-full max-w-[380px] tab:max-w-[514px] mx-auto mb-8 tabxl:mb-0 scroll-mt-[142px] tabxl:scroll-mt-[173px]"
+      className="w-full max-w-[380px] tab:max-w-[514px] tabxl:max-w-[617px] tabxl:w-[calc(50%-40px)] desk:w-[calc(50%-60px)] mx-auto tabxl:mx-0 mb-8 tabxl:mb-0 scroll-mt-[142px] tabxl:scroll-mt-[173px]"
     >
       <ImageGallery
         items={galleryItems}

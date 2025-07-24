@@ -113,7 +113,10 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
         <div className="container max-w-[1920px]">
           <div className="tabxl:flex gap-x-[80px] desk:gap-x-[120px] w-full mb-5 tab:mb-[100px]">
             <ImagePicker photos={photos} />
-            <div id={SECTION_ID} className="w-fit">
+            <div
+              id={SECTION_ID}
+              className="tabxl:w-[calc(50%-40px)] desk:w-[calc(50%-60px)]"
+            >
               <AnimationWrapper
                 sectionId={SECTION_ID}
                 commonStyles={`transition duration-700 ease-slow `}
