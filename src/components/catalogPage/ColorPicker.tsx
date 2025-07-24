@@ -33,8 +33,8 @@ export default function ColorPicker({
               key={code}
               className={`relative flex items-center justify-center size-5 rounded-full cursor-pointer transition 
                 duration-300 ease-out ${
-                  isSelected ? "shadow-colorPicker" : ""
-                } ${colorset.hex === "000000" ? "border border-yellow" : ""}`}
+                  isSelected ? "shadow-colorPicker" : "shadow-inner"
+                } `}
               style={{ backgroundColor: colorset.hex }}
               onClick={() => setSelectedColorIndex(index)}
             >

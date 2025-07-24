@@ -36,6 +36,7 @@ export default function CatalogSlider({
   const sort = searchParams.get("sort");
 
   const swiperRef = useRef<SwiperType | null>(null);
+  const lastSlideIndex = useRef<number | null>(null);
 
   useEffect(() => {
     swiperRef.current?.slideToLoop(0, 0);
@@ -142,18 +143,22 @@ export default function CatalogSlider({
         <Loader />
       ) : groupedItems?.length > 0 ? (
         <Swiper
-          onSwiper={(swiper) => (swiperRef.current = swiper)}
-          onSlideChange={() => {
-            const html = document.documentElement;
-            // Вимикаємо smooth перед прокруткою
-            html.style.scrollBehavior = "auto";
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+            lastSlideIndex.current = swiper.activeIndex;
+          }}
+          onSlideChange={(swiper) => {
+            // ✅ Перевіряємо чи дійсно змінився слайд
+            if (lastSlideIndex.current !== swiper.activeIndex) {
+              lastSlideIndex.current = swiper.activeIndex;
 
-            window.scrollTo({ top: 0 });
-
-            // Повертаємо smooth назад через 100ms
-            setTimeout(() => {
-              html.style.scrollBehavior = "";
-            }, 100);
+              const html = document.documentElement;
+              html.style.scrollBehavior = "auto";
+              window.scrollTo({ top: 0 });
+              setTimeout(() => {
+                html.style.scrollBehavior = "";
+              }, 100);
+            }
           }}
           centeredSlides={true}
           slidesPerView={1}

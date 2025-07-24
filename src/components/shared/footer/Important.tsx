@@ -32,6 +32,7 @@ export default function Important({ categories }: ImportantProps) {
       path: `/catalog?type=${allCategoriesSlugs}${searchParams}`,
     },
     { title: t("footer.important.list.delivery"), path: "/delivery" },
+    { title: t("footer.important.list.returns"), path: "/returns" },
     { title: t("footer.important.list.about"), path: "/about" },
   ];
 
