@@ -74,7 +74,7 @@
     left: calc(50% - 489px);
   }
   @media screen and (min-width: 1920px) {
-    left: calc(50% - 626px);
+    left: calc(50% - 526px);
   }
   right: auto;
   top: 100%;
@@ -90,7 +90,7 @@
     right: calc(50% - 489px);
   }
   @media screen and (min-width: 1920px) {
-    right: calc(50% - 626px);
+    right: calc(50% - 526px);
   }
   left: auto;
   top: 100%;
