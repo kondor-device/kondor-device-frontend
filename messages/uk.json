@@ -306,7 +306,7 @@
     "preOrder": "Передзамовлення",
     "sort": "Сортувати:",
     "sortingOptions": {
-      "default": "за замовчанням",
+      "default": "за замовчуванням",
       "priceAscending": "за ціною від найнижчої",
       "priceDescending": "ціною від найвищої",
       "discount": "за знижкою",
