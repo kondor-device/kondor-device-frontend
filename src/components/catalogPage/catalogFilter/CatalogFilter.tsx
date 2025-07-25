@@ -103,10 +103,10 @@ export default function CatalogFilter({
         }))
       : [];
 
-    // Якщо відсутній priceFrom або priceTo — встановлюємо 599 та 4999
+    // Якщо відсутній priceFrom або priceTo — встановлюємо 499 та 4999
     if (!priceFromParam) {
       const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set("priceFrom", "599");
+      newParams.set("priceFrom", "499");
 
       router.replace(`${pathname}?${newParams.toString()}`);
     }
@@ -154,7 +154,7 @@ export default function CatalogFilter({
           }
         />
         <PriceFilter
-          value={[filters.priceFrom ?? 599, filters.priceTo ?? 4999]}
+          value={[filters.priceFrom ?? 499, filters.priceTo ?? 4999]}
           onChange={([priceFrom, priceTo]) =>
             setFilters((f) => ({
               ...f,

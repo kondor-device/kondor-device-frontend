@@ -31,9 +31,9 @@ export default function PriceFilter({ value, onChange }: PriceFilterProps) {
           },
         }}
         maxValue={4999}
-        minValue={599}
+        minValue={499}
         step={100}
-        startContent="599 ₴"
+        startContent="499 ₴"
         endContent="4999 ₴"
         size="sm"
         value={value}
