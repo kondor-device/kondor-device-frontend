@@ -68,6 +68,9 @@
 .swiper-button-prev {
   left: calc(50% - 165px);
   @media screen and (min-width: 1024px) {
+    left: calc(50% - 289px);
+  }
+  @media screen and (min-width: 1550px) {
     left: calc(50% - 489px);
   }
   @media screen and (min-width: 1920px) {
@@ -81,6 +84,9 @@
 .swiper-button-next {
   right: calc(50% - 165px);
   @media screen and (min-width: 1024px) {
+    right: calc(50% - 289px);
+  }
+  @media screen and (min-width: 1550px) {
     right: calc(50% - 489px);
   }
   @media screen and (min-width: 1920px) {
