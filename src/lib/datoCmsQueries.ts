@@ -179,6 +179,7 @@ export const GET_CATEGORIES_BY_SLUGS_QUERY = `
         slug
         price
         priceDiscount
+        newItem
         showonaddons
         showonmain
         preorder
