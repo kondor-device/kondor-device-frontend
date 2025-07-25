@@ -14,14 +14,17 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
   const t = useTranslations();
   const locale = useLocale();
 
-  const { name, price, priceDiscount, coloropts, cat } = product;
+  const { name, price, priceDiscount, coloropts, slug } = product;
 
   const { photos } = coloropts[0];
 
+  const searchParams =
+    "&priceTo=4999&sort=default&priceFrom=599&availability=in-stock%2Cpre-order";
+
   const localizedCatalogLink =
-    locale === "uk" ? `/#catalog` : `/${locale}#catalog`;
-  const localizedCategoryLink =
-    locale === "uk" ? `/#${cat?.id}` : `/${locale}#${cat?.id}`;
+    locale === "uk"
+      ? `/catalog?type=${slug}${searchParams}`
+      : `/${locale}/catalog?type=${slug}${searchParams}`;
 
   return (
     <li
@@ -29,10 +32,7 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
     shadow-card bg-white"
     >
       <div className="flex items-center justify-center w-full tab:w-[85%] tabxl:w-[65%] deskxl:size-[90%] aspect-[1/1] mx-auto my-auto">
-        <Link
-          href={cat?.name ? localizedCategoryLink : localizedCatalogLink}
-          className="group block w-fit mx-auto"
-        >
+        <Link href={localizedCatalogLink} className="group block w-fit mx-auto">
           <Image
             src={photos[0].url}
             alt={photos[0].alt || "keyboard"}
@@ -46,10 +46,7 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
       <h2 className="mt-auto mb-[11px] desk:mb-[15px] deskxl:mb-[25px] text-12bold mob:text-14bold sm:text-20bold tabxl:text-18bold laptop:text-20bold deskxl:text-28bold text-center">
         {name}
       </h2>
-      <Link
-        href={cat?.name ? localizedCategoryLink : localizedCatalogLink}
-        className="block w-fit mx-auto"
-      >
+      <Link href={localizedCatalogLink} className="block w-fit mx-auto">
         <SmallButton>{`${t("homePage.hero.from")} ${formatSum(
           priceDiscount || price
         ).toString()} ${t("homePage.catalog.hrn")}`}</SmallButton>

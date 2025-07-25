@@ -7,16 +7,32 @@ import Image from "next/image";
 import HeroProducts from "./HeroProducts";
 import { ProductItem } from "@/types/productItem";
 import AnimationWrapper from "./AnimationWrapper";
+import { CategoryItem } from "@/types/categoryItem";
 
 interface HeroProps {
   shownOnMainProducts: ProductItem[];
+  categories: CategoryItem[];
 }
 
 const SECTION_ID = "home-page-hero";
 
-export default function Hero({ shownOnMainProducts }: HeroProps) {
+export default function Hero({ shownOnMainProducts, categories }: HeroProps) {
   const locale = useLocale();
   const t = useTranslations();
+
+  const categoriesList = categories
+    ? categories
+        .sort((a, b) => a.pos - b.pos)
+        .map((category) => ({
+          title: category.name,
+          category: category.slug,
+        }))
+    : [];
+
+  const allCategoriesSlugs = categoriesList.map((c) => c.category).join(",");
+
+  const searchParams =
+    "&priceTo=4999&sort=default&priceFrom=599&availability=in-stock%2Cpre-order";
 
   return (
     <section
@@ -47,7 +63,11 @@ export default function Hero({ shownOnMainProducts }: HeroProps) {
             unVisibleStyles="opacity-0 laptop:translate-y-[50px]"
           >
             <Link
-              href={locale === "uk" ? `/#catalog` : `/${locale}#catalog`}
+              href={
+                locale === "uk"
+                  ? `/catalog?type=${allCategoriesSlugs}${searchParams}`
+                  : `/${locale}/catalog?type=${allCategoriesSlugs}${searchParams}`
+              }
               className="hidden tabxl:block w-[350px] max-w-[350px] laptop:max-w-[437px] laptop:w-[437px] tabxl:h-[85px] mt-[30px] tabxl:mt-[42px] mx-auto tabxl:mx-0"
             >
               <Button className="w-full">{t("buttons.goToCatalog")}</Button>
@@ -56,7 +76,11 @@ export default function Hero({ shownOnMainProducts }: HeroProps) {
         </div>
         <HeroProducts shownOnMainProducts={shownOnMainProducts} />
         <Link
-          href={locale === "uk" ? `/#catalog` : `/${locale}#catalog`}
+          href={
+            locale === "uk"
+              ? `/catalog?type=${allCategoriesSlugs}${searchParams}`
+              : `/${locale}/catalog?type=${allCategoriesSlugs}${searchParams}`
+          }
           className="block tabxl:hidden w-full max-w-[350px] tabxl:h-[85px] mx-auto"
         >
           <Button className="w-full">{t("buttons.goToCatalog")}</Button>

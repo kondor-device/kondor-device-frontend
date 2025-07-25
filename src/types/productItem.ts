@@ -24,8 +24,14 @@ export interface ProductItem {
   id: string;
   generalname: string;
   name: string;
+  slug: string;
   price: number;
   priceDiscount: number;
+  description: string;
+  newItem: boolean;
+  driver?: string;
+  manual?: string;
+  video?: { url: string };
   showonaddons: boolean;
   showonmain: boolean;
   complect: ComplectItem[];

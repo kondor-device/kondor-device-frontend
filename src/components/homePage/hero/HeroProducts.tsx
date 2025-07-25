@@ -12,6 +12,7 @@ export default async function HeroProducts({
   if (!shownOnMainProducts) {
     return null;
   }
+
   const heroProducts =
     shownOnMainProducts.length > 4
       ? shownOnMainProducts.slice(0, 4)

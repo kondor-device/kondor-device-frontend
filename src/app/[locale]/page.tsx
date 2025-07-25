@@ -6,11 +6,6 @@ import Benefits from "@/components/homePage/benefits/Benefits";
 import OrderConditions from "@/components/homePage/orderConditions/OrderConditions";
 import { getProducts } from "@/utils/getProducts";
 import { GET_ALL_DATA_QUERY } from "@/lib/datoCmsQueries";
-import CheckoutPopUp from "@/components/homePage/catalog/checkout/CheckoutPopUp";
-import CartPopUp from "@/components/homePage/catalog/cart/CartPopUp";
-import CartButton from "@/components/homePage/catalog/CartButton";
-import Modal from "@/components/shared/modal/Modal";
-import Backdrop from "@/components/shared/backdrop/Backdrop";
 
 export default async function HomePage() {
   const res = await getProducts(GET_ALL_DATA_QUERY);
@@ -20,8 +15,8 @@ export default async function HomePage() {
   const shownOnAddonsProducts = res?.data?.shownOnAddons;
 
   return (
-    <>
-      <Hero shownOnMainProducts={shownOnMainProducts} />
+    <div className="pt-[82px] tabxl:pt-[113px]">
+      <Hero shownOnMainProducts={shownOnMainProducts} categories={categories} />
       <WeOffer />
       <Catalog
         categories={categories}
@@ -30,11 +25,6 @@ export default async function HomePage() {
       <OrderConditions />
       <Faq />
       <Benefits />
-      <CartButton shownOnAddonsProducts={shownOnAddonsProducts} />
-      <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />
-      <CheckoutPopUp />
-      <Modal />
-      <Backdrop />
-    </>
+    </div>
   );
 }
