@@ -62,6 +62,10 @@ export default async function LocaleLayout({
     <html lang={locale} className="scroll-smooth">
       <head>
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} />
+        <meta
+          name="google-site-verification"
+          content="PF3UWCHQJTaiK4kBuPmhHe3Q1cmpEV3lc2OgQhWMx2E"
+        />
       </head>
       <body
         className={`${montserrat.variable} relative z-[1] flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
