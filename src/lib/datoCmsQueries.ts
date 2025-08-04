@@ -214,6 +214,39 @@ export const GET_CATEGORIES_BY_SLUGS_QUERY = `
       name
       pos
       slug
+      items {
+        id
+        generalname
+        name
+        price
+        priceDiscount
+        showonaddons
+        showonmain
+        preorder
+        preordertext
+        chars {
+          name
+          char
+        }
+        coloropts {
+          code
+          color
+          colorset {
+            hex
+          }
+          photos {
+            alt
+            url
+          }
+        }
+        complect {
+          name
+          icon {
+            url
+            alt
+          }
+        }
+      }
     }
 
     shownOnAddons: allItems(filter: { showonaddons: { eq: "true" } }) {

@@ -7,17 +7,20 @@ import CatalogCard from "./CatalogCard";
 import { ProductItem } from "@/types/productItem";
 import EmptyCategory from "../homePage/catalog/EmptyCategory";
 import Loader from "../shared/loader/Loader";
+import SectionTitle from "../shared/titles/SectionTitle";
 
 interface CatalogSliderProps {
   currentCategories: CategoryItem[];
   shownOnAddons: ProductItem[];
   isOpenDropdown: boolean;
+  otherCategories: CategoryItem[];
 }
 
 export default function CatalogSlider({
   currentCategories,
   shownOnAddons,
   isOpenDropdown,
+  otherCategories,
 }: CatalogSliderProps) {
   const ITEMS_PER_PAGE = 12;
 
@@ -30,14 +33,14 @@ export default function CatalogSlider({
   const sort = searchParams.get("sort");
 
   const getFilteredAndSortedItems = (
-    currentCategories: CategoryItem[],
+    categories: CategoryItem[],
     availability: string | null,
     newItems: string | null,
     priceFrom: number,
     priceTo: number,
     sort: string | null
   ): ProductItem[] => {
-    const filteredItems = currentCategories
+    const filteredItems = categories
       .flatMap((category) => category.items)
       .filter((item) => {
         if (item.showonmain === true) return false;
@@ -94,35 +97,80 @@ export default function CatalogSlider({
     [currentCategories, availability, newItems, priceFrom, priceTo, sort]
   );
 
+  const filteredOtherItems = useMemo(
+    () =>
+      getFilteredAndSortedItems(
+        otherCategories, // <- зміна тут: передаємо масив категорій напряму
+        availability,
+        newItems,
+        priceFrom,
+        priceTo,
+        sort
+      ),
+    [otherCategories, availability, newItems, priceFrom, priceTo, sort]
+  );
+
+  // --- Стан для основних товарів ---
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  // --- Стан для інших товарів ---
+  const [visibleCountOther, setVisibleCountOther] = useState(ITEMS_PER_PAGE);
+  const [isLoadingMoreOther, setIsLoadingMoreOther] = useState(false);
+
+  // Відображення секції з іншими товарами
+  const showOtherCategorySection = visibleCount >= currentItems.length;
 
   // Скидаємо при зміні фільтрів
   useEffect(() => {
     setVisibleCount(ITEMS_PER_PAGE);
-  }, [currentItems]);
+    setVisibleCountOther(ITEMS_PER_PAGE);
+    setIsLoadingMore(false);
+    setIsLoadingMoreOther(false);
+  }, [currentItems, filteredOtherItems]);
 
-  // Функція обробки скролу
   const handleScroll = useCallback(() => {
-    if (isLoadingMore) return;
-    if (visibleCount >= currentItems.length) return;
-
-    // Визначаємо висоту видимої частини та скільки докрутили
     const scrollTop = window.scrollY;
     const viewportHeight = window.innerHeight;
     const fullHeight = document.documentElement.scrollHeight;
 
-    // Якщо докрутили до 200px від низу
     if (scrollTop + viewportHeight >= fullHeight - 200) {
-      setIsLoadingMore(true);
-      setTimeout(() => {
-        setVisibleCount((prev) =>
-          Math.min(prev + ITEMS_PER_PAGE, currentItems.length)
-        );
-        setIsLoadingMore(false);
-      }, 600);
+      // Завантаження основних товарів
+      if (!isLoadingMore && visibleCount < currentItems.length) {
+        setIsLoadingMore(true);
+        setTimeout(() => {
+          setVisibleCount((prev) =>
+            Math.min(prev + ITEMS_PER_PAGE, currentItems.length)
+          );
+          setIsLoadingMore(false);
+        }, 600);
+        return; // пріоритет основним товарам
+      }
+
+      // Завантаження інших товарів, якщо основні повністю завантажені
+      if (
+        showOtherCategorySection &&
+        !isLoadingMoreOther &&
+        visibleCountOther < filteredOtherItems.length
+      ) {
+        setIsLoadingMoreOther(true);
+        setTimeout(() => {
+          setVisibleCountOther((prev) =>
+            Math.min(prev + ITEMS_PER_PAGE, filteredOtherItems.length)
+          );
+          setIsLoadingMoreOther(false);
+        }, 600);
+      }
     }
-  }, [isLoadingMore, visibleCount, currentItems.length]);
+  }, [
+    isLoadingMore,
+    visibleCount,
+    currentItems.length,
+    showOtherCategorySection,
+    isLoadingMoreOther,
+    visibleCountOther,
+    filteredOtherItems.length,
+  ]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -134,24 +182,53 @@ export default function CatalogSlider({
       {!currentItems ? (
         <Loader />
       ) : currentItems.length > 0 ? (
-        <ul className={`${isOpenDropdown ? "pointer-events-none" : ""}`}>
-          <div className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
-            {currentItems.slice(0, visibleCount).map((item, idx) => (
-              <CatalogCard
-                key={item.id ?? idx}
-                product={item}
-                shownOnAddons={shownOnAddons}
-                className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
-              />
-            ))}
-          </div>
+        <>
+          <ul className={`${isOpenDropdown ? "pointer-events-none" : ""}`}>
+            <div className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
+              {currentItems.slice(0, visibleCount).map((item, idx) => (
+                <CatalogCard
+                  key={item.id ?? idx}
+                  product={item}
+                  shownOnAddons={shownOnAddons}
+                  className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
+                />
+              ))}
+            </div>
 
-          {isLoadingMore && (
-            <div className="w-full flex justify-center pt-10">
-              <Loader className="h-[140px]" />
+            {isLoadingMore && (
+              <div className="w-full flex justify-center pt-10">
+                <Loader className="h-[140px]" />
+              </div>
+            )}
+          </ul>
+
+          {/* СЕКЦІЯ — Товари з інших категорій */}
+          {showOtherCategorySection && filteredOtherItems.length > 0 && (
+            <div className="pt-4 tabxl:pt-10 tabxl:mt-10 border-t border-dark">
+              <SectionTitle className="mb-6">
+                Товари з інших категорій
+              </SectionTitle>
+              <ul className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
+                {filteredOtherItems
+                  .slice(0, visibleCountOther)
+                  .map((item, idx) => (
+                    <CatalogCard
+                      key={item.id ?? idx}
+                      product={item}
+                      shownOnAddons={shownOnAddons}
+                      className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
+                    />
+                  ))}
+              </ul>
+
+              {isLoadingMoreOther && (
+                <div className="w-full flex justify-center pt-10">
+                  <Loader className="h-[140px]" />
+                </div>
+              )}
             </div>
           )}
-        </ul>
+        </>
       ) : (
         <EmptyCategory className="mt-[80px] tabxl:mt-[160px]" />
       )}

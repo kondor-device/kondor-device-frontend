@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import Image from "next/image";
 import { CategoryItem } from "@/types/categoryItem";
@@ -26,13 +27,11 @@ export default function Catalog({
   const [isOpenFilter, setIsOpenFilter] = useState(false);
 
   const searchParams = useSearchParams();
-
   const router = useRouter();
 
   const handleApplyFilters = (filters: FiltersState) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    // Типи
     if (filters.type && filters.type.length > 0) {
       const categories = filters.type.map((item) => item.category);
       params.set("type", categories.join(","));
@@ -40,7 +39,6 @@ export default function Catalog({
       params.delete("type");
     }
 
-    // Наявність
     if (filters.availability && filters.availability.length > 0) {
       const availability = filters.availability.map((item) => item.value);
       params.set("availability", availability.join(","));
@@ -48,7 +46,6 @@ export default function Catalog({
       params.delete("availability");
     }
 
-    // Ціна
     if (filters.priceFrom !== undefined && filters.priceFrom !== null) {
       params.set("priceFrom", String(filters.priceFrom));
     } else {
@@ -61,7 +58,6 @@ export default function Catalog({
       params.delete("priceTo");
     }
 
-    // Новинки
     if (filters.newValue) {
       params.set("new", "true");
     } else {
@@ -70,6 +66,15 @@ export default function Catalog({
 
     router.push(`?${params.toString()}`, { scroll: false });
   };
+
+  // Отримуємо id категорій, які зараз в currentCategories
+  const currentCategoryIds = new Set(currentCategories.map((cat) => cat.id));
+
+  // Фільтруємо всі категорії, які НЕ входять у currentCategories
+  const otherCategories: CategoryItem[] = allCategories.filter(
+    (category) => !currentCategoryIds.has(category.id)
+  );
+
 
   return (
     <section className="flex gap-4 laptop:gap-[30px] container max-w-[1920px] mt-6 pb-8 laptop:pb-[100px]">
@@ -101,6 +106,7 @@ export default function Catalog({
           currentCategories={currentCategories}
           shownOnAddons={shownOnAddons}
           isOpenDropdown={isOpenDropdown}
+          otherCategories={otherCategories}
         />
       </div>
       <CatalogFiltersModal
