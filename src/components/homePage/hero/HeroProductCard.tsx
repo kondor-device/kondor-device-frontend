@@ -23,8 +23,6 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
   const localizedCategoryLink =
     locale === "uk" ? `/#${cat?.id}` : `/${locale}#${cat?.id}`;
 
-  console.log(cat?.id ? localizedCategoryLink : localizedCatalogLink);
-
   return (
     <li
       className="flex flex-col justify-between w-[48.5%] tabxl:w-[47%] laptop:w-[48.5%] deskxl:w-[48%] max-w-[350px] rounded-[18px] tabxl:rounded-[24px] deskxl:rounded-[40px] p-[18px] tabxl:p-[22px] deskxl:py-[30px] deskxl:px-10 
