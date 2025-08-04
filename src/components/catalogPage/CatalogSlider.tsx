@@ -1,15 +1,7 @@
 "use client";
 
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "../homePage/catalog/sliderStyles.css";
-
-import { useRef, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { Swiper as SwiperType } from "swiper";
-import { Navigation, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { CategoryItem } from "@/types/categoryItem";
 import CatalogCard from "./CatalogCard";
 import { ProductItem } from "@/types/productItem";
@@ -34,14 +26,6 @@ export default function CatalogSlider({
   const priceFrom = Number(searchParams.get("priceFrom"));
   const priceTo = Number(searchParams.get("priceTo"));
   const sort = searchParams.get("sort");
-
-  const swiperRef = useRef<SwiperType | null>(null);
-  const lastSlideIndex = useRef<number | null>(null);
-
-  useEffect(() => {
-    swiperRef.current?.slideToLoop(0, 0);
-    swiperRef.current?.update();
-  }, [currentCategories]);
 
   const getFilteredAndSortedItems = (
     currentCategories: CategoryItem[],
@@ -121,7 +105,7 @@ export default function CatalogSlider({
     sort
   );
 
-  const itemsPerView = 6;
+  const itemsPerView = 12;
 
   const chunkArray = (
     array: ProductItem[] | null | undefined,
@@ -146,61 +130,23 @@ export default function CatalogSlider({
       {!currentItems || !groupedItems ? (
         <Loader />
       ) : groupedItems?.length > 0 ? (
-        <Swiper
-          onSwiper={(swiper) => {
-            swiperRef.current = swiper;
-            lastSlideIndex.current = swiper.activeIndex;
-          }}
-          onSlideChange={(swiper) => {
-            // ✅ Перевіряємо чи дійсно змінився слайд
-            if (lastSlideIndex.current !== swiper.activeIndex) {
-              lastSlideIndex.current = swiper.activeIndex;
-
-              const html = document.documentElement;
-              html.style.scrollBehavior = "auto";
-              window.scrollTo({ top: 0 });
-              setTimeout(() => {
-                html.style.scrollBehavior = "";
-              }, 100);
-            }
-          }}
-          centeredSlides={true}
-          slidesPerView={1}
-          autoHeight={true}
-          breakpoints={{
-            0: {
-              spaceBetween: 12,
-            },
-            1550: {
-              spaceBetween: 24,
-            },
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={groupedItems.length > 1}
-          loop={true}
-          speed={1000}
-          modules={[Pagination, Navigation]}
-          className={`catalog-page-slider ${
-            isOpenDropdown ? "pointer-events-none" : ""
-          }`}
-        >
+        <ul className={`${isOpenDropdown ? "pointer-events-none" : ""}`}>
           {groupedItems.map((group, groupIdx) => (
-            <SwiperSlide key={groupIdx}>
-              <div className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
-                {group.map((item, idx) => (
-                  <CatalogCard
-                    key={item.id ?? idx}
-                    product={item}
-                    shownOnAddons={shownOnAddons}
-                    className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
-                  />
-                ))}
-              </div>
-            </SwiperSlide>
+            <div
+              key={groupIdx}
+              className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]"
+            >
+              {group.map((item, idx) => (
+                <CatalogCard
+                  key={item.id ?? idx}
+                  product={item}
+                  shownOnAddons={shownOnAddons}
+                  className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
+                />
+              ))}
+            </div>
           ))}
-        </Swiper>
+        </ul>
       ) : (
         <EmptyCategory className="mt-[80px] tabxl:mt-[160px]" />
       )}
