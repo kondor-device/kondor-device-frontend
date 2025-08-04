@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { CategoryItem } from "@/types/categoryItem";
 import CatalogCard from "./CatalogCard";
@@ -19,6 +19,8 @@ export default function CatalogSlider({
   shownOnAddons,
   isOpenDropdown,
 }: CatalogSliderProps) {
+  const ITEMS_PER_PAGE = 12;
+
   const searchParams = useSearchParams();
 
   const newItems = searchParams.get("new");
@@ -39,28 +41,19 @@ export default function CatalogSlider({
       .flatMap((category) => category.items)
       .filter((item) => {
         if (item.showonmain === true) return false;
-
-        // availability filter
         if (availability === "in-stock" && item.preorder === true) return false;
         if (availability === "pre-order" && item.preorder !== true)
           return false;
-
-        // newItems filter
         if (newItems === "true" && item.newItem !== true) return false;
-
-        // price filter
         const actualPrice = item.priceDiscount ?? item.price;
         if (!isNaN(priceFrom) && actualPrice < priceFrom) return false;
         if (!isNaN(priceTo) && actualPrice > priceTo) return false;
-
         return true;
       });
 
-    // Якщо сортування відсутнє або "default" — повертаємо як є
     if (!sort || sort === "default") return filteredItems;
 
     const getModelName = (fullName: string) => {
-      if (!fullName) return "";
       const parts = fullName.trim().split(/\s+/);
       return parts.slice(1).join(" ").toLowerCase();
     };
@@ -68,84 +61,96 @@ export default function CatalogSlider({
     return filteredItems.sort((a, b) => {
       const priceA = a.priceDiscount ?? a.price;
       const priceB = b.priceDiscount ?? b.price;
-
       switch (sort) {
         case "price-ascending":
           return priceA - priceB;
-
         case "price-descending":
           return priceB - priceA;
-
-        case "discount": {
-          const discountA =
-            ((a.price - (a.priceDiscount ?? a.price)) / a.price) * 100;
-          const discountB =
-            ((b.price - (b.priceDiscount ?? b.price)) / b.price) * 100;
-          return discountB - discountA;
-        }
-
+        case "discount":
+          return (
+            ((b.price - (b.priceDiscount ?? b.price)) / b.price) * 100 -
+            ((a.price - (a.priceDiscount ?? a.price)) / a.price) * 100
+          );
         case "name-ascending":
           return getModelName(a.name).localeCompare(getModelName(b.name));
-
         case "name-descending":
           return getModelName(b.name).localeCompare(getModelName(a.name));
-
         default:
           return 0;
       }
     });
   };
 
-  const currentItems = getFilteredAndSortedItems(
-    currentCategories,
-    availability,
-    newItems,
-    priceFrom,
-    priceTo,
-    sort
+  const currentItems = useMemo(
+    () =>
+      getFilteredAndSortedItems(
+        currentCategories,
+        availability,
+        newItems,
+        priceFrom,
+        priceTo,
+        sort
+      ),
+    [currentCategories, availability, newItems, priceFrom, priceTo, sort]
   );
 
-  const itemsPerView = 12;
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  const chunkArray = (
-    array: ProductItem[] | null | undefined,
-    size: number
-  ): ProductItem[][] | null => {
-    if (!array) return null; // Ще не готово (напр. початковий стан)
+  // Скидаємо при зміні фільтрів
+  useEffect(() => {
+    setVisibleCount(ITEMS_PER_PAGE);
+  }, [currentItems]);
 
-    const chunks: ProductItem[][] = [];
-    for (let i = 0; i < array.length; i += size) {
-      chunks.push(array.slice(i, i + size));
+  // Функція обробки скролу
+  const handleScroll = useCallback(() => {
+    if (isLoadingMore) return;
+    if (visibleCount >= currentItems.length) return;
+
+    // Визначаємо висоту видимої частини та скільки докрутили
+    const scrollTop = window.scrollY;
+    const viewportHeight = window.innerHeight;
+    const fullHeight = document.documentElement.scrollHeight;
+
+    // Якщо докрутили до 200px від низу
+    if (scrollTop + viewportHeight >= fullHeight - 200) {
+      setIsLoadingMore(true);
+      setTimeout(() => {
+        setVisibleCount((prev) =>
+          Math.min(prev + ITEMS_PER_PAGE, currentItems.length)
+        );
+        setIsLoadingMore(false);
+      }, 600);
     }
-    return chunks;
-  };
+  }, [isLoadingMore, visibleCount, currentItems.length]);
 
-  const groupedItems = useMemo(
-    () => chunkArray(currentItems, itemsPerView),
-    [currentItems]
-  );
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   return (
     <>
-      {!currentItems || !groupedItems ? (
+      {!currentItems ? (
         <Loader />
-      ) : groupedItems?.length > 0 ? (
+      ) : currentItems.length > 0 ? (
         <ul className={`${isOpenDropdown ? "pointer-events-none" : ""}`}>
-          {groupedItems.map((group, groupIdx) => (
-            <div
-              key={groupIdx}
-              className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]"
-            >
-              {group.map((item, idx) => (
-                <CatalogCard
-                  key={item.id ?? idx}
-                  product={item}
-                  shownOnAddons={shownOnAddons}
-                  className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
-                />
-              ))}
+          <div className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
+            {currentItems.slice(0, visibleCount).map((item, idx) => (
+              <CatalogCard
+                key={item.id ?? idx}
+                product={item}
+                shownOnAddons={shownOnAddons}
+                className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
+              />
+            ))}
+          </div>
+
+          {isLoadingMore && (
+            <div className="w-full flex justify-center pt-10">
+              <Loader className="h-[140px]" />
             </div>
-          ))}
+          )}
         </ul>
       ) : (
         <EmptyCategory className="mt-[80px] tabxl:mt-[160px]" />
