@@ -8,6 +8,7 @@ import { ProductItem } from "@/types/productItem";
 import EmptyCategory from "../homePage/catalog/EmptyCategory";
 import Loader from "../shared/loader/Loader";
 import SectionTitle from "../shared/titles/SectionTitle";
+import { useTranslations } from "next-intl";
 
 interface CatalogSliderProps {
   currentCategories: CategoryItem[];
@@ -23,6 +24,8 @@ export default function CatalogSlider({
   otherCategories,
 }: CatalogSliderProps) {
   const ITEMS_PER_PAGE = 12;
+
+  const t = useTranslations("catalogPage");
 
   const searchParams = useSearchParams();
 
@@ -206,7 +209,7 @@ export default function CatalogSlider({
           {showOtherCategorySection && filteredOtherItems.length > 0 && (
             <div className="pt-4 tabxl:pt-10 tabxl:mt-10 border-t border-dark">
               <SectionTitle className="mb-6">
-                Товари з інших категорій
+                {t("otherCategories")}
               </SectionTitle>
               <ul className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
                 {filteredOtherItems
