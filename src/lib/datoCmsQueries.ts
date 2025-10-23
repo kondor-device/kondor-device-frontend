@@ -218,6 +218,7 @@ export const GET_CATEGORIES_BY_SLUGS_QUERY = `
         id
         generalname
         name
+        slug
         price
         priceDiscount
         showonaddons
