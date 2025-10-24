@@ -1,3 +1,5 @@
+export const revalidate = 3600;
+
 import "react-image-gallery/styles/css/image-gallery.css";
 import "./globals.css";
 
