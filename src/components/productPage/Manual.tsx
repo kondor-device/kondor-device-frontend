@@ -46,6 +46,7 @@ export default function Manual({ product }: ManualProps) {
             <span className="text-16semi desk:text-24bold"> {t("driver")}</span>
             <Image
               src="/images/icons/link.svg"
+              unoptimized
               width={24}
               height={24}
               alt="link icon"
