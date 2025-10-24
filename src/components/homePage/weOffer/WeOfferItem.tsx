@@ -28,6 +28,7 @@ export default function WeOfferItem({ weOfferItem, idx }: WeOfferItemProps) {
           alt={icon}
           width="46"
           height="46"
+          unoptimized
           className="max-w-full max-h-full"
         />
       </AnimationWrapper>

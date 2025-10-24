@@ -51,6 +51,7 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
           alt={coloropts[0]?.photos[0]?.alt || "keyboard"}
           width={1080}
           height={1080}
+          unoptimized
           className="w-full h-auto"
         />
       </div>

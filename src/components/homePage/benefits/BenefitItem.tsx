@@ -21,6 +21,7 @@ export default function BenefitItem({ benefitItem, idx }: BenefitItemProps) {
         alt={title}
         width="40"
         height="40"
+        unoptimized
         className="w-10 laptop:w-20 h-auto mb-[15px] laptop:mb-[30px]"
       />
       <AnimationWrapper
