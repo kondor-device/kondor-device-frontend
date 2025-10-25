@@ -114,7 +114,6 @@ export default function CatalogCard({
             alt={coloropts[selectedColorIndex].photos[0]?.alt || "keyboard"}
             width={1080}
             height={1080}
-            unoptimized
             className="max-w-full max-h-full object-cover laptop:hover:scale-105 transition duration-1000 ease-in-out"
           />
         </Link>

@@ -57,7 +57,6 @@ export default function AddonItemMob({
           alt={coloropts[0]?.photos[0]?.alt || "keyboard"}
           width={1080}
           height={1080}
-          unoptimized
           className="w-full h-auto"
         />
         <Counter cartItem={cartItem} className="max-w-[160px]" />

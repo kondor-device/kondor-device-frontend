@@ -27,7 +27,6 @@ export default function CatalogItem({
             src={icon}
             alt={title}
             fill
-            unoptimized
             className="object-cover"
             sizes="25vw"
           />
