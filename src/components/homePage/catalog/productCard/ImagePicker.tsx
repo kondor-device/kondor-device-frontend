@@ -30,7 +30,6 @@ export default function ImagePicker({
             alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
             width={1080}
             height={1080}
-            unoptimized
             className="max-w-full max-h-full object-cover"
           />
         </Link>
@@ -54,7 +53,6 @@ export default function ImagePicker({
                 alt={alt || "keyboard"}
                 width={1080}
                 height={1080}
-                unoptimized
                 className="max-w-full max-h-full object-cover"
               />
             </li>

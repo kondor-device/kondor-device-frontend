@@ -35,7 +35,6 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
           alt={image.alt || "keyboard"}
           width={1080}
           height={1080}
-          unoptimized
           className="max-w-full max-h-full object-contain"
         />
       </div>

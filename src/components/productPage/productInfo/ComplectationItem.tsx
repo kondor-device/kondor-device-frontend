@@ -22,7 +22,6 @@ export default function ComplectationItem({
         alt={icon?.alt || "icon"}
         width={24}
         height={24}
-        unoptimized
         className="size-[24px]"
       />
       <p className="text-14bold laptop:text-18bold">{name || ""}</p>
