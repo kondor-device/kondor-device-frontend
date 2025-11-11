@@ -48,7 +48,7 @@ export default function AddonItemMob({
   };
 
   return (
-    <li
+    <div
       className={`flex flex-col gap-y-[10px] p-2 rounded-[10px] ${className}`}
     >
       <div className="flex flex-col items-center gap-y-2 justify-between w-full aspect-[1/1] px-5 tab:px-6 py-[10px] rounded-[20px] bg-white shadow-card">
@@ -83,6 +83,6 @@ export default function AddonItemMob({
           </p>
         ) : null}
       </div>
-    </li>
+    </div>
   );
 }
