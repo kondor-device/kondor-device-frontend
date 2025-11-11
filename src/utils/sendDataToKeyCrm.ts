@@ -1,9 +1,12 @@
 import axios from "axios";
 import { OrderData } from "@/types/orderData";
+import { useUtmStore } from "@/store/utmStore";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function sendDataToKeyCrm(data: OrderData) {
+  const { utmData } = useUtmStore.getState();
+
   const {
     orderDate,
     orderNumber,
@@ -40,6 +43,8 @@ export async function sendDataToKeyCrm(data: OrderData) {
     payments: [
       { payment_method: payment, amount: totalSum, status: "not_paid" },
     ],
+    // Додаємо UTM-дані, якщо вони є
+    ...(utmData && { marketing: utmData }),
   };
 
   try {

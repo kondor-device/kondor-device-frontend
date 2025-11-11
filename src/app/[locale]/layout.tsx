@@ -24,6 +24,7 @@ import Backdrop from "@/components/shared/backdrop/Backdrop";
 import { HeroUIProvider } from "@heroui/react";
 
 import type { Viewport } from "next";
+import UtmTracker from "@/components/shared/utmTracker/UtmTracker";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -74,6 +75,7 @@ export default async function LocaleLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <HeroUIProvider className="flex min-h-screen flex-col">
+            <UtmTracker />
             <Header categories={res?.data?.allCategories} />
             <main className="flex-1">{children}</main>
             <Footer categories={res?.data?.allCategories} />

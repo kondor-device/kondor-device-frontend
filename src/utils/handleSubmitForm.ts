@@ -16,6 +16,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { getPromocode } from "./getPromocode";
 import { sendDataToKeyCrm } from "./sendDataToKeyCrm";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { useUtmStore } from "@/store/utmStore";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -30,6 +31,7 @@ export const handleSubmitForm = async <T>(
   const { clearOrderData, setOrderData } = useOrderStore.getState();
   const { clearCart, cartItems, promocode } = useCartStore.getState();
   const { closeModal } = useModalStore.getState();
+  const { utmData } = useUtmStore.getState();
 
   clearOrderData();
 
@@ -133,7 +135,8 @@ export const handleSubmitForm = async <T>(
     `<b>Промокод:</b> ${values.promocode?.trim()}\n` +
     `<b>Оплата:</b> ${values.payment.trim()}\n` +
     `<b>Список товарів:</b>\n${orderedListProducts}\n` +
-    `<b>Сума замовлення:</b> ${totalSum} грн\n`;
+    `<b>Сума замовлення:</b> ${totalSum} грн\n` +
+    `<b>Utm source:</b> ${utmData?.utm_source}\n`;
 
   // Формуємо дані для googlesheets
   const dataGoogle = {
