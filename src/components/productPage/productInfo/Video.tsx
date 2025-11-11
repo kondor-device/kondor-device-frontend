@@ -1,5 +1,7 @@
+"use client";
+
+import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
-import ReactPlayer from "react-player";
 import AnimationWrapper from "@/components/homePage/hero/AnimationWrapper";
 
 interface VideoProps {
@@ -8,6 +10,10 @@ interface VideoProps {
 }
 
 const VIDEO_ID = "video";
+
+const ReactPlayer = dynamic(() => import("react-player"), {
+  ssr: false,
+});
 
 export default function Video({ video, className = "" }: VideoProps) {
   const t = useTranslations();
