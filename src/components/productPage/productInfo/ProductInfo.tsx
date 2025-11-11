@@ -204,9 +204,9 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
                     unVisibleStyles="opacity-0 -translate-x-[50px]"
                   >
                     {" "}
-                    <h3 className="mb-5 text-14bold desk:text-24bold">
+                    <p className="mb-5 text-14bold desk:text-24bold">
                       {t("productPage.description")}
-                    </h3>
+                    </p>
                   </AnimationWrapper>
 
                   <div

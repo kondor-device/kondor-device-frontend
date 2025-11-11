@@ -37,7 +37,7 @@ export default function Video({ video, className = "" }: VideoProps) {
           </AnimationWrapper>
           <div className="rounded-[20px] overflow-hidden aspect-video">
             <ReactPlayer
-              url={video?.url}
+              src={video?.url}
               width="100%"
               height="100%"
               controls
