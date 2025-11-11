@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import AnimationWrapper from "@/components/homePage/hero/AnimationWrapper";
 
 interface VideoProps {
@@ -17,6 +18,7 @@ const ReactPlayer = dynamic(() => import("react-player"), {
 
 export default function Video({ video, className = "" }: VideoProps) {
   const t = useTranslations();
+  const [isPlaying, setIsPlaying] = useState(false);
 
   return (
     <>
@@ -41,6 +43,9 @@ export default function Video({ video, className = "" }: VideoProps) {
               width="100%"
               height="100%"
               controls
+              light
+              playing={isPlaying}
+              onClickPreview={() => setIsPlaying(true)}
               preload="none"
             />
           </div>
