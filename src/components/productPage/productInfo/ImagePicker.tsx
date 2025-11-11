@@ -53,6 +53,7 @@ export default function ImagePicker({ photos }: ImagePickerProps) {
           .join(" ")}
         style={{ objectFit: "contain" }}
         sizes="(max-width: 1023px) 100vw, 50vw"
+        priority={item.isPrimary}
         fetchPriority={item.isPrimary ? "high" : "auto"}
       />
     );
