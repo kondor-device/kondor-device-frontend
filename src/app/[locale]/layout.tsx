@@ -15,7 +15,7 @@ import { getTranslations } from "next-intl/server";
 import { getDefaultMetadata } from "@/utils/getDefaultMetadata";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { getProducts } from "@/utils/getProducts";
-import { GET_ALL_CATEGORIES_QUERY } from "@/lib/datoCmsQueries";
+import { GET_ALL_CATEGORIES_QUERY } from "@/lib/queries";
 import CheckoutPopUp from "@/components/homePage/catalog/checkout/CheckoutPopUp";
 import CartPopUp from "@/components/homePage/catalog/cart/CartPopUp";
 import CartButton from "@/components/homePage/catalog/CartButton";

@@ -1,5 +1,5 @@
 import { getProducts } from "@/utils/getProducts";
-import { GET_ITEM_BY_SLUG_QUERY } from "@/lib/datoCmsQueries";
+import { GET_ITEM_BY_SLUG_QUERY } from "@/lib/queries";
 import ProductInfo from "@/components/productPage/productInfo/ProductInfo";
 import AddonsSlider from "@/components/productPage/AddonsSlider";
 import SimilarProductsSlider from "@/components/productPage/SimilarProductsSlider";

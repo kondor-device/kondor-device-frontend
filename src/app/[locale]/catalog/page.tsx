@@ -1,5 +1,5 @@
+import { GET_CATEGORIES_BY_SLUGS_QUERY } from "@/lib/queries";
 import { getProducts } from "@/utils/getProducts";
-import { GET_CATEGORIES_BY_SLUGS_QUERY } from "@/lib/datoCmsQueries";
 import Catalog from "@/components/catalogPage/Catalog";
 import { Suspense } from "react";
 import Loader from "@/components/shared/loader/Loader";

@@ -5,7 +5,7 @@ import Faq from "@/components/homePage/faq/Faq";
 import Benefits from "@/components/homePage/benefits/Benefits";
 import OrderConditions from "@/components/homePage/orderConditions/OrderConditions";
 import { getProducts } from "@/utils/getProducts";
-import { GET_ALL_DATA_QUERY } from "@/lib/datoCmsQueries";
+import { GET_ALL_DATA_QUERY } from "@/lib/queries";
 
 export default async function HomePage() {
   const res = await getProducts(GET_ALL_DATA_QUERY);

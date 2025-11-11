@@ -13,7 +13,7 @@ import { searchWarehouses } from "@/utils/searchWarehouses";
 import LocationInput from "@/components/shared/forms/formComponents/LocationInput";
 import TextButton from "@/components/shared/buttons/TextButton";
 import { getPromocode } from "@/utils/getPromocode";
-import { GET_PROMOCODE_BY_CODE } from "@/lib/datoCmsQueries";
+import { GET_PROMOCODE_BY_CODE } from "@/lib/queries";
 import { useCartStore } from "@/store/cartStore";
 
 interface City {
