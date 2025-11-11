@@ -18,7 +18,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   });
 
   return (
-    <div className="pt-[82px] tabxl:pt-[113px]">
+    <div className="pt-[60px] tabxl:pt-[113px]">
       <Suspense fallback={<Loader />}>
         <Catalog
           currentCategories={res.data.selectedCategories}

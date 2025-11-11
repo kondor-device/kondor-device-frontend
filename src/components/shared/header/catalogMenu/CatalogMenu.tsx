@@ -52,7 +52,7 @@ export default function CatalogMenu({
         isCatalogMenuOpened
           ? "translate-x-0 opacity-100 no-doc-scroll"
           : "-translate-x-full opacity-0"
-      } fixed top-[82px] tabxl:top-0 left-0 z-[70] w-[100vw] tabxl:w-[400px] h-[calc(100dvh-82px)] tabxl:h-[100dvh] bg-white tabxl:rounded-r-[32px]
+      } fixed top-[60px] tabxl:top-0 left-0 z-[70] w-[100vw] tabxl:w-[400px] h-[calc(100dvh-60px)] tabxl:h-[100dvh] bg-white tabxl:rounded-r-[32px]
       transition duration-[600ms] overflow-hidden flex flex-col`}
     >
       <div className="hidden tabxl:block fixed -z-10 tabxl:left-[-9px] tabxl:top-[-125px] w-[303px] h-[288px] rounded-full bg-gradient-to-b from-[#FFB300] to-[#FFF1D0] blur-md" />
