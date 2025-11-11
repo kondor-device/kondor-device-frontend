@@ -4,7 +4,9 @@ export const fetchSanityData = async (
   query: string,
   params: Record<string, unknown> = {}
 ) => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL ||
+    "https://kondor-device-frontend-git-migra-71dea2-kondor-devices-projects.vercel.app/";
 
   if (!baseUrl) {
     throw new Error("Missing NEXT_PUBLIC_BASE_URL env variable");
