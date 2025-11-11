@@ -1,16 +1,25 @@
 import axios from "axios";
 
+const ensureTrailingSlash = (url: string) =>
+  url.endsWith("/") ? url : `${url}/`;
+
+const getBaseUrl = () => {
+  if (process.env.NEXT_PUBLIC_BASE_URL) {
+    return ensureTrailingSlash(process.env.NEXT_PUBLIC_BASE_URL);
+  }
+
+  if (process.env.VERCEL_URL) {
+    return ensureTrailingSlash(`https://${process.env.VERCEL_URL}`);
+  }
+
+  return "http://localhost:3000/";
+};
+
 export const fetchSanityData = async (
   query: string,
   params: Record<string, unknown> = {}
 ) => {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL ||
-    "https://kondor-device-frontend-git-migra-71dea2-kondor-devices-projects.vercel.app/";
-
-  if (!baseUrl) {
-    throw new Error("Missing NEXT_PUBLIC_BASE_URL env variable");
-  }
+  const baseUrl = getBaseUrl();
 
   try {
     const response = await axios.post(
