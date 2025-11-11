@@ -62,10 +62,10 @@ export default function AddonItemMob({
         <Counter cartItem={cartItem} className="max-w-[160px]" />
       </div>
       <div className="flex flex-col justify-between mr-auto">
-        <h4 className="text-10bold mob:text-12bold tab:text-14bold desk:text-18bold">
+        <h3 className="text-10bold mob:text-12bold tab:text-14bold desk:text-18bold">
           <p>{generalname}</p>
           <p className="text-yellow min-h-[30px]">{name}</p>
-        </h4>
+        </h3>
         <p className="mt-[5px] text-10med desk:text-12med">
           {t("homePage.catalog.color")}
           <span>{coloropts[0]?.color}</span>
