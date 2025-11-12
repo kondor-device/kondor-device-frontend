@@ -8,6 +8,12 @@ interface ImagePickerProps {
   selectedPhotoIndex: number;
   setSelectedPhotoIndex: (index: number) => void;
   productUrl: string;
+  badge?: {
+    text: string;
+    backgroundColor?: {
+      hex: string;
+    };
+  };
 }
 
 export default function ImagePicker({
@@ -15,13 +21,30 @@ export default function ImagePicker({
   selectedPhotoIndex,
   setSelectedPhotoIndex,
   productUrl,
+  badge,
 }: ImagePickerProps) {
+  const badgeText = badge?.text ?? null;
+  const badgeColor = badge?.backgroundColor?.hex ?? null;
+  const badgeStyle = badgeColor
+    ? { backgroundColor: badgeColor, borderColor: badgeColor }
+    : undefined;
+
   return (
     <div className="flex flex-col deskxl:flex-row deskxl:justify-between gap-y-3 deskxl:gap-x-5 tabxl:max-w-[340px] deskxl:max-w-full h-full deskxl:max-h-[466px]">
       <div
-        className="flex justify-between items-center max-w-[306px] tabxl:max-w-[340px] tabxl:size-[340px] deskxl:max-w-[466px] deskxl:size-[466px] bg-white 
+        className="relative flex justify-between items-center max-w-[306px] tabxl:max-w-[340px] tabxl:size-[340px] deskxl:max-w-[466px] deskxl:size-[466px] bg-white 
   aspect-[1/1] rounded-[11px] tabxl:rounded-[40px] overflow-hidden"
       >
+        {badgeText ? (
+          <div
+            className={`absolute z-10 top-1.5 tabxl:top-[14px] left-1.5 tabxl:left-[14px] shrink-0 w-fit py-[7px] px-2.5 tabxl:px-[14px] rounded-full border text-[10px] tabxl:text-[12px] font-semibold leading-[115%] ${
+              badgeColor ? "text-white" : "bg-white border-black text-black"
+            }`}
+            style={badgeStyle}
+          >
+            {badgeText}
+          </div>
+        ) : null}
         <Link href={productUrl}>
           <Image
             src={

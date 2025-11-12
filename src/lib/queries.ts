@@ -2,6 +2,13 @@ import { groq } from "next-sanity";
 
 const IMAGE_PROJECTION = `"alt": coalesce(alt, ""), "url": asset->url`;
 
+const BADGE_PROJECTION = `
+  "badge": badge->{
+    text,
+    "backgroundColor": select(defined(backgroundColor.hex) => { "hex": backgroundColor.hex })
+  }
+`;
+
 const COLOR_OPTIONS_PROJECTION = `
   code,
   color,
@@ -31,6 +38,7 @@ const CATEGORY_PROJECTION = `
     priceDiscount,
     showonaddons,
     showonmain,
+    ${BADGE_PROJECTION},
     preorder,
     preordertext,
     "chars": chars[]{ ${CHARS_PROJECTION} },
@@ -51,7 +59,8 @@ const ADDONS_PROJECTION = `
   generalname,
   name,
   price,
-  priceDiscount
+  priceDiscount,
+  ${BADGE_PROJECTION}
 `;
 
 const MAIN_PRODUCTS_PROJECTION = `
@@ -63,7 +72,8 @@ const MAIN_PRODUCTS_PROJECTION = `
   "cat": cat->{ "id": _id, name },
   "coloropts": coloropts[]{
     "photos": photos[]{ ${IMAGE_PROJECTION} }
-  }
+  },
+  ${BADGE_PROJECTION}
 `;
 
 const ITEM_DETAIL_PROJECTION = `
@@ -83,6 +93,7 @@ const ITEM_DETAIL_PROJECTION = `
   newItem,
   showonaddons,
   showonmain,
+  ${BADGE_PROJECTION},
   preorder,
   preordertext,
   "chars": chars[]{ ${CHARS_PROJECTION} },

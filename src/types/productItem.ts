@@ -34,6 +34,12 @@ export interface ProductItem {
   video?: { url: string };
   showonaddons: boolean;
   showonmain: boolean;
+  badge?: {
+    text: string;
+    backgroundColor?: {
+      hex: string;
+    };
+  };
   complect: ComplectItem[];
   coloropts: ColorOpt[];
   chars: Characteristic[];

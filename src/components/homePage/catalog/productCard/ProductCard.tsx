@@ -46,6 +46,7 @@ export default function ProductCard({
     complect,
     preorder,
     preordertext,
+    badge,
   } = product;
 
   const { photos } = coloropts[selectedColorIndex];
@@ -91,8 +92,9 @@ export default function ProductCard({
         selectedPhotoIndex={selectedPhotoIndex}
         setSelectedPhotoIndex={setSelectedPhotoIndex}
         productUrl={`/catalog/${slug}?color=${coloropts[
-            selectedColorIndex
-          ]?.color.toLowerCase()}`}
+          selectedColorIndex
+        ]?.color.toLowerCase()}`}
+        badge={badge}
       />
       <div className="flex flex-col gap-y-[5px] tabxl:gap-y-[15px]">
         <Link
