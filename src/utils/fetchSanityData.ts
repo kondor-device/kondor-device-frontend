@@ -4,8 +4,7 @@ export const fetchSanityData = async (
   query: string,
   params: Record<string, unknown> = {}
 ) => {
-  const baseUrl =
-    "https://kondor-device-frontend-git-migra-71dea2-kondor-devices-projects.vercel.app/";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   try {
     const response = await axios.post(
