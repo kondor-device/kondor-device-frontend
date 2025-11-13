@@ -9,11 +9,13 @@ const BADGE_PROJECTION = `
   }
 `;
 
-const COLOR_OPTIONS_PROJECTION = `
+export const COLOR_OPTIONS_PROJECTION = `
   code,
   color,
-  "colorset": colorset,
-  "photos": photos[]{ ${IMAGE_PROJECTION} }
+  "colorset": {
+    "hex": coalesce(colorset.hex.hex, colorset.hex)
+  },
+  "photos": photos[]{${IMAGE_PROJECTION}}
 `;
 
 const COMPLECT_PROJECTION = `
