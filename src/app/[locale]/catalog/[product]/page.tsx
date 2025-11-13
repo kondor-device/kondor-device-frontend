@@ -1,5 +1,5 @@
 import { getProducts } from "@/utils/getProducts";
-import { GET_ITEM_BY_SLUG_QUERY } from "@/lib/datoCmsQueries";
+import { GET_ITEM_BY_SLUG_QUERY } from "@/lib/queries";
 import ProductInfo from "@/components/productPage/productInfo/ProductInfo";
 import AddonsSlider from "@/components/productPage/AddonsSlider";
 import SimilarProductsSlider from "@/components/productPage/SimilarProductsSlider";
@@ -80,7 +80,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const similarProducts = findCategoryBySlug(res?.data?.allCategories, product);
 
   return (
-    <div className="pt-[82px] tabxl:pt-[113px] pb-8 tabxl:pb-[88px]">
+    <div className="pt-[60px] tabxl:pt-[113px] pb-8 tabxl:pb-[88px]">
       <Suspense fallback={<Loader />}>
         <ProductInfo
           product={res?.data?.allItems[0]}

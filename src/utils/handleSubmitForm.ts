@@ -6,10 +6,7 @@ import { useCartStore } from "@/store/cartStore";
 import { useOrderStore } from "@/store/orderStore";
 import { generateOrderNumber } from "./generateOrderNumber";
 import { getProductsByIds } from "@/utils/getProductsByIds";
-import {
-  GET_PRODUCTS_BY_IDS,
-  GET_PROMOCODE_BY_CODE,
-} from "@/lib/datoCmsQueries";
+import { GET_PRODUCTS_BY_IDS, GET_PROMOCODE_BY_CODE } from "@/lib/queries";
 import { ProductItem } from "@/types/productItem";
 import { useModalStore } from "@/store/modalStore";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -31,7 +28,7 @@ export const handleSubmitForm = async <T>(
   const { clearOrderData, setOrderData } = useOrderStore.getState();
   const { clearCart, cartItems, promocode } = useCartStore.getState();
   const { closeModal } = useModalStore.getState();
-  const { utmData } = useUtmStore.getState();
+  const { utmData, clearUtmData } = useUtmStore.getState();
 
   clearOrderData();
 
@@ -239,6 +236,9 @@ export const handleSubmitForm = async <T>(
     resetForm();
 
     clearCart();
+
+    //Очищаємо UTM-дані
+    clearUtmData();
 
     sendGTMEvent({ event: "submit_order" });
   } catch (error) {

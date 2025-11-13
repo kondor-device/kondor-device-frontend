@@ -20,7 +20,7 @@ export default function HeaderMob({
 
   return (
     <div
-      className={`relative tabxl:hidden w-full h-[82px] bg-white overflow-x-clip rounded-b-[12px] shadow-catalogCard`}
+      className={`relative tabxl:hidden w-full h-[60px] bg-white overflow-x-clip rounded-b-[12px] shadow-catalogCard`}
     >
       <div className="container flex items-center justify-between max-w-[1920px] h-full">
         <LogoLink

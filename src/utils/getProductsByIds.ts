@@ -1,20 +1,8 @@
-import axios from "axios";
+import { fetchSanityData } from "./fetchSanityData";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
-export async function getProductsByIds(query: string, productIds: string[]) {
-  try {
-    const response = await axios({
-      method: "post",
-      url: `${BASE_URL}api/datocms`,
-      data: {
-        query,
-        variables: { ids: productIds },
-        includeDrafts: false,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return error;
-  }
+export async function getProductsByIds(
+  query: string,
+  productIds: string[]
+) {
+  return fetchSanityData(query, { ids: productIds });
 }

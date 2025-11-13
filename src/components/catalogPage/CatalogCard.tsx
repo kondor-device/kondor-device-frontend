@@ -45,11 +45,21 @@ export default function CatalogCard({
     preorder,
     preordertext,
     coloropts,
+    badge,
   } = product;
 
   const savings = (((price - (priceDiscount ?? price)) / price) * 100).toFixed(
     0
   );
+
+  const badgeText = badge?.text ?? null;
+  const badgeColor = badge?.backgroundColor?.hex ?? null;
+  const badgeStyle = badgeColor
+    ? {
+        backgroundColor: badgeColor,
+        borderColor: badgeColor,
+      }
+    : undefined;
 
   const actualPrice =
     !!priceDiscount && priceDiscount < price ? priceDiscount : price;
@@ -99,7 +109,18 @@ export default function CatalogCard({
     <div
       className={`flex flex-col justify-between p-3 desk:p-4 rounded-[8px] desk:rounded-[20px] shadow-catalogCard bg-white min-h-full ${className}`}
     >
-      <div className="rounded-[12px] aspect-square w-full mb-2 desk:mb-3">
+      <div className="relative rounded-[12px] aspect-square w-full mb-2 desk:mb-3">
+        {badgeText ? (
+          <div
+            className={`absolute z-10 top-0 desk:top-[14px] left-0 desk:left-[14px] shrink-0 w-fit py-[7px] px-2.5 desk:px-[14px] rounded-full border text-[10px] desk:text-[12px] font-semibold leading-[115%] ${
+              badgeColor ? "text-white" : "bg-white border-black text-black"
+            }`}
+            style={badgeStyle}
+          >
+            {badgeText}
+          </div>
+        ) : null}
+
         <Link
           href={`/catalog/${slug}?color=${coloropts[
             selectedColorIndex

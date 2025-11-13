@@ -1,13 +1,16 @@
 "use client";
 
 import "react-image-gallery/styles/css/image-gallery.css";
-import ImageGallery from "react-image-gallery";
+import ImageGallery, { type ReactImageGalleryItem } from "react-image-gallery";
 import { useScreenWidth } from "@/hooks/useScreenWidth";
 import { useRef, useState } from "react";
 import { Modal, ModalContent, useDisclosure } from "@heroui/react";
 
 import IconButton from "@/components/shared/buttons/IconButton";
 import IconClose from "@/components/shared/icons/IconCLose";
+import Image from "next/image";
+
+type GalleryItem = ReactImageGalleryItem & { isPrimary?: boolean };
 
 interface ImagePickerProps {
   photos: { url: string; alt?: string }[];
@@ -22,7 +25,7 @@ export default function ImagePicker({ photos }: ImagePickerProps) {
 
   const galleryRef = useRef<ImageGallery | null>(null);
 
-  const galleryItems = photos.map((photo) => ({
+  const galleryItems: GalleryItem[] = photos.map((photo, index) => ({
     original: photo.url,
     thumbnail: photo.url,
     originalAlt: photo.alt || "image",
@@ -32,7 +35,29 @@ export default function ImagePicker({ photos }: ImagePickerProps) {
     originalClass:
       "rounded-[8px] tabxl:rounded-[12px] overflow-hidden px-[1px]",
     thumbnailClass: "custom-thumbnail",
+    isPrimary: index === 0,
   }));
+
+  const renderGalleryItem = (item: GalleryItem) => {
+    const src = item.original ?? "/images/icons/logoSmall.svg";
+    const alt = item.originalAlt ?? "image";
+
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        width={1080}
+        height={1080}
+        className={[item.originalClass, "image-gallery-image"]
+          .filter(Boolean)
+          .join(" ")}
+        style={{ objectFit: "contain" }}
+        sizes="(max-width: 1023px) 100vw, 50vw"
+        priority={item.isPrimary}
+        fetchPriority={item.isPrimary ? "high" : "auto"}
+      />
+    );
+  };
 
   const handleSlide = (index: number) => {
     setCurrentIndex(index);
@@ -65,6 +90,7 @@ export default function ImagePicker({ photos }: ImagePickerProps) {
           onSlide={handleSlide}
           onClick={handleImageClick}
           additionalClass=""
+          renderItem={renderGalleryItem}
         />
       </div>
 
@@ -114,6 +140,7 @@ export default function ImagePicker({ photos }: ImagePickerProps) {
                     startIndex={currentIndex}
                     onSlide={handleSlide}
                     additionalClass="fullscreen"
+                    renderItem={renderGalleryItem}
                   />
                 </div>
               </div>

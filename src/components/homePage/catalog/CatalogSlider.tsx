@@ -33,7 +33,7 @@ export default function CatalogSlider({
     "&priceTo=4999&sort=default&priceFrom=499&availability=in-stock%2Cpre-order";
 
   return (
-    <li id={id} className="scroll-mt-[82px] tabxl:scroll-mt-[113px]">
+    <li id={id} className="scroll-mt-[60px] tabxl:scroll-mt-[113px]">
       <AnimationWrapper
         sectionId={id}
         commonStyles={`container w-full max-w-[1920px] mb-[30px] transition duration-700 ease-slow`}

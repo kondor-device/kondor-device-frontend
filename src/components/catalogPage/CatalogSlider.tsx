@@ -186,7 +186,7 @@ export default function CatalogSlider({
         <Loader />
       ) : currentItems.length > 0 ? (
         <>
-          <ul className={`${isOpenDropdown ? "pointer-events-none" : ""}`}>
+          <div className={`${isOpenDropdown ? "pointer-events-none" : ""}`}>
             <div className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
               {currentItems.slice(0, visibleCount).map((item, idx) => (
                 <CatalogCard
@@ -203,7 +203,7 @@ export default function CatalogSlider({
                 <Loader className="h-[140px]" />
               </div>
             )}
-          </ul>
+          </div>
 
           {/* СЕКЦІЯ — Товари з інших категорій */}
           {showOtherCategorySection && filteredOtherItems.length > 0 && (
@@ -211,7 +211,7 @@ export default function CatalogSlider({
               <SectionTitle className="mb-6">
                 {t("otherCategories")}
               </SectionTitle>
-              <ul className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
+              <div className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
                 {filteredOtherItems
                   .slice(0, visibleCountOther)
                   .map((item, idx) => (
@@ -222,7 +222,7 @@ export default function CatalogSlider({
                       className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
                     />
                   ))}
-              </ul>
+              </div>
 
               {isLoadingMoreOther && (
                 <div className="w-full flex justify-center pt-10">

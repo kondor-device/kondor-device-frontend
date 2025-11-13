@@ -8,7 +8,7 @@ export default function NotFoundPage() {
   const locale = useLocale();
 
   return (
-    <div className="pt-[82px] tabxl:pt-[113px]">
+    <div className="pt-[60px] tabxl:pt-[113px]">
       <PageTitle>{t("notFoundPage.info")}</PageTitle>
       <section className="container max-w-[1920px] py-[100px]">
         <Link href="/" locale={locale} className="block w-fit mx-auto">

@@ -1,5 +1,5 @@
+import { GET_CATEGORIES_BY_SLUGS_QUERY } from "@/lib/queries";
 import { getProducts } from "@/utils/getProducts";
-import { GET_CATEGORIES_BY_SLUGS_QUERY } from "@/lib/datoCmsQueries";
 import Catalog from "@/components/catalogPage/Catalog";
 import { Suspense } from "react";
 import Loader from "@/components/shared/loader/Loader";
@@ -18,7 +18,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   });
 
   return (
-    <div className="pt-[82px] tabxl:pt-[113px]">
+    <div className="pt-[60px] tabxl:pt-[113px]">
       <Suspense fallback={<Loader />}>
         <Catalog
           currentCategories={res.data.selectedCategories}

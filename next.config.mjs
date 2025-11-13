@@ -11,6 +11,11 @@ const nextConfig = {
         hostname: "www.datocms-assets.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io",
+        port: "",
+      },
     ],
   },
 };

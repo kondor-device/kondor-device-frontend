@@ -92,7 +92,7 @@ export default function Navigation({ product }: NavigationProps) {
     <div className="relative mb-8 overflow-x-auto h-[43px] bg-white">
       <div
         ref={tabListRef}
-        className="fixed z-30 top-[78px] tabxl:top-[109px] left-0 tabxl:container tabxl:max-w-[1920px] pt-2.5 pb-1.5 w-full rounded-b-[12px] bg-white
+        className="fixed z-30 top-[56px] tabxl:top-[109px] left-0 tabxl:container tabxl:max-w-[1920px] pt-1.5 pb-0.5 w-full rounded-b-[12px] bg-white
        shadow-catalogFilter tabxl:shadow-none  overflow-x-auto scrollbar 
       scrollbar-h-0 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-transparent 
       scrollbar-track-transparent"
