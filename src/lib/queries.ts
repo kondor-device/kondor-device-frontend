@@ -108,7 +108,7 @@ export const GET_ALL_DATA_QUERY = groq`
   "allCategories": *[_type == "category"] | order(pos asc) {
     ${CATEGORY_PROJECTION}
   },
-  "shownOnMainProducts": *[_type == "item" && showonmain == true] {
+  "shownOnMainProducts": *[_type == "item" && showonmain == true] | order(order asc) {
     ${MAIN_PRODUCTS_PROJECTION}
   },
   "shownOnAddons": *[_type == "item" && showonaddons == true] {
