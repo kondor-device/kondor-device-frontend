@@ -170,10 +170,13 @@ export default function CatalogCard({
         ) : null}
         <div className="flex flex-col desk:flex-row desk:items-end gap-y-1 gap-x-[10px] mb-3 desk:mb-4">
           <p className="text-[18px] desk:text-[24px] font-bold uppercase leading-[105%]">
-            {!!priceDiscount && priceDiscount < price
-              ? formatSum(priceDiscount)
-              : formatSum(price)}
-            {t("homePage.catalog.hrn")}
+            <span itemProp="price" content={actualPrice.toString()}>
+              {!!priceDiscount && priceDiscount < price
+                ? formatSum(priceDiscount)
+                : formatSum(price)}
+              {t("homePage.catalog.hrn")}
+            </span>
+            <meta itemProp="priceCurrency" content="UAH" />
           </p>
           {!!priceDiscount && priceDiscount < price ? (
             <div className="flex items-end gap-x-[5px]">
