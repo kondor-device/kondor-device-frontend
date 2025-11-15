@@ -114,10 +114,13 @@ export default function ProductCard({
         ) : null}
         <div className="flex items-end gap-x-[10px] tabxl:gap-x-[25px] mb-[10px] tabxl:mb-[15px]">
           <p className="text-lg font-medium leading-[16px] tabxl:text-45bold deskxl:text-54bold text-white uppercase">
-            {!!priceDiscount && priceDiscount < price
-              ? formatSum(priceDiscount)
-              : formatSum(price)}
-            {t("homePage.catalog.hrn")}
+            <span itemProp="price" content={actualPrice.toString()}>
+              {!!priceDiscount && priceDiscount < price
+                ? formatSum(priceDiscount)
+                : formatSum(price)}
+              {t("homePage.catalog.hrn")}
+            </span>
+            <meta itemProp="priceCurrency" content="UAH" />
           </p>
           {!!priceDiscount && priceDiscount < price ? (
             <div className="flex tabxl:flex-col-reverse items-end tabxl:items-start tabxl:justify-center gap-x-[5px]">

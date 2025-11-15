@@ -151,10 +151,13 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
                   id={PRICE_ID}
                   className="text-[40px] desk:text-[54px] font-bold uppercase leading-none"
                 >
-                  {!!priceDiscount && priceDiscount < price
-                    ? formatSum(priceDiscount)
-                    : formatSum(price)}
-                  {t("homePage.catalog.hrn")}
+                  <span itemProp="price" content={actualPrice.toString()}>
+                    {!!priceDiscount && priceDiscount < price
+                      ? formatSum(priceDiscount)
+                      : formatSum(price)}
+                    {t("homePage.catalog.hrn")}
+                  </span>
+                  <meta itemProp="priceCurrency" content="UAH" />
                 </p>
                 {!!priceDiscount && priceDiscount < price ? (
                   <div className="flex flex-col-reverse items-end justify-center gap-x-[5px]">

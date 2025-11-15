@@ -73,8 +73,11 @@ export default function AddonItemMob({
       </div>
       <div className="flex items-end">
         <p className="w-fit text-10med mob:text-12med desk:text-18med">
-          {actualPrice}
-          {t("homePage.catalog.hrn")}
+          <span itemProp="price" content={actualPrice.toString()}>
+            {formatSum(actualPrice)}
+            {t("homePage.catalog.hrn")}
+          </span>
+          <meta itemProp="priceCurrency" content="UAH" />
         </p>
         {!!priceDiscount && priceDiscount < price ? (
           <p className="w-fit ml-[5px] text-10med desk:text-12med text-grey line-through uppercase">

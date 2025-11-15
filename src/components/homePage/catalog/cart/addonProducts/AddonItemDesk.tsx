@@ -66,8 +66,11 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
       </div>
       <div className="flex flex-col laptop:selection:gap-y-[10px] mr-auto">
         <p className="w-fit laptop:text-14med deskxl:text-20med">
-          {actualPrice}
-          {t("homePage.catalog.hrn")}
+          <span itemProp="price" content={actualPrice.toString()}>
+            {formatSum(actualPrice)}
+            {t("homePage.catalog.hrn")}
+          </span>
+          <meta itemProp="priceCurrency" content="UAH" />
         </p>
         {!!priceDiscount && priceDiscount < price ? (
           <p className="w-fit laptop:text-12med deskxl:text-16med text-grey line-through uppercase">

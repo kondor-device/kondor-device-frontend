@@ -58,13 +58,18 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
         </IconButton>
         <div className="">
           <p className="w-fit ml-auto text-10med mob:text-12med deskxl:text-20med text-white">
-            {formatSum(actualPrice)}
-            {t("homePage.catalog.hrn")}
+            <span itemProp="price" content={actualPrice.toString()}>
+              {formatSum(actualPrice)}
+              {t("homePage.catalog.hrn")}
+            </span>
+            <meta itemProp="priceCurrency" content="UAH" />
           </p>
           {!!priceDiscount && priceDiscount < price ? (
             <p className="w-fit ml-auto text-10med deskxl:text-16med text-grey line-through uppercase">
-              {formatSum(price)}
-              {t("homePage.catalog.hrn")}
+              <span itemProp="price" content={price.toString()}>
+                {formatSum(price)}
+                {t("homePage.catalog.hrn")}
+              </span>
             </p>
           ) : null}
         </div>
