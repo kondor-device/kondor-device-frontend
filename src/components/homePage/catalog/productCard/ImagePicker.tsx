@@ -29,8 +29,6 @@ export default function ImagePicker({
     ? { backgroundColor: badgeColor, borderColor: badgeColor }
     : undefined;
 
-  if (!photos || !photos?.length) return null;
-
   return (
     <div className="flex flex-col deskxl:flex-row deskxl:justify-between gap-y-3 deskxl:gap-x-5 tabxl:max-w-[340px] deskxl:max-w-full h-full deskxl:max-h-[466px]">
       <div
@@ -48,15 +46,25 @@ export default function ImagePicker({
           </div>
         ) : null}
         <Link href={productUrl}>
-          <Image
-            src={
-              photos[selectedPhotoIndex]?.url || "/images/icons/logoSmall.svg"
-            }
-            alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
-            width={1080}
-            height={1080}
-            className="max-w-full max-h-full object-cover"
-          />
+          {photos ? (
+            <Image
+              src={
+                photos[selectedPhotoIndex]?.url || "/images/icons/logoSmall.svg"
+              }
+              alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
+              width={1080}
+              height={1080}
+              className="max-w-full max-h-full object-cover"
+            />
+          ) : (
+            <Image
+              src={"/images/icons/logoSmall.svg"}
+              alt={"keyboard"}
+              width={1080}
+              height={1080}
+              className="max-w-full max-h-full object-cover"
+            />
+          )}
         </Link>
       </div>
       <div
@@ -64,24 +72,43 @@ export default function ImagePicker({
   scrollbar-w-[2px] scrollbar-h-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow scrollbar-track-transparent popup-scroll"
       >
         <ul className="flex flex-row deskxl:flex-col gap-y-4 gap-x-4 deskxl:gap-y-[35px] w-fit h-fit mx-auto my-auto">
-          {photos.map(({ url, alt }, idx) => (
-            <li
-              key={idx}
-              className={`cursor-pointer flex items-center justify-center size-[46px] tabxl:size-[62px] deskxl:size-[60px] bg-white rounded-[2px] 
+          {photos ? (
+            photos?.map(({ url, alt }, idx) => (
+              <li
+                key={idx}
+                className={`cursor-pointer flex items-center justify-center size-[46px] tabxl:size-[62px] deskxl:size-[60px] bg-white rounded-[2px] 
           tabxl:rounded-[6px] overflow-hidden ${
             selectedPhotoIndex === idx ? "shadow-imagePicker" : ""
           }`}
-              onClick={() => setSelectedPhotoIndex(idx)}
+                onClick={() => setSelectedPhotoIndex(idx)}
+              >
+                <Image
+                  src={url || "/images/icons/logoSmall.svg"}
+                  alt={alt || "keyboard"}
+                  width={1080}
+                  height={1080}
+                  className="max-w-full max-h-full object-cover"
+                />
+              </li>
+            ))
+          ) : (
+            <li
+              key={0}
+              className={`cursor-pointer flex items-center justify-center size-[46px] tabxl:size-[62px] deskxl:size-[60px] bg-white rounded-[2px] 
+          tabxl:rounded-[6px] overflow-hidden ${
+            selectedPhotoIndex === 0 ? "shadow-imagePicker" : ""
+          }`}
+              onClick={() => setSelectedPhotoIndex(0)}
             >
               <Image
-                src={url || "/images/icons/logoSmall.svg"}
-                alt={alt || "keyboard"}
+                src={"/images/icons/logoSmall.svg"}
+                alt={"keyboard"}
                 width={1080}
                 height={1080}
                 className="max-w-full max-h-full object-cover"
               />
             </li>
-          ))}
+          )}
         </ul>
       </div>
     </div>

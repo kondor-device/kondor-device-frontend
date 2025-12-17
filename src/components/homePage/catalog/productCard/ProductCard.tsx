@@ -69,7 +69,9 @@ export default function ProductCard({
       priceDiscount,
       price,
       actualPrice,
-      image: coloropts[selectedColorIndex]?.photos[0],
+      image: photos
+        ? coloropts[selectedColorIndex]?.photos[0]
+        : { url: "", alt: "" },
       color: coloropts[selectedColorIndex]?.color,
       code: coloropts[selectedColorIndex]?.code,
       quantity: 1,

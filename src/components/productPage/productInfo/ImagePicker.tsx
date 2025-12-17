@@ -25,18 +25,33 @@ export default function ImagePicker({ photos }: ImagePickerProps) {
 
   const galleryRef = useRef<ImageGallery | null>(null);
 
-  const galleryItems: GalleryItem[] = photos.map((photo, index) => ({
-    original: photo.url,
-    thumbnail: photo.url,
-    originalAlt: photo.alt || "image",
-    thumbnailAlt: photo.alt || "thumbnail",
-    thumbnailHeight: 48,
-    thumbnailWidth: 48,
-    originalClass:
-      "rounded-[8px] tabxl:rounded-[12px] overflow-hidden px-[1px]",
-    thumbnailClass: "custom-thumbnail",
-    isPrimary: index === 0,
-  }));
+  const galleryItems: GalleryItem[] = photos
+    ? photos?.map((photo, index) => ({
+        original: photo?.url,
+        thumbnail: photo?.url,
+        originalAlt: photo?.alt || "image",
+        thumbnailAlt: photo?.alt || "thumbnail",
+        thumbnailHeight: 48,
+        thumbnailWidth: 48,
+        originalClass:
+          "rounded-[8px] tabxl:rounded-[12px] overflow-hidden px-[1px]",
+        thumbnailClass: "custom-thumbnail",
+        isPrimary: index === 0,
+      }))
+    : [
+        {
+          original: "/images/icons/logoSmall.svg",
+          thumbnail: "/images/icons/logoSmall.svg",
+          originalAlt: "image",
+          thumbnailAlt: "image",
+          thumbnailHeight: 48,
+          thumbnailWidth: 48,
+          originalClass:
+            "rounded-[8px] tabxl:rounded-[12px] overflow-hidden px-[1px]",
+          thumbnailClass: "custom-thumbnail",
+          isPrimary: true,
+        },
+      ];
 
   const renderGalleryItem = (item: GalleryItem) => {
     const src = item.original ?? "/images/icons/logoSmall.svg";

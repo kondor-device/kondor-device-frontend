@@ -41,7 +41,9 @@ export default function AddonItemMob({
     priceDiscount,
     price,
     actualPrice,
-    image: coloropts[0]?.photos[0],
+    image: coloropts[0]?.photos
+      ? coloropts[0]?.photos[0]
+      : { url: "", alt: "" },
     color: coloropts[0]?.color,
     code: coloropts[0]?.code,
     quantity: 1,
@@ -52,13 +54,23 @@ export default function AddonItemMob({
       className={`flex flex-col gap-y-[10px] p-2 rounded-[10px] ${className}`}
     >
       <div className="flex flex-col items-center gap-y-2 justify-between w-full aspect-[1/1] px-5 tab:px-6 py-[10px] rounded-[20px] bg-white shadow-card">
-        <Image
-          src={coloropts[0]?.photos[0]?.url || "/images/icons/logoSmall.svg"}
-          alt={coloropts[0]?.photos[0]?.alt || "keyboard"}
-          width={1080}
-          height={1080}
-          className="w-full h-auto"
-        />
+        {coloropts[0]?.photos ? (
+          <Image
+            src={coloropts[0]?.photos[0]?.url || "/images/icons/logoSmall.svg"}
+            alt={coloropts[0]?.photos[0]?.alt || "keyboard"}
+            width={1080}
+            height={1080}
+            className="w-full h-auto"
+          />
+        ) : (
+          <Image
+            src={"/images/icons/logoSmall.svg"}
+            alt={"keyboard"}
+            width={1080}
+            height={1080}
+            className="w-full h-auto"
+          />
+        )}
         <Counter cartItem={cartItem} className="max-w-[160px]" />
       </div>
       <div className="flex flex-col justify-between mr-auto">
