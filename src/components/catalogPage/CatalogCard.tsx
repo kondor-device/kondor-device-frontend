@@ -75,7 +75,9 @@ export default function CatalogCard({
       priceDiscount,
       price,
       actualPrice,
-      image: coloropts[selectedColorIndex]?.photos[0],
+      image: coloropts[selectedColorIndex]?.photos
+        ? coloropts[selectedColorIndex]?.photos[0]
+        : { url: "", alt: "" },
       color: coloropts[selectedColorIndex]?.color,
       code: coloropts[selectedColorIndex]?.code,
       quantity: 1,
@@ -126,17 +128,18 @@ export default function CatalogCard({
             selectedColorIndex
           ]?.color.toLowerCase()}`}
         >
-          {" "}
-          <Image
-            src={
-              coloropts[selectedColorIndex].photos[0]?.url ||
-              "/images/icons/logoSmall.svg"
-            }
-            alt={coloropts[selectedColorIndex].photos[0]?.alt || "keyboard"}
-            width={1080}
-            height={1080}
-            className="max-w-full max-h-full object-cover laptop:hover:scale-105 transition duration-1000 ease-in-out"
-          />
+          {coloropts[selectedColorIndex].photos ? (
+            <Image
+              src={
+                coloropts[selectedColorIndex].photos[0]?.url ||
+                "/images/icons/logoSmall.svg"
+              }
+              alt={coloropts[selectedColorIndex].photos[0]?.alt || "keyboard"}
+              width={1080}
+              height={1080}
+              className="max-w-full max-h-full object-cover laptop:hover:scale-105 transition duration-1000 ease-in-out"
+            />
+          ) : null}
         </Link>
       </div>
       <Link
