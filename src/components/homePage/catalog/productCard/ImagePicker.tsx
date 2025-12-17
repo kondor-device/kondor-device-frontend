@@ -29,8 +29,6 @@ export default function ImagePicker({
     ? { backgroundColor: badgeColor, borderColor: badgeColor }
     : undefined;
 
-  if (!photos || !photos?.length) return null;
-
   return (
     <div className="flex flex-col deskxl:flex-row deskxl:justify-between gap-y-3 deskxl:gap-x-5 tabxl:max-w-[340px] deskxl:max-w-full h-full deskxl:max-h-[466px]">
       <div
@@ -48,15 +46,25 @@ export default function ImagePicker({
           </div>
         ) : null}
         <Link href={productUrl}>
-          <Image
-            src={
-              photos[selectedPhotoIndex]?.url || "/images/icons/logoSmall.svg"
-            }
-            alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
-            width={1080}
-            height={1080}
-            className="max-w-full max-h-full object-cover"
-          />
+          {photos ? (
+            <Image
+              src={
+                photos[selectedPhotoIndex]?.url || "/images/icons/logoSmall.svg"
+              }
+              alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
+              width={1080}
+              height={1080}
+              className="max-w-full max-h-full object-cover"
+            />
+          ) : (
+            <Image
+              src={"/images/icons/logoSmall.svg"}
+              alt={"keyboard"}
+              width={1080}
+              height={1080}
+              className="max-w-full max-h-full object-cover"
+            />
+          )}
         </Link>
       </div>
       <div
