@@ -37,7 +37,9 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
     priceDiscount,
     price,
     actualPrice,
-    image: coloropts[0]?.photos[0],
+    image: coloropts[0]?.photos
+      ? coloropts[0]?.photos[0]
+      : { url: "", alt: "" },
     color: coloropts[0]?.color,
     code: coloropts[0]?.code,
     quantity: 1,
@@ -46,13 +48,23 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
   return (
     <li className="flex items-end">
       <div className="laptop:size-[64px] deskxl:size-[85px] p-[8px] deskxl:p-[18px] rounded-[15px] shadow-card my-auto">
-        <Image
-          src={coloropts[0]?.photos[0]?.url || "/images/icons/logoSmall.svg"}
-          alt={coloropts[0]?.photos[0]?.alt || "keyboard"}
-          width={1080}
-          height={1080}
-          className="w-full h-auto"
-        />
+        {coloropts[0]?.photos ? (
+          <Image
+            src={coloropts[0]?.photos[0]?.url || "/images/icons/logoSmall.svg"}
+            alt={coloropts[0]?.photos[0]?.alt || "keyboard"}
+            width={1080}
+            height={1080}
+            className="w-full h-auto"
+          />
+        ) : (
+          <Image
+            src={"/images/icons/logoSmall.svg"}
+            alt={"keyboard"}
+            width={1080}
+            height={1080}
+            className="w-full h-auto"
+          />
+        )}
       </div>
       <div className="flex flex-col justify-between w-[38%] mx-5">
         <h4 className="text-14bold deskxl:text-20bold">

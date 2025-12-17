@@ -62,7 +62,15 @@ export default function AddonItemMob({
             height={1080}
             className="w-full h-auto"
           />
-        ) : null}
+        ) : (
+          <Image
+            src={"/images/icons/logoSmall.svg"}
+            alt={"keyboard"}
+            width={1080}
+            height={1080}
+            className="w-full h-auto"
+          />
+        )}
         <Counter cartItem={cartItem} className="max-w-[160px]" />
       </div>
       <div className="flex flex-col justify-between mr-auto">
