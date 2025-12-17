@@ -139,7 +139,15 @@ export default function CatalogCard({
               height={1080}
               className="max-w-full max-h-full object-cover laptop:hover:scale-105 transition duration-1000 ease-in-out"
             />
-          ) : null}
+          ) : (
+            <Image
+              src={"/images/icons/logoSmall.svg"}
+              alt={"keyboard"}
+              width={1080}
+              height={1080}
+              className="max-w-full max-h-full object-cover laptop:hover:scale-105 transition duration-1000 ease-in-out"
+            />
+          )}
         </Link>
       </div>
       <Link
