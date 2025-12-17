@@ -29,6 +29,8 @@ export default function ImagePicker({
     ? { backgroundColor: badgeColor, borderColor: badgeColor }
     : undefined;
 
+  if (!photos || !photos?.length) return null;
+
   return (
     <div className="flex flex-col deskxl:flex-row deskxl:justify-between gap-y-3 deskxl:gap-x-5 tabxl:max-w-[340px] deskxl:max-w-full h-full deskxl:max-h-[466px]">
       <div
