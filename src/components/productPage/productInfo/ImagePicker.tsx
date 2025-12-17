@@ -25,6 +25,8 @@ export default function ImagePicker({ photos }: ImagePickerProps) {
 
   const galleryRef = useRef<ImageGallery | null>(null);
 
+  if (!photos || !photos?.length) return null;
+
   const galleryItems: GalleryItem[] = photos.map((photo, index) => ({
     original: photo.url,
     thumbnail: photo.url,
