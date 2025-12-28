@@ -111,7 +111,7 @@ export default function CatalogCard({
     <div
       className={`flex flex-col justify-between p-3 desk:p-4 rounded-[8px] desk:rounded-[20px] shadow-catalogCard bg-white min-h-full ${className}`}
     >
-      <div className="relative rounded-[12px] aspect-square w-full mb-2 desk:mb-3">
+      <div className="relative flex justify-between items-center rounded-[12px] aspect-square w-full mb-2 desk:mb-3">
         {badgeText ? (
           <div
             className={`absolute z-10 top-0 desk:top-[14px] left-0 desk:left-[14px] shrink-0 w-fit py-[7px] px-2.5 desk:px-[14px] rounded-full border text-[10px] desk:text-[12px] font-semibold leading-[115%] ${
