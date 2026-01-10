@@ -1,5 +1,5 @@
-export const EMAIL_FIRST = "support@kondordevice.com";
-export const EMAIL_SECOND = "partner@kondordevice.com";
+export const EMAIL_FIRST = "support@kondor.pro";
+export const EMAIL_SECOND = "partner@kondor.pro";
 
 export const TELEGRAM = "@kondor_device";
 export const INSTAGRAM = "@kondor.ua";
