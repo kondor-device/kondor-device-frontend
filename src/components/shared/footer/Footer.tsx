@@ -13,6 +13,7 @@ interface FooterProps {
 
 export default function Footer({ categories }: FooterProps) {
   const t = useTranslations();
+  const currentYear = new Date().getFullYear();
 
   const pathname = usePathname();
 
@@ -24,7 +25,7 @@ export default function Footer({ categories }: FooterProps) {
         <div>
           <LogoLink className="w-[152px] laptop:w-[222px]" />
           <p className="mt-[10px] text-12med laptop:text-18med">
-            {t("footer.rights")}
+            {t("footer.rights", { year: currentYear })}
           </p>
         </div>
         <Important categories={categories}/>
