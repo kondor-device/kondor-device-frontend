@@ -109,7 +109,7 @@
     }
   },
   "footer": {
-    "rights": "Kondor 2024—2025 ©",
+    "rights": "Kondor 2024-{year} ©",
     "important": {
       "title": "Важливо",
       "list": {
