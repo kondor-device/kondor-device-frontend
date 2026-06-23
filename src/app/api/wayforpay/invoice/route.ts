@@ -4,6 +4,7 @@ import crypto from "crypto";
 const MERCHANT_ACCOUNT = process.env.MERCHANT_ACCOUNT;
 const MERCHANT_SECRET_KEY = process.env.MERCHANT_SECRET_KEY;
 const MERCHANT_DOMAIN = process.env.MERCHANT_DOMAIN;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function POST(req: NextRequest) {
   if (!MERCHANT_SECRET_KEY) {
@@ -45,6 +46,7 @@ export async function POST(req: NextRequest) {
       merchantDomainName: MERCHANT_DOMAIN,
       merchantAuthType: "SimpleSignature",
       merchantSignature,
+      serviceUrl: `${BASE_URL}api/wayforpay/callback`,
       orderReference,
       amount,
       orderDate,
