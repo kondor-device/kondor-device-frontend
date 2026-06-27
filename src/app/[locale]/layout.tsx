@@ -69,6 +69,10 @@ export default async function LocaleLayout({
           name="google-site-verification"
           content="PF3UWCHQJTaiK4kBuPmhHe3Q1cmpEV3lc2OgQhWMx2E"
         />
+        <meta
+          name="facebook-domain-verification"
+          content="3i6g61dxa9x0wal6ouk1yhqqi3mft0"
+        />
       </head>
       <body
         className={`${montserrat.variable} relative z-[1] flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
