@@ -218,6 +218,18 @@ export const handleSubmitForm = async <T>(
       },
     });
 
+    // Замовлення підтверджене, щойно його прийняв Telegram. Відправляємо подію
+    // саме тут — до допоміжних інтеграцій і до переходу на сторінку подяки.
+    // Раніше вона стояла останнім рядком цього try, тож будь-яка помилка запису
+    // в Google Sheets або KeyCRM мовчки з'їдала Purchase, замовлення в GA4 та
+    // TikTok для замовлення, яке насправді пройшло.
+    sendGTMEvent({
+      event: "submit_order",
+      order_number: orderNumber,
+      value: totalSum,
+      currency: "UAH",
+    });
+
     await axios({
       method: "post",
       url: `${BASE_URL}api/googlesheet`,
@@ -239,8 +251,6 @@ export const handleSubmitForm = async <T>(
 
     //Очищаємо UTM-дані
     clearUtmData();
-
-    sendGTMEvent({ event: "submit_order" });
   } catch (error) {
     setIsError(true);
     setIsNotificationShown(true);
