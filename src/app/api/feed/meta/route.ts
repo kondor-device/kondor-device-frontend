@@ -2,8 +2,14 @@ import { NextResponse } from "next/server";
 import { client } from "@/lib/sanityClient";
 import { GET_FEED_PRODUCTS_QUERY } from "@/lib/queries";
 
-// Фід оновлюється не частіше ніж раз на годину (ISR-кеш на рівні роуту).
-// Meta/Facebook все одно ходить по цьому URL не частіше ніж раз на добу.
+// У Next.js 15 GET Route Handler'и за замовчуванням НЕ кешуються — кожен
+// запит бив би напряму в Sanity API (в т.ч. кожен захід бота Meta/Rozetka).
+// "force-static" явно вмикає ISR-кешування для цього роуту: відповідь
+// генерується один раз і віддається з кешу, а у фоні перегенеровується не
+// частіше ніж раз на годину (revalidate нижче).
+// Достроково (одразу після зміни товару в адмінці) кеш можна скинути через
+// POST /api/revalidate?secret=... — див. src/app/api/revalidate/route.ts.
+export const dynamic = "force-static";
 export const revalidate = 3600;
 
 const BRAND = "Kondor";
