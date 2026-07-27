@@ -43,6 +43,7 @@ const CATEGORY_PROJECTION = `
     ${BADGE_PROJECTION},
     preorder,
     preordertext,
+    outOfStock,
     "chars": chars[]{ ${CHARS_PROJECTION} },
     "coloropts": coloropts[]{ ${COLOR_OPTIONS_PROJECTION} },
     "complect": complect[]{ ${COMPLECT_PROJECTION} }
@@ -53,6 +54,7 @@ const ADDONS_PROJECTION = `
   "id": _id,
   preorder,
   preordertext,
+  outOfStock,
   "coloropts": coloropts[]{
     color,
     code,
@@ -98,6 +100,7 @@ const ITEM_DETAIL_PROJECTION = `
   ${BADGE_PROJECTION},
   preorder,
   preordertext,
+  outOfStock,
   "chars": chars[]{ ${CHARS_PROJECTION} },
   "coloropts": coloropts[]{ ${COLOR_OPTIONS_PROJECTION} },
   "complect": complect[]{ ${COMPLECT_PROJECTION} }

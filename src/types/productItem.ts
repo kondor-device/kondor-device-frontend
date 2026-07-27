@@ -46,4 +46,5 @@ export interface ProductItem {
   cat: { name: string; id: string };
   preorder: boolean;
   preordertext: string;
+  outOfStock: boolean;
 }

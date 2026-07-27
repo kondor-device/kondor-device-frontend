@@ -46,6 +46,7 @@ export default function ProductCard({
     complect,
     preorder,
     preordertext,
+    outOfStock,
     badge,
   } = product;
 
@@ -59,6 +60,8 @@ export default function ProductCard({
     !!priceDiscount && priceDiscount < price ? priceDiscount : price;
 
   const onAddToCart = () => {
+    if (outOfStock) return;
+
     addToCart({
       id,
       uniqueId: uuidv4(),
@@ -161,11 +164,16 @@ export default function ProductCard({
         </div>
         <Button
           onClick={onAddToCart}
+          disabled={outOfStock}
           className="w-full tabxl:w-[350px] deskxl:w-[437px] max-w-[327px] tabxl:max-w-[350px] deskxl:max-w-[437px] h-9"
         >
-          {preorder ? t("buttons.preOrder") : t("buttons.makeOrder")}
+          {outOfStock
+            ? t("buttons.outOfStock")
+            : preorder
+            ? t("buttons.preOrder")
+            : t("buttons.makeOrder")}
         </Button>
-        {preorder && preordertext ? (
+        {!outOfStock && preorder && preordertext ? (
           <p className="absolute bottom-3 tabxl:bottom-4 px-4 deskxl:px-6 text-10med tabxl:text-14med text-white">
             {preordertext}
           </p>

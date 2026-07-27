@@ -72,10 +72,10 @@ export default function CatalogFilter({
       router.replace(`${pathname}?${newParams.toString()}`);
     }
 
-    // Якщо відсутній параметр — встановлюємо "in-stock"
+    // Якщо відсутній параметр — показуємо товари з усіма статусами наявності
     if (!availabilityParam) {
       const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set("availability", "in-stock,pre-order");
+      newParams.set("availability", "in-stock,pre-order,out-of-stock");
 
       router.replace(`${pathname}?${newParams.toString()}`);
     }
@@ -99,6 +99,8 @@ export default function CatalogFilter({
               ? t("inStock")
               : value === "pre-order"
               ? t("preOrder")
+              : value === "out-of-stock"
+              ? t("outOfStock")
               : value,
         }))
       : [];

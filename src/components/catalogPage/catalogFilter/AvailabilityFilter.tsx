@@ -16,6 +16,7 @@ export default function AvailabilityFilter({
   const availabilityList = [
     { title: t("inStock"), value: "in-stock" },
     { title: t("preOrder"), value: "pre-order" },
+    { title: t("outOfStock"), value: "out-of-stock" },
   ];
 
   const toggleAvailability = (item: { title: string; value: string }) => {
