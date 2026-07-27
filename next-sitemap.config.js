@@ -2,8 +2,6 @@
 
 import axios from "axios";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
 // Актуальний каталог товарів живе в Sanity (не в застарілому DatoCMS).
 const SANITY_PROJECT_ID = "qmszlzqu";
 const SANITY_DATASET = "production";
@@ -47,6 +45,11 @@ const sitemapConfig = {
     policies: [
       { userAgent: "*", allow: "/" },
       { userAgent: "*", disallow: "/api/*" },
+      // Товарні фіди (Meta/Facebook, Rozetka тощо) явно виключаємо з
+      // індексації пошуковиками окремим правилом для наочності — технічно
+      // вони й так покриваються "/api/*" вище, але Meta/Rozetka все одно
+      // ходять по прямому URL за розкладом, а не через сканування robots.txt.
+      { userAgent: "*", disallow: "/api/feed/*" },
     ],
   },
   alternateRefs: [
