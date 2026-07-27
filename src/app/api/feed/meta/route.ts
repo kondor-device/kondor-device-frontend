@@ -1,6 +1,19 @@
 import { NextResponse } from "next/server";
-import { client } from "@/lib/sanityClient";
-import { GET_FEED_PRODUCTS_QUERY } from "@/lib/queries";
+import {
+  BRAND,
+  CURRENCY,
+  FeedColorOption,
+  FeedProduct,
+  buildAvailability,
+  buildLink,
+  buildTitle,
+  buildVariantId,
+  escapeXml,
+  fetchFeedProducts,
+  getBaseUrl,
+  getVariantColor,
+  toPlainDescription,
+} from "@/lib/feed";
 
 // У Next.js 15 GET Route Handler'и за замовчуванням НЕ кешуються — кожен
 // запит бив би напряму в Sanity API (в т.ч. кожен захід бота Meta/Rozetka).
@@ -11,87 +24,6 @@ import { GET_FEED_PRODUCTS_QUERY } from "@/lib/queries";
 // POST /api/revalidate?secret=... — див. src/app/api/revalidate/route.ts.
 export const dynamic = "force-static";
 export const revalidate = 3600;
-
-const BRAND = "Kondor";
-const CURRENCY = "UAH";
-
-interface FeedPhoto {
-  alt?: string;
-  url: string;
-}
-
-interface FeedColorOption {
-  code: string;
-  color: string;
-  photos?: FeedPhoto[];
-}
-
-interface FeedProduct {
-  id: string;
-  generalname: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  price: number;
-  priceDiscount: number | null;
-  preorder: boolean | null;
-  preordertext: string | null;
-  outOfStock: boolean | null;
-  cat: { id: string; name: string; slug: string } | null;
-  coloropts: FeedColorOption[] | null;
-}
-
-function getBaseUrl(): string {
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.kondor.ua/";
-  return base.endsWith("/") ? base : `${base}/`;
-}
-
-// Мінімальне екранування спецсимволів для текстових вузлів XML.
-function escapeXml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
-}
-
-// Прибирає авторську "markdown-подібну" розмітку опису (список "* ...",
-// жирний текст "**...**") і зайві пробіли/переноси, щоб отримати чистий
-// текст для поля g:description.
-function toPlainDescription(description: string | null): string {
-  if (!description) return "";
-
-  return description
-    .replace(/(?:^|\n)\*\s+/g, "\n")
-    .replace(/\*\*(.+?)\*\*/g, "$1")
-    .replace(/\s*\n\s*/g, " ")
-    .replace(/\s{2,}/g, " ")
-    .trim();
-}
-
-// Прибирає задвоєні пробіли (у деяких товарах є "generalname" з зайвим
-// пробілом наприкінці, напр. "Ігрові поверхі ").
-function normalizeSpaces(value: string): string {
-  return value.replace(/\s{2,}/g, " ").trim();
-}
-
-function buildTitle(product: FeedProduct, color: string, hasVariants: boolean): string {
-  const base = normalizeSpaces(`${product.generalname} ${product.name}`);
-  return hasVariants ? `${base}, колір: ${color}` : base;
-}
-
-function buildAvailability(product: FeedProduct): "out of stock" | "preorder" | "in stock" {
-  if (product.outOfStock === true) return "out of stock";
-  if (product.preorder === true) return "preorder";
-  return "in stock";
-}
-
-function buildLink(baseUrl: string, slug: string, color: string): string {
-  const url = new URL(`catalog/${slug}`, baseUrl);
-  if (color) url.searchParams.set("color", color.toLowerCase());
-  return url.toString();
-}
 
 function buildItemXml(
   product: FeedProduct,
@@ -105,16 +37,10 @@ function buildItemXml(
   // Без зображення офер не пройде валідацію Meta — пропускаємо такий варіант.
   if (!mainPhoto?.url) return null;
 
-  // Сирий SKU (colorOption.code) не гарантовано унікальний глобально по
-  // всьому каталогу (в кількох товарах трапляються однакові коди кольорів),
-  // тож формуємо гарантовано унікальний id як "<idТовару>-<code>".
-  // trim() — у частині товарів код/колір в Sanity введено з зайвим пробілом.
-  const code = colorOption.code?.trim() || "0";
-  const color = colorOption.color?.trim() || "";
-  const id = `${product.id}-${code}`;
+  const color = getVariantColor(colorOption);
+  const id = buildVariantId(product, colorOption);
   const title = buildTitle(product, color, hasVariants);
-  const description =
-    toPlainDescription(product.description) || title;
+  const description = toPlainDescription(product.description) || title;
   const availability = buildAvailability(product);
   const actualPrice =
     product.priceDiscount && product.priceDiscount < product.price
@@ -175,7 +101,7 @@ function buildFeedXml(products: FeedProduct[], baseUrl: string): string {
 
 export async function GET() {
   try {
-    const products = await client.fetch<FeedProduct[]>(GET_FEED_PRODUCTS_QUERY);
+    const products = await fetchFeedProducts();
     const baseUrl = getBaseUrl();
     const xml = buildFeedXml(products, baseUrl);
 
