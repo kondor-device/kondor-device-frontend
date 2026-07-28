@@ -43,6 +43,7 @@ const CATEGORY_PROJECTION = `
     ${BADGE_PROJECTION},
     preorder,
     preordertext,
+    outOfStock,
     "chars": chars[]{ ${CHARS_PROJECTION} },
     "coloropts": coloropts[]{ ${COLOR_OPTIONS_PROJECTION} },
     "complect": complect[]{ ${COMPLECT_PROJECTION} }
@@ -53,6 +54,7 @@ const ADDONS_PROJECTION = `
   "id": _id,
   preorder,
   preordertext,
+  outOfStock,
   "coloropts": coloropts[]{
     color,
     code,
@@ -98,6 +100,7 @@ const ITEM_DETAIL_PROJECTION = `
   ${BADGE_PROJECTION},
   preorder,
   preordertext,
+  outOfStock,
   "chars": chars[]{ ${CHARS_PROJECTION} },
   "coloropts": coloropts[]{ ${COLOR_OPTIONS_PROJECTION} },
   "complect": complect[]{ ${COMPLECT_PROJECTION} }
@@ -172,5 +175,48 @@ export const GET_ITEM_BY_SLUG_QUERY = groq`
   "allCategories": *[_type == "category"] | order(pos asc) {
     ${CATEGORY_PROJECTION}
   }
+}
+`;
+
+// Проекція товару для товарних фідів (Meta/Facebook Catalog, Rozetka тощо).
+// Містить лише поля, необхідні для формування offer'ів фіда: SKU/варіанти,
+// ціну, наявність, посилання на картку товару та зображення, категорію.
+const FEED_PRODUCT_PROJECTION = `
+  "id": _id,
+  generalname,
+  name,
+  slug,
+  description,
+  price,
+  priceDiscount,
+  preorder,
+  preordertext,
+  outOfStock,
+  "cat": cat->{ "id": _id, name, slug },
+  "coloropts": coloropts[]{
+    code,
+    color,
+    "photos": photos[]{ ${IMAGE_PROJECTION} }
+  }
+`;
+
+// Всі опубліковані товари з усіма полями, потрібними для генерації
+// динамічного XML/YML фіда каталогу (Meta, Rozetka тощо).
+//
+// _type == "item" вже сам собою виключає документи типу "category" —
+// окремі "категорії" з адмінки в цей запит і так не потраплять.
+//
+// Серед документів "item" є кілька службових "застав"-банерів для
+// головної сторінки (showonmain: true) — це не реальні товари, а
+// декоративні банери категорій (порожні chars/complect/description).
+// Виключаємо їх за showonmain == true.
+export const GET_FEED_PRODUCTS_QUERY = groq`
+*[
+  _type == "item" &&
+  defined(slug) &&
+  defined(price) &&
+  showonmain != true
+] {
+  ${FEED_PRODUCT_PROJECTION}
 }
 `;

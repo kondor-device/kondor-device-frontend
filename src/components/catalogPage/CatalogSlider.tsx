@@ -43,13 +43,25 @@ export default function CatalogSlider({
     priceTo: number,
     sort: string | null
   ): ProductItem[] => {
+    const availabilityValues = availability ? availability.split(",") : [];
+
     const filteredItems = categories
       .flatMap((category) => category.items)
       .filter((item) => {
         if (item.showonmain === true) return false;
-        if (availability === "in-stock" && item.preorder === true) return false;
-        if (availability === "pre-order" && item.preorder !== true)
-          return false;
+        if (availabilityValues.length > 0) {
+          // "Немає в наявності" має пріоритет над "Передзамовлення"
+          const isOutOfStock = item.outOfStock === true;
+          const isPreorder = !isOutOfStock && item.preorder === true;
+          const isInStock = !isOutOfStock && !isPreorder;
+
+          const matchesAvailability =
+            (isInStock && availabilityValues.includes("in-stock")) ||
+            (isPreorder && availabilityValues.includes("pre-order")) ||
+            (isOutOfStock && availabilityValues.includes("out-of-stock"));
+
+          if (!matchesAvailability) return false;
+        }
         if (newItems === "true" && item.newItem !== true) return false;
         const actualPrice = item.priceDiscount ?? item.price;
         if (!isNaN(priceFrom) && actualPrice < priceFrom) return false;

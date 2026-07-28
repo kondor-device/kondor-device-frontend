@@ -8,9 +8,14 @@ import { useCartStore } from "@/store/cartStore";
 interface CounterProps {
   cartItem: CartItem;
   className?: string;
+  disabled?: boolean;
 }
 
-export default function Counter({ cartItem, className = "" }: CounterProps) {
+export default function Counter({
+  cartItem,
+  className = "",
+  disabled = false,
+}: CounterProps) {
   const { addToCart, removeFromCart, cartItems } = useCartStore();
   const getItemCount = (items: CartItem[], itemId: string): number => {
     return items.filter((item) => item.id === itemId).length;
@@ -27,6 +32,7 @@ export default function Counter({ cartItem, className = "" }: CounterProps) {
   };
 
   const onPlusClick = () => {
+    if (disabled) return;
     addToCart(cartItem);
     setCount(count + 1);
   };
@@ -47,6 +53,7 @@ export default function Counter({ cartItem, className = "" }: CounterProps) {
         className="flex items-center justify-center size-5 tab:size-[28px] laptop:size-8 deskxl:size-[50px] rounded-[4px] deskxl:rounded-[11px] bg-yellow text-15med deskxl:text-20med 
         text-white  disabled:bg-lightGrey enabled:active:scale-95 transition duration-300 ease-out"
         onClick={onPlusClick}
+        disabled={disabled}
         aria-label="plus"
       >
         <IconClose className="size-3 laptop:size-4 deskxl:size-5" />

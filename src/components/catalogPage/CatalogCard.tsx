@@ -44,6 +44,7 @@ export default function CatalogCard({
     complect,
     preorder,
     preordertext,
+    outOfStock,
     coloropts,
     badge,
   } = product;
@@ -65,6 +66,8 @@ export default function CatalogCard({
     !!priceDiscount && priceDiscount < price ? priceDiscount : price;
 
   const onAddToCart = () => {
+    if (outOfStock) return;
+
     addToCart({
       id,
       uniqueId: uuidv4(),
@@ -229,13 +232,18 @@ export default function CatalogCard({
         <button
           type="button"
           onClick={onAddToCart}
+          disabled={outOfStock}
           className={`flex items-center justify-center w-full h-[33px] desk:h-9 px-3 text-9bold desk:text-12bold rounded-full transition duration-300 ease-out enabled:active:scale-95 
             outline-none enabled:bg-yellowGradient enabled:active:brightness-[115%] desk:enabled:hover:brightness-[115%] 
-            enabled:focus-visible:brightness-[115%]            `}
+            enabled:focus-visible:brightness-[115%] disabled:bg-grey disabled:text-white disabled:cursor-not-allowed`}
         >
-          {preorder ? t("buttons.preOrder") : t("buttons.makeOrder")}
+          {outOfStock
+            ? t("buttons.outOfStock")
+            : preorder
+            ? t("buttons.preOrder")
+            : t("buttons.makeOrder")}
         </button>
-        {preorder && preordertext ? (
+        {!outOfStock && preorder && preordertext ? (
           <p className="absolute bottom-3 tabxl:bottom-4 px-4 deskxl:px-6 text-10med tabxl:text-14med text-white">
             {preordertext}
           </p>

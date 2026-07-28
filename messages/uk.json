@@ -135,6 +135,7 @@
   "buttons": {
     "makeOrder": "Оформити замовлення",
     "preOrder": "Передзамовлення",
+    "outOfStock": "Немає в наявності",
     "haveQuestions": "Залишилися запитання? Напишіть нам: ",
     "telegram": "t.me/kondor_device",
     "join": "Приєднатись",
@@ -304,6 +305,7 @@
     "new": "Новинки",
     "inStock": "Є в наявності",
     "preOrder": "Передзамовлення",
+    "outOfStock": "Немає в наявності",
     "sort": "Сортувати:",
     "sortingOptions": {
       "default": "за замовчуванням",

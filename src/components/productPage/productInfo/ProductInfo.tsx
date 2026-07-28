@@ -44,6 +44,7 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
     priceDiscount,
     preorder,
     preordertext,
+    outOfStock,
   } = product;
 
   const searchParams = useSearchParams();
@@ -88,6 +89,8 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
     !!priceDiscount && priceDiscount < price ? priceDiscount : price;
 
   const onAddToCart = () => {
+    if (outOfStock) return;
+
     addToCart({
       id,
       uniqueId: uuidv4(),
@@ -181,12 +184,17 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
                 {" "}
                 <Button
                   onClick={onAddToCart}
+                  disabled={outOfStock}
                   className="hidden tabxl:block w-full tab:w-[350px] desk:w-[437px] max-w-[327px] laptop:max-w-[350px] desk:max-w-[437px]"
                 >
-                  {preorder ? t("buttons.preOrder") : t("buttons.makeOrder")}
+                  {outOfStock
+                    ? t("buttons.outOfStock")
+                    : preorder
+                    ? t("buttons.preOrder")
+                    : t("buttons.makeOrder")}
                 </Button>
               </AnimationWrapper>
-              {preorder && preordertext ? (
+              {!outOfStock && preorder && preordertext ? (
                 <p className="absolute bottom-3 tabxl:bottom-4 px-4 deskxl:px-6 text-10med tabxl:text-14med text-white">
                   {preordertext}
                 </p>
@@ -231,8 +239,16 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
         </div>
       </section>
       <div className="fixed tabxl:hidden z-50 left-0 bottom-0 flex items-center justify-center w-full min-h-[88px] px-5 py-4 rounded-t-[12px] bg-white shadow-catalogCard">
-        <Button onClick={onAddToCart} className="w-full max-w-[437px]">
-          {preorder ? t("buttons.preOrder") : t("buttons.makeOrder")}
+        <Button
+          onClick={onAddToCart}
+          disabled={outOfStock}
+          className="w-full max-w-[437px]"
+        >
+          {outOfStock
+            ? t("buttons.outOfStock")
+            : preorder
+            ? t("buttons.preOrder")
+            : t("buttons.makeOrder")}
         </Button>
       </div>
     </>

@@ -2,24 +2,19 @@
 
 import axios from "axios";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+// Актуальний каталог товарів живе в Sanity (не в застарілому DatoCMS).
+const SANITY_PROJECT_ID = "qmszlzqu";
+const SANITY_DATASET = "production";
+const SANITY_API_VERSION = "2025-11-11";
 
-export const GET_ALL_PRODUCTS = `query GetAllProducts {
-  allItems {
-    slug
-  }
-}`;
+export const GET_ALL_PRODUCTS_QUERY = `*[_type == "item" && defined(slug)]{ slug }`;
 
-export async function getAllProducts(query, variables = {}) {
+export async function getAllProducts() {
   try {
     const response = await axios({
-      method: "post",
-      url: `${BASE_URL}api/datocms`,
-      data: {
-        query,
-        variables,
-        includeDrafts: false,
-      },
+      method: "get",
+      url: `https://${SANITY_PROJECT_ID}.apicdn.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}`,
+      params: { query: GET_ALL_PRODUCTS_QUERY },
     });
     return response.data;
   } catch (error) {
@@ -28,10 +23,12 @@ export async function getAllProducts(query, variables = {}) {
 }
 
 async function getDynamicPages() {
-  const res = await getAllProducts(GET_ALL_PRODUCTS);
+  const res = await getAllProducts();
 
-  const products = res?.data?.allItems || [];
-  const productsPages = products.map((product) => `/catalog/${product?.slug}`);
+  const products = res?.result || [];
+  const productsPages = products
+    .filter((product) => Boolean(product?.slug))
+    .map((product) => `/catalog/${product.slug}`);
 
   return productsPages;
 }
@@ -48,6 +45,11 @@ const sitemapConfig = {
     policies: [
       { userAgent: "*", allow: "/" },
       { userAgent: "*", disallow: "/api/*" },
+      // Товарні фіди (Meta/Facebook, Rozetka тощо) явно виключаємо з
+      // індексації пошуковиками окремим правилом для наочності — технічно
+      // вони й так покриваються "/api/*" вище, але Meta/Rozetka все одно
+      // ходять по прямому URL за розкладом, а не через сканування robots.txt.
+      { userAgent: "*", disallow: "/api/feed/*" },
     ],
   },
   alternateRefs: [

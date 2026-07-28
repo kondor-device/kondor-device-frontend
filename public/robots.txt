@@ -6,6 +6,10 @@ Allow: /
 User-agent: *
 Disallow: /api/*
 
+# *
+User-agent: *
+Disallow: /api/feed/*
+
 # Host
 Host: http://localhost:3000/
 

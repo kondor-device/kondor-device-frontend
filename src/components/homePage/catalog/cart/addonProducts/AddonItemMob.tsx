@@ -26,6 +26,7 @@ export default function AddonItemMob({
     price,
     preorder,
     preordertext,
+    outOfStock,
   } = addonItem;
 
   const actualPrice =
@@ -71,7 +72,11 @@ export default function AddonItemMob({
             className="w-full h-auto"
           />
         )}
-        <Counter cartItem={cartItem} className="max-w-[160px]" />
+        <Counter
+          cartItem={cartItem}
+          disabled={outOfStock}
+          className="max-w-[160px]"
+        />
       </div>
       <div className="flex flex-col justify-between mr-auto">
         <h3 className="text-10bold mob:text-12bold tab:text-14bold desk:text-18bold">
@@ -84,19 +89,27 @@ export default function AddonItemMob({
         </p>
       </div>
       <div className="flex items-end">
-        <p className="w-fit text-10med mob:text-12med desk:text-18med">
-          <span itemProp="price" content={actualPrice.toString()}>
-            {formatSum(actualPrice)}
-            {t("homePage.catalog.hrn")}
-          </span>
-          <meta itemProp="priceCurrency" content="UAH" />
-        </p>
-        {!!priceDiscount && priceDiscount < price ? (
-          <p className="w-fit ml-[5px] text-10med desk:text-12med text-grey line-through uppercase">
-            {formatSum(price)}
-            {t("homePage.catalog.hrn")}
+        {outOfStock ? (
+          <p className="w-fit text-10med mob:text-12med desk:text-18med text-grey uppercase">
+            {t("buttons.outOfStock")}
           </p>
-        ) : null}
+        ) : (
+          <>
+            <p className="w-fit text-10med mob:text-12med desk:text-18med">
+              <span itemProp="price" content={actualPrice.toString()}>
+                {formatSum(actualPrice)}
+                {t("homePage.catalog.hrn")}
+              </span>
+              <meta itemProp="priceCurrency" content="UAH" />
+            </p>
+            {!!priceDiscount && priceDiscount < price ? (
+              <p className="w-fit ml-[5px] text-10med desk:text-12med text-grey line-through uppercase">
+                {formatSum(price)}
+                {t("homePage.catalog.hrn")}
+              </p>
+            ) : null}
+          </>
+        )}
       </div>
     </div>
   );

@@ -22,6 +22,7 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
     price,
     preorder,
     preordertext,
+    outOfStock,
   } = addonItem;
 
   const actualPrice =
@@ -77,22 +78,31 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
         </p>
       </div>
       <div className="flex flex-col laptop:selection:gap-y-[10px] mr-auto">
-        <p className="w-fit laptop:text-14med deskxl:text-20med">
-          <span itemProp="price" content={actualPrice.toString()}>
-            {formatSum(actualPrice)}
-            {t("homePage.catalog.hrn")}
-          </span>
-          <meta itemProp="priceCurrency" content="UAH" />
-        </p>
-        {!!priceDiscount && priceDiscount < price ? (
-          <p className="w-fit laptop:text-12med deskxl:text-16med text-grey line-through uppercase">
-            {formatSum(price)}
-            {t("homePage.catalog.hrn")}
+        {outOfStock ? (
+          <p className="w-fit laptop:text-12med deskxl:text-16med text-grey uppercase">
+            {t("buttons.outOfStock")}
           </p>
-        ) : null}
+        ) : (
+          <>
+            <p className="w-fit laptop:text-14med deskxl:text-20med">
+              <span itemProp="price" content={actualPrice.toString()}>
+                {formatSum(actualPrice)}
+                {t("homePage.catalog.hrn")}
+              </span>
+              <meta itemProp="priceCurrency" content="UAH" />
+            </p>
+            {!!priceDiscount && priceDiscount < price ? (
+              <p className="w-fit laptop:text-12med deskxl:text-16med text-grey line-through uppercase">
+                {formatSum(price)}
+                {t("homePage.catalog.hrn")}
+              </p>
+            ) : null}
+          </>
+        )}
       </div>
       <Counter
         cartItem={cartItem}
+        disabled={outOfStock}
         className="laptop:w-[94px] deskxl:w-[164px]"
       />
     </li>
