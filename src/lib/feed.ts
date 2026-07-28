@@ -6,7 +6,8 @@ import { GET_FEED_PRODUCTS_QUERY } from "@/lib/queries";
 //  1) не дублювати код формування id/посилань між роутами;
 //  2) гарантувати, що ID товару та посилання на картку в РІЗНИХ фідах
 //     завжди байтово збігаються (це важливо, зокрема, якщо в майбутньому
-//     Facebook Pixel буде передавати content_ids за тим самим id).
+//     Facebook Pixel буде передавати content_ids за тим самим id — див.
+//     buildVariantId нижче).
 
 export const BRAND = "Kondor";
 export const CURRENCY = "UAH";
@@ -135,13 +136,20 @@ export function buildLink(baseUrl: string, slug: string, color: string): string 
   return url.toString();
 }
 
-// Сирий SKU (colorOption.code) не гарантовано унікальний глобально по
-// всьому каталогу (в кількох товарах трапляються однакові коди кольорів),
-// тож формуємо гарантовано унікальний id як "<idТовару>-<code>".
-// trim() — у частині товарів код/колір в Sanity введено з зайвим пробілом.
-export function buildVariantId(product: FeedProduct, colorOption: FeedColorOption): string {
-  const code = colorOption.code?.trim() || "0";
-  return `${product.id}-${code}`;
+// id товару в фіді = сирий SKU (colorOption.code), БЕЗ префікса з id товару
+// в Sanity. Клієнт підтвердив, що коди кольорів унікальні по всьому
+// каталогу (раніше траплялись дублі — станом на зараз прибрані, перевірено
+// напряму по даних). trim() — у частині товарів код в Sanity введено з
+// зайвим пробілом.
+//
+// ВАЖЛИВО: якщо в майбутньому в каталог знову потрапить дубльований код
+// (наприклад, при копіюванні товару в адмінці без зміни SKU), два різних
+// товари в фіді отримають однаковий id — Meta/Rozetka сприймуть другий як
+// оновлення першого замість окремого товару. Оскільки унікальність коду
+// більше не гарантується на рівні коду фіда, її потрібно підтримувати
+// дисципліною в адмінці (унікальний SKU на кожен колірний варіант).
+export function buildVariantId(colorOption: FeedColorOption): string {
+  return colorOption.code?.trim() || "";
 }
 
 export function getVariantColor(colorOption: FeedColorOption): string {

@@ -30,9 +30,10 @@ const FALLBACK_CATEGORY_ID = "uncategorized";
 const FALLBACK_CATEGORY_NAME = "Інше";
 
 // Rozetka: id товарної пропозиції — тільки Aa-Zz, 0-9, дефіс; без кирилиці
-// та пробілів (вимога з офіційної документації Rozetka). Наші id (Sanity
-// _id + код кольору) вже відповідають цій вимозі, санітизація — про всяк
-// випадок, щоб побитий/нетиповий код не зламав валідацію фіда.
+// та пробілів (вимога з офіційної документації Rozetka). Наш id (сирий SKU
+// кольору з Sanity) в теорії вже відповідає цій вимозі, санітизація —
+// про всяк випадок, щоб побитий/нетиповий код (наприклад, із зайвим
+// пробілом чи символом) не зламав валідацію фіда.
 function sanitizeId(value: string): string {
   return value
     .replace(/[^A-Za-z0-9-]/g, "-")
@@ -76,7 +77,7 @@ function buildOfferXml(
 
   const color = getVariantColor(colorOption);
   const code = getVariantCode(colorOption);
-  const id = sanitizeId(buildVariantId(product, colorOption));
+  const id = sanitizeId(buildVariantId(colorOption));
   const title = escapeXml(buildTitle(product, color, hasVariants));
   const description = toCdata(toPlainDescription(product.description) || title);
 

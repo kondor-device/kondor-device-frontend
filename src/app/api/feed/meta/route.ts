@@ -40,7 +40,7 @@ function buildItemXml(
   if (!mainPhoto?.url) return null;
 
   const color = getVariantColor(colorOption);
-  const id = buildVariantId(product, colorOption);
+  const id = buildVariantId(colorOption);
   const title = buildTitle(product, color, hasVariants);
   const description = toPlainDescription(product.description) || title;
   const availability = buildAvailability(product);
