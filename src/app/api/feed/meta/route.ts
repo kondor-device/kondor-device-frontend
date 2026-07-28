@@ -5,6 +5,7 @@ import {
   FeedColorOption,
   FeedProduct,
   buildAvailability,
+  buildBaseTitleCounts,
   buildLink,
   buildTitle,
   buildVariantId,
@@ -12,6 +13,7 @@ import {
   fetchFeedProducts,
   getBaseUrl,
   getVariantColor,
+  resolveHasVariants,
   toPlainDescription,
 } from "@/lib/feed";
 
@@ -75,11 +77,12 @@ function buildItemXml(
 
 function buildFeedXml(products: FeedProduct[], baseUrl: string): string {
   const feedUrl = new URL("api/feed/meta", baseUrl).toString();
+  const baseTitleCounts = buildBaseTitleCounts(products);
 
   const items = products
     .flatMap((product) => {
       const coloropts = product.coloropts ?? [];
-      const hasVariants = coloropts.length > 1;
+      const hasVariants = resolveHasVariants(product, baseTitleCounts);
       return coloropts.map((colorOption) =>
         buildItemXml(product, colorOption, baseUrl, hasVariants)
       );

@@ -4,6 +4,7 @@ import {
   CURRENCY,
   FeedColorOption,
   FeedProduct,
+  buildBaseTitleCounts,
   buildLink,
   buildTitle,
   buildVariantId,
@@ -12,6 +13,7 @@ import {
   getBaseUrl,
   getVariantCode,
   getVariantColor,
+  resolveHasVariants,
   toPlainDescription,
 } from "@/lib/feed";
 
@@ -122,13 +124,14 @@ function buildOfferXml(
 function buildFeedXml(products: FeedProduct[], baseUrl: string): string {
   const categoriesById = new Map<string, string>();
   const offers: string[] = [];
+  const baseTitleCounts = buildBaseTitleCounts(products);
 
   for (const product of products) {
     const category = resolveCategory(product);
     categoriesById.set(category.id, category.name);
 
     const coloropts = product.coloropts ?? [];
-    const hasVariants = coloropts.length > 1;
+    const hasVariants = resolveHasVariants(product, baseTitleCounts);
 
     for (const colorOption of coloropts) {
       const offer = buildOfferXml(product, colorOption, baseUrl, hasVariants, category);

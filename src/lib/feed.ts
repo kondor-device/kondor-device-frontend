@@ -85,6 +85,42 @@ export function buildTitle(
   return hasVariants ? `${base}, колір: ${color}` : base;
 }
 
+export function buildBaseTitle(product: FeedProduct): string {
+  return normalizeSpaces(`${product.generalname} ${product.name}`);
+}
+
+// Зазвичай кілька кольорів одного товару зберігаються як кілька елементів
+// масиву "coloropts" в ОДНОМУ документі Sanity — тоді ознака "hasVariants"
+// визначається просто (coloropts.length > 1).
+//
+// Але трапляються товари, де кожен колір заведено ОКРЕМИМ документом
+// (наприклад Kondor Moonlight X: три документи по одному варіанту кожен,
+// з однаковою generalname+name). У такому випадку без додаткової перевірки
+// назва товару в фіді була б однаковою для кількох різних SKU, що ламає
+// вимогу унікальності назв (зокрема в Rozetka YML).
+//
+// Тому для кожного товару "hasVariants" рахуємо як
+// (варіантів у самому документі > 1) ОБО (інших товарів з такою ж базовою
+// назвою в каталозі > 1) — і в обох випадках додаємо ", колір: ...".
+export function buildBaseTitleCounts(products: FeedProduct[]): Map<string, number> {
+  const counts = new Map<string, number>();
+  for (const product of products) {
+    const base = buildBaseTitle(product);
+    counts.set(base, (counts.get(base) ?? 0) + 1);
+  }
+  return counts;
+}
+
+export function resolveHasVariants(
+  product: FeedProduct,
+  baseTitleCounts: Map<string, number>
+): boolean {
+  const coloropts = product.coloropts ?? [];
+  if (coloropts.length > 1) return true;
+  const base = buildBaseTitle(product);
+  return (baseTitleCounts.get(base) ?? 0) > 1;
+}
+
 export function buildAvailability(
   product: FeedProduct
 ): "out of stock" | "preorder" | "in stock" {
