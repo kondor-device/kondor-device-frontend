@@ -29,7 +29,7 @@ interface SanityWebhookPayload {
   slug?: string;
 }
 
-const REVALIDATED_PATHS = ["/api/feed/meta"];
+const REVALIDATED_PATHS = ["/api/feed/meta", "/api/feed/rozetka"];
 
 function revalidateFeeds() {
   REVALIDATED_PATHS.forEach((path) => revalidatePath(path));
