@@ -228,6 +228,15 @@ export const handleSubmitForm = async <T>(
       order_number: orderNumber,
       value: totalSum,
       currency: "UAH",
+      // Список товарів для повноцінної ecommerce-структури (ціна/кількість
+      // по кожній позиції) — потрібно для коректного ROAS і аналітики.
+      items: updatedCartItems.map((item) => ({
+        item_id: item.code || item.id,
+        item_name: `${item.generalName} ${item.name}`.trim(),
+        item_variant: item.color,
+        price: item.actualPrice,
+        quantity: item.quantity,
+      })),
     });
 
     await axios({
