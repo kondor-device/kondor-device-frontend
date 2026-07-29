@@ -159,3 +159,26 @@ export function getVariantColor(colorOption: FeedColorOption): string {
 export function getVariantCode(colorOption: FeedColorOption): string {
   return colorOption.code?.trim() || "";
 }
+
+// Sanity CDN віддає "сирий" asset->url з content negotiation за заголовком
+// Accept запиту: той самий URL (навіть якщо він сам закінчується на ".webp"
+// чи ".png") може повернути або PNG, або WebP залежно від того, що просить
+// клієнт. Браузери й частина ботів (у т.ч., судячи з усього, краулер Meta
+// Commerce Manager) шлють Accept з "image/webp" — і тоді CDN реально віддає
+// WebP, який Meta відхиляє як невалідний формат картинки для фіда
+// ("Зображення повинні мати формат JPEG або PNG"), хоча сам файл коректний.
+//
+// Фікс: явно форсуємо формат через Sanity Image API параметр "fm" — це
+// override, який ігнорує Accept-negotiation і завжди повертає вказаний
+// формат незалежно від того, хто (і з якими заголовками) робить запит.
+// Обираємо jpg (а не png) — він менший за розміром і прийнятний для Meta
+// та Rozetka однаково.
+export function toFeedImageUrl(url: string): string {
+  try {
+    const u = new URL(url);
+    u.searchParams.set("fm", "jpg");
+    return u.toString();
+  } catch {
+    return url;
+  }
+}

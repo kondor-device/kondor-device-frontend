@@ -14,6 +14,7 @@ import {
   getVariantCode,
   getVariantColor,
   resolveHasVariants,
+  toFeedImageUrl,
   toPlainDescription,
 } from "@/lib/feed";
 
@@ -105,7 +106,7 @@ function buildOfferXml(
     `<categoryId>${escapeXml(category.id)}</categoryId>`,
     ...photos
       .slice(0, 15)
-      .map((photo) => `<picture>${escapeXml(photo.url)}</picture>`),
+      .map((photo) => `<picture>${escapeXml(toFeedImageUrl(photo.url))}</picture>`),
     `<vendor>${escapeXml(BRAND)}</vendor>`,
     ...(code ? [`<article>${escapeXml(code)}</article>`] : []),
     `<stock_quantity>${stockQuantity}</stock_quantity>`,

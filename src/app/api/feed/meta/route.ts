@@ -14,6 +14,7 @@ import {
   getBaseUrl,
   getVariantColor,
   resolveHasVariants,
+  toFeedImageUrl,
   toPlainDescription,
 } from "@/lib/feed";
 
@@ -55,10 +56,13 @@ function buildItemXml(
     `<g:title>${escapeXml(title)}</g:title>`,
     `<g:description>${escapeXml(description)}</g:description>`,
     `<g:link>${escapeXml(buildLink(baseUrl, product.slug, color))}</g:link>`,
-    `<g:image_link>${escapeXml(mainPhoto.url)}</g:image_link>`,
+    `<g:image_link>${escapeXml(toFeedImageUrl(mainPhoto.url))}</g:image_link>`,
     ...restPhotos
       .slice(0, 19)
-      .map((photo) => `<additional_image_link>${escapeXml(photo.url)}</additional_image_link>`),
+      .map(
+        (photo) =>
+          `<additional_image_link>${escapeXml(toFeedImageUrl(photo.url))}</additional_image_link>`
+      ),
     `<color>${escapeXml(color)}</color>`,
     ...(product.cat?.name
       ? [`<product_type>${escapeXml(product.cat.name)}</product_type>`]
