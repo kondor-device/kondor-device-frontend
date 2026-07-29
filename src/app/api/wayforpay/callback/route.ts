@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import axios from "axios";
+import { markKeyCrmOrderAsPaid } from "@/utils/markKeyCrmOrderAsPaid";
 
 const MERCHANT_SECRET_KEY = process.env.MERCHANT_SECRET_KEY;
 
@@ -60,6 +61,10 @@ export async function POST(req: NextRequest) {
           "Content-Type": "application/json",
         },
       });
+
+      // Позначаємо замовлення в KeyCRM як оплачене. Помилка тут не повинна
+      // зривати відповідь Wayforpay, тому не кидаємо виняток далі.
+      await markKeyCrmOrderAsPaid(orderReference);
     } else {
       orderStatus = "decline";
     }
