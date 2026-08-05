@@ -24,8 +24,8 @@ https://www.kondor.ua/api/feed/meta
 | `g:title` | `generalname + name` (+ `, колір: ...`, якщо у товару кілька варіантів) |
 | `g:description` | поле `description`, з очищенням від авторської markdown-розмітки (`* `, `**bold**`) |
 | `g:link` | `https://www.kondor.ua/catalog/{slug}?color={колір}` |
-| `g:image_link` / `additional_image_link` | фото кольорового варіанта (Sanity CDN), з явним `?fm=jpg` (див. застереження нижче) |
-| `color`, `product_type` | колір варіанта, назва категорії |
+| `g:image_link` / `g:additional_image_link` | фото кольорового варіанта (Sanity CDN), з явним `?fm=jpg` (див. застереження нижче) |
+| `g:color`, `g:product_type` | колір варіанта, назва категорії |
 | `g:brand` | `"Kondor"` (константа) |
 | `g:condition` | `"new"` (константа) |
 | `g:availability` | `outOfStock` → `out of stock`; `preorder` → `preorder`; інакше → `in stock` |

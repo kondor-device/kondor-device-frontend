@@ -61,11 +61,11 @@ function buildItemXml(
       .slice(0, 19)
       .map(
         (photo) =>
-          `<additional_image_link>${escapeXml(toFeedImageUrl(photo.url))}</additional_image_link>`
+          `<g:additional_image_link>${escapeXml(toFeedImageUrl(photo.url))}</g:additional_image_link>`
       ),
-    `<color>${escapeXml(color)}</color>`,
+    `<g:color>${escapeXml(color)}</g:color>`,
     ...(product.cat?.name
-      ? [`<product_type>${escapeXml(product.cat.name)}</product_type>`]
+      ? [`<g:product_type>${escapeXml(product.cat.name)}</g:product_type>`]
       : []),
     `<g:brand>${escapeXml(BRAND)}</g:brand>`,
     `<g:condition>new</g:condition>`,
