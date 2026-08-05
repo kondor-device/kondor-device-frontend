@@ -70,8 +70,8 @@ export default async function LocaleLayout({
           content="PF3UWCHQJTaiK4kBuPmhHe3Q1cmpEV3lc2OgQhWMx2E"
         />
         <meta
-          name="facebook-domain-verification"
-          content="3i6g61dxa9x0wal6ouk1yhqqi3mft0"
+          name="google-site-verification"
+          content="s43RG0W3LUO7omqeGQND7_Chus6gpjZZRK9V5N6dzQM"
         />
       </head>
       <body
