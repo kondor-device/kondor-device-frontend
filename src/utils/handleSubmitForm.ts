@@ -237,6 +237,16 @@ export const handleSubmitForm = async <T>(
         price: item.actualPrice,
         quantity: item.quantity,
       })),
+      // Дані покупця для Manual Advanced Matching в Meta Pixel/CAPI — сирі
+      // (нехешовані) значення, хешування бере на себе fbq()/тег в GTM.
+      // На попередніх подіях (add_to_cart/start_checkout) цих даних ще
+      // немає: користувач заповнює форму замовлення тільки на цьому кроці.
+      user_data: {
+        phone: values.phone.replace(/[^\d+]/g, ""),
+        first_name: values.name.trim(),
+        last_name: values.surname.trim(),
+        city: values.city.trim(),
+      },
     });
 
     await axios({
