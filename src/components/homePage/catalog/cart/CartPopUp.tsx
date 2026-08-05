@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import { useModalStore } from "@/store/modalStore";
 import CheckoutPopUp from "../checkout/CheckoutPopUp";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { useCartStore } from "@/store/cartStore";
 
 interface CartPopUpProps {
   shownOnAddonsProducts: ProductItem[];
@@ -20,6 +21,7 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
   const openModal = useModalStore((state) => state.openModal);
   const { closeModal } = useModalStore();
   const { activeModal } = useModalStore((state) => state);
+  const { cartItems, getTotalAmount } = useCartStore();
 
   if (activeModal.name !== "cartPopUp") {
     return null;
@@ -36,7 +38,21 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
     if (modalContainer) {
       modalContainer.scrollTop = 0;
     }
-    sendGTMEvent({ event: "start_checkout" });
+    // value/currency/items потрібні для InitiateCheckout в Meta Pixel/CAPI
+    // (тег в GTM читає ці поля з dataLayer) — раніше подія йшла зовсім без
+    // них, тому Meta бачив 100% InitiateCheckout без ціни.
+    sendGTMEvent({
+      event: "start_checkout",
+      value: getTotalAmount(),
+      currency: "UAH",
+      items: cartItems.map((item) => ({
+        item_id: item.code || item.id,
+        item_name: `${item.generalName} ${item.name}`.trim(),
+        item_variant: item.color,
+        price: item.actualPrice,
+        quantity: item.quantity,
+      })),
+    });
   };
 
   return (

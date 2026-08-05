@@ -84,7 +84,20 @@ export default function ProductCard({
       <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />,
       "desk:max-w-[950px] desk:w-[950px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
     );
-    sendGTMEvent({ event: "add_to_cart" });
+    sendGTMEvent({
+      event: "add_to_cart",
+      value: actualPrice,
+      currency: "UAH",
+      items: [
+        {
+          item_id: coloropts[selectedColorIndex]?.code || id,
+          item_name: `${generalname} ${name}`.trim(),
+          item_variant: coloropts[selectedColorIndex]?.color,
+          price: actualPrice,
+          quantity: 1,
+        },
+      ],
+    });
   };
 
   return (
