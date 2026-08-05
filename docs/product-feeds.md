@@ -1,4 +1,4 @@
-# Товарні фіди (Meta Catalog / Rozetka)
+# Товарні фіди (Meta Catalog / Rozetka / Google Merchant)
 
 ## Meta / Facebook Catalog
 
@@ -119,3 +119,50 @@ https://www.kondor.ua/api/feed/rozetka
 2. Вказати URL: `https://www.kondor.ua/api/feed/rozetka`, оновлення — раз на добу (або частіше, якщо дозволяє тариф).
 3. Прогнати через **Валідатор** у кабінеті — виправити зауваження, якщо будуть.
 4. Дочекатись підтвердження модерації менеджером Rozetka (стандартна процедура для нових товарів/категорій).
+
+## Google Merchant Center
+
+### URL фіда
+
+```
+https://www.kondor.ua/api/feed/google
+```
+
+(локально під час розробки: `http://localhost:3000/api/feed/google`)
+
+- Формат: той самий RSS 2.0 + `xmlns:g="http://base.google.com/ns/1.0"`, що й у Meta-фіда — це офіційний формат самого Google Merchant Center (`g:`-namespace вигаданий саме Google, Meta лише перевикористала його для сумісності).
+- Один `<item>` на кожен **колірний варіант** товару; варіанти одного товару об'єднані через `g:item_group_id` (= Sanity `_id` товару) — так само, як у Meta.
+- `Content-Type: application/xml; charset=utf-8`.
+- Джерело даних, id/link/кешування — той самий `src/lib/feed.ts` і `GET_FEED_PRODUCTS_QUERY`, тому `g:id`/`g:link` **байтово ідентичні** значенням у Meta-фіді.
+
+### Чим відрізняється від Meta-фіда
+
+| Відмінність | Причина |
+|---|---|
+| `g:additional_image_link` — до **10** штук (у Meta — до 20) | офіційний ліміт Google Merchant на кількість додаткових зображень |
+| Додано `<g:identifier_exists>no</g:identifier_exists>` для кожного офера | у Sanity немає полів GTIN/MPN; без цього тега Google Merchant відхиляє товар як такий, що має бракуючий унікальний ідентифікатор |
+| Порядок `g:id` / `g:item_group_id` | у специфікації Google `id` йде першим полем офера (косметична відмінність, на валідацію не впливає) |
+
+Решта полів (`g:title`, `g:description`, `g:price`/`g:sale_price`, `g:availability`, `g:color`, `g:product_type`, `g:brand`, `g:condition`) мапляться так само, як описано в таблиці для Meta вище.
+
+### Кешування й оновлення
+
+Так само, як у Meta та Rozetka: `dynamic = "force-static"` + `revalidate = 3600` в `src/app/api/feed/google/route.ts`; дострокове оновлення — через `POST /api/revalidate` (вебхук ревалідує всі три фіди одним запитом, див. `src/app/api/revalidate/route.ts`).
+
+### Підключення в Google Merchant Center (виконати вручну, потрібен акаунт Merchant Center)
+
+1. [merchants.google.com](https://merchants.google.com/) → **Товари → Фіди → "+" (додати фід)**.
+2. Країна продажу — **Україна**, мова — українська.
+3. Спосіб отримання даних — **Заплановане отримання (Scheduled fetch)**.
+4. Назва фіда — довільна (наприклад "Kondor — основний фід"), URL: `https://www.kondor.ua/api/feed/google`.
+5. Частота отримання — раз на добу (Google частіше і так не тягне).
+6. Зберегти й запустити отримання вручну ("Fetch now" / "Отримати зараз").
+7. Перевірити вкладку **Diagnostics** — там будуть змістовні помилки/попередження по конкретних товарах (невідповідність `google_product_category`, якість зображень тощо), недоступні без реального акаунта.
+
+> Я не маю доступу до вашого Google Merchant Center, тому фактичне підключення й перегляд Diagnostics потрібно зробити вручну.
+
+### Що варто розглянути додатково (не зроблено зараз)
+
+- **`g:google_product_category`** — числовий/текстовий ідентифікатор з [офіційної таксономії Google](https://support.google.com/merchants/answer/6324436). Наразі не проставлено (немає мапінгу категорій Sanity → таксономія Google) — Google визначить категорію автоматично за `title`/`description`/`product_type`, але точність підвищиться, якщо промапити вручну.
+- **GTIN/MPN** — якщо в майбутньому в Sanity з'являться штрихкоди товарів, варто додати їх у фід і прибрати `identifier_exists=no` — це підвищує довіру алгоритмів Google Shopping до офера.
+- **Доставка (`g:shipping`)** — не передається у фіді; вартість/умови доставки налаштовуються окремо в самому Merchant Center (розділ "Доставка і повернення").
