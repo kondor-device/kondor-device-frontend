@@ -17,6 +17,7 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import Video from "./Video";
 import AnimationWrapper from "@/components/homePage/hero/AnimationWrapper";
 import { useScreenWidth } from "@/hooks/useScreenWidth";
+import { useVisualViewportOffset } from "@/hooks/useVisualViewportOffset";
 import { useSearchParams } from "next/navigation";
 
 interface ProductInfoProps {
@@ -62,6 +63,8 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
 
   const screenWidth = useScreenWidth();
   const isDesktop = screenWidth >= 1024 ? true : false;
+
+  const bottomBarOffset = useVisualViewportOffset();
 
   const { photos } = coloropts[selectedColorIndex];
 
@@ -251,7 +254,10 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
           </div>
         </div>
       </section>
-      <div className="fixed tabxl:hidden z-50 left-0 bottom-0 flex items-center justify-center w-full min-h-[88px] px-5 py-4 rounded-t-[12px] bg-white shadow-catalogCard">
+      <div
+        className="fixed tabxl:hidden z-50 left-0 bottom-0 flex items-center justify-center w-full min-h-[88px] px-5 py-4 pb-[calc(16px+env(safe-area-inset-bottom))] rounded-t-[12px] bg-white shadow-catalogCard"
+        style={{ transform: `translateY(-${bottomBarOffset}px)` }}
+      >
         <Button
           onClick={onAddToCart}
           disabled={outOfStock}
