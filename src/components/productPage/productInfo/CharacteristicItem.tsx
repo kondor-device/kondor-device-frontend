@@ -12,7 +12,7 @@ export default function CharacteristicItem({
 
   return (
     <li
-      className="relative laptop:flex w-fit even:py-1 even:before:content-[''] before:absolute before:top-0 before:-left-5 tab:before:-left-3 before:right-0 before:-z-10  
+      className="relative laptop:flex w-full max-w-full even:py-1 even:before:content-[''] before:absolute before:top-0 before:-left-5 tab:before:-left-3 before:right-0 before:-z-10  
         before:h-full before:w-[calc(100%+32px)] tab:before:w-[calc(100%+24px)] even:before:bg-yellowGradient before:rounded-r-[10px] tab:before:rounded-[10px]"
     >
       <h3 className="laptop:w-[200px] text-14med laptop:text-18med">{name}:</h3>

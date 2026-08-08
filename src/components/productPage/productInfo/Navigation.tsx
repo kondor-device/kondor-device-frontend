@@ -71,7 +71,8 @@ export default function Navigation({ product }: NavigationProps) {
     };
   }, [navigationList, selected]);
 
-  // Автоскрол табів
+  // Автоскрол лише всередині рядка табів — без scrollIntoView,
+  // бо він на iOS зсуває всю сторінку по горизонталі.
   useEffect(() => {
     const tabList = tabListRef.current;
     if (!tabList) return;
@@ -79,13 +80,17 @@ export default function Navigation({ product }: NavigationProps) {
     const activeTab = tabList.querySelector<HTMLElement>(
       '[role="tab"][aria-selected="true"]'
     );
-    if (activeTab) {
-      activeTab.scrollIntoView({
-        behavior: "smooth",
-        inline: "center",
-        block: "nearest",
-      });
-    }
+    if (!activeTab) return;
+
+    const nextLeft =
+      activeTab.offsetLeft -
+      tabList.clientWidth / 2 +
+      activeTab.clientWidth / 2;
+
+    tabList.scrollTo({
+      left: Math.max(0, nextLeft),
+      behavior: "smooth",
+    });
   }, [selected]);
 
   return (

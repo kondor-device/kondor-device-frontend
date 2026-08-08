@@ -80,7 +80,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const similarProducts = findCategoryBySlug(res?.data?.allCategories, product);
 
   return (
-    <div className="pt-[60px] tabxl:pt-[113px] pb-8 tabxl:pb-[88px]">
+    <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
       <Suspense fallback={<Loader />}>
         <ProductInfo
           product={res?.data?.allItems[0]}

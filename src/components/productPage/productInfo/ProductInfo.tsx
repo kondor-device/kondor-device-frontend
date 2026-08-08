@@ -142,8 +142,8 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
               <AnimationWrapper
                 sectionId={SECTION_ID}
                 commonStyles={`transition duration-700 ease-slow `}
-                visibleStyles="opacity-100 translate-x-0"
-                unVisibleStyles="opacity-0 translate-x-[50px]"
+                visibleStyles="opacity-100 translate-y-0"
+                unVisibleStyles="opacity-0 translate-y-[24px]"
               >
                 <h1 className="flex flex-wrap gap-x-2 items-center mb-5 desk:mb-9 text-[24px] font-medium leading-[110%] desk:text-[45px]">
                   <span>{generalname}</span>
@@ -224,8 +224,8 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
                   <AnimationWrapper
                     sectionId={DESCRIPTION_ID}
                     commonStyles={`transition duration-700 ease-slow`}
-                    visibleStyles="opacity-100 translate-x-0"
-                    unVisibleStyles="opacity-0 -translate-x-[50px]"
+                    visibleStyles="opacity-100 translate-y-0"
+                    unVisibleStyles="opacity-0 translate-y-[24px]"
                   >
                     {" "}
                     <p className="mb-5 text-14bold desk:text-24bold">
@@ -251,7 +251,7 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
           </div>
         </div>
       </section>
-      <div className="fixed tabxl:hidden z-50 left-0 bottom-0 flex items-center justify-center w-full min-h-[88px] px-5 py-4 rounded-t-[12px] bg-white shadow-catalogCard">
+      <div className="fixed tabxl:hidden z-50 left-0 bottom-0 flex items-center justify-center w-full min-h-[88px] px-5 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] rounded-t-[12px] bg-white shadow-catalogCard">
         <Button
           onClick={onAddToCart}
           disabled={outOfStock}

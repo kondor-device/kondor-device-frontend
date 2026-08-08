@@ -14,8 +14,12 @@
   scrollbar-gutter: stable;
 }
 
+html {
+  overflow-x: clip;
+}
+
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
   color: var(--dark);
   background: var(--white);
   font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;

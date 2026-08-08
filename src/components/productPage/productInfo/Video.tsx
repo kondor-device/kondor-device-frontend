@@ -30,8 +30,8 @@ export default function Video({ video, className = "" }: VideoProps) {
           <AnimationWrapper
             sectionId={VIDEO_ID}
             commonStyles={`transition duration-700 ease-slow `}
-            visibleStyles="opacity-100 translate-x-0"
-            unVisibleStyles="opacity-0 -translate-x-[50px]"
+            visibleStyles="opacity-100 translate-y-0"
+            unVisibleStyles="opacity-0 translate-y-[24px]"
           >
             <h3 className="mb-5 text-14bold desk:text-24bold">
               {t("productPage.see")}
