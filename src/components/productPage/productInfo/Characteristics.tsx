@@ -19,14 +19,14 @@ export default function Characteristics({
   return (
     <div
       id={CHAR_ID}
-      className="relative -z-20 mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px] scroll-mt-[142px] tabxl:scroll-mt-[173px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard"
+      className="relative -z-20 mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px] scroll-mt-[142px] tabxl:scroll-mt-[173px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard overflow-x-clip"
     >
       {" "}
       <AnimationWrapper
         sectionId={CHAR_ID}
         commonStyles={`transition duration-700 ease-slow `}
-        visibleStyles="opacity-100 translate-x-0"
-        unVisibleStyles="opacity-0 -translate-x-[50px]"
+        visibleStyles="opacity-100 translate-y-0"
+        unVisibleStyles="opacity-0 translate-y-[24px]"
       >
         <PopUpTitle>{t("homePage.catalog.generalCharacteristics")}</PopUpTitle>
       </AnimationWrapper>

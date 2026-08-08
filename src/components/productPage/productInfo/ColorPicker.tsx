@@ -26,7 +26,6 @@ export default function ColorPicker({
       unVisibleStyles="opacity-0 translate-y-[50px]"
     >
       <div
-        id={SECTION_ID}
         className="mb-5 desk:mb-9 text-16bold desk:text-18bold"
       >
         Колір:{" "}

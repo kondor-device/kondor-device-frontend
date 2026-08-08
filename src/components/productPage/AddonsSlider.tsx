@@ -44,8 +44,8 @@ export default function AddonsSlider({ addons }: AddonsSliderMobProps) {
       <AnimationWrapper
         sectionId={SECTION_ID}
         commonStyles={`transition duration-700 ease-slow `}
-        visibleStyles="opacity-100 translate-x-0"
-        unVisibleStyles="opacity-0 -translate-x-[50px]"
+        visibleStyles="opacity-100 translate-y-0"
+        unVisibleStyles="opacity-0 translate-y-[24px]"
       >
         <h2 className="mb-[30px] desk:mb-[60px] text-[22px] desk:text-[36px] font-bold leading-[120%]">
           {t("addons")}

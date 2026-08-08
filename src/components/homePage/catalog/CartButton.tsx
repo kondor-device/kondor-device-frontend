@@ -17,7 +17,7 @@ export default function CartButton({ shownOnAddonsProducts }: CartButtonProps) {
   const { openModal } = useModalStore();
 
   const pathname = usePathname();
-  const isCatalogPage = /^\/catalog\/[^/]+$/.test(pathname);
+  const isProductPage = /^\/catalog\/[^/]+$/.test(pathname);
 
   return (
     <>
@@ -32,7 +32,9 @@ export default function CartButton({ shownOnAddonsProducts }: CartButtonProps) {
           }
           data-label={cartItems.length.toString()}
           className={`block fixed z-[5] right-6 size-14 laptop:size-[70px] bg-yellow rounded-[10px] shadow-cartButton ${
-            isCatalogPage ? "bottom-24 tabxl:bottom-6" : "bottom-6"
+            isProductPage
+              ? "bottom-[calc(6rem+env(safe-area-inset-bottom,0px))] tabxl:bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))]"
+              : "bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))]"
           }`}
         >
           <>

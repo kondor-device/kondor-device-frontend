@@ -13,7 +13,7 @@ export default function ComplectationItem({
 
   return (
     <li
-      className="relative flex items-center gap-x-5 w-fit even:py-1 even:before:content-[''] before:absolute before:top-0 before:-left-5 
+      className="relative flex items-center gap-x-5 w-full max-w-full even:py-1 even:before:content-[''] before:absolute before:top-0 before:-left-5 
       tab:before:-left-3 before:-z-10 before:w-[calc(100%+32px)] tab:before:w-[calc(100%+24px)]
         before:h-full even:before:bg-yellowGradient before:rounded-r-[10px] tab:before:rounded-[10px]"
     >

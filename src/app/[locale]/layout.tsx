@@ -30,6 +30,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  // Needed for env(safe-area-inset-*) on iPhone (home indicator / notches)
+  viewportFit: "cover",
 };
 
 const montserrat = Montserrat({
