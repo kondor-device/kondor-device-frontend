@@ -9,6 +9,7 @@ export async function sendDataToKeyCrm(data: OrderData) {
 
   const {
     orderDate,
+    orderedAtIso,
     orderNumber,
     name,
     surname,
@@ -31,7 +32,8 @@ export async function sendDataToKeyCrm(data: OrderData) {
   const crmOrderData = {
     source_id: 2,
     source_uuid: orderNumber,
-    orderedAt: orderDate,
+    // KeyCRM очікує UTC; локальний uk-рядок ігнорувався / підмінявся now.
+    orderedAt: orderedAtIso || orderDate,
     promocode,
     buyer: { full_name: `${name} ${surname}`, phone },
     shipping: {

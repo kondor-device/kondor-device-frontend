@@ -49,8 +49,10 @@ export async function markKeyCrmOrderAsPaid(orderReference: string) {
     const order = data?.data?.[0];
 
     if (!order) {
+      // Типовий наслідок гонки: клієнт оплатив до створення замовлення в CRM
+      // (або створення впало після Telegram). Без замовлення mark-as-paid неможливий.
       console.error(
-        `Не вдалося знайти замовлення в KeyCRM за source_uuid=${orderReference}`
+        `Не вдалося знайти замовлення в KeyCRM за source_uuid=${orderReference}. Оплату підтверджено Wayforpay, але замовлення відсутнє в CRM.`
       );
       return;
     }

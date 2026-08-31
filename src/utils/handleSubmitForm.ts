@@ -80,17 +80,10 @@ export const handleSubmitForm = async <T>(
     return total + itemTotal;
   }, 0);
 
-  // Формуємо дату та час замовлення
+  // Дата для Telegram / Sheets (локальний uk-формат) і для KeyCRM (UTC ISO)
   const now = new Date();
-
-  // Форматуємо дату
-  const formattedDate = now.toLocaleDateString("uk-UA");
-
-  // Форматуємо час
-  const formattedTime = now.toLocaleTimeString("uk-UA");
-
-  // Об'єднуємо дату та час
-  const orderDate = `${formattedDate} ${formattedTime}`;
+  const orderDate = `${now.toLocaleDateString("uk-UA")} ${now.toLocaleTimeString("uk-UA")}`;
+  const orderedAtIso = now.toISOString();
 
   // Формуємо повну інформацію по замовленню
   const collectedOrderData = {
@@ -150,27 +143,81 @@ export const handleSubmitForm = async <T>(
 
   setOrderData(collectedOrderData);
 
-  // Формуємо дані для інвойсу
-  const productName = updatedCartItems.map(
-    (item) => `${item.generalName} ${item.name} колір: ${item.color}`
-  );
-  const productPrice = updatedCartItems.map((item) => Number(item.actualPrice));
-  const productCount = updatedCartItems.map(() => 1);
+  try {
+    // 1) Telegram — операційне підтвердження для менеджерів
+    await axios({
+      method: "post",
+      url: `${BASE_URL}api/telegram`,
+      data: dataTelegram,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-  if (collectedOrderData.payment === "Онлайн оплата (Wayforpay)") {
+    // 2) KeyCRM — обов'язково ДО відкриття Wayforpay.
+    // Раніше оплата відкривалась у новій вкладці до створення замовлення в CRM:
+    // на мобільному браузер тротлить/вбиває фонову вкладку після Telegram,
+    // і виклик KeyCRM (або Sheets перед ним) так і не виконувався.
+    await sendDataToKeyCrm({ ...collectedOrderData, orderedAtIso });
+
+    // Purchase / аналітика — після того, як замовлення прийнято в Telegram+CRM.
+    // Не залежить від Google Sheets / Wayforpay.
+    sendGTMEvent({
+      event: "submit_order",
+      order_number: orderNumber,
+      value: totalSum,
+      currency: "UAH",
+      items: updatedCartItems.map((item) => ({
+        item_id: item.code || item.id,
+        item_name: `${item.generalName} ${item.name}`.trim(),
+        item_variant: item.color,
+        price: item.actualPrice,
+        quantity: item.quantity,
+      })),
+      user_data: {
+        phone: values.phone.replace(/[^\d+]/g, ""),
+        first_name: values.name.trim(),
+        last_name: values.surname.trim(),
+        city: values.city.trim(),
+      },
+    });
+
+    // 3) Google Sheets — best-effort: помилка не повинна зривати KeyCRM / оплату
     try {
-      const { data } = await axios.post(`${BASE_URL}api/wayforpay/invoice`, {
-        orderReference: `${orderNumber}`,
-        orderDate: Math.floor(Date.now() / 1000),
-        amount: totalSum, //Змінити потім на реальну суму
-        currency: "UAH",
-        productName,
-        productPrice,
-        productCount,
+      await axios({
+        method: "post",
+        url: `${BASE_URL}api/googlesheet`,
+        data: dataGoogle,
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
+    } catch (sheetsError) {
+      console.error("Помилка запису в Google Sheets:", sheetsError);
+    }
 
-      if (data?.status === "success") {
-        if (typeof window !== "undefined") {
+    // 4) Wayforpay — тільки коли замовлення вже є в KeyCRM (callback зможе mark-as-paid)
+    if (collectedOrderData.payment === "Онлайн оплата (Wayforpay)") {
+      try {
+        const productName = updatedCartItems.map(
+          (item) => `${item.generalName} ${item.name} колір: ${item.color}`
+        );
+        const productPrice = updatedCartItems.map((item) =>
+          Number(item.actualPrice)
+        );
+        const productCount = updatedCartItems.map((item) => item.quantity);
+
+        const { data } = await axios.post(`${BASE_URL}api/wayforpay/invoice`, {
+          orderReference: `${orderNumber}`,
+          orderDate: Math.floor(Date.now() / 1000),
+          amount: totalSum,
+          currency: "UAH",
+          productName,
+          productPrice,
+          productCount,
+        });
+
+        if (data?.status === "success" && typeof window !== "undefined") {
           const form = document.createElement("form");
           form.method = "POST";
           form.action = "https://secure.wayforpay.com/pay";
@@ -178,16 +225,14 @@ export const handleSubmitForm = async <T>(
 
           Object.entries(data.paymentData).forEach(([key, value]) => {
             if (Array.isArray(value)) {
-              // Якщо значення - масив, додаємо окремий інпут для кожного елемента
               value.forEach((item) => {
                 const input = document.createElement("input");
                 input.type = "hidden";
-                input.name = `${key}[]`; // Додаємо [] до імені
+                input.name = `${key}[]`;
                 input.value = item.toString();
                 form.appendChild(input);
               });
             } else {
-              // Якщо значення не масив, додаємо звичайний інпут
               const input = document.createElement("input");
               input.type = "hidden";
               input.name = key;
@@ -200,63 +245,10 @@ export const handleSubmitForm = async <T>(
           form.submit();
           document.body.removeChild(form);
         }
+      } catch (error) {
+        console.error("Помилка запиту на оплату:", error);
       }
-    } catch (error) {
-      console.error("Помилка запиту на оплату:", error);
     }
-  }
-
-  try {
-    await axios({
-      method: "post",
-      url: `${BASE_URL}api/telegram`,
-      data: dataTelegram,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    // Замовлення підтверджене, щойно його прийняв Telegram. Відправляємо подію
-    // саме тут — до допоміжних інтеграцій і до переходу на сторінку подяки.
-    // Раніше вона стояла останнім рядком цього try, тож будь-яка помилка запису
-    // в Google Sheets або KeyCRM мовчки з'їдала Purchase, замовлення в GA4 та
-    // TikTok для замовлення, яке насправді пройшло.
-    sendGTMEvent({
-      event: "submit_order",
-      order_number: orderNumber,
-      value: totalSum,
-      currency: "UAH",
-      // Список товарів для повноцінної ecommerce-структури (ціна/кількість
-      // по кожній позиції) — потрібно для коректного ROAS і аналітики.
-      items: updatedCartItems.map((item) => ({
-        item_id: item.code || item.id,
-        item_name: `${item.generalName} ${item.name}`.trim(),
-        item_variant: item.color,
-        price: item.actualPrice,
-        quantity: item.quantity,
-      })),
-      // Дані покупця для Manual Advanced Matching в Meta Pixel/CAPI — сирі
-      // (нехешовані) значення, хешування бере на себе fbq()/тег в GTM.
-      // На попередніх подіях (add_to_cart/start_checkout) цих даних ще
-      // немає: користувач заповнює форму замовлення тільки на цьому кроці.
-      user_data: {
-        phone: values.phone.replace(/[^\d+]/g, ""),
-        first_name: values.name.trim(),
-        last_name: values.surname.trim(),
-        city: values.city.trim(),
-      },
-    });
-
-    await axios({
-      method: "post",
-      url: `${BASE_URL}api/googlesheet`,
-      data: dataGoogle,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    await sendDataToKeyCrm(collectedOrderData);
 
     router.push("/uk/order-confirmation");
 
@@ -266,11 +258,11 @@ export const handleSubmitForm = async <T>(
 
     clearCart();
 
-    //Очищаємо UTM-дані
     clearUtmData();
 
     return { success: true };
-  } catch {
+  } catch (error) {
+    console.error("Помилка оформлення замовлення:", error);
     setIsError(true);
     setIsNotificationShown(true);
     return { success: false, reason: "error" };
