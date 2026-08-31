@@ -87,7 +87,7 @@ export default async function LocaleLayout({
             <Footer categories={res?.data?.allCategories} />
             <CartButton shownOnAddonsProducts={res?.data?.shownOnAddons} />
             <CartPopUp shownOnAddonsProducts={res?.data?.shownOnAddons} />
-            <CheckoutPopUp />
+            <CheckoutPopUp shownOnAddonsProducts={res?.data?.shownOnAddons ?? []} />
             <Modal />
             <Backdrop />
           </HeroUIProvider>

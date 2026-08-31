@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { parseBody } from "next-sanity/webhook";
+import { routing } from "@/i18n/routing";
+import { client } from "@/lib/sanityClient";
 
-// Ендпоінт для дострокового скидання кешу товарних фідів одразу після
-// публікації/зміни товару в Sanity Studio (замість очікування до 1 години
-// на автоматичну ревалідацію через `revalidate` у самому роуті фіда).
+// Ендпоінт для дострокового скидання кешу товарних фідів і сторінок сайту
+// одразу після публікації/зміни товару в Sanity Studio (замість очікування
+// до 1 години на автоматичну ревалідацію через `revalidate` у layout).
 //
 // Налаштування на боці Sanity (робиться один раз в manage.sanity.io):
 //   Project -> API -> Webhooks -> Create webhook
@@ -23,20 +25,115 @@ import { parseBody } from "next-sanity/webhook";
 // SANITY_REVALIDATE_SECRET має бути заданий в env (.env.local та у Vercel)
 // і збігатись зі значенням поля "Secret" у налаштуваннях вебхука в Sanity.
 
+interface SanitySlug {
+  current?: string;
+}
+
 interface SanityWebhookPayload {
   _type?: string;
   _id?: string;
-  slug?: string;
+  slug?: string | SanitySlug;
 }
 
-const REVALIDATED_PATHS = [
+const FEED_PATHS = [
   "/api/feed/meta",
   "/api/feed/rozetka",
   "/api/feed/google",
-];
+] as const;
 
-function revalidateFeeds() {
-  REVALIDATED_PATHS.forEach((path) => revalidatePath(path));
+function getLocalizedPaths(pathname: string): string[] {
+  const paths = [pathname];
+
+  routing.locales.forEach((locale) => {
+    if (locale === routing.defaultLocale) {
+      return;
+    }
+
+    paths.push(`/${locale}${pathname === "/" ? "" : pathname}`);
+  });
+
+  return paths;
+}
+
+function revalidatePaths(paths: string[]): string[] {
+  const revalidated = new Set<string>();
+
+  paths.forEach((path) => {
+    revalidatePath(path);
+    revalidated.add(path);
+  });
+
+  return [...revalidated];
+}
+
+function revalidateFeeds(): string[] {
+  return revalidatePaths([...FEED_PATHS]);
+}
+
+function revalidateSitePages(): string[] {
+  return revalidatePaths([
+    ...getLocalizedPaths("/"),
+    ...getLocalizedPaths("/catalog"),
+  ]);
+}
+
+function revalidateProductPage(slug: string): string[] {
+  return revalidatePaths(getLocalizedPaths(`/catalog/${slug}`));
+}
+
+function extractSlugFromPayload(body: SanityWebhookPayload): string | null {
+  if (typeof body.slug === "string" && body.slug.length > 0) {
+    return body.slug;
+  }
+
+  if (
+    body.slug &&
+    typeof body.slug === "object" &&
+    typeof body.slug.current === "string" &&
+    body.slug.current.length > 0
+  ) {
+    return body.slug.current;
+  }
+
+  return null;
+}
+
+async function resolveProductSlug(
+  body?: SanityWebhookPayload
+): Promise<string | null> {
+  if (!body) {
+    return null;
+  }
+
+  const slugFromPayload = extractSlugFromPayload(body);
+  if (slugFromPayload) {
+    return slugFromPayload;
+  }
+
+  if (!body._id) {
+    return null;
+  }
+
+  const document = await client.fetch<{ slug?: SanitySlug }>(
+    `*[_id == $id][0]{ slug }`,
+    { id: body._id },
+    { cache: "no-store" }
+  );
+
+  return document?.slug?.current ?? null;
+}
+
+async function revalidateOnItemChange(
+  body?: SanityWebhookPayload
+): Promise<{ paths: string[]; productSlug: string | null }> {
+  const productSlug = await resolveProductSlug(body);
+  const paths = [...revalidateFeeds(), ...revalidateSitePages()];
+
+  if (productSlug) {
+    paths.push(...revalidateProductPage(productSlug));
+  }
+
+  return { paths, productSlug };
 }
 
 export async function POST(request: NextRequest) {
@@ -62,16 +159,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    revalidateFeeds();
+    const { paths, productSlug } = await revalidateOnItemChange(body ?? undefined);
 
     return NextResponse.json({
       revalidated: true,
-      paths: REVALIDATED_PATHS,
+      paths,
+      productSlug,
       documentType: body?._type,
       now: Date.now(),
     });
   } catch (error) {
-    console.error("Failed to revalidate feeds:", error);
+    console.error("Failed to revalidate:", error);
     return NextResponse.json(
       { revalidated: false, message: "Error revalidating" },
       { status: 500 }
@@ -81,6 +179,7 @@ export async function POST(request: NextRequest) {
 
 // GET — для ручного/тестового тригера з браузера (звичайний секрет у query,
 // оскільки GET-запит із браузера не може нести підпис Sanity).
+// Опційно: ?slug=my-product — ревалідувати конкретну сторінку товару.
 export async function GET(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get("secret");
   const expectedSecret = process.env.SANITY_REVALIDATE_SECRET;
@@ -90,14 +189,18 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    revalidateFeeds();
+    const slug = request.nextUrl.searchParams.get("slug");
+    const body = slug ? { slug } satisfies SanityWebhookPayload : undefined;
+    const { paths, productSlug } = await revalidateOnItemChange(body);
+
     return NextResponse.json({
       revalidated: true,
-      paths: REVALIDATED_PATHS,
+      paths,
+      productSlug,
       now: Date.now(),
     });
   } catch (error) {
-    console.error("Failed to revalidate feeds:", error);
+    console.error("Failed to revalidate:", error);
     return NextResponse.json(
       { revalidated: false, message: "Error revalidating" },
       { status: 500 }

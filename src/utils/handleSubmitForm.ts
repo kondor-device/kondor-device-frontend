@@ -15,6 +15,11 @@ import { sendDataToKeyCrm } from "./sendDataToKeyCrm";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { useUtmStore } from "@/store/utmStore";
 
+export type SubmitFormResult =
+  | { success: true }
+  | { success: false; reason: "out_of_stock" }
+  | { success: false; reason: "error" };
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const handleSubmitForm = async <T>(
@@ -24,7 +29,7 @@ export const handleSubmitForm = async <T>(
   setIsNotificationShown: Dispatch<SetStateAction<boolean>>,
   values: ValuesCheckoutFormType,
   router: AppRouterInstance
-) => {
+): Promise<SubmitFormResult> => {
   const { clearOrderData, setOrderData } = useOrderStore.getState();
   const { clearCart, cartItems, promocode } = useCartStore.getState();
   const { closeModal } = useModalStore.getState();
@@ -42,6 +47,16 @@ export const handleSubmitForm = async <T>(
 
   const resProducts = await getProductsByIds(GET_PRODUCTS_BY_IDS, cartItemsIds);
 
+  const productsFromCms: ProductItem[] = resProducts.data?.allItems ?? [];
+
+  const { outOfStockCount } =
+    useCartStore.getState().syncWithCmsProducts(productsFromCms);
+
+  if (outOfStockCount > 0) {
+    setIsLoading(false);
+    return { success: false, reason: "out_of_stock" };
+  }
+
   //Запитуємо з cms актуальний промокод
   const resPromo = promocode
     ? await getPromocode(GET_PROMOCODE_BY_CODE, promocode)
@@ -53,28 +68,11 @@ export const handleSubmitForm = async <T>(
     ? resPromo.data.allPromocodes[0].promocode
     : null;
 
-  //Оновлюємо ціни на товари в кошику
-  const updatedCartItems = cartItems.filter((cartItem) => {
-    const productFromCms = resProducts.data?.allItems?.find(
-      (product: ProductItem) => product.id === cartItem.id
-    );
+  useCartStore
+    .getState()
+    .syncWithCmsProducts(productsFromCms, { discount: updatedDiscount });
 
-    if (productFromCms) {
-      // Якщо товар знайдений, оновлюємо його ціни
-      cartItem.price = productFromCms.price;
-      cartItem.priceDiscount = productFromCms.priceDiscount;
-      cartItem.actualPrice = Math.floor(
-        (!!productFromCms.priceDiscount &&
-        productFromCms.priceDiscount < productFromCms.price
-          ? productFromCms.priceDiscount
-          : productFromCms.price) *
-          (1 - updatedDiscount / 100)
-      );
-      return true;
-    }
-    // Якщо товар не знайдений в CMS, виключаємо його з кошика
-    return false;
-  });
+  const updatedCartItems = useCartStore.getState().cartItems;
 
   //Розраховуємо суму замовлення з оновленими цінами
   const totalSum = updatedCartItems.reduce((total, item) => {
@@ -270,10 +268,12 @@ export const handleSubmitForm = async <T>(
 
     //Очищаємо UTM-дані
     clearUtmData();
-  } catch (error) {
+
+    return { success: true };
+  } catch {
     setIsError(true);
     setIsNotificationShown(true);
-    return error;
+    return { success: false, reason: "error" };
   } finally {
     setIsLoading(false);
   }

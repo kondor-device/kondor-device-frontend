@@ -5,7 +5,15 @@ import CartProductItem from "./CartItem";
 import { useTranslations } from "next-intl";
 import { formatSum } from "@/utils/formatSum";
 
-export default function CartItemsList() {
+interface CartItemsListProps {
+  isChecking?: boolean;
+  removedItemsCount?: number;
+}
+
+export default function CartItemsList({
+  isChecking = false,
+  removedItemsCount = 0,
+}: CartItemsListProps) {
   const t = useTranslations();
 
   const [isHydrated, setIsHydrated] = useState(false);
@@ -16,17 +24,35 @@ export default function CartItemsList() {
 
   const cartItems = useCartStore((state) => state.cartItems);
   const totalAmount = useCartStore((state) => state.getTotalAmount());
+  const hasOutOfStockItems = useCartStore((state) => state.hasOutOfStockItems);
+
+  const hasUnavailableItems = hasOutOfStockItems();
 
   return (
     <div className="laptop:w-[40%] py-5 deskxl:py-10 pl-[15px] deskxl:pl-[30px] mt-4 tab:mt-8 laptop:mt-0 rounded-[20px] bg-dark">
+      {isChecking ? (
+        <p className="mb-4 mr-[15px] deskxl:mr-[30px] px-3 py-2 rounded-[10px] bg-white/10 text-10med laptop:text-12med deskxl:text-14med text-white">
+          {t("homePage.catalog.checkingAvailability")}
+        </p>
+      ) : null}
+      {!isChecking && removedItemsCount > 0 ? (
+        <p className="mb-4 mr-[15px] deskxl:mr-[30px] px-3 py-2 rounded-[10px] bg-inputError/20 border border-inputError text-10med laptop:text-12med deskxl:text-14med text-white">
+          {t("homePage.catalog.removedItemsWarning")}
+        </p>
+      ) : null}
+      {!isChecking && hasUnavailableItems ? (
+        <p className="mb-4 mr-[15px] deskxl:mr-[30px] px-3 py-2 rounded-[10px] bg-inputError/20 border border-inputError text-10med laptop:text-12med deskxl:text-14med text-white">
+          {t("homePage.catalog.outOfStockWarning")}
+        </p>
+      ) : null}
       <h3 className="mb-5 deskxl:mb-10 pr-[15px] text-14med laptop:text-16med deskxl:text-24med text-white">
         {t("homePage.catalog.yourOrder", { qty: cartItems.length })}
       </h3>
       {cartItems.length > 0 ? (
         <ul
-          className="flex flex-col gap-y-3 deskxl:gap-y-[25px] max-h-[150px] laptop:max-h-full laptop:h-[225px] deskxl:h-[265px] pr-[15px] deskxl:pr-[30px] overflow-y-auto scrollbar 
+          className={`flex flex-col gap-y-3 deskxl:gap-y-[25px] max-h-[150px] laptop:max-h-full laptop:h-[225px] deskxl:h-[265px] pr-[15px] deskxl:pr-[30px] overflow-y-auto scrollbar 
       scrollbar-w-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-yellow 
-      scrollbar-track-transparent"
+      scrollbar-track-transparent transition-opacity duration-300 ${isChecking ? "opacity-50 pointer-events-none" : "opacity-100"}`}
         >
           {cartItems.map((cartItem) => (
             <CartProductItem key={cartItem.uniqueId} cartItem={cartItem} />
@@ -41,7 +67,7 @@ export default function CartItemsList() {
         </p>
 
         <p className="text-14semi laptop:text-16semi deskxl:text-28semi uppercase">
-          {isHydrated ? formatSum(totalAmount) : "-"}
+          {isHydrated && !isChecking ? formatSum(totalAmount) : "-"}
           {t("homePage.catalog.hrn")}
         </p>
       </div>

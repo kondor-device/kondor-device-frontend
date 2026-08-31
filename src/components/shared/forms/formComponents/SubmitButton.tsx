@@ -7,6 +7,7 @@ interface SubmitButtonProps {
   dirty: boolean;
   isValid: boolean;
   isLoading: boolean;
+  disabled?: boolean;
   children: string;
   className?: string;
 }
@@ -16,16 +17,23 @@ export default function SubmitButton({
   dirty,
   isValid,
   isLoading,
+  disabled = false,
   children,
   className = "",
 }: SubmitButtonProps) {
-  const { cartItems } = useCartStore();
+  const { cartItems, hasOutOfStockItems } = useCartStore();
 
   return (
     <Button
       type="submit"
       onClick={onClick}
-      disabled={!(dirty && isValid) || isLoading || !cartItems.length}
+      disabled={
+        disabled ||
+        !(dirty && isValid) ||
+        isLoading ||
+        !cartItems.length ||
+        hasOutOfStockItems()
+      }
       isLoading={isLoading}
       className={`${className}`}
     >

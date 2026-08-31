@@ -25,10 +25,17 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
     color,
     uniqueId,
     actualPrice,
+    outOfStock,
   } = cartItem;
 
   return (
-    <li className="flex gap-x-[10px] deskxl:gap-x-[20px] justify-between">
+    <li
+      className={`flex gap-x-[10px] deskxl:gap-x-[20px] justify-between rounded-[10px] ${
+        outOfStock
+          ? "p-2 bg-inputError/10 border border-inputError/50"
+          : ""
+      }`}
+    >
       <div className="flex items-center justify-center size-12 laptop:size-14 deskxl:size-[85px] p-[10px] deskxl:p-[18px] my-auto rounded-[8px] deskxl:rounded-[15px] bg-white">
         <Image
           src={image.url || "/images/icons/logoSmall.svg"}
@@ -47,6 +54,11 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
           {t("homePage.catalog.color")}
           <span>{color}</span>
         </p>
+        {outOfStock ? (
+          <p className="mt-1 text-10med laptop:text-12med deskxl:text-14med text-inputError">
+            {t("homePage.catalog.outOfStockItem")}
+          </p>
+        ) : null}
       </div>
       <div className="flex flex-col justify-between items-end">
         <IconButton
