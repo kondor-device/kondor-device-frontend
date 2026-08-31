@@ -16,9 +16,17 @@ export default function CartItemsList() {
 
   const cartItems = useCartStore((state) => state.cartItems);
   const totalAmount = useCartStore((state) => state.getTotalAmount());
+  const hasOutOfStockItems = useCartStore((state) => state.hasOutOfStockItems);
+
+  const hasUnavailableItems = hasOutOfStockItems();
 
   return (
     <div className="laptop:w-[40%] py-5 deskxl:py-10 pl-[15px] deskxl:pl-[30px] mt-4 tab:mt-8 laptop:mt-0 rounded-[20px] bg-dark">
+      {hasUnavailableItems ? (
+        <p className="mb-4 mr-[15px] deskxl:mr-[30px] px-3 py-2 rounded-[10px] bg-inputError/20 border border-inputError text-10med laptop:text-12med deskxl:text-14med text-white">
+          {t("homePage.catalog.outOfStockWarning")}
+        </p>
+      ) : null}
       <h3 className="mb-5 deskxl:mb-10 pr-[15px] text-14med laptop:text-16med deskxl:text-24med text-white">
         {t("homePage.catalog.yourOrder", { qty: cartItems.length })}
       </h3>

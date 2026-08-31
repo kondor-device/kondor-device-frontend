@@ -11,6 +11,8 @@ import { handleSubmitForm } from "@/utils/handleSubmitForm";
 import { useModalStore } from "@/store/modalStore";
 import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
+import { ProductItem } from "@/types/productItem";
+import CartPopUp, { CART_MODAL_STYLES } from "../cart/CartPopUp";
 
 export interface ValuesCheckoutFormType {
   name: string;
@@ -22,7 +24,13 @@ export interface ValuesCheckoutFormType {
   payment: string;
 }
 
-export default function CheckoutPopUp() {
+interface CheckoutPopUpProps {
+  shownOnAddonsProducts: ProductItem[];
+}
+
+export default function CheckoutPopUp({
+  shownOnAddonsProducts,
+}: CheckoutPopUpProps) {
   const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -30,7 +38,7 @@ export default function CheckoutPopUp() {
 
   const router = useRouter();
 
-  const { closeModal } = useModalStore();
+  const { closeModal, openModal } = useModalStore();
   const { activeModal } = useModalStore((state) => state);
   const { promocode } = useCartStore();
 
@@ -50,7 +58,7 @@ export default function CheckoutPopUp() {
     values: ValuesCheckoutFormType,
     formikHelpers: FormikHelpers<ValuesCheckoutFormType>
   ) => {
-    await handleSubmitForm<ValuesCheckoutFormType>(
+    const result = await handleSubmitForm<ValuesCheckoutFormType>(
       formikHelpers,
       setIsLoading,
       setIsError,
@@ -58,6 +66,19 @@ export default function CheckoutPopUp() {
       values,
       router
     );
+
+    if (result.success === false && result.reason === "out_of_stock") {
+      closeModal();
+      openModal(
+        "cartPopUp",
+        <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />,
+        CART_MODAL_STYLES
+      );
+      const modalContainer = document.getElementById("modal");
+      if (modalContainer) {
+        modalContainer.scrollTop = 0;
+      }
+    }
   };
 
   return (

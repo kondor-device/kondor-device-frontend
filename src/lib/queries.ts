@@ -125,7 +125,8 @@ export const GET_PRODUCTS_BY_IDS = groq`
   "allItems": *[_type == "item" && _id in $ids] {
     "id": _id,
     price,
-    priceDiscount
+    priceDiscount,
+    outOfStock
   }
 }
 `;

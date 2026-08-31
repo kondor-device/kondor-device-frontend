@@ -15,6 +15,11 @@ import { sendDataToKeyCrm } from "./sendDataToKeyCrm";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { useUtmStore } from "@/store/utmStore";
 
+export type SubmitFormResult =
+  | { success: true }
+  | { success: false; reason: "out_of_stock" }
+  | { success: false; reason: "error" };
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const handleSubmitForm = async <T>(
@@ -24,7 +29,7 @@ export const handleSubmitForm = async <T>(
   setIsNotificationShown: Dispatch<SetStateAction<boolean>>,
   values: ValuesCheckoutFormType,
   router: AppRouterInstance
-) => {
+): Promise<SubmitFormResult> => {
   const { clearOrderData, setOrderData } = useOrderStore.getState();
   const { clearCart, cartItems, promocode } = useCartStore.getState();
   const { closeModal } = useModalStore.getState();
@@ -41,6 +46,22 @@ export const handleSubmitForm = async <T>(
   const cartItemsIds = cartItems.map((cartItem) => cartItem.id);
 
   const resProducts = await getProductsByIds(GET_PRODUCTS_BY_IDS, cartItemsIds);
+
+  const productsFromCms: ProductItem[] = resProducts.data?.allItems ?? [];
+
+  const outOfStockProductIds = productsFromCms
+    .filter((product) => product.outOfStock === true)
+    .map((product) => product.id);
+
+  const hasOutOfStockInCart = cartItems.some((item) =>
+    outOfStockProductIds.includes(item.id)
+  );
+
+  if (hasOutOfStockInCart) {
+    useCartStore.getState().markItemsOutOfStock(outOfStockProductIds);
+    setIsLoading(false);
+    return { success: false, reason: "out_of_stock" };
+  }
 
   //Запитуємо з cms актуальний промокод
   const resPromo = promocode
@@ -270,10 +291,12 @@ export const handleSubmitForm = async <T>(
 
     //Очищаємо UTM-дані
     clearUtmData();
-  } catch (error) {
+
+    return { success: true };
+  } catch {
     setIsError(true);
     setIsNotificationShown(true);
-    return error;
+    return { success: false, reason: "error" };
   } finally {
     setIsLoading(false);
   }

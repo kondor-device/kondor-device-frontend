@@ -12,4 +12,5 @@ export interface CartItem {
   code: string;
   preorder: boolean;
   preordertext: string;
+  outOfStock?: boolean;
 }

@@ -15,13 +15,18 @@ interface CartPopUpProps {
   shownOnAddonsProducts: ProductItem[];
 }
 
+export const CART_MODAL_STYLES =
+  "laptop:max-w-[1100px] laptop:w-[1100px] deskxl:max-w-[1681px] deskxl:w-[1681px]";
+
 export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
   const t = useTranslations("buttons");
 
   const openModal = useModalStore((state) => state.openModal);
   const { closeModal } = useModalStore();
   const { activeModal } = useModalStore((state) => state);
-  const { cartItems, getTotalAmount } = useCartStore();
+  const { cartItems, getTotalAmount, hasOutOfStockItems } = useCartStore();
+
+  const hasUnavailableItems = hasOutOfStockItems();
 
   if (activeModal.name !== "cartPopUp") {
     return null;
@@ -31,8 +36,8 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
     closeModal();
     openModal(
       "checkoutPopUp",
-      <CheckoutPopUp />,
-      "laptop:max-w-[1100px] laptop:w-[1100px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
+      <CheckoutPopUp shownOnAddonsProducts={shownOnAddonsProducts} />,
+      CART_MODAL_STYLES
     );
     const modalContainer = document.getElementById("modal");
     if (modalContainer) {
@@ -64,6 +69,7 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
       <div className="flex flex-col laptop:flex-row-reverse items-center laptop:justify-between gap-y-5 w-full mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
         <Button
           onClick={onCheckoutClick}
+          disabled={hasUnavailableItems}
           className="w-full max-w-[350px] laptop:max-w-[330px] deskxl:max-w-[437px] max-h-[64px] deskxl:max-h-[85px]"
         >
           {t("next")}

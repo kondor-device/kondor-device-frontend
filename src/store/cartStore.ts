@@ -14,6 +14,8 @@ interface CartState {
   applyPromocode: (code: string, discount: number) => void;
   removePromocode: () => void;
   getTotalAmount: () => number;
+  markItemsOutOfStock: (productIds: string[]) => void;
+  hasOutOfStockItems: () => boolean;
 }
 
 export const useCartStore = create<CartState>()(
@@ -94,6 +96,19 @@ export const useCartStore = create<CartState>()(
           0
         );
       },
+
+      markItemsOutOfStock: (productIds) => {
+        set((state) => ({
+          cartItems: state.cartItems.map((item) =>
+            productIds.includes(item.id)
+              ? { ...item, outOfStock: true }
+              : item
+          ),
+        }));
+      },
+
+      hasOutOfStockItems: () =>
+        get().cartItems.some((item) => item.outOfStock === true),
     }),
     {
       name: "kondor-cart-storage",
