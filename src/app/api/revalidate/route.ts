@@ -24,6 +24,11 @@ import { client } from "@/lib/sanityClient";
 //
 // SANITY_REVALIDATE_SECRET має бути заданий в env (.env.local та у Vercel)
 // і збігатись зі значенням поля "Secret" у налаштуваннях вебхука в Sanity.
+//
+// Важливо для next-intl + localePrefix: "as-needed":
+// кеш сторінки може бути під публічним URL (`/`) АБО під внутрішнім
+// шляхом з локаллю (`/uk`). Тому ревалідуємо обидва варіанти. Тип "layout"
+// також скидає layout-рівень ISR (`export const revalidate = 3600`).
 
 interface SanitySlug {
   current?: string;
@@ -42,25 +47,29 @@ const FEED_PATHS = [
 ] as const;
 
 function getLocalizedPaths(pathname: string): string[] {
-  const paths = [pathname];
+  const paths = new Set<string>();
 
+  // Публічний URL без префікса (localePrefix: "as-needed")
+  paths.add(pathname);
+
+  // Внутрішній шлях App Router з [locale] — саме він часто є ключем кешу
+  // після static generation / ISR, включно для defaultLocale.
   routing.locales.forEach((locale) => {
-    if (locale === routing.defaultLocale) {
-      return;
-    }
-
-    paths.push(`/${locale}${pathname === "/" ? "" : pathname}`);
+    paths.add(`/${locale}${pathname === "/" ? "" : pathname}`);
   });
 
-  return paths;
+  return [...paths];
 }
 
-function revalidatePaths(paths: string[]): string[] {
+function revalidatePaths(
+  paths: string[],
+  type: "page" | "layout" = "page"
+): string[] {
   const revalidated = new Set<string>();
 
   paths.forEach((path) => {
-    revalidatePath(path);
-    revalidated.add(path);
+    revalidatePath(path, type);
+    revalidated.add(`${path} (${type})`);
   });
 
   return [...revalidated];
@@ -71,14 +80,15 @@ function revalidateFeeds(): string[] {
 }
 
 function revalidateSitePages(): string[] {
-  return revalidatePaths([
-    ...getLocalizedPaths("/"),
-    ...getLocalizedPaths("/catalog"),
-  ]);
+  // layout — щоб скинути ISR layout (`revalidate = 3600`) і вкладені сторінки
+  return [
+    ...revalidatePaths(getLocalizedPaths("/"), "layout"),
+    ...revalidatePaths(getLocalizedPaths("/catalog"), "layout"),
+  ];
 }
 
 function revalidateProductPage(slug: string): string[] {
-  return revalidatePaths(getLocalizedPaths(`/catalog/${slug}`));
+  return revalidatePaths(getLocalizedPaths(`/catalog/${slug}`), "page");
 }
 
 function extractSlugFromPayload(body: SanityWebhookPayload): string | null {
@@ -159,7 +169,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { paths, productSlug } = await revalidateOnItemChange(body ?? undefined);
+    const { paths, productSlug } = await revalidateOnItemChange(
+      body ?? undefined
+    );
 
     return NextResponse.json({
       revalidated: true,
