@@ -2,6 +2,8 @@ import { CartItem } from "./cartItem";
 
 export interface OrderData {
   orderDate: string;
+  /** UTC ISO для KeyCRM (orderedAt). Якщо немає — використовується orderDate. */
+  orderedAtIso?: string;
   orderNumber: string;
   name: string;
   surname: string;
