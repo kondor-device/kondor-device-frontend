@@ -10,6 +10,7 @@ import { useModalStore } from "@/store/modalStore";
 import CheckoutPopUp from "../checkout/CheckoutPopUp";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { useCartStore } from "@/store/cartStore";
+import { useCartAvailabilityCheck } from "@/hooks/useCartAvailabilityCheck";
 
 interface CartPopUpProps {
   shownOnAddonsProducts: ProductItem[];
@@ -26,13 +27,18 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
   const { activeModal } = useModalStore((state) => state);
   const { cartItems, getTotalAmount, hasOutOfStockItems } = useCartStore();
 
+  const isActive = activeModal.name === "cartPopUp";
+  const { isChecking, availabilityNotice } = useCartAvailabilityCheck(isActive);
+
   const hasUnavailableItems = hasOutOfStockItems();
 
-  if (activeModal.name !== "cartPopUp") {
+  if (!isActive) {
     return null;
   }
 
   const onCheckoutClick = () => {
+    if (isChecking || hasUnavailableItems) return;
+
     closeModal();
     openModal(
       "checkoutPopUp",
@@ -43,9 +49,6 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
     if (modalContainer) {
       modalContainer.scrollTop = 0;
     }
-    // value/currency/items потрібні для InitiateCheckout в Meta Pixel/CAPI
-    // (тег в GTM читає ці поля з dataLayer) — раніше подія йшла зовсім без
-    // них, тому Meta бачив 100% InitiateCheckout без ціни.
     sendGTMEvent({
       event: "start_checkout",
       value: getTotalAmount(),
@@ -61,15 +64,18 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
   };
 
   return (
-    <div className={activeModal.name === "cartPopUp" ? "block" : "hidden"}>
+    <div className="block">
       <div className="flex flex-col gap-y-[30px] laptop:flex-row laptop:justify-between">
-        <CartItemsList />
+        <CartItemsList
+          isChecking={isChecking}
+          removedItemsCount={availabilityNotice?.removedCount ?? 0}
+        />
         <AddonsProductsList shownOnAddonsProducts={shownOnAddonsProducts} />
       </div>
       <div className="flex flex-col laptop:flex-row-reverse items-center laptop:justify-between gap-y-5 w-full mt-[30px] laptop:mt-12 deskxl:mt-[60px]">
         <Button
           onClick={onCheckoutClick}
-          disabled={hasUnavailableItems}
+          disabled={isChecking || hasUnavailableItems}
           className="w-full max-w-[350px] laptop:max-w-[330px] deskxl:max-w-[437px] max-h-[64px] deskxl:max-h-[85px]"
         >
           {t("next")}

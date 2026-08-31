@@ -49,16 +49,10 @@ export const handleSubmitForm = async <T>(
 
   const productsFromCms: ProductItem[] = resProducts.data?.allItems ?? [];
 
-  const outOfStockProductIds = productsFromCms
-    .filter((product) => product.outOfStock === true)
-    .map((product) => product.id);
+  const { outOfStockCount } =
+    useCartStore.getState().syncWithCmsProducts(productsFromCms);
 
-  const hasOutOfStockInCart = cartItems.some((item) =>
-    outOfStockProductIds.includes(item.id)
-  );
-
-  if (hasOutOfStockInCart) {
-    useCartStore.getState().markItemsOutOfStock(outOfStockProductIds);
+  if (outOfStockCount > 0) {
     setIsLoading(false);
     return { success: false, reason: "out_of_stock" };
   }
@@ -74,28 +68,11 @@ export const handleSubmitForm = async <T>(
     ? resPromo.data.allPromocodes[0].promocode
     : null;
 
-  //Оновлюємо ціни на товари в кошику
-  const updatedCartItems = cartItems.filter((cartItem) => {
-    const productFromCms = resProducts.data?.allItems?.find(
-      (product: ProductItem) => product.id === cartItem.id
-    );
+  useCartStore
+    .getState()
+    .syncWithCmsProducts(productsFromCms, { discount: updatedDiscount });
 
-    if (productFromCms) {
-      // Якщо товар знайдений, оновлюємо його ціни
-      cartItem.price = productFromCms.price;
-      cartItem.priceDiscount = productFromCms.priceDiscount;
-      cartItem.actualPrice = Math.floor(
-        (!!productFromCms.priceDiscount &&
-        productFromCms.priceDiscount < productFromCms.price
-          ? productFromCms.priceDiscount
-          : productFromCms.price) *
-          (1 - updatedDiscount / 100)
-      );
-      return true;
-    }
-    // Якщо товар не знайдений в CMS, виключаємо його з кошика
-    return false;
-  });
+  const updatedCartItems = useCartStore.getState().cartItems;
 
   //Розраховуємо суму замовлення з оновленими цінами
   const totalSum = updatedCartItems.reduce((total, item) => {

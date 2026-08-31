@@ -13,6 +13,7 @@ import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
 import { ProductItem } from "@/types/productItem";
 import CartPopUp, { CART_MODAL_STYLES } from "../cart/CartPopUp";
+import { useCartAvailabilityCheck } from "@/hooks/useCartAvailabilityCheck";
 
 export interface ValuesCheckoutFormType {
   name: string;
@@ -40,7 +41,12 @@ export default function CheckoutPopUp({
 
   const { closeModal, openModal } = useModalStore();
   const { activeModal } = useModalStore((state) => state);
-  const { promocode } = useCartStore();
+  const { promocode, hasOutOfStockItems } = useCartStore();
+
+  const isActive = activeModal.name === "checkoutPopUp";
+  const { isChecking, availabilityNotice } = useCartAvailabilityCheck(isActive);
+
+  const hasUnavailableItems = hasOutOfStockItems();
 
   const initialValues: ValuesCheckoutFormType = {
     name: "",
@@ -78,11 +84,16 @@ export default function CheckoutPopUp({
       if (modalContainer) {
         modalContainer.scrollTop = 0;
       }
+      return;
     }
   };
 
+  if (!isActive) {
+    return null;
+  }
+
   return (
-    <div className={activeModal.name === "checkoutPopUp" ? "block" : "hidden"}>
+    <div className="block">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -94,7 +105,10 @@ export default function CheckoutPopUp({
               {t("homePage.catalog.checkout")}
             </h3>
             <div className="laptop:flex flex-row-reverse justify-between">
-              <CartItemsList />
+              <CartItemsList
+                isChecking={isChecking}
+                removedItemsCount={availabilityNotice?.removedCount ?? 0}
+              />
               <div className="laptop:w-[57%] laptop:my-auto">
                 <h3 className="my-5 laptop:mt-0 laptop:mb-5 mb-[30px] text-14bold laptop:text-16bold deskxl:text-20bold">
                   {t("homePage.catalog.yourData")}
@@ -116,6 +130,7 @@ export default function CheckoutPopUp({
                 dirty={formik.dirty}
                 isValid={formik.isValid}
                 isLoading={isLoading}
+                disabled={isChecking || hasUnavailableItems}
               >
                 {t("buttons.makeOrder")}
               </SubmitButton>
