@@ -13,7 +13,7 @@ export default function HeaderDesk({
   setIsCatalogMenuOpened,
 }: HeaderDeskProps) {
   return (
-    <div className="hidden tabxl:block w-full bg-surface dark:bg-dark">
+    <div className="hidden tabxl:block w-full bg-page">
       <div className="flex justify-between container w-full max-w-[1920px] h-[113px]">
         <LogoLink className="w-[203px]" />
         <NavMenu setIsCatalogMenuOpened={setIsCatalogMenuOpened} />
