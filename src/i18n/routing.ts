@@ -8,6 +8,8 @@ export const routing = defineRouting({
   // Used when no locale matches
   defaultLocale: "uk",
   localePrefix: "as-needed",
+  // Завжди українська за замовчуванням: не визначаємо мову за Accept-Language і cookie
+  localeDetection: false,
 });
 
 // Lightweight wrappers around Next.js' navigation APIs
