@@ -7,18 +7,20 @@ import Manual from "@/components/productPage/Manual";
 import { CategoryItem } from "@/types/categoryItem";
 import { Suspense } from "react";
 import Loader from "@/components/shared/loader/Loader";
-import { getDefaultMetadata } from "@/utils/getDefaultMetadata";
+import { getDefaultMetadata, OG_LOCALES } from "@/utils/getDefaultMetadata";
+import { getPageAlternates } from "@/utils/getPageAlternates";
+import { Locale } from "@/types/locale";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 
 interface ProductPageProps {
-  params: Promise<{ product: string }>;
+  params: Promise<{ locale: Locale; product: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: ProductPageProps): Promise<Metadata> {
-  const { product } = await params;
+  const { locale, product } = await params;
   const t = await getTranslations("metadata");
 
   const res = await getProducts(GET_ITEM_BY_SLUG_QUERY, {
@@ -27,14 +29,26 @@ export async function generateMetadata({
 
   const currentProduct = res?.data?.allItems[0];
 
+  const defaultMetadata = getDefaultMetadata(t, locale);
+  const title =
+    currentProduct?.seoTitle || currentProduct?.name || defaultMetadata.title;
+  const description =
+    currentProduct?.seoDescription || defaultMetadata.description;
+
   return {
-    title:
-      currentProduct?.seoTitle ||
-      currentProduct?.name ||
-      getDefaultMetadata(t).title,
-    description:
-      currentProduct?.seoDescription || getDefaultMetadata(t).description,
+    title,
+    description,
+    alternates: getPageAlternates(locale, `/catalog/${product}`),
+    // openGraph of a page replaces the layout one, so it is filled in full
     openGraph: {
+      title: title as string,
+      description: description as string,
+      type: "website",
+      locale: OG_LOCALES[locale],
+      alternateLocale: Object.values(OG_LOCALES).filter(
+        (item) => item !== OG_LOCALES[locale],
+      ),
+      siteName: "Kondor Device",
       images: [
         {
           url:
@@ -60,7 +74,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   function findCategoryBySlug(categories: CategoryItem[], slug: string) {
     // Знаходимо категорію, де є товар з потрібним slug
     const category = categories?.find((cat) =>
-      cat.items.some((item) => item.slug === slug)
+      cat.items.some((item) => item.slug === slug),
     );
 
     if (!category) {
