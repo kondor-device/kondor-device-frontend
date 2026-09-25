@@ -29,9 +29,9 @@ export default function HeaderMob({
           className="relative z-[60] w-[152px]"
           setIsHeaderMenuOpened={setIsHeaderMenuOpened}
         />
-        <div className="flex items-center gap-x-3">
-          <ThemeToggle className="-mr-3" />
-          <LanguageSwitcher />
+        <div className="flex items-center">
+          <ThemeToggle className="mr-[7px]" />
+          <LanguageSwitcher className="mr-[6.5px]" />
           <BurgerMenuButton
             isHeaderMenuOpened={isHeaderMenuOpened}
             toggleHeaderMenuOpen={toggleHeaderMenuOpen}

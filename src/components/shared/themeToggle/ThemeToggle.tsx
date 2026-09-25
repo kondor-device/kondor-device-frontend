@@ -54,7 +54,7 @@ export default function ThemeToggle({ className = "" }: ThemeToggleProps) {
         <svg
           width="24"
           height="24"
-          className="size-5 tabxl:size-6"
+          className="size-[22px] tabxl:size-6"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -70,7 +70,7 @@ export default function ThemeToggle({ className = "" }: ThemeToggleProps) {
         <svg
           width="24"
           height="24"
-          className="size-5 tabxl:size-6"
+          className="size-[22px] tabxl:size-6"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"

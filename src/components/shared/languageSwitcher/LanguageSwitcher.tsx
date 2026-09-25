@@ -31,7 +31,7 @@ export default function LanguageSwitcher({
     <div
       role="group"
       aria-label={t("label")}
-      className={`flex items-center gap-x-0 tabxl:gap-x-1 text-[13px] font-bold leading-4 tabxl:text-14bold laptop:text-16bold ${className}`}
+      className={`flex items-center gap-x-0 tabxl:gap-x-1 text-[14px] font-bold leading-[17px] tabxl:text-14bold laptop:text-16bold ${className}`}
     >
       {routing.locales.map((item, index) => {
         const isActive = item === locale;
