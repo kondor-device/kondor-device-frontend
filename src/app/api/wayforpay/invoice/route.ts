@@ -55,6 +55,8 @@ export async function POST(req: NextRequest) {
       productCount,
       productPrice: productPrice.map((item: string) => Number(item)),
       apiVersion: 1,
+      // Платіжна сторінка Wayforpay завжди українською (не залежить від мови сайту)
+      language: "UA",
     };
 
     return NextResponse.json({ status: "success", paymentData });
@@ -62,7 +64,7 @@ export async function POST(req: NextRequest) {
     console.error("Помилка генерації платежу:", error);
     return NextResponse.json(
       { error: "Помилка створення платежу" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
