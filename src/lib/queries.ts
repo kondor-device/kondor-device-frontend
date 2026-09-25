@@ -137,7 +137,11 @@ export const GET_PRODUCTS_BY_IDS = groq`
     "id": _id,
     price,
     priceDiscount,
-    outOfStock
+    outOfStock,
+    ${l10nField("generalname")},
+    ${l10nField("name")},
+    ${l10nField("preordertext")},
+    "coloropts": coloropts[]{ code, ${l10nField("color")} }
   }
 }
 `;

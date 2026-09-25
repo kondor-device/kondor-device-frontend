@@ -8,6 +8,11 @@ export interface CmsCartProduct {
   price: number;
   priceDiscount: number;
   outOfStock: boolean;
+  // Localized texts, used to show the cart in the current language
+  generalname?: string;
+  name?: string;
+  preordertext?: string;
+  coloropts?: { code: string; color?: string }[];
 }
 
 export interface CartSyncResult {
@@ -142,8 +147,16 @@ export const useCartStore = create<CartState>()(
                 ? product.priceDiscount
                 : product.price;
 
+            const colorName = product.coloropts?.find(
+              (opt) => opt.code === item.code
+            )?.color;
+
             return {
               ...item,
+              generalName: product.generalname ?? item.generalName,
+              name: product.name ?? item.name,
+              preordertext: product.preordertext ?? item.preordertext,
+              color: colorName ?? item.color,
               outOfStock: isOutOfStock,
               price: product.price,
               priceDiscount: product.priceDiscount,
