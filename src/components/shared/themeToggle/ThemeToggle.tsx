@@ -1,0 +1,85 @@
+"use client";
+import React, { useSyncExternalStore } from "react";
+import { useTranslations } from "next-intl";
+import { THEME_STORAGE_KEY } from "./themeScript";
+
+interface ThemeToggleProps {
+  className?: string;
+}
+
+const subscribe = (callback: () => void) => {
+  const observer = new MutationObserver(callback);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+  return () => observer.disconnect();
+};
+
+const getIsDark = () => document.documentElement.classList.contains("dark");
+
+export default function ThemeToggle({ className = "" }: ThemeToggleProps) {
+  const t = useTranslations("header.theme");
+  const isDark = useSyncExternalStore(subscribe, getIsDark, () => false);
+
+  const toggleTheme = () => {
+    const nextIsDark = !isDark;
+    const systemIsDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    // Choosing the same theme as the system one returns to auto mode
+    try {
+      if (nextIsDark === systemIsDark) {
+        localStorage.removeItem(THEME_STORAGE_KEY);
+      } else {
+        localStorage.setItem(THEME_STORAGE_KEY, nextIsDark ? "dark" : "light");
+      }
+    } catch {}
+
+    document.documentElement.classList.toggle("dark", nextIsDark);
+    document.documentElement.classList.toggle("light", !nextIsDark);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      aria-label={isDark ? t("toLight") : t("toDark")}
+      title={isDark ? t("toLight") : t("toDark")}
+      className={`flex items-center justify-center size-10 rounded-full text-fg outline-none transition duration-300 ease-out
+        active:scale-95 active:text-yellow focus-visible:text-yellow laptop:hover:text-yellow ${className}`}
+    >
+      {isDark ? (
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+        </svg>
+      ) : (
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      )}
+    </button>
+  );
+}

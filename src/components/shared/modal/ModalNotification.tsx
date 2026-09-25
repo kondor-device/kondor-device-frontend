@@ -46,7 +46,7 @@ export default function ModalNotification({
           ? "opacity-100 no-doc-scroll"
           : "pointer-events-none opacity-0"
       } fixed z-[80] left-1/2 bottom-0 transform -translate-y-[calc(50dvh-50%)] -translate-x-1/2 min-w-[312px] max-w-[390px] laptop:max-w-[628px]
-      w-[95.5%] tab:w-[628px] max-h-[90dvh] overflow-y-auto px-4 py-[30px] laptop:px-10 laptop:py-10 rounded-[20px] laptop:rounded-[30px] bg-yellow
+      w-[95.5%] tab:w-[628px] max-h-[90dvh] overflow-y-auto px-4 py-[30px] laptop:px-10 laptop:py-10 rounded-[20px] laptop:rounded-[30px] bg-yellow text-dark
        scrollbar scrollbar-w-[3px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-lightGrey scrollbar-track-transparent popup-scroll
        shadow-notification ${className}`}
     >

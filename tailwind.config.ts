@@ -5,6 +5,7 @@ import { heroui } from "@heroui/react";
 const herouiPlugin = heroui();
 
 export default {
+  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -72,10 +73,16 @@ export default {
         "54bold": ["54px", { fontWeight: "700", lineHeight: "66px" }],
       },
       colors: {
+        // Theme-aware colors (values in globals.css, switched by the `dark` class on <html>)
+        page: "rgb(var(--page) / <alpha-value>)",
+        surface: "rgb(var(--surface) / <alpha-value>)",
+        fg: "rgb(var(--fg) / <alpha-value>)",
+        panel: "rgb(var(--panel) / <alpha-value>)",
+        lightGrey: "rgb(var(--lightGrey) / <alpha-value>)",
+        // Constant colors (same in both themes)
         white: "#FFFFFF",
         yellow: "#FFB300",
         grey: "#A2A2A2",
-        lightGrey: "#D9D9D9",
         dark: "#191919",
         inputError: "#FF3838",
         inputErrorLight: "#FFAFAF",
@@ -85,7 +92,7 @@ export default {
           "linear-gradient(115.41deg, #FFCC54 10.87%, #FFB300 81.45%)",
       },
       boxShadow: {
-        card: "0px 0.74px 11.12px 0px rgba(103, 103, 103, 0.25)",
+        card: "0px 0.74px 11.12px 0px rgb(var(--shadow) / 0.25)",
         colorPickerThin: "0 0 0 1px #FFFFFF",
         colorPicker: "0 0 0 1px #FFB300",
         imagePicker: "0 0 0 2px #FFB300",
@@ -95,8 +102,8 @@ export default {
         cartButton: "0px 4px 40px 0px rgba(25, 25, 25, 0.3)",
         catalogItem: "0px 2.18px 17.93px 0px rgba(0, 0, 0, 0.15)",
         filterButton: "0px 2.777px 22.842px 0px rgba(0, 0, 0, 0.15)",
-        catalogFilter: "0px 2px 30px 0px rgba(103, 103, 103, 0.25)",
-        catalogCard: "0px 2px 30px 0px rgba(103, 103, 103, 0.10)",
+        catalogFilter: "0px 2px 30px 0px rgb(var(--shadow) / 0.25)",
+        catalogCard: "0px 2px 30px 0px rgb(var(--shadow) / 0.10)",
       },
       transitionTimingFunction: {
         gentle: "cubic-bezier(0.47, 0, 0.23, 1.38)",

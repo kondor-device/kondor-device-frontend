@@ -3,6 +3,7 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 import LogoLink from "@/components/shared/logoLink/LogoLink";
 import BurgerMenuButton from "./burgerMenu/BurgerMenuButton";
+import ThemeToggle from "../../themeToggle/ThemeToggle";
 import CatalogMenu from "../catalogMenu/CatalogMenu";
 import { CategoryItem } from "@/types/categoryItem";
 
@@ -20,18 +21,21 @@ export default function HeaderMob({
 
   return (
     <div
-      className={`relative tabxl:hidden w-full h-[60px] bg-white overflow-x-clip rounded-b-[12px] shadow-catalogCard`}
+      className={`relative tabxl:hidden w-full h-[60px] bg-surface dark:bg-dark overflow-x-clip rounded-b-[12px] shadow-catalogCard`}
     >
       <div className="container flex items-center justify-between max-w-[1920px] h-full">
         <LogoLink
           className="relative z-[60] w-[152px]"
           setIsHeaderMenuOpened={setIsHeaderMenuOpened}
         />
-        <BurgerMenuButton
-          isHeaderMenuOpened={isHeaderMenuOpened}
-          toggleHeaderMenuOpen={toggleHeaderMenuOpen}
-          setIsCatalogMenuOpened={setIsCatalogMenuOpened}
-        />
+        <div className="flex items-center gap-x-3">
+          <ThemeToggle />
+          <BurgerMenuButton
+            isHeaderMenuOpened={isHeaderMenuOpened}
+            toggleHeaderMenuOpen={toggleHeaderMenuOpen}
+            setIsCatalogMenuOpened={setIsCatalogMenuOpened}
+          />
+        </div>
       </div>
       <CatalogMenu
         categories={categories}

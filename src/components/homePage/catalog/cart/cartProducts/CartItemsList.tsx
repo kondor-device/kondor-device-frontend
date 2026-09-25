@@ -29,7 +29,7 @@ export default function CartItemsList({
   const hasUnavailableItems = hasOutOfStockItems();
 
   return (
-    <div className="laptop:w-[40%] py-5 deskxl:py-10 pl-[15px] deskxl:pl-[30px] mt-4 tab:mt-8 laptop:mt-0 rounded-[20px] bg-dark">
+    <div className="laptop:w-[40%] py-5 deskxl:py-10 pl-[15px] deskxl:pl-[30px] mt-4 tab:mt-8 laptop:mt-0 rounded-[20px] bg-panel dark:bg-page">
       {isChecking ? (
         <p className="mb-4 mr-[15px] deskxl:mr-[30px] px-3 py-2 rounded-[10px] bg-white/10 text-10med laptop:text-12med deskxl:text-14med text-white">
           {t("homePage.catalog.checkingAvailability")}

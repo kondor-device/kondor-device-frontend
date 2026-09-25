@@ -125,9 +125,9 @@ export default function CatalogCard({
 
   return (
     <div
-      className={`flex flex-col justify-between p-3 desk:p-4 rounded-[8px] desk:rounded-[20px] shadow-catalogCard bg-white min-h-full ${className}`}
+      className={`flex flex-col justify-between p-3 desk:p-4 rounded-[8px] desk:rounded-[20px] shadow-catalogCard bg-surface min-h-full ${className}`}
     >
-      <div className="relative flex justify-between items-center rounded-[12px] aspect-square w-full mb-2 desk:mb-3">
+      <div className="relative flex justify-between items-center rounded-[12px] aspect-square w-full mb-2 desk:mb-3 bg-white overflow-hidden">
         {badgeText ? (
           <div
             className={`absolute z-10 top-0 desk:top-[14px] left-0 desk:left-[14px] shrink-0 w-fit py-[7px] px-2.5 desk:px-[14px] rounded-full border text-[10px] desk:text-[12px] font-semibold leading-[115%] ${
@@ -247,7 +247,7 @@ export default function CatalogCard({
           onClick={onAddToCart}
           disabled={outOfStock}
           className={`flex items-center justify-center w-full h-[33px] desk:h-9 px-3 text-9bold desk:text-12bold rounded-full transition duration-300 ease-out enabled:active:scale-95 
-            outline-none enabled:bg-yellowGradient enabled:active:brightness-[115%] desk:enabled:hover:brightness-[115%] 
+            outline-none text-dark enabled:bg-yellowGradient enabled:active:brightness-[115%] desk:enabled:hover:brightness-[115%] 
             enabled:focus-visible:brightness-[115%] disabled:bg-grey disabled:text-white disabled:cursor-not-allowed`}
         >
           {outOfStock

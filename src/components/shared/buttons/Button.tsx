@@ -21,8 +21,8 @@ export default function Button({
       className={`flex items-center justify-center min-h-[36px] tabxl:min-h-[64px] deskxl:min-h-[85px] px-8 laptop:px-[30px] py-[19px] laptop:py-[30px] text-14bold laptop:text-16bold 
         deskxl:text-24bold rounded-full transition duration-300 ease-out enabled:active:scale-95 outline-none ${
           variant === "primary"
-            ? "enabled:bg-yellowGradient enabled:active:brightness-[115%] laptop:enabled:hover:brightness-[115%] enabled:focus-visible:brightness-[115%]"
-            : "bg-lightGrey enabled:active:bg-grey laptop:enabled:hover:bg-grey enabled:focus-visible:bg-grey"
+            ? "text-dark enabled:bg-yellowGradient enabled:active:brightness-[115%] laptop:enabled:hover:brightness-[115%] enabled:focus-visible:brightness-[115%]"
+            : "text-fg bg-lightGrey enabled:active:bg-grey laptop:enabled:hover:bg-grey enabled:focus-visible:bg-grey"
         }  
         
       disabled:bg-grey disabled:text-white

@@ -52,7 +52,7 @@ export default function CatalogMenu({
         isCatalogMenuOpened
           ? "translate-x-0 opacity-100 no-doc-scroll"
           : "-translate-x-full opacity-0"
-      } fixed top-[60px] tabxl:top-0 left-0 z-[70] w-[100vw] tabxl:w-[400px] h-[calc(100dvh-60px)] tabxl:h-[100dvh] bg-white tabxl:rounded-r-[32px]
+      } fixed top-[60px] tabxl:top-0 left-0 z-[70] w-[100vw] tabxl:w-[400px] h-[calc(100dvh-60px)] tabxl:h-[100dvh] bg-surface dark:bg-page tabxl:rounded-r-[32px]
       transition duration-[600ms] overflow-hidden flex flex-col`}
     >
       <div className="hidden tabxl:block fixed -z-10 tabxl:left-[-9px] tabxl:top-[-125px] w-[303px] h-[288px] rounded-full bg-gradient-to-b from-[#FFB300] to-[#FFF1D0] blur-md" />
@@ -64,7 +64,7 @@ export default function CatalogMenu({
       scrollbar-track-transparent"
       >
         <div className="hidden tabxl:flex justify-between items-center mb-[43px] tabxl:mb-12">
-          <h2 className="ml-5 text-24bold">{t("title")}</h2>{" "}
+          <h2 className="ml-5 text-24bold text-dark">{t("title")}</h2>{" "}
           <IconButton
             handleClick={() => setIsCatalogMenuOpened(false)}
             className="mr-5 enabled:active:scale-95 enabled:active:text-yellow laptop:enabled:hover:text-yellow enabled:focus-visible:text-yellow transition duration-300 ease-out"

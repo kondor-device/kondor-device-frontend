@@ -26,9 +26,9 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
   return (
     <li
       className="flex flex-col justify-between w-[48.5%] tabxl:w-[47%] laptop:w-[48.5%] deskxl:w-[48%] max-w-[350px] rounded-[18px] tabxl:rounded-[24px] deskxl:rounded-[40px] p-[18px] tabxl:p-[22px] deskxl:py-[30px] deskxl:px-10 
-    shadow-card bg-white"
+    shadow-card bg-surface"
     >
-      <div className="flex items-center justify-center w-full tab:w-[85%] tabxl:w-[65%] deskxl:size-[90%] aspect-[1/1] mx-auto my-auto">
+      <div className="flex items-center justify-center w-full tab:w-[85%] tabxl:w-[65%] deskxl:size-[90%] aspect-[1/1] mx-auto my-auto rounded-[12px] tabxl:rounded-[20px] bg-white overflow-hidden">
         <Link
           href={cat?.id ? localizedCategoryLink : localizedCatalogLink}
           className="group block w-fit mx-auto"

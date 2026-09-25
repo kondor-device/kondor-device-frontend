@@ -27,7 +27,7 @@ interface CustomizedInputProps {
 
 const labelStyles = "relative flex flex-col w-full";
 const fieldStyles =
-  "relative w-full h-full px-[18px] py-[14px] deskxl:py-[19px] text-dark placeholder-grey border rounded-full outline-none text-12med laptop:text-14med deskxl:text-18med transition duration-300 ease-out";
+  "relative w-full h-full px-[18px] py-[14px] deskxl:py-[19px] text-fg placeholder-grey border rounded-full outline-none text-12med laptop:text-14med deskxl:text-18med transition duration-300 ease-out";
 const fieldWrapperStyles =
   "relative group before:content-[''] before:absolute before:top-0 before:left-0 before:rounded-full before:w-full before:h-full before:blur-[3px] before:transition before:duration-300 before:ease-out before:will-change-transform";
 const errorStyles = "absolute bottom-[-14px] left-2 text-10med text-inputError";

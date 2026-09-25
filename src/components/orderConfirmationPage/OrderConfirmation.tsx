@@ -23,7 +23,7 @@ export default function OrderConfirmation() {
     <section className="container max-w-[1920px] pt-5 pb-[30px] laptop:pb-20">
       <div
         className="min-w-[312px] max-w-[390px] laptop:max-w-[628px] w-[95.5%] tab:w-[628px] px-4 py-[30px] laptop:px-10 laptop:py-10 mx-auto 
-      shadow-notificationMob laptop:shadow-notification rounded-[20px] laptop:rounded-[30px] bg-yellow"
+      shadow-notificationMob laptop:shadow-notification rounded-[20px] laptop:rounded-[30px] bg-yellow text-dark"
       >
         <PopUpTitle>{t("notifications.successful.title")}</PopUpTitle>
         <p className="mt-5 mb-[10px] deskxl:mt-[25px] deskxl:mb-[15px] text-12reg laptop:text-18reg">

@@ -137,7 +137,7 @@ export default function CatalogFilter({
   return (
     <>
       <div
-        className={`block shrink-0 tabxl:w-[311px] h-[calc(100dvh-82px-76px)] tabxl:h-fit py-5 px-6 rounded-[12px] shadow-catalogFilter bg-white overflow-y-auto scrollbar scrollbar-w-[2.5px] scrollbar-thumb-rounded-full 
+        className={`block shrink-0 tabxl:w-[311px] h-[calc(100dvh-82px-76px)] tabxl:h-fit py-5 px-6 rounded-[12px] shadow-catalogFilter bg-surface overflow-y-auto scrollbar scrollbar-w-[2.5px] scrollbar-thumb-rounded-full 
       scrollbar-track-rounded-full scrollbar-thumb-orange scrollbar-track-transparent ${className}`}
       >
         <TypeFilter
@@ -173,7 +173,7 @@ export default function CatalogFilter({
         </Button>
       </div>
       {isOpenModal && (
-        <div className="tabxl:hidden absolute bottom-0 left-0 w-full h-[76px] p-5 bg-white rounded-t-[12px] shadow-filterButton">
+        <div className="tabxl:hidden absolute bottom-0 left-0 w-full h-[76px] p-5 bg-surface rounded-t-[12px] shadow-filterButton">
           <Button onClick={applyFilters} className="w-full h-[36px]">
             {t("apply")}
           </Button>
