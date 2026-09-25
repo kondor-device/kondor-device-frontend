@@ -1,12 +1,19 @@
 import React from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import AnimationWrapper from "./AnimationWrapper";
 
 export default function HeroTitle() {
   const t = useTranslations("homePage.hero.title");
+  const locale = useLocale();
 
   return (
-    <h1 className="inline-flex flex-col text-22bold tabxl:text-32bold laptop:text-40bold desk:text-45bold leading-[33px] uppercase">
+    <h1
+      className={`inline-flex flex-col text-22bold tabxl:text-32bold laptop:text-40bold desk:text-45bold leading-[33px] uppercase ${
+        // The Russian title is narrower, which shifts the product cards block to the left.
+        // Same width as the Ukrainian title (in em, so it scales with the font size)
+        locale === "ru" ? "tabxl:min-w-[13.22em]" : ""
+      }`}
+    >
       <AnimationWrapper
         sectionId="home-page-hero"
         commonStyles="w-fit relative transition duration-1000 ease-slow"
