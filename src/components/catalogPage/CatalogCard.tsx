@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { ProductItem } from "@/types/productItem";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { v4 as uuidv4 } from "uuid";
 import { useTranslations } from "next-intl";
 import { useCartStore } from "@/store/cartStore";

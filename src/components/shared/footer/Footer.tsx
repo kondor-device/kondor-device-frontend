@@ -1,7 +1,7 @@
 "use client";
 import LogoLink from "../logoLink/LogoLink";
 import { useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/i18n/routing";
 import Important from "./Important";
 import Details from "./Details";
 import Contacts from "./Contacts";

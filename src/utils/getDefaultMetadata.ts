@@ -1,8 +1,17 @@
 import { Metadata } from "next";
+import { Locale } from "@/types/locale";
 
 const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export function getDefaultMetadata(t: (key: string) => string): Metadata {
+const OG_LOCALES: Record<Locale, string> = {
+  uk: "uk_UA",
+  ru: "ru_RU",
+};
+
+export function getDefaultMetadata(
+  t: (key: string) => string,
+  locale: Locale = "uk"
+): Metadata {
   return {
     title: t("title"),
     description: t("description"),
@@ -18,7 +27,7 @@ export function getDefaultMetadata(t: (key: string) => string): Metadata {
         },
       ],
       type: "website",
-      locale: "uk_UA",
+      locale: OG_LOCALES[locale],
       siteName: "Kondor Device",
     },
   };

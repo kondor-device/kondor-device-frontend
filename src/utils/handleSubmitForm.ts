@@ -9,7 +9,7 @@ import { getProductsByIds } from "@/utils/getProductsByIds";
 import { GET_PRODUCTS_BY_IDS, GET_PROMOCODE_BY_CODE } from "@/lib/queries";
 import { ProductItem } from "@/types/productItem";
 import { useModalStore } from "@/store/modalStore";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useRouter } from "@/i18n/routing";
 import { getPromocode } from "./getPromocode";
 import { sendDataToKeyCrm } from "./sendDataToKeyCrm";
 import { sendGTMEvent } from "@next/third-parties/google";
@@ -28,7 +28,7 @@ export const handleSubmitForm = async <T>(
   setIsError: Dispatch<SetStateAction<boolean>>,
   setIsNotificationShown: Dispatch<SetStateAction<boolean>>,
   values: ValuesCheckoutFormType,
-  router: AppRouterInstance
+  router: ReturnType<typeof useRouter>
 ): Promise<SubmitFormResult> => {
   const { clearOrderData, setOrderData } = useOrderStore.getState();
   const { clearCart, cartItems, promocode } = useCartStore.getState();
@@ -250,7 +250,7 @@ export const handleSubmitForm = async <T>(
       }
     }
 
-    router.push("/uk/order-confirmation");
+    router.push("/order-confirmation");
 
     setTimeout(() => closeModal(), 1000);
 

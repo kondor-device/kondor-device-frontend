@@ -41,10 +41,15 @@ const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
 });
 
-export async function generateMetadata() {
-  const t = await getTranslations("metadata");
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata" });
 
-  return getDefaultMetadata(t);
+  return getDefaultMetadata(t, locale);
 }
 
 export default async function LocaleLayout({

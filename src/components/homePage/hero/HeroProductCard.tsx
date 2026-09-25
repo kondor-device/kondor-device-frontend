@@ -2,7 +2,7 @@ import SmallButton from "@/components/shared/buttons/SmallButton";
 import { ProductItem } from "@/types/productItem";
 import Image from "next/image";
 import React from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { formatSum } from "@/utils/formatSum";
 import { Link } from "@/i18n/routing";
 
@@ -12,16 +12,13 @@ interface HeroProductCardProps {
 
 export default function HeroProductCard({ product }: HeroProductCardProps) {
   const t = useTranslations();
-  const locale = useLocale();
 
   const { name, price, priceDiscount, coloropts, cat } = product;
 
   const { photos } = coloropts[0];
 
-  const localizedCatalogLink =
-    locale === "uk" ? `/#catalog` : `/${locale}#catalog`;
-  const localizedCategoryLink =
-    locale === "uk" ? `/#${cat?.id}` : `/${locale}#${cat?.id}`;
+  const catalogLink = "/#catalog";
+  const categoryLink = `/#${cat?.id}`;
 
   return (
     <li
@@ -30,7 +27,7 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
     >
       <div className="flex items-center justify-center w-full tab:w-[85%] tabxl:w-[65%] deskxl:size-[90%] aspect-[1/1] mx-auto my-auto rounded-[12px] tabxl:rounded-[20px] bg-white overflow-hidden">
         <Link
-          href={cat?.id ? localizedCategoryLink : localizedCatalogLink}
+          href={cat?.id ? categoryLink : catalogLink}
           className="group block w-fit mx-auto"
         >
           <Image
@@ -47,7 +44,7 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
         {name}
       </h2>
       <Link
-        href={cat?.id ? localizedCategoryLink : localizedCatalogLink}
+        href={cat?.id ? categoryLink : catalogLink}
         className="block w-fit mx-auto"
       >
         <SmallButton>{`${t("homePage.hero.from")} ${formatSum(

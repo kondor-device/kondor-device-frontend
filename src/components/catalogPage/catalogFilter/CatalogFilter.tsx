@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useRouter, usePathname } from "@/i18n/routing";
 import { CategoryItem } from "@/types/categoryItem";
 import AvailabilityFilter from "./AvailabilityFilter";
 import PriceFilter from "./PriceFilter";

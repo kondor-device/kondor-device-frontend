@@ -10,7 +10,7 @@ import FormWithNotifications from "./FormWithNotifications";
 import { handleSubmitForm } from "@/utils/handleSubmitForm";
 import { useModalStore } from "@/store/modalStore";
 import { useCartStore } from "@/store/cartStore";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
 import { ProductItem } from "@/types/productItem";
 import CartPopUp, { CART_MODAL_STYLES } from "../cart/CartPopUp";
 import { useCartAvailabilityCheck } from "@/hooks/useCartAvailabilityCheck";

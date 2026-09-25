@@ -1,4 +1,3 @@
-import { useLocale } from "next-intl";
 import React, { Dispatch, SetStateAction } from "react";
 import { Link } from "@/i18n/routing";
 
@@ -18,14 +17,13 @@ export default function MenuLink({
   setIsCatalogMenuOpened,
   className = "",
 }: MenuLinkProps) {
-  const locale = useLocale();
   const { title, path } = menuItem;
 
   return (
     <li className={`text-center ${className}`}>
       {path !== "catalog" ? (
         <Link
-          href={locale === "uk" ? `/${path}` : `/${locale}${path}`}
+          href={`/${path}`}
           onClick={() => {
             if (setIsHeaderMenuOpened) setIsHeaderMenuOpened(false);
             if (path === "catalog") {
