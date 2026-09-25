@@ -33,6 +33,9 @@ async function getDynamicPages() {
   return productsPages;
 }
 
+// Домен продакшена (той самий, що CANONICAL_HOST у next.config.mjs)
+const SITE_URL = "https://www.kondor.ua";
+
 // Supported locales (keep in sync with src/i18n/routing.ts). The default one has no URL prefix.
 const LOCALES = ["uk", "ru"];
 const DEFAULT_LOCALE = "uk";
@@ -77,7 +80,8 @@ async function getLocalizedEntries(config, page) {
 }
 
 const sitemapConfig = {
-  siteUrl: process.env.NEXT_PUBLIC_BASE_URL,
+  // Завжди продакшн-адреса: sitemap.xml і robots.txt лежать у git, тож localhost у них потрапляти не має
+  siteUrl: SITE_URL,
   changefreq: "weekly",
   sitemapSize: 5000,
   priority: 0.9,
