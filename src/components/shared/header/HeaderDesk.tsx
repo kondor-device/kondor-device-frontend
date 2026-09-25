@@ -3,6 +3,7 @@ import LogoLink from "../logoLink/LogoLink";
 import SocialLinksList from "./socialLinks/SocialLinksList";
 import NavMenu from "./navMenu/NavMenu";
 import ThemeToggle from "../themeToggle/ThemeToggle";
+import LanguageSwitcher from "../languageSwitcher/LanguageSwitcher";
 
 interface HeaderDeskProps {
   setIsCatalogMenuOpened: Dispatch<SetStateAction<boolean>>;
@@ -18,6 +19,7 @@ export default function HeaderDesk({
         <NavMenu setIsCatalogMenuOpened={setIsCatalogMenuOpened} />
         <div className="flex items-center gap-6 laptop:gap-8">
           <ThemeToggle />
+          <LanguageSwitcher />
           <SocialLinksList />
         </div>
       </div>

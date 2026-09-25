@@ -4,6 +4,7 @@ import React, { useState, Dispatch, SetStateAction } from "react";
 import LogoLink from "@/components/shared/logoLink/LogoLink";
 import BurgerMenuButton from "./burgerMenu/BurgerMenuButton";
 import ThemeToggle from "../../themeToggle/ThemeToggle";
+import LanguageSwitcher from "../../languageSwitcher/LanguageSwitcher";
 import CatalogMenu from "../catalogMenu/CatalogMenu";
 import { CategoryItem } from "@/types/categoryItem";
 
@@ -29,7 +30,8 @@ export default function HeaderMob({
           setIsHeaderMenuOpened={setIsHeaderMenuOpened}
         />
         <div className="flex items-center gap-x-3">
-          <ThemeToggle />
+          <ThemeToggle className="-mr-3" />
+          <LanguageSwitcher />
           <BurgerMenuButton
             isHeaderMenuOpened={isHeaderMenuOpened}
             toggleHeaderMenuOpen={toggleHeaderMenuOpen}
