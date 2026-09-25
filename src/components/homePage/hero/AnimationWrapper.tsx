@@ -3,7 +3,7 @@ import React from "react";
 import { useOnScreen } from "@/hooks/useOnScreen";
 
 interface HeroTitleWrapperProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   sectionId: string;
   commonStyles: string;
   visibleStyles: string;
