@@ -14,6 +14,7 @@ import CartPopUp from "../homePage/catalog/cart/CartPopUp";
 import { sendGTMEvent } from "@next/third-parties/google";
 import CatalogCardButton from "../shared/buttons/CatalogCardButton";
 import ColorPicker from "./ColorPicker";
+import { getColorParam } from "@/utils/colorParam";
 
 interface CatalogCardProps {
   product: ProductItem;
@@ -140,9 +141,9 @@ export default function CatalogCard({
         ) : null}
 
         <Link
-          href={`/catalog/${slug}?color=${coloropts[
-            selectedColorIndex
-          ]?.color.toLowerCase()}`}
+          href={`/catalog/${slug}?color=${getColorParam(
+            coloropts[selectedColorIndex]
+          )}`}
         >
           {coloropts[selectedColorIndex].photos ? (
             <Image
@@ -167,9 +168,9 @@ export default function CatalogCard({
         </Link>
       </div>
       <Link
-        href={`/catalog/${slug}?color=${coloropts[
-          selectedColorIndex
-        ]?.color.toLowerCase()}`}
+        href={`/catalog/${slug}?color=${getColorParam(
+          coloropts[selectedColorIndex]
+        )}`}
         className="group block mb-3 desk:mb-4"
       >
         <h3 className="flex flex-wrap gap-x-2 items-center text-12bold desk:text-18bold laptop:group-hover:brightness-125 focus-visible:brightness-125 active:brightness-125 active:scale-95 transition duration-300 ease-in-out">

@@ -18,6 +18,7 @@ import Video from "./Video";
 import AnimationWrapper from "@/components/homePage/hero/AnimationWrapper";
 import { useScreenWidth } from "@/hooks/useScreenWidth";
 import { useSearchParams } from "next/navigation";
+import { findColorIndex } from "@/utils/colorParam";
 
 interface ProductInfoProps {
   product: ProductItem;
@@ -50,7 +51,7 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
   const searchParams = useSearchParams();
   const initialColor = searchParams.get("color");
 
-  const initialIndex = coloropts.findIndex((opt) => opt.color === initialColor);
+  const initialIndex = findColorIndex(coloropts, initialColor);
   const [selectedColorIndex, setSelectedColorIndex] = useState(
     initialIndex !== -1 ? initialIndex : 0
   );
