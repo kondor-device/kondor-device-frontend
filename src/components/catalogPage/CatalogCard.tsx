@@ -37,6 +37,8 @@ export default function CatalogCard({
   const {
     id,
     generalname,
+    generalnameUk,
+    nameUk,
     name,
     slug,
     price,
@@ -51,7 +53,7 @@ export default function CatalogCard({
   } = product;
 
   const savings = (((price - (priceDiscount ?? price)) / price) * 100).toFixed(
-    0
+    0,
   );
 
   const badgeText = badge?.text ?? null;
@@ -76,6 +78,8 @@ export default function CatalogCard({
       preordertext,
       generalName: generalname,
       name,
+      generalNameUk: generalnameUk,
+      nameUk,
       priceDiscount,
       price,
       actualPrice,
@@ -83,13 +87,14 @@ export default function CatalogCard({
         ? coloropts[selectedColorIndex]?.photos[0]
         : { url: "", alt: "" },
       color: coloropts[selectedColorIndex]?.color,
+      colorUk: coloropts[selectedColorIndex]?.colorUk,
       code: coloropts[selectedColorIndex]?.code,
       quantity: 1,
     });
     openModal(
       "cartPopUp",
       <CartPopUp shownOnAddonsProducts={shownOnAddons} />,
-      "desk:max-w-[950px] desk:w-[950px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
+      "desk:max-w-[950px] desk:w-[950px] deskxl:max-w-[1681px] deskxl:w-[1681px]",
     );
     sendGTMEvent({
       event: "add_to_cart",
@@ -98,8 +103,10 @@ export default function CatalogCard({
       items: [
         {
           item_id: coloropts[selectedColorIndex]?.code || id,
-          item_name: `${generalname} ${name}`.trim(),
-          item_variant: coloropts[selectedColorIndex]?.color,
+          item_name: `${generalnameUk ?? generalname} ${nameUk ?? name}`.trim(),
+          item_variant:
+            coloropts[selectedColorIndex]?.colorUk ??
+            coloropts[selectedColorIndex]?.color,
           price: actualPrice,
           quantity: 1,
         },
@@ -142,7 +149,7 @@ export default function CatalogCard({
 
         <Link
           href={`/catalog/${slug}?color=${getColorParam(
-            coloropts[selectedColorIndex]
+            coloropts[selectedColorIndex],
           )}`}
         >
           {coloropts[selectedColorIndex].photos ? (
@@ -169,7 +176,7 @@ export default function CatalogCard({
       </div>
       <Link
         href={`/catalog/${slug}?color=${getColorParam(
-          coloropts[selectedColorIndex]
+          coloropts[selectedColorIndex],
         )}`}
         className="group block mb-3 desk:mb-4"
       >
@@ -224,7 +231,7 @@ export default function CatalogCard({
             onClick={() =>
               openModal(
                 "characteristicsPopUp",
-                <Characteristics characteristics={chars} />
+                <Characteristics characteristics={chars} />,
               )
             }
           >
@@ -234,7 +241,7 @@ export default function CatalogCard({
             onClick={() =>
               openModal(
                 "complectationPopUp",
-                <Complectation complectation={complect} />
+                <Complectation complectation={complect} />,
               )
             }
           >
@@ -254,8 +261,8 @@ export default function CatalogCard({
           {outOfStock
             ? t("buttons.outOfStock")
             : preorder
-            ? t("buttons.preOrder")
-            : t("buttons.makeOrder")}
+              ? t("buttons.preOrder")
+              : t("buttons.makeOrder")}
         </button>
         {!outOfStock && preorder && preordertext ? (
           <p className="absolute bottom-3 tabxl:bottom-4 px-4 deskxl:px-6 text-10med tabxl:text-14med text-white">

@@ -40,6 +40,8 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
     complect,
     coloropts,
     generalname,
+    generalnameUk,
+    nameUk,
     name,
     price,
     priceDiscount,
@@ -53,7 +55,7 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
 
   const initialIndex = findColorIndex(coloropts, initialColor);
   const [selectedColorIndex, setSelectedColorIndex] = useState(
-    initialIndex !== -1 ? initialIndex : 0
+    initialIndex !== -1 ? initialIndex : 0,
   );
 
   const t = useTranslations();
@@ -67,7 +69,7 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
   const { photos } = coloropts[selectedColorIndex];
 
   const savings = (((price - (priceDiscount ?? price)) / price) * 100).toFixed(
-    0
+    0,
   );
 
   const html = description
@@ -99,18 +101,21 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
       preordertext,
       generalName: generalname,
       name,
+      generalNameUk: generalnameUk,
+      nameUk,
       priceDiscount,
       price,
       actualPrice,
       image: coloropts[selectedColorIndex]?.photos[0],
       color: coloropts[selectedColorIndex]?.color,
+      colorUk: coloropts[selectedColorIndex]?.colorUk,
       code: coloropts[selectedColorIndex]?.code,
       quantity: 1,
     });
     openModal(
       "cartPopUp",
       <CartPopUp shownOnAddonsProducts={addons} />,
-      "desk:max-w-[950px] desk:w-[950px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
+      "desk:max-w-[950px] desk:w-[950px] deskxl:max-w-[1681px] deskxl:w-[1681px]",
     );
     sendGTMEvent({
       event: "add_to_cart",
@@ -119,8 +124,10 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
       items: [
         {
           item_id: coloropts[selectedColorIndex]?.code || id,
-          item_name: `${generalname} ${name}`.trim(),
-          item_variant: coloropts[selectedColorIndex]?.color,
+          item_name: `${generalnameUk ?? generalname} ${nameUk ?? name}`.trim(),
+          item_variant:
+            coloropts[selectedColorIndex]?.colorUk ??
+            coloropts[selectedColorIndex]?.color,
           price: actualPrice,
           quantity: 1,
         },
@@ -204,8 +211,8 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
                   {outOfStock
                     ? t("buttons.outOfStock")
                     : preorder
-                    ? t("buttons.preOrder")
-                    : t("buttons.makeOrder")}
+                      ? t("buttons.preOrder")
+                      : t("buttons.makeOrder")}
                 </Button>
               </AnimationWrapper>
               {!outOfStock && preorder && preordertext ? (
@@ -261,8 +268,8 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
           {outOfStock
             ? t("buttons.outOfStock")
             : preorder
-            ? t("buttons.preOrder")
-            : t("buttons.makeOrder")}
+              ? t("buttons.preOrder")
+              : t("buttons.makeOrder")}
         </Button>
       </div>
     </>

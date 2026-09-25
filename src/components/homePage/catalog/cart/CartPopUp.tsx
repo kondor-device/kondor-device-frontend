@@ -43,7 +43,7 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
     openModal(
       "checkoutPopUp",
       <CheckoutPopUp shownOnAddonsProducts={shownOnAddonsProducts} />,
-      CART_MODAL_STYLES
+      CART_MODAL_STYLES,
     );
     const modalContainer = document.getElementById("modal");
     if (modalContainer) {
@@ -55,8 +55,10 @@ export default function CartPopUp({ shownOnAddonsProducts }: CartPopUpProps) {
       currency: "UAH",
       items: cartItems.map((item) => ({
         item_id: item.code || item.id,
-        item_name: `${item.generalName} ${item.name}`.trim(),
-        item_variant: item.color,
+        item_name: `${item.generalNameUk ?? item.generalName} ${
+          item.nameUk ?? item.name
+        }`.trim(),
+        item_variant: item.colorUk ?? item.color,
         price: item.actualPrice,
         quantity: item.quantity,
       })),

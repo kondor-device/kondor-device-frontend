@@ -23,6 +23,7 @@ const BADGE_PROJECTION = `
 export const COLOR_OPTIONS_PROJECTION = `
   code,
   ${l10nField("color")},
+  "colorUk": color,
   "colorset": {
     "hex": coalesce(colorset.hex.hex, colorset.hex)
   },
@@ -46,6 +47,8 @@ const CATEGORY_PROJECTION = `
     "id": _id,
     ${l10nField("generalname")},
     ${l10nField("name")},
+    "generalnameUk": generalname,
+    "nameUk": name,
     slug,
     price,
     priceDiscount,
@@ -68,11 +71,14 @@ const ADDONS_PROJECTION = `
   outOfStock,
   "coloropts": coloropts[]{
     ${l10nField("color")},
+    "colorUk": color,
     code,
     "photos": photos[]{ ${IMAGE_PROJECTION} }
   },
   ${l10nField("generalname")},
   ${l10nField("name")},
+  "generalnameUk": generalname,
+  "nameUk": name,
   price,
   priceDiscount,
   ${BADGE_PROJECTION}
@@ -95,6 +101,8 @@ const ITEM_DETAIL_PROJECTION = `
   "id": _id,
   ${l10nField("generalname")},
   ${l10nField("name")},
+  "generalnameUk": generalname,
+  "nameUk": name,
   ${l10nField("seoTitle")},
   ${l10nField("seoDescription")},
   "seoImage": select(defined(seoImage.asset->url) => { "url": seoImage.asset->url }),
@@ -141,7 +149,9 @@ export const GET_PRODUCTS_BY_IDS = groq`
     ${l10nField("generalname")},
     ${l10nField("name")},
     ${l10nField("preordertext")},
-    "coloropts": coloropts[]{ code, ${l10nField("color")} }
+    "generalnameUk": generalname,
+    "nameUk": name,
+    "coloropts": coloropts[]{ code, ${l10nField("color")}, "colorUk": color }
   }
 }
 `;

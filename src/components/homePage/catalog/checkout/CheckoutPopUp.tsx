@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Formik, FormikHelpers } from "formik";
 import CartItemsList from "../cart/cartProducts/CartItemsList";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import SubmitButton from "@/components/shared/forms/formComponents/SubmitButton";
 import Button from "@/components/shared/buttons/Button";
 import { CheckoutValidation } from "@/schemas/checkoutFormValidation";
@@ -38,6 +38,7 @@ export default function CheckoutPopUp({
   const [isNotificationShown, setIsNotificationShown] = useState(false);
 
   const router = useRouter();
+  const locale = useLocale();
 
   const { closeModal, openModal } = useModalStore();
   const { activeModal } = useModalStore((state) => state);
@@ -62,7 +63,7 @@ export default function CheckoutPopUp({
 
   const submitForm = async (
     values: ValuesCheckoutFormType,
-    formikHelpers: FormikHelpers<ValuesCheckoutFormType>
+    formikHelpers: FormikHelpers<ValuesCheckoutFormType>,
   ) => {
     const result = await handleSubmitForm<ValuesCheckoutFormType>(
       formikHelpers,
@@ -70,7 +71,8 @@ export default function CheckoutPopUp({
       setIsError,
       setIsNotificationShown,
       values,
-      router
+      router,
+      locale,
     );
 
     if (result.success === false && result.reason === "out_of_stock") {
@@ -78,7 +80,7 @@ export default function CheckoutPopUp({
       openModal(
         "cartPopUp",
         <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />,
-        CART_MODAL_STYLES
+        CART_MODAL_STYLES,
       );
       const modalContainer = document.getElementById("modal");
       if (modalContainer) {

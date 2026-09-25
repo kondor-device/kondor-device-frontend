@@ -21,6 +21,8 @@ export default function AddonItemMob({
     id,
     name,
     generalname,
+    generalnameUk,
+    nameUk,
     coloropts,
     priceDiscount,
     price,
@@ -39,6 +41,8 @@ export default function AddonItemMob({
     preordertext,
     generalName: generalname,
     name,
+    generalNameUk: generalnameUk,
+    nameUk,
     priceDiscount,
     price,
     actualPrice,
@@ -46,6 +50,7 @@ export default function AddonItemMob({
       ? coloropts[0]?.photos[0]
       : { url: "", alt: "" },
     color: coloropts[0]?.color,
+    colorUk: coloropts[0]?.colorUk,
     code: coloropts[0]?.code,
     quantity: 1,
   };

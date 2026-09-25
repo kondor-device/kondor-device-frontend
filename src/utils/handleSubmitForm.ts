@@ -8,6 +8,7 @@ import { generateOrderNumber } from "./generateOrderNumber";
 import { getProductsByIds } from "@/utils/getProductsByIds";
 import { GET_PRODUCTS_BY_IDS, GET_PROMOCODE_BY_CODE } from "@/lib/queries";
 import { ProductItem } from "@/types/productItem";
+import { CartItem } from "@/types/cartItem";
 import { useModalStore } from "@/store/modalStore";
 import { useRouter } from "@/i18n/routing";
 import { getPromocode } from "./getPromocode";
@@ -22,13 +23,23 @@ export type SubmitFormResult =
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+// Order data for Telegram, KeyCRM, Google Sheets, Wayforpay and analytics is always in Ukrainian,
+// while the cart and the confirmation page stay in the site language
+const toUkrainianTexts = (item: CartItem): CartItem => ({
+  ...item,
+  generalName: item.generalNameUk ?? item.generalName,
+  name: item.nameUk ?? item.name,
+  color: item.colorUk ?? item.color,
+});
+
 export const handleSubmitForm = async <T>(
   { resetForm }: FormikHelpers<T>,
   setIsLoading: Dispatch<SetStateAction<boolean>>,
   setIsError: Dispatch<SetStateAction<boolean>>,
   setIsNotificationShown: Dispatch<SetStateAction<boolean>>,
   values: ValuesCheckoutFormType,
-  router: ReturnType<typeof useRouter>
+  router: ReturnType<typeof useRouter>,
+  locale: string = "uk",
 ): Promise<SubmitFormResult> => {
   const { clearOrderData, setOrderData } = useOrderStore.getState();
   const { clearCart, cartItems, promocode } = useCartStore.getState();
@@ -42,15 +53,21 @@ export const handleSubmitForm = async <T>(
 
   setIsLoading(true);
 
-  //Запитуємо з cms актуальні ціни на товари в кошику
+  //Запитуємо з cms актуальні ціни на товари в кошику (тексти — мовою сайту,
+  //українські версії приходять у полях *Uk)
   const cartItemsIds = cartItems.map((cartItem) => cartItem.id);
 
-  const resProducts = await getProductsByIds(GET_PRODUCTS_BY_IDS, cartItemsIds);
+  const resProducts = await getProductsByIds(
+    GET_PRODUCTS_BY_IDS,
+    cartItemsIds,
+    locale,
+  );
 
   const productsFromCms: ProductItem[] = resProducts.data?.allItems ?? [];
 
-  const { outOfStockCount } =
-    useCartStore.getState().syncWithCmsProducts(productsFromCms);
+  const { outOfStockCount } = useCartStore
+    .getState()
+    .syncWithCmsProducts(productsFromCms);
 
   if (outOfStockCount > 0) {
     setIsLoading(false);
@@ -72,7 +89,10 @@ export const handleSubmitForm = async <T>(
     .getState()
     .syncWithCmsProducts(productsFromCms, { discount: updatedDiscount });
 
+  // Кошик і сторінка підтвердження — мовою сайту
   const updatedCartItems = useCartStore.getState().cartItems;
+  // Telegram, KeyCRM, Sheets, Wayforpay, аналітика — завжди українською
+  const orderItems = updatedCartItems.map(toUkrainianTexts);
 
   //Розраховуємо суму замовлення з оновленими цінами
   const totalSum = updatedCartItems.reduce((total, item) => {
@@ -95,19 +115,19 @@ export const handleSubmitForm = async <T>(
     city: values.city.trim(),
     postOffice: values.postOffice.trim(),
     payment: values.payment.trim(),
-    updatedCartItems,
+    updatedCartItems: orderItems,
     promocode: updatedPromocode,
     discount: updatedDiscount,
     totalSum,
   };
 
   // Формуємо список товарів з переносами на новий рядок для Telegram та Google sheets
-  const orderedListProducts = updatedCartItems
+  const orderedListProducts = orderItems
     .map(
       (cartItem) =>
         `- ${cartItem.preorder ? "Передзамовлення: " : ""}${
           cartItem.generalName
-        } ${cartItem.name}, колір: ${cartItem.color}`
+        } ${cartItem.name}, колір: ${cartItem.color}`,
     )
     .join("\n");
 
@@ -141,7 +161,8 @@ export const handleSubmitForm = async <T>(
     totalSum,
   };
 
-  setOrderData(collectedOrderData);
+  // Сторінка підтвердження показується мовою сайту, тому назви для неї беремо в поточній мові
+  setOrderData({ ...collectedOrderData, updatedCartItems });
 
   try {
     // 1) Telegram — операційне підтвердження для менеджерів
@@ -167,7 +188,7 @@ export const handleSubmitForm = async <T>(
       order_number: orderNumber,
       value: totalSum,
       currency: "UAH",
-      items: updatedCartItems.map((item) => ({
+      items: orderItems.map((item) => ({
         item_id: item.code || item.id,
         item_name: `${item.generalName} ${item.name}`.trim(),
         item_variant: item.color,
@@ -199,11 +220,11 @@ export const handleSubmitForm = async <T>(
     // 4) Wayforpay — тільки коли замовлення вже є в KeyCRM (callback зможе mark-as-paid)
     if (collectedOrderData.payment === "Онлайн оплата (Wayforpay)") {
       try {
-        const productName = updatedCartItems.map(
-          (item) => `${item.generalName} ${item.name} колір: ${item.color}`
+        const productName = orderItems.map(
+          (item) => `${item.generalName} ${item.name} колір: ${item.color}`,
         );
         const productPrice = updatedCartItems.map((item) =>
-          Number(item.actualPrice)
+          Number(item.actualPrice),
         );
         const productCount = updatedCartItems.map((item) => item.quantity);
 

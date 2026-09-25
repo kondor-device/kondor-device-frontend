@@ -11,8 +11,10 @@ export interface CmsCartProduct {
   // Localized texts, used to show the cart in the current language
   generalname?: string;
   name?: string;
+  generalnameUk?: string;
+  nameUk?: string;
   preordertext?: string;
-  coloropts?: { code: string; color?: string }[];
+  coloropts?: { code: string; color?: string; colorUk?: string }[];
 }
 
 export interface CartSyncResult {
@@ -33,7 +35,7 @@ interface CartState {
   getTotalAmount: () => number;
   syncWithCmsProducts: (
     products: CmsCartProduct[],
-    options?: { discount?: number }
+    options?: { discount?: number },
   ) => CartSyncResult;
   hasOutOfStockItems: () => boolean;
 }
@@ -77,7 +79,7 @@ export const useCartStore = create<CartState>()(
       removeSingleItem: (uniqueId) => {
         set({
           cartItems: get().cartItems.filter(
-            (cartItem) => cartItem.uniqueId !== uniqueId
+            (cartItem) => cartItem.uniqueId !== uniqueId,
           ),
         });
       },
@@ -113,13 +115,15 @@ export const useCartStore = create<CartState>()(
         const { cartItems } = get();
         return cartItems.reduce(
           (sum, item) => sum + item.actualPrice * item.quantity,
-          0
+          0,
         );
       },
 
       syncWithCmsProducts: (products, options) => {
         const state = get();
-        const productMap = new Map(products.map((product) => [product.id, product]));
+        const productMap = new Map(
+          products.map((product) => [product.id, product]),
+        );
         const discount =
           options?.discount ?? (state.promocode ? state.discount : 0);
 
@@ -147,9 +151,10 @@ export const useCartStore = create<CartState>()(
                 ? product.priceDiscount
                 : product.price;
 
-            const colorName = product.coloropts?.find(
-              (opt) => opt.code === item.code
-            )?.color;
+            const colorOpt = product.coloropts?.find(
+              (opt) => opt.code === item.code,
+            );
+            const colorName = colorOpt?.color;
 
             return {
               ...item,
@@ -157,6 +162,9 @@ export const useCartStore = create<CartState>()(
               name: product.name ?? item.name,
               preordertext: product.preordertext ?? item.preordertext,
               color: colorName ?? item.color,
+              generalNameUk: product.generalnameUk ?? item.generalNameUk,
+              nameUk: product.nameUk ?? item.nameUk,
+              colorUk: colorOpt?.colorUk ?? item.colorUk,
               outOfStock: isOutOfStock,
               price: product.price,
               priceDiscount: product.priceDiscount,
@@ -174,6 +182,6 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: "kondor-cart-storage",
-    }
-  )
+    },
+  ),
 );
