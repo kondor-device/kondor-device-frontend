@@ -28,7 +28,14 @@ export default function WeOfferItem({ weOfferItem, idx }: WeOfferItemProps) {
           alt={icon}
           width="46"
           height="46"
-          className="max-w-full max-h-full"
+          className="max-w-full max-h-full dark:hidden"
+        />
+        <Image
+          src={`/images/icons/${icon}BlackDark.svg`}
+          alt={icon}
+          width="46"
+          height="46"
+          className="hidden dark:block max-w-full max-h-full"
         />
       </AnimationWrapper>
       <AnimationWrapper
