@@ -40,7 +40,7 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
           />
         </Link>
       </div>
-      <h2 className="mt-auto mb-[11px] desk:mb-[15px] deskxl:mb-[25px] text-12bold mob:text-14bold sm:text-20bold tabxl:text-18bold laptop:text-20bold deskxl:text-28bold text-center">
+      <h2 className="mt-auto mb-[11px] dark:pt-3 tabxl:dark:pt-4 deskxl:dark:pt-5 desk:mb-[15px] deskxl:mb-[25px] text-12bold mob:text-14bold sm:text-20bold tabxl:text-18bold laptop:text-20bold deskxl:text-28bold text-center">
         {name}
       </h2>
       <Link
