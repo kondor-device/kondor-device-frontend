@@ -30,13 +30,17 @@ export async function generateMetadata({
   ]);
   const page = parsePage(pageParam);
 
-  const [t, pageSeo] = await Promise.all([
+  const [t, tBlog, pageSeo] = await Promise.all([
     getTranslations({ locale, namespace: "metadata.blog" }),
+    getTranslations({ locale, namespace: "blogPage" }),
     getBlogPageSeo(),
   ]);
 
   const seo = pageSeo?.seo;
-  const title = seo?.metaTitle || t("title");
+  const baseTitle = seo?.metaTitle || t("title");
+  // Paginated pages get their own title, so they are not duplicates of the first one
+  const title =
+    page > 1 ? `${baseTitle} — ${tBlog("page", { page })}` : baseTitle;
   const description = seo?.metaDescription || t("description");
 
   return {
