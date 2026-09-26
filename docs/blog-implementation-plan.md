@@ -1,77 +1,74 @@
-# План реалізації блогу
+# План реалізації блогу (v2)
 
-Зразки: frontend `nbygkobenhavn-front`, адмінка `nbyg-adm` (Sanity). Стилізація — за поточним проєктом (токени `bg-surface`, `shadow-card`, `Section`, `SectionTitle`, `text-*bold/med`, брейкпоінти `tabxl`/`laptop`, світла/темна тема).
+**Зразки:** frontend `happy-bar-grill-frontend`, адмінка `happy-bar-grill-admin` (Sanity). Проєкти `nbyg*` не використовуються.
+**Стилізація:** у стилі Kondor (токени `bg-surface`, `shadow-card`, `Section`, `SectionTitle`, `text-*bold/med`, брейкпоінти `tabxl`/`laptop`, світла/темна тема, `next-intl`), а не палітра зразка.
 
-## Що беремо зі зразка
-| Зразок | Що переносимо |
-|---|---|
-| `blogPost` (adm) | hero (title, description, desktop/mobile image), slug, `content` (rich text: h2/h3/h4, bullet/number, strong/em, link, image, table), `faq`, `seo` |
-| `blogPage` (adm) | синглтон зі SEO сторінки списку |
-| `app/blog/page.tsx` | hero → breadcrumbs → сітка карток з пагінацією |
-| `app/blog/[article]/page.tsx` | hero → breadcrumbs → контент + FAQ → рекомендовані статті (sidebar на десктопі, слайдер на мобільному) |
-| `Pagination`, `useBlogArticlesPerPage` | пагінація через `?page=`, 12/6 карток на сторінку |
-| `blogPortableTextComponents` | рендер rich text (усі типи блоків) |
-| `ArticleSchema` | JSON-LD `Article` |
+## Структура сторінок (зі зразка)
+- **`/blog`** — hero (заголовок + підзаголовок) → breadcrumbs → **сітка карток** (1/2/3 колонки) → **пагінація** (у зразку її немає — додаємо за вимогою) → порожній стан.
+- **`/blog/[slug]`** — hero (фон desktop/mobile, градієнт, заголовок, опис, автор + дата) → breadcrumbs → **контент (rich text)** + **FAQ** → **рекомендовані статті** (sidebar на десктопі, слайдер на мобільному).
+- **Rich text** (`articlePortableText`): h2/h3/h4, normal, bullet/number, strong/em, link (`href` + `blank`), image (alt), table, gallerySection, кнопка `faqAnswerButton` (CTA-блок).
+- **FAQ:** масив `customFaq` (питання + відповідь у Portable Text: normal, bullet, strong/em, link, кнопка), акордеон.
+- **SEO:** `seoSettings` у статті + синглтон `blogPage`, JSON-LD `BlogPosting`, `schemaJson`, sitemap.
+- **Автор:** окремий документ `blogAuthor` (імʼя, фото, посилання) — reference у статті.
 
-## Адаптація під Kondor
-- **Мови:** uk/ru через `next-intl`; у Sanity — поля з суфіксом `Ru` (`defineRuField`), у GROQ — `l10n()`. Slug спільний для обох мов.
-- **Немає** `motion`, `@portabletext/react`, breadcrumbs, SanityImage — додаємо/замінюємо на `framer-motion`, `next/image` + `@sanity/image-url` (вже є).
-- Дані — через `getProducts`/`fetchSanityData` (`/api/sanity`), не напряму.
-- Проєкт-зразок не має `gallerySection` у блозі — пропускаємо (не в адмінці зразка).
+## Що відрізняється в Kondor (адаптація)
+| Тема | Зразок | Kondor → рішення |
+|---|---|---|
+| Локалізація в Sanity | обʼєкти `{uk, ru}` (`localeString`, `localeArticlePortableText`) | суфікс `Ru` (`defineRuField`, `l10n()`). Тримаємо конвенцію Kondor: `heroTitle`/`heroTitleRu`, `content`/`contentRu` тощо. Фолбек ru→uk, якщо `…Ru` порожнє |
+| Отримання даних | `sanityFetch` (next-sanity) | `getProducts()` → `fetchSanityData` → `/api/sanity` (додає `$locale`) |
+| Next / next-intl | 16 / 4 | 15.1 / 3.26 — синтаксис `params`/`searchParams` як у наявних сторінках `[locale]` |
+| Rich text | `@portabletext/react` | додати залежність |
+| Breadcrumbs, Pagination, Swiper-обгортка | є | у Kondor немає breadcrumbs і пагінації; `swiper` є, обгортку слайдера робимо за прикладом `CatalogSlider` |
+| Дата | `_createdAt` | явне `publishedAt` (можна редагувати, сортування) |
 
 ## Кроки
 
-### Етап 1. Адмінка (`kondor-device-admin`, окрема гілка `blog`)
-1. `npm i @sanity/table`, додати `table()` у `plugins` в `sanity.config.ts`.
-2. `schemaTypes/blogPost.ts`: 
-   - `heroTitle` + `heroTitleRu`, `heroDescription` + `heroDescriptionRu` (`defineRuField`);
-   - `heroDesktopImage`, `heroMobileImage` (hotspot, alt + `altRu`);
-   - `slug` (від `heroTitle`, з транслітерацією кирилиці → латиниця, `isUnique`);
-   - `publishedAt` (datetime, за замовчуванням now) — для сортування;
-   - `content` (uk) і `contentRu` — масив: block (h2/h3/h4, bullet/number, strong/em, link `href`+`blank`), image (alt), table;
-   - `faq` (об'єкт `faqSection`: `description`, `items[question, answer]` + Ru-версії, без `buttons` — у Kondor їх немає);
-   - `seo` (`metaTitle`, `metaDescription`, `opengraphImage` + Ru).
-3. `schemaTypes/blogPage.ts` — синглтон (`seo` + Ru), `schemaTypes/faqSection.ts`, `seoSettings.ts`.
-4. Зареєструвати типи в `schemaTypes/index.ts`; у `sanity.config.ts` — структура: список статей (сортування за `publishedAt desc`) + синглтон «Блог».
-5. `sanity deploy`/перевірка в Studio, створити 1–2 тестові статті з усіма типами блоків (щоб перевірити рендер).
+### Етап 1. Адмінка (`kondor-device-admin`, гілка `blog`)
+1. `npm i @sanity/table`; `table()` у `plugins` в `sanity.config.ts`.
+2. `schemaTypes/lib/…` — перевикористати `defineRuField` (`ruField.ts`); для Portable Text додати `articlePortableTextOf` (єдине джерело блоків: h2–h4, bullet/number, strong/em, link, image, table, gallerySection, faqAnswerButton).
+3. `schemaTypes/faqAnswerButton.ts` (label, href, newTab), `gallerySection.ts`, `faqQuestion.ts` (`question`+`questionRu`, `answer`+`answerRu` — обмежений Portable Text з кнопкою), `seoSettings.ts` (uk + `…Ru`, opengraphImage, schemaJson-файл).
+4. `schemaTypes/blogAuthor.ts` (name+nameRu, photo+alt, profileUrl).
+5. `schemaTypes/blogPost.ts`: `heroTitle(+Ru)`, `heroDescription(+Ru)`, `heroDesktopImage`/`heroMobileImage` (hotspot, alt+altRu), `slug` (від `heroTitle`, `isUnique`), `publishedAt`, `author` (ref), `content` + `contentRu`, `customFaq`, `seo`. Валідація «Ru обовʼязкове, якщо заповнене uk» (як `defineRuField`; для масивів — власний custom-валідатор).
+6. `schemaTypes/blogPage.ts` — синглтон із `seo`; `schemaTypes/index.ts`; `structure.ts` (як у зразку): група «📰 Блог» — Статті (за `publishedAt desc`), Автори, сторінка «Блог».
+7. Перевірка в Studio; створити 2–3 тестові статті, що покривають усі типи блоків + FAQ з кнопкою.
 
-### Етап 2. Фронтенд — інфраструктура (гілка `blog`)
-6. `npm i @portabletext/react`. Типи `src/types/blogPost.ts` (`BlogPost`, `BlogPostPreview`, content-блоки, FAQ, SEO).
-7. `src/lib/sanityImage.ts` (`urlFor` на базі `@sanity/image-url` + `client`).
-8. GROQ у `src/lib/queries.ts`: `ALL_BLOG_POSTS_QUERY` (превʼю: title, description, mobile image, slug, publishedAt; order by `publishedAt desc`), `BLOG_POST_BY_SLUG_QUERY` (повний, з `asset->metadata.dimensions` для зображень і таблиць), `BLOG_PAGE_QUERY` (SEO), `BLOG_SLUGS_QUERY`. Усе через `l10n()` з фолбеком на uk.
-9. Переклади `messages/uk.json`, `ru.json`: `blog.title`, `blog.readMore`, `blog.recommended`, `blog.faqTitle`, `breadcrumbs.*`, `header.navMenu.blog`, `footer`.
+### Етап 2. Фронтенд — інфраструктура (`kondor-device-frontend`, гілка `blog`)
+8. `npm i @portabletext/react`; переконатися, що `cdn.sanity.io` є в `images.remotePatterns` (є).
+9. `src/types/blog.ts` — `BlogPostPreview`, `BlogPost`, `BlogFaqItem`, `BlogAuthor`, `BlogPostSeo` (по зразку `types/blog.ts`).
+10. `src/lib/queries.ts` (через `l10n()` з фолбеком): `ALL_BLOG_POSTS_QUERY` (з пагінацією `[$from...$to]` + окремий `BLOG_POSTS_COUNT_QUERY`), `BLOG_POST_BY_SLUG_QUERY` (hero, `content`/`contentRu`, `customFaq`, author, seo), `OTHER_BLOG_POSTS_QUERY` (без поточної, 3 шт., за `publishedAt desc`), `BLOG_POST_SLUGS_QUERY`, `BLOG_PAGE_SEO_QUERY`, `SITEMAP_BLOG_POSTS_QUERY`.
+11. `src/data/blog.ts` — accessors `getBlogPosts(locale, page)`, `getBlogPostBySlug`, `getOtherBlogPosts`, `getBlogPostSlugs` (`cache()`).
+12. `src/utils/formatBlogDate.ts` (uk/ru), `src/lib/sanityImage.ts` (`urlFor`).
+13. Переклади `messages/uk.json`/`ru.json`: `BlogPage` (heroTitle, heroSubtitle, readMore, empty, faqTitle, otherPostsTitle), breadcrumbs, `header.navMenu.blog`, footer.
 
-### Етап 3. Сторінка списку `/blog`
-10. `src/app/[locale]/blog/page.tsx`: `generateMetadata` (SEO з `blogPage` або дефолт + `getPageAlternates(locale,"/blog")`), server fetch усіх превʼю.
-11. `components/blogPage/hero/Hero.tsx` — заголовок сторінки в стилі поточних сторінок (`PageTitle`/`Section`, відступ `pt-[60px] tabxl:pt-[113px]`).
-12. `components/blogPage/blogList/BlogCard.tsx` — картка: зображення (aspect 16/10), заголовок, опис (`line-clamp`), дата, «Читати далі →`; стиль як `CatalogCard` (`bg-surface`, `shadow-card`, hover), `Link` з `@/i18n/routing`.
-13. `components/shared/pagination/Pagination.tsx` — перенос логіки зі зразка (`?page=`, скрол до початку списку, скорочення «...»), кнопки/кола в стилі проєкту, обидві теми. Врахувати `useSearchParams` → обгорнути у `Suspense`.
-14. `hooks/useBlogArticlesPerPage.ts` (12 ≥640px / 6 нижче; за аналогією з `useCatalogItemsPerPage`) і `BlogList.tsx` (сітка 1/2/3 колонки, `ul`, анімація появи).
-15. Порожній стан (немає статей), валідація `?page` за межами діапазону.
+### Етап 3. Сторінка `/blog`
+14. `src/app/[locale]/blog/page.tsx`: `generateMetadata` (SEO з `blogPage` + `getPageAlternates`, canonical з урахуванням `?page`), `searchParams.page`, невалідна/завелика сторінка → перша/`notFound`.
+15. `components/blogPage/Hero.tsx` — заголовок/підзаголовок у стилі Kondor (`pt-[60px] tabxl:pt-[113px]`, `Section`).
+16. `shared/breadcrumbs/Breadcrumbs.tsx` (Головна → Блог, локалізовані посилання) + JSON-LD `BreadcrumbList`.
+17. `components/blogPage/BlogCard.tsx` — зображення 16/10, дата, заголовок (`line-clamp-2`), опис (`line-clamp-3`), «Читати далі →», hover; стиль як картки каталогу (`bg-surface`, `shadow-card`).
+18. `components/blogPage/BlogList.tsx` — `ul` сітка 1/2/3 кол., анімація появи (framer-motion, як в інших секціях), порожній стан.
+19. `shared/pagination/Pagination.tsx` — **серверна** пагінація з реальними `<Link href="?page=N">` (краулиться, працює без JS): «‹ 1 2 3 … N ›», активна сторінка, disabled стрілки, `rel=prev/next`; 9 карток/сторінку (3×3) на всіх екранах — щоб не залежати від ширини й уникнути гідрації. Стиль кнопок — токени Kondor, обидві теми.
 
-### Етап 4. Сторінка статті `/blog/[article]`
-16. `src/app/[locale]/blog/[article]/page.tsx`: `generateMetadata` (title/description/OG-image зі `seo`, fallback на hero), `notFound()` якщо статті немає, `generateStaticParams`/revalidate за прикладом `/api/revalidate`.
-17. `articlePage/hero/Hero.tsx` — hero з desktop/mobile зображенням, градієнтне затемнення, заголовок, опис (`whitespace-pre-line`).
-18. `shared/breadcrumbs/Breadcrumbs.tsx` (Головна → Блог → Стаття) + JSON-LD `BreadcrumbList`.
-19. `articlePage/portableTextComponents/blogPortableTextComponents.tsx` — **повний паритет зі зразком**: `normal`, `h2`, `h3`, `h4`, `bullet`, `number`, `strong`, `em`, `link` (з `blank`), `image` (з розмірами), `table` (перший рядок — шапка, порожні комірки добиваються, горизонтальний скрол на мобільному). Кольори/шрифти — з токенів проєкту (не білий-на-чорному, а `text-*`/`border` теми).
-20. `articlePage/contentSection/ContentSection.tsx` — обгортка `PortableText`.
-21. `shared/faqSection/` — перевикористати `FaqItem` з homePage (винести в shared, додати проп-дані замість `useTranslations`), `FaqSection` з `description` + список; JSON-LD `FAQPage`.
-22. `articlePage/recommendedPosts/`: `RecommendedPostsDesktop` (sticky sidebar 320px, 3 статті) і `RecommendedPostsMobile` (слайдер на `swiper`, вже є). Виключати поточну статтю, брати найновіші.
-23. Розкладка: `lg:flex gap-8` — контент + FAQ ліворуч, рекомендовані праворуч; на мобільному рекомендовані під FAQ.
-24. `shared/ArticleSchema.tsx` — JSON-LD `Article` (Kondor як author/publisher, `publishedAt`, `_updatedAt`, image).
+### Етап 4. Сторінка `/blog/[slug]`
+20. `src/app/[locale]/blog/[slug]/page.tsx`: `generateStaticParams` (усі slug × locale), `generateMetadata` (seo → fallback hero, `openGraph.type = article`, `publishedTime`, `getPageAlternates`), `notFound()`.
+21. `components/articlePage/ArticleHero.tsx` — фон desktop/mobile через `next/image`, градієнт-скрим, `h1`, опис (`whitespace-pre-line`), автор (фото, імʼя) + дата.
+22. `components/articlePage/portableText/portableTextComponents.tsx` — **повний паритет блоків**: `h2`, `h3`, `h4`, `normal`, `bullet`, `number`, `strong`, `em`, `link` (внутрішні через i18n `Link`, зовнішні з `blank`), `image` (розміри з asset-ref, portrait/landscape), `gallerySection`, `table` (шапка + рядки, горизонтальний скрол), `faqAnswerButton` (наш `Button`). Кольори/шрифти — токени Kondor (`text-*`, `bg-surface`, `shadow-card`), працюють у світлій/темній темі.
+23. `ArticleContent.tsx` (обгортка `PortableText`), `BlogFaq.tsx` (акордеон, відповідь — Portable Text тими ж компонентами; ARIA `aria-expanded/controls`; стиль — як `homePage/faq/FaqItem`) + JSON-LD `FAQPage` (відповіді у plain text).
+24. `OtherPosts.tsx` — sidebar 320px на десктопі (`lg:flex gap-10`, sticky), Swiper-слайдер на мобільному (кнопки prev/next, як у каталозі).
+25. JSON-LD `BlogPosting` (headline, description, image, datePublished, dateModified, author `Person`, publisher) + `schemaJson` з `seo`.
 
 ### Етап 5. Інтеграція
-25. Меню: `NavMenu.tsx` (`blog` перед `faq`), мобільне меню, футер (`Details`/`Important`).
-26. `next-sitemap.config.js`: `/blog` у `staticPages`, статті через GROQ `*[_type=="blogPost" && defined(slug.current)]` → `/blog/{slug}` (обидві мови, hreflang).
-27. `middleware.ts`/`next.config.mjs`: перевірити, що `/blog*` проходить через i18n-роутинг; `next/image` `remotePatterns` для `cdn.sanity.io`.
-28. Revalidate: додати теги/шляхи блогу в `api/revalidate` (webhook Sanity).
+26. `NavMenu.tsx` (+мобільне меню) — пункт «Блог» перед FAQ; футер (`Important`/`Details`).
+27. `next-sitemap.config.js`: `/blog` у `staticPages`; статті через GROQ `*[_type=="blogPost" && defined(slug.current)]` → `/blog/{slug}` для обох мов (hreflang вже підтримано).
+28. `api/revalidate/route.ts`: обробка `_type == "blogPost" | "blogPage" | "blogAuthor"` → `revalidatePath` для `/blog`, `/blog/{slug}` у двох локалях; оновити фільтр вебхука в Sanity.
+29. Перевірити роутинг `/blog*` у `middleware.ts` (i18n, `as-needed`).
 
-### Етап 6. Перевірка
-29. Ручна перевірка: uk/ru, світла/темна тема, 375/768/1280+, пагінація (1 сторінка, багато сторінок, `?page=99`), стаття з усіма типами блоків, без FAQ, з довгими таблицями.
-30. `npm run lint && npm run build`; Lighthouse/SEO (метадані, canonical, hreflang, JSON-LD через Rich Results Test).
-31. PR у обох репозиторіях (спершу адмінка з мігрованою схемою, потім фронтенд).
+### Етап 6. Перевірка та реліз
+30. Ручна перевірка: uk/ru (фолбек, коли `Ru` порожнє), світла/темна тема, 375/768/1280+, пагінація (1 сторінка, багато, `?page=99`, `?page=abc`), стаття з усіма блоками, без FAQ, без автора, порожній блог.
+31. `npm run lint && npm run build`; перевірка метаданих, canonical/hreflang, JSON-LD (Rich Results Test), доступність (клавіатура в акордеоні/пагінації).
+32. Реліз: спершу PR адмінки + `sanity deploy`, потім PR фронтенду; налаштувати вебхук Sanity.
 
-## Ризики / питання
-- Порядок деплою: схему в Sanity треба задеплоїти до фронтенду, інакше GROQ поверне порожньо.
-- Rich text двомовний: `content` і `contentRu` дублюють структуру; якщо `contentRu` порожній — фолбек на uk.
-- Дата публікації: у зразку використовується `_createdAt`; пропоную явне `publishedAt`.
+## Рішення, які варто підтвердити
+1. **Локалізація** — лишаємо суфікс `Ru` (узгоджено з поточною адмінкою Kondor) замість обʼєктів `{uk, ru}` зі зразка. Другий варіант — переїхати на `{uk, ru}` лише для блогу, але це розходиться з рештою схем.
+2. **Пагінація** — серверна (`?page=`, 9 карток/сторінку) замість клієнтської; підходить?
+3. **Автор** — окремий документ, як у зразку, чи достатньо без автора?
+4. **Порядок деплою** — схема в Sanity має бути задеплоєна до фронтенду.
