@@ -18,7 +18,7 @@ export default function BlogList({ posts }: BlogListProps) {
   }
 
   return (
-    <ul className="grid grid-cols-1 tab:grid-cols-2 laptop:grid-cols-3 gap-3 tab:gap-4 desk:gap-6">
+    <ul className="grid grid-cols-1 tab:grid-cols-2 tabxl:grid-cols-3 laptop:grid-cols-4 gap-3 tab:gap-4 desk:gap-6">
       {posts.map((post) => (
         <li key={post.slug}>
           <BlogCard post={post} />
