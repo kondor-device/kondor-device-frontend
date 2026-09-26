@@ -28,7 +28,9 @@ export default function NavMenu({
 
   return (
     <nav className={`relative flex justify-center items-center max-w-[1920px]`}>
-      <ul className={`flex flex-col tabxl:flex-row gap-8 laptop:gap-16`}>
+      <ul
+        className={`flex flex-col tabxl:flex-row gap-8 tabxl:gap-5 laptop:gap-16`}
+      >
         {menuList.map((menuItem, idx) => (
           <MenuLink
             key={idx}
@@ -39,8 +41,8 @@ export default function NavMenu({
               // Nested pages (e.g. blog/article) keep their section highlighted
               currentPath === menuItem.path ||
               (menuItem.path && currentPath.startsWith(`${menuItem.path}/`))
-                ? "text-yellow text-18semi"
-                : "text-18med"
+                ? "text-yellow text-18semi tabxl:text-14semi laptop:text-18semi"
+                : "text-18med tabxl:text-14med laptop:text-18med"
             }`}
           />
         ))}
