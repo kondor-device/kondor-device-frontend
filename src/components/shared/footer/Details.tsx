@@ -10,6 +10,7 @@ export default function Details() {
     { title: t("footer.details.list.policy"), path: "/policy" },
     { title: t("footer.details.list.warranty"), path: "/warranty" },
     { title: t("footer.details.list.faq"), path: "/#faq" },
+    { title: t("footer.details.list.blog"), path: "/blog" },
   ];
   return (
     <div>

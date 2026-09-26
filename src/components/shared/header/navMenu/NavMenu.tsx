@@ -22,8 +22,8 @@ export default function NavMenu({
     { title: t("header.navMenu.catalog"), path: "catalog" },
     { title: t("header.navMenu.delivery"), path: "delivery" },
     { title: t("header.navMenu.about"), path: "about" },
-    { title: t("header.navMenu.blog"), path: "blog" },
     { title: t("header.navMenu.faq"), path: "#faq" },
+    { title: t("header.navMenu.blog"), path: "blog" },
   ];
 
   return (
