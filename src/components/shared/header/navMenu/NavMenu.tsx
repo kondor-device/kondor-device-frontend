@@ -23,11 +23,14 @@ export default function NavMenu({
     { title: t("header.navMenu.delivery"), path: "delivery" },
     { title: t("header.navMenu.about"), path: "about" },
     { title: t("header.navMenu.faq"), path: "#faq" },
+    { title: t("header.navMenu.blog"), path: "blog" },
   ];
 
   return (
     <nav className={`relative flex justify-center items-center max-w-[1920px]`}>
-      <ul className={`flex flex-col tabxl:flex-row gap-8 laptop:gap-16`}>
+      <ul
+        className={`flex flex-col tabxl:flex-row gap-8 tabxl:gap-5 laptop:gap-16`}
+      >
         {menuList.map((menuItem, idx) => (
           <MenuLink
             key={idx}
@@ -35,9 +38,11 @@ export default function NavMenu({
             setIsHeaderMenuOpened={setIsHeaderMenuOpened}
             setIsCatalogMenuOpened={setIsCatalogMenuOpened}
             className={`${
-              currentPath === menuItem.path
-                ? "text-yellow text-18semi"
-                : "text-18med"
+              // Nested pages (e.g. blog/article) keep their section highlighted
+              currentPath === menuItem.path ||
+              (menuItem.path && currentPath.startsWith(`${menuItem.path}/`))
+                ? "text-yellow text-18semi tabxl:text-14semi laptop:text-18semi"
+                : "text-18med tabxl:text-14med laptop:text-18med"
             }`}
           />
         ))}
