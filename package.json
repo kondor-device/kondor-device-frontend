@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroui/react": "^2.7.5",
     "@next/third-parties": "^15.1.7",
+    "@portabletext/react": "^3.2.4",
     "@sanity/image-url": "^1.2.0",
     "axios": "^1.7.9",
     "formik": "^2.4.6",
