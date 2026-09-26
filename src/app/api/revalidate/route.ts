@@ -13,7 +13,7 @@ import { client } from "@/lib/sanityClient";
 //   URL:      https://www.kondor.ua/api/revalidate   (без ?secret= у самому URL!)
 //   Dataset:  production
 //   Trigger:  Create / Update / Delete
-//   Filter:   _type == "item"
+//   Filter:   _type in ["item", "blogPost", "blogPage", "blogAuthor"]
 //   HTTP method: POST
 //   Secret:   те саме значення, що і в SANITY_REVALIDATE_SECRET
 //
@@ -91,6 +91,23 @@ function revalidateProductPage(slug: string): string[] {
   return revalidatePaths(getLocalizedPaths(`/catalog/${slug}`), "page");
 }
 
+// Blog documents: list page, article pages and the blog SEO page.
+// "layout" also covers every nested /blog/[slug] page (author or SEO changes affect all of them).
+const BLOG_DOCUMENT_TYPES = ["blogPost", "blogPage", "blogAuthor"];
+
+const isBlogDocument = (type?: string) =>
+  !!type && BLOG_DOCUMENT_TYPES.includes(type);
+
+function revalidateBlogPages(slug: string | null): string[] {
+  const paths = revalidatePaths(getLocalizedPaths("/blog"), "layout");
+
+  if (slug) {
+    paths.push(...revalidatePaths(getLocalizedPaths(`/blog/${slug}`), "page"));
+  }
+
+  return paths;
+}
+
 function extractSlugFromPayload(body: SanityWebhookPayload): string | null {
   if (typeof body.slug === "string" && body.slug.length > 0) {
     return body.slug;
@@ -146,6 +163,15 @@ async function revalidateOnItemChange(
   return { paths, productSlug };
 }
 
+async function revalidateOnBlogChange(
+  body?: SanityWebhookPayload
+): Promise<{ paths: string[]; productSlug: string | null }> {
+  // For blog documents the "product slug" is the article slug (null for authors and the blog page)
+  const slug = await resolveProductSlug(body);
+
+  return { paths: revalidateBlogPages(slug), productSlug: slug };
+}
+
 export async function POST(request: NextRequest) {
   const secret = process.env.SANITY_REVALIDATE_SECRET;
 
@@ -169,9 +195,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { paths, productSlug } = await revalidateOnItemChange(
-      body ?? undefined
-    );
+    const { paths, productSlug } = isBlogDocument(body?._type)
+      ? await revalidateOnBlogChange(body ?? undefined)
+      : await revalidateOnItemChange(body ?? undefined);
 
     return NextResponse.json({
       revalidated: true,
@@ -192,6 +218,7 @@ export async function POST(request: NextRequest) {
 // GET — для ручного/тестового тригера з браузера (звичайний секрет у query,
 // оскільки GET-запит із браузера не може нести підпис Sanity).
 // Опційно: ?slug=my-product — ревалідувати конкретну сторінку товару.
+// ?type=blog — ревалідувати блог (разом із ?slug=my-article — конкретну статтю).
 export async function GET(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get("secret");
   const expectedSecret = process.env.SANITY_REVALIDATE_SECRET;
@@ -203,7 +230,10 @@ export async function GET(request: NextRequest) {
   try {
     const slug = request.nextUrl.searchParams.get("slug");
     const body = slug ? { slug } satisfies SanityWebhookPayload : undefined;
-    const { paths, productSlug } = await revalidateOnItemChange(body);
+    const { paths, productSlug } =
+      request.nextUrl.searchParams.get("type") === "blog"
+        ? await revalidateOnBlogChange(body)
+        : await revalidateOnItemChange(body);
 
     return NextResponse.json({
       revalidated: true,

@@ -22,15 +22,44 @@ export async function getAllProducts() {
   }
 }
 
-async function getDynamicPages() {
-  const res = await getAllProducts();
+export const GET_ALL_BLOG_POSTS_QUERY = `*[_type == "blogPost" && defined(slug.current)]{ "slug": slug.current }`;
 
-  const products = res?.result || [];
+export async function getAllBlogPosts() {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `https://${SANITY_PROJECT_ID}.apicdn.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}`,
+      params: { query: GET_ALL_BLOG_POSTS_QUERY },
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}
+
+async function getDynamicPages() {
+  const [productsRes, blogRes] = await Promise.all([
+    getAllProducts(),
+    getAllBlogPosts(),
+  ]);
+
+  const products = productsRes?.result || [];
   const productsPages = products
     .filter((product) => Boolean(product?.slug))
-    .map((product) => `/catalog/${product.slug}`);
+    .map((product) => ({
+      loc: `/catalog/${product.slug}`,
+    }));
 
-  return productsPages;
+  const blogPosts = blogRes?.result || [];
+  const blogPages = blogPosts
+    .filter((post) => Boolean(post?.slug))
+    .map((post) => ({
+      loc: `/blog/${post.slug}`,
+      changefreq: "monthly",
+      priority: 0.7,
+    }));
+
+  return [...productsPages, ...blogPages];
 }
 
 // Домен продакшена (той самий, що CANONICAL_HOST у next.config.mjs)
@@ -129,6 +158,11 @@ const sitemapConfig = {
         priority: 0.9,
       },
       {
+        loc: "/blog",
+        changefreq: "weekly",
+        priority: 0.8,
+      },
+      {
         loc: "/delivery",
         changefreq: "monthly",
         priority: 0.9,
@@ -159,7 +193,7 @@ const sitemapConfig = {
     const dynamicPages = await getDynamicPages(config);
     const dynamicPaths = (
       await Promise.all(
-        dynamicPages.map((loc) => getLocalizedEntries(config, { loc })),
+        dynamicPages.map((page) => getLocalizedEntries(config, page)),
       )
     ).flat();
 
