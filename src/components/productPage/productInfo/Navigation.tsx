@@ -17,7 +17,7 @@ export default function Navigation({ product }: NavigationProps) {
 
   const t = useTranslations("productPage.navigation");
 
-  const { description, complect, chars, video } = product;
+  const { description, complect, chars, video, manual, driver } = product;
 
   const handleTabChange = (key: string) => {
     isManuallySelecting.current = true; // ← блокуємо автооновлення
@@ -39,6 +39,8 @@ export default function Navigation({ product }: NavigationProps) {
     chars && { title: t("characteristics"), slug: "characteristics" },
     video && { title: t("see"), slug: "video" },
     complect && { title: t("complect"), slug: "complect" },
+    manual && { title: t("manual"), slug: "manual" },
+    driver && { title: t("driver"), slug: "driver" },
   ].filter(Boolean) as NavigationItem[];
 
   useEffect(() => {
