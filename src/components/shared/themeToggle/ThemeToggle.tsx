@@ -24,16 +24,13 @@ export default function ThemeToggle({ className = "" }: ThemeToggleProps) {
 
   const toggleTheme = () => {
     const nextIsDark = !isDark;
-    const systemIsDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
 
-    // Choosing the same theme as the system one returns to auto mode
+    // Only the dark choice is stored; light is the default
     try {
-      if (nextIsDark === systemIsDark) {
-        localStorage.removeItem(THEME_STORAGE_KEY);
+      if (nextIsDark) {
+        localStorage.setItem(THEME_STORAGE_KEY, "dark");
       } else {
-        localStorage.setItem(THEME_STORAGE_KEY, nextIsDark ? "dark" : "light");
+        localStorage.removeItem(THEME_STORAGE_KEY);
       }
     } catch {}
 
