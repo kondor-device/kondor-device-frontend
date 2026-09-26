@@ -26,7 +26,7 @@ export default function BlogCard({ post, className = "" }: BlogCardProps) {
           src={image || "/images/icons/logoSmall.svg"}
           alt={imageAlt || title}
           fill
-          sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 25vw"
+          sizes="(max-width: 639px) 100vw, (max-width: 767px) 50vw, (max-width: 1279px) 33vw, 25vw"
           className={`transition duration-1000 ease-in-out laptop:group-hover:scale-105 ${
             image ? "object-cover" : "object-contain p-10"
           }`}
