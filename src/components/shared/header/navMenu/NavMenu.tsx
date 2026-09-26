@@ -22,6 +22,7 @@ export default function NavMenu({
     { title: t("header.navMenu.catalog"), path: "catalog" },
     { title: t("header.navMenu.delivery"), path: "delivery" },
     { title: t("header.navMenu.about"), path: "about" },
+    { title: t("header.navMenu.blog"), path: "blog" },
     { title: t("header.navMenu.faq"), path: "#faq" },
   ];
 
@@ -35,7 +36,9 @@ export default function NavMenu({
             setIsHeaderMenuOpened={setIsHeaderMenuOpened}
             setIsCatalogMenuOpened={setIsCatalogMenuOpened}
             className={`${
-              currentPath === menuItem.path
+              // Nested pages (e.g. blog/article) keep their section highlighted
+              currentPath === menuItem.path ||
+              (menuItem.path && currentPath.startsWith(`${menuItem.path}/`))
                 ? "text-yellow text-18semi"
                 : "text-18med"
             }`}
