@@ -9,7 +9,7 @@ import type {
   BlogTableValue,
 } from "@/types/blog";
 
-const CONTENT_IMAGE_SIZES = "(max-width: 1279px) 100vw, 860px";
+const CONTENT_IMAGE_SIZES = "(max-width: 1279px) 100vw, 1200px";
 
 const isExternal = (href: string) =>
   /^https?:\/\//.test(href) || href.startsWith("mailto:");

@@ -114,7 +114,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       />
 
       <div className="container w-full max-w-[1920px] pt-8 laptop:pt-12 laptop:flex laptop:gap-10 desk:gap-16">
-        <article className="min-w-0 laptop:flex-1 laptop:max-w-[860px]">
+        <article className="min-w-0 laptop:flex-1">
           <ArticleContent content={post.content} />
           <BlogFaq items={post.faq ?? []} />
         </article>
