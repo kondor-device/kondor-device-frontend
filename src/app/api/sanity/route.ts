@@ -12,7 +12,9 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const data = await client.fetch(query, params || {});
+    // $locale is available in every query; unknown values fall back to Ukrainian
+    const locale = params?.locale === "ru" ? "ru" : "uk";
+    const data = await client.fetch(query, { ...(params || {}), locale });
     return NextResponse.json(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {

@@ -3,6 +3,10 @@ export interface CartItem {
   uniqueId: string;
   generalName: string;
   name: string;
+  // Ukrainian texts for analytics, CRM etc. (the site texts above are in the current language)
+  generalNameUk?: string;
+  nameUk?: string;
+  colorUk?: string;
   priceDiscount: number;
   price: number;
   actualPrice: number;

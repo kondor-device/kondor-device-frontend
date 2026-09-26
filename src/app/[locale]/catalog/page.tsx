@@ -3,9 +3,26 @@ import { getProducts } from "@/utils/getProducts";
 import Catalog from "@/components/catalogPage/Catalog";
 import { Suspense } from "react";
 import Loader from "@/components/shared/loader/Loader";
+import type { Metadata } from "next";
+import { Locale } from "@/types/locale";
+import { getPageAlternates } from "@/utils/getPageAlternates";
 
 interface CatalogPageProps {
   searchParams: Promise<{ type?: string }>;
+}
+
+type PageProps = {
+  params: Promise<{ locale: Locale }>;
+};
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  return {
+    alternates: getPageAlternates(locale, "/catalog"),
+  };
 }
 
 export default async function CatalogPage({ searchParams }: CatalogPageProps) {

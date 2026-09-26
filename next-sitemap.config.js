@@ -33,8 +33,55 @@ async function getDynamicPages() {
   return productsPages;
 }
 
+// Домен продакшена (той самий, що CANONICAL_HOST у next.config.mjs)
+const SITE_URL = "https://www.kondor.ua";
+
+// Supported locales (keep in sync with src/i18n/routing.ts). The default one has no URL prefix.
+const LOCALES = ["uk", "ru"];
+const DEFAULT_LOCALE = "uk";
+
+const getLocalizedPath = (locale, path) =>
+  locale === DEFAULT_LOCALE ? path : `/${locale}${path === "/" ? "" : path}`;
+
+// One sitemap entry per locale, each one listing all language versions (hreflang) of the page
+async function getLocalizedEntries(config, page) {
+  const siteUrl = (config.siteUrl || "").replace(/\/$/, "");
+  const toUrl = (locale) => `${siteUrl}${getLocalizedPath(locale, page.loc)}`;
+
+  // hrefIsAbsolute: otherwise next-sitemap appends the page path to every href
+  const alternateRefs = [
+    ...LOCALES.map((locale) => ({
+      href: toUrl(locale),
+      hreflang: locale,
+      hrefIsAbsolute: true,
+    })),
+    {
+      href: toUrl(DEFAULT_LOCALE),
+      hreflang: "x-default",
+      hrefIsAbsolute: true,
+    },
+  ];
+
+  return Promise.all(
+    LOCALES.map(async (locale) => {
+      const transformed = await config.transform(
+        config,
+        getLocalizedPath(locale, page.loc),
+      );
+
+      return {
+        ...transformed,
+        changefreq: page.changefreq ?? transformed.changefreq,
+        priority: page.priority ?? transformed.priority,
+        alternateRefs,
+      };
+    }),
+  );
+}
+
 const sitemapConfig = {
-  siteUrl: process.env.NEXT_PUBLIC_BASE_URL,
+  // Завжди продакшн-адреса: sitemap.xml і robots.txt лежать у git, тож localhost у них потрапляти не має
+  siteUrl: SITE_URL,
   changefreq: "weekly",
   sitemapSize: 5000,
   priority: 0.9,
@@ -43,21 +90,27 @@ const sitemapConfig = {
   generateRobotsTxt: true,
   robotsTxtOptions: {
     policies: [
-      { userAgent: "*", allow: "/" },
-      { userAgent: "*", disallow: "/api/*" },
-      // Товарні фіди (Meta/Facebook, Rozetka тощо) явно виключаємо з
-      // індексації пошуковиками окремим правилом для наочності — технічно
-      // вони й так покриваються "/api/*" вище, але Meta/Rozetka все одно
-      // ходять по прямому URL за розкладом, а не через сканування robots.txt.
-      { userAgent: "*", disallow: "/api/feed/*" },
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: [
+          "/api/*",
+          // Товарні фіди (Meta/Facebook, Rozetka тощо) явно виключаємо з
+          // індексації пошуковиками окремим правилом для наочності — технічно
+          // вони й так покриваються "/api/*" вище, але Meta/Rozetka все одно
+          // ходять по прямому URL за розкладом, а не через сканування robots.txt.
+          "/api/feed/*",
+          // Сторінка підтвердження замовлення (для кожної мови) не для пошуку
+          ...LOCALES.map((locale) =>
+            getLocalizedPath(locale, "/order-confirmation"),
+          ),
+        ],
+      },
     ],
+    // Прибираємо директиву "Host:" — вона застаріла (була лише в Яндекса)
+    transformRobotsTxt: async (_config, text) =>
+      text.replace(/# Host\nHost: .*\n\n?/, ""),
   },
-  alternateRefs: [
-    {
-      href: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
-      hreflang: "uk",
-    },
-  ],
   additionalPaths: async (config) => {
     const staticPages = [
       {
@@ -81,6 +134,11 @@ const sitemapConfig = {
         priority: 0.9,
       },
       {
+        loc: "/returns",
+        changefreq: "monthly",
+        priority: 0.5,
+      },
+      {
         loc: "/warranty",
         changefreq: "monthly",
         priority: 0.5,
@@ -92,21 +150,18 @@ const sitemapConfig = {
       },
     ];
 
-    const staticPaths = await Promise.all(
-      staticPages.map(async (page) => {
-        const transformed = await config.transform(config, page.loc);
-        return {
-          ...transformed,
-          changefreq: page.changefreq,
-          priority: page.priority,
-        };
-      })
-    );
+    const staticPaths = (
+      await Promise.all(
+        staticPages.map((page) => getLocalizedEntries(config, page)),
+      )
+    ).flat();
 
     const dynamicPages = await getDynamicPages(config);
-    const dynamicPaths = await Promise.all(
-      dynamicPages.map((page) => config.transform(config, page))
-    );
+    const dynamicPaths = (
+      await Promise.all(
+        dynamicPages.map((loc) => getLocalizedEntries(config, { loc })),
+      )
+    ).flat();
 
     return [...staticPaths, ...dynamicPaths];
   },

@@ -6,6 +6,23 @@ import Benefits from "@/components/homePage/benefits/Benefits";
 import OrderConditions from "@/components/homePage/orderConditions/OrderConditions";
 import { getProducts } from "@/utils/getProducts";
 import { GET_ALL_DATA_QUERY } from "@/lib/queries";
+import type { Metadata } from "next";
+import { Locale } from "@/types/locale";
+import { getPageAlternates } from "@/utils/getPageAlternates";
+
+type PageProps = {
+  params: Promise<{ locale: Locale }>;
+};
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  return {
+    alternates: getPageAlternates(locale, "/"),
+  };
+}
 
 export default async function HomePage() {
   const res = await getProducts(GET_ALL_DATA_QUERY);

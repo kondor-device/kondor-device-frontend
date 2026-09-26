@@ -1,17 +1,10 @@
 # *
 User-agent: *
 Allow: /
-
-# *
-User-agent: *
 Disallow: /api/*
-
-# *
-User-agent: *
 Disallow: /api/feed/*
-
-# Host
-Host: http://localhost:3000/
+Disallow: /order-confirmation
+Disallow: /ru/order-confirmation
 
 # Sitemaps
-Sitemap: http://localhost:3000/sitemap.xml
+Sitemap: https://www.kondor.ua/sitemap.xml

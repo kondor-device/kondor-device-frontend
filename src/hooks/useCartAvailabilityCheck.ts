@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLocale } from "next-intl";
 import {
   CartAvailabilityResult,
   validateCartAvailability,
 } from "@/utils/validateCartAvailability";
 
 export function useCartAvailabilityCheck(isActive: boolean) {
+  const locale = useLocale();
   const [isChecking, setIsChecking] = useState(false);
   const [availabilityNotice, setAvailabilityNotice] =
     useState<CartAvailabilityResult | null>(null);
@@ -23,7 +25,7 @@ export function useCartAvailabilityCheck(isActive: boolean) {
       setIsChecking(true);
 
       try {
-        const result = await validateCartAvailability();
+        const result = await validateCartAvailability(locale);
         if (!cancelled) {
           setAvailabilityNotice(result);
         }
@@ -43,7 +45,7 @@ export function useCartAvailabilityCheck(isActive: boolean) {
     return () => {
       cancelled = true;
     };
-  }, [isActive]);
+  }, [isActive, locale]);
 
   return { isChecking, availabilityNotice };
 }

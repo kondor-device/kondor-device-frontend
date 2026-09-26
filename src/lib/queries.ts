@@ -1,17 +1,29 @@
 import { groq } from "next-sanity";
 
-const IMAGE_PROJECTION = `"alt": coalesce(alt, ""), "url": asset->url`;
+// Localized GROQ expression: the Russian value (`<field>Ru`) when $locale is "ru" and it is filled,
+// otherwise the Ukrainian one. $locale defaults to "uk" in the /api/sanity route.
+const l10n = (field: string) =>
+  `select($locale == "ru" && length(${field}Ru) > 0 => ${field}Ru, ${field})`;
+
+// `"<field>": <localized value>`
+const l10nField = (field: string) => `"${field}": ${l10n(field)}`;
+
+const IMAGE_PROJECTION = `"alt": coalesce(${l10n("alt")}, ""), "url": asset->url`;
+
+// Feeds are not localized (they do not receive $locale)
+const FEED_IMAGE_PROJECTION = `"alt": coalesce(alt, ""), "url": asset->url`;
 
 const BADGE_PROJECTION = `
   "badge": badge->{
-    text,
+    ${l10nField("text")},
     "backgroundColor": select(defined(backgroundColor.hex) => { "hex": backgroundColor.hex })
   }
 `;
 
 export const COLOR_OPTIONS_PROJECTION = `
   code,
-  color,
+  ${l10nField("color")},
+  "colorUk": color,
   "colorset": {
     "hex": coalesce(colorset.hex.hex, colorset.hex)
   },
@@ -19,22 +31,24 @@ export const COLOR_OPTIONS_PROJECTION = `
 `;
 
 const COMPLECT_PROJECTION = `
-  name,
+  ${l10nField("name")},
   "icon": icon{ ${IMAGE_PROJECTION} }
 `;
 
-const CHARS_PROJECTION = `name, char`;
+const CHARS_PROJECTION = `${l10nField("name")}, ${l10nField("char")}`;
 
 const CATEGORY_PROJECTION = `
   "id": _id,
-  name,
+  ${l10nField("name")},
   pos,
   slug,
   "image": image{ ${IMAGE_PROJECTION} },
   "items": items[]->{
     "id": _id,
-    generalname,
-    name,
+    ${l10nField("generalname")},
+    ${l10nField("name")},
+    "generalnameUk": generalname,
+    "nameUk": name,
     slug,
     price,
     priceDiscount,
@@ -42,7 +56,7 @@ const CATEGORY_PROJECTION = `
     showonmain,
     ${BADGE_PROJECTION},
     preorder,
-    preordertext,
+    ${l10nField("preordertext")},
     outOfStock,
     "chars": chars[]{ ${CHARS_PROJECTION} },
     "coloropts": coloropts[]{ ${COLOR_OPTIONS_PROJECTION} },
@@ -53,15 +67,18 @@ const CATEGORY_PROJECTION = `
 const ADDONS_PROJECTION = `
   "id": _id,
   preorder,
-  preordertext,
+  ${l10nField("preordertext")},
   outOfStock,
   "coloropts": coloropts[]{
-    color,
+    ${l10nField("color")},
+    "colorUk": color,
     code,
     "photos": photos[]{ ${IMAGE_PROJECTION} }
   },
-  generalname,
-  name,
+  ${l10nField("generalname")},
+  ${l10nField("name")},
+  "generalnameUk": generalname,
+  "nameUk": name,
   price,
   priceDiscount,
   ${BADGE_PROJECTION}
@@ -69,11 +86,11 @@ const ADDONS_PROJECTION = `
 
 const MAIN_PRODUCTS_PROJECTION = `
   "id": _id,
-  name,
+  ${l10nField("name")},
   slug,
   price,
   priceDiscount,
-  "cat": cat->{ "id": _id, name },
+  "cat": cat->{ "id": _id, ${l10nField("name")} },
   "coloropts": coloropts[]{
     "photos": photos[]{ ${IMAGE_PROJECTION} }
   },
@@ -82,15 +99,17 @@ const MAIN_PRODUCTS_PROJECTION = `
 
 const ITEM_DETAIL_PROJECTION = `
   "id": _id,
-  generalname,
-  name,
-  seoTitle,
-  seoDescription,
+  ${l10nField("generalname")},
+  ${l10nField("name")},
+  "generalnameUk": generalname,
+  "nameUk": name,
+  ${l10nField("seoTitle")},
+  ${l10nField("seoDescription")},
   "seoImage": select(defined(seoImage.asset->url) => { "url": seoImage.asset->url }),
   slug,
   price,
   priceDiscount,
-  description,
+  ${l10nField("description")},
   manual,
   driver,
   "video": select(defined(video.url) => { "url": video.url }),
@@ -99,7 +118,7 @@ const ITEM_DETAIL_PROJECTION = `
   showonmain,
   ${BADGE_PROJECTION},
   preorder,
-  preordertext,
+  ${l10nField("preordertext")},
   outOfStock,
   "chars": chars[]{ ${CHARS_PROJECTION} },
   "coloropts": coloropts[]{ ${COLOR_OPTIONS_PROJECTION} },
@@ -126,7 +145,13 @@ export const GET_PRODUCTS_BY_IDS = groq`
     "id": _id,
     price,
     priceDiscount,
-    outOfStock
+    outOfStock,
+    ${l10nField("generalname")},
+    ${l10nField("name")},
+    ${l10nField("preordertext")},
+    "generalnameUk": generalname,
+    "nameUk": name,
+    "coloropts": coloropts[]{ code, ${l10nField("color")}, "colorUk": color }
   }
 }
 `;
@@ -197,7 +222,7 @@ const FEED_PRODUCT_PROJECTION = `
   "coloropts": coloropts[]{
     code,
     color,
-    "photos": photos[]{ ${IMAGE_PROJECTION} }
+    "photos": photos[]{ ${FEED_IMAGE_PROJECTION} }
   }
 `;
 

@@ -86,7 +86,7 @@ export default function CatalogSorting({
           alt="arrow"
           width={14}
           height={8}
-          className={`w-2 tabxl:w-3 h-auto ml-3 transition duration-500 ease-in-out ${
+          className={`w-2 tabxl:w-3 h-auto ml-3 dark:invert transition duration-500 ease-in-out ${
             isOpenDropdown ? "rotate-180" : "rotate-0"
           }`}
         />

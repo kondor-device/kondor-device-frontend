@@ -1,6 +1,7 @@
 "use client";
 
 import { ColorOpt } from "@/types/productItem";
+import { useTranslations } from "next-intl";
 import AnimationWrapper from "@/components/homePage/hero/AnimationWrapper";
 
 interface ColorPickerProps {
@@ -16,6 +17,7 @@ export default function ColorPicker({
   selectedColorIndex,
   setSelectedColorIndex,
 }: ColorPickerProps) {
+  const t = useTranslations("homePage.catalog");
   const selectedColorName = coloropts[selectedColorIndex]?.color || "";
 
   return (
@@ -28,7 +30,7 @@ export default function ColorPicker({
       <div
         className="mb-5 desk:mb-9 text-16bold desk:text-18bold"
       >
-        Колір:{" "}
+        {t("color")}
         <span className="text-16med lg:text-18med lowercase text-grey">
           {selectedColorName}
         </span>

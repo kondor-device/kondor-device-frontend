@@ -23,7 +23,7 @@ export default function CatalogCardButton({
         alt="arrow"
         width={14}
         height={8}
-        className="w-[7px] h-auto ml-3"
+        className="w-[7px] h-auto ml-3 dark:invert"
       />
     </button>
   );

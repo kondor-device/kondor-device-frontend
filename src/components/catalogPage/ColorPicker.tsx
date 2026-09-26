@@ -1,6 +1,7 @@
 "use client";
 
 import { ColorOpt } from "@/types/productItem";
+import { useTranslations } from "next-intl";
 
 interface ColorPickerProps {
   coloropts: ColorOpt[];
@@ -13,12 +14,13 @@ export default function ColorPicker({
   selectedColorIndex,
   setSelectedColorIndex,
 }: ColorPickerProps) {
+  const t = useTranslations("homePage.catalog");
   const selectedColorName = coloropts[selectedColorIndex]?.color || "";
 
   return (
     <div className="mb-5 desk:mb-4">
       <div className="text-12bold laptop:text-12bold desk:text-14bold mb-3 desk:mb-4">
-        Колір:{" "}
+        {t("color")}
         <span className="text-12med laptop:text-12bold desk:text-14med lowercase text-grey">
           {selectedColorName}
         </span>

@@ -47,13 +47,14 @@ export default function ThemeToggle({ className = "" }: ThemeToggleProps) {
       onClick={toggleTheme}
       aria-label={isDark ? t("toLight") : t("toDark")}
       title={isDark ? t("toLight") : t("toDark")}
-      className={`flex items-center justify-center size-10 rounded-full text-fg outline-none transition duration-300 ease-out
+      className={`flex items-center justify-center size-9 tabxl:size-10 rounded-full text-fg outline-none transition duration-300 ease-out
         active:scale-95 active:text-yellow focus-visible:text-yellow laptop:hover:text-yellow ${className}`}
     >
       {isDark ? (
         <svg
           width="24"
           height="24"
+          className="size-[22px] tabxl:size-6"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -69,6 +70,7 @@ export default function ThemeToggle({ className = "" }: ThemeToggleProps) {
         <svg
           width="24"
           height="24"
+          className="size-[22px] tabxl:size-6"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"

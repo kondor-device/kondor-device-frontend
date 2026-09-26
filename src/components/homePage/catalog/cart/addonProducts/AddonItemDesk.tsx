@@ -17,6 +17,8 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
     id,
     name,
     generalname,
+    generalnameUk,
+    nameUk,
     coloropts,
     priceDiscount,
     price,
@@ -35,6 +37,8 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
     preordertext,
     generalName: generalname,
     name,
+    generalNameUk: generalnameUk,
+    nameUk,
     priceDiscount,
     price,
     actualPrice,
@@ -42,6 +46,7 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
       ? coloropts[0]?.photos[0]
       : { url: "", alt: "" },
     color: coloropts[0]?.color,
+    colorUk: coloropts[0]?.colorUk,
     code: coloropts[0]?.code,
     quantity: 1,
   };

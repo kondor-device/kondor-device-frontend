@@ -1,7 +1,7 @@
 "use client";
 import { Form, FormikProps } from "formik";
 import { debounce } from "lodash";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Dispatch, SetStateAction, useState, useCallback } from "react";
 import MaskedInput from "react-text-mask";
 import { PHONE_NUMBER_MASK } from "@/constants/constants";
@@ -19,12 +19,20 @@ import { useCartStore } from "@/store/cartStore";
 interface City {
   Ref: string;
   Description: string;
+  DescriptionRu?: string;
 }
 
 interface Warehouse {
   SiteKey: string;
   Description: string;
+  DescriptionRu?: string;
 }
+
+// Nova Poshta returns every name in both languages
+const getLocalizedDescription = (
+  item: { Description: string; DescriptionRu?: string },
+  locale: string
+) => (locale === "ru" && item.DescriptionRu) || item.Description;
 
 interface CheckoutFormProps {
   formik: FormikProps<ValuesCheckoutFormType>;
@@ -35,6 +43,7 @@ interface CheckoutFormProps {
 
 export default function CheckoutForm({ formik }: CheckoutFormProps) {
   const t = useTranslations();
+  const locale = useLocale();
 
   const { promocode, applyPromocode, removePromocode } = useCartStore();
 
@@ -172,7 +181,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         formik={formik}
         options={cities.map((city) => ({
           key: city.Ref,
-          description: city.Description,
+          description: getLocalizedDescription(city, locale),
         }))}
         isLoading={isLoadingCities}
         isDropDownOpen={isCitiesDropDownOpen}
@@ -191,7 +200,7 @@ export default function CheckoutForm({ formik }: CheckoutFormProps) {
         formik={formik}
         options={warehouses.map((wh) => ({
           key: wh.SiteKey,
-          description: wh.Description,
+          description: getLocalizedDescription(wh, locale),
         }))}
         isLoading={isLoadingWarehouses}
         isDropDownOpen={isWarehousesDropDownOpen}

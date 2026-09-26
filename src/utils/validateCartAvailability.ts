@@ -9,7 +9,9 @@ export interface CartAvailabilityResult {
 
 let validationInFlight: Promise<CartAvailabilityResult> | null = null;
 
-export async function validateCartAvailability(): Promise<CartAvailabilityResult> {
+export async function validateCartAvailability(
+  locale?: string
+): Promise<CartAvailabilityResult> {
   if (validationInFlight) {
     return validationInFlight;
   }
@@ -22,7 +24,11 @@ export async function validateCartAvailability(): Promise<CartAvailabilityResult
     }
 
     const cartItemsIds = cartItems.map((item) => item.id);
-    const resProducts = await getProductsByIds(GET_PRODUCTS_BY_IDS, cartItemsIds);
+    const resProducts = await getProductsByIds(
+      GET_PRODUCTS_BY_IDS,
+      cartItemsIds,
+      locale
+    );
     const productsFromCms = resProducts.data?.allItems ?? [];
 
     return useCartStore.getState().syncWithCmsProducts(productsFromCms);

@@ -6,6 +6,7 @@ interface Photo {
 export interface ColorOpt {
   code: string;
   color: string;
+  colorUk?: string;
   colorset: { hex: string };
   photos: Photo[];
 }
@@ -23,7 +24,9 @@ export interface ComplectItem {
 export interface ProductItem {
   id: string;
   generalname: string;
+  generalnameUk?: string;
   name: string;
+  nameUk?: string;
   slug: string;
   price: number;
   priceDiscount: number;

@@ -7,9 +7,14 @@ interface StageItemProps {
     description: string;
   };
   idx: number;
+  descriptionClassName?: string;
 }
 
-export default function StageItem({ stageItem, idx }: StageItemProps) {
+export default function StageItem({
+  stageItem,
+  idx,
+  descriptionClassName = "",
+}: StageItemProps) {
   const { title, description } = stageItem;
 
   return (
@@ -32,7 +37,9 @@ export default function StageItem({ stageItem, idx }: StageItemProps) {
           {title}
         </h3>
       </AnimationWrapper>
-      <span className="text-12med laptop:text-16med desk:text-24med">
+      <span
+        className={`text-12med laptop:text-16med desk:text-24med ${descriptionClassName}`}
+      >
         {description}
       </span>
     </li>

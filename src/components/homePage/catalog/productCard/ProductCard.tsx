@@ -17,6 +17,7 @@ import CartPopUp from "../cart/CartPopUp";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { formatSum } from "@/utils/formatSum";
 import { Link } from "@/i18n/routing";
+import { getColorParam } from "@/utils/colorParam";
 
 interface ProductCardProps {
   product: ProductItem;
@@ -37,6 +38,8 @@ export default function ProductCard({
   const {
     id,
     generalname,
+    generalnameUk,
+    nameUk,
     name,
     slug,
     price,
@@ -53,7 +56,7 @@ export default function ProductCard({
   const { photos } = coloropts[selectedColorIndex];
 
   const savings = (((price - (priceDiscount ?? price)) / price) * 100).toFixed(
-    0
+    0,
   );
 
   const actualPrice =
@@ -69,6 +72,8 @@ export default function ProductCard({
       preordertext,
       generalName: generalname,
       name,
+      generalNameUk: generalnameUk,
+      nameUk,
       priceDiscount,
       price,
       actualPrice,
@@ -76,13 +81,14 @@ export default function ProductCard({
         ? coloropts[selectedColorIndex]?.photos[0]
         : { url: "", alt: "" },
       color: coloropts[selectedColorIndex]?.color,
+      colorUk: coloropts[selectedColorIndex]?.colorUk,
       code: coloropts[selectedColorIndex]?.code,
       quantity: 1,
     });
     openModal(
       "cartPopUp",
       <CartPopUp shownOnAddonsProducts={shownOnAddonsProducts} />,
-      "desk:max-w-[950px] desk:w-[950px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
+      "desk:max-w-[950px] desk:w-[950px] deskxl:max-w-[1681px] deskxl:w-[1681px]",
     );
     sendGTMEvent({
       event: "add_to_cart",
@@ -91,8 +97,10 @@ export default function ProductCard({
       items: [
         {
           item_id: coloropts[selectedColorIndex]?.code || id,
-          item_name: `${generalname} ${name}`.trim(),
-          item_variant: coloropts[selectedColorIndex]?.color,
+          item_name: `${generalnameUk ?? generalname} ${nameUk ?? name}`.trim(),
+          item_variant:
+            coloropts[selectedColorIndex]?.colorUk ??
+            coloropts[selectedColorIndex]?.color,
           price: actualPrice,
           quantity: 1,
         },
@@ -109,16 +117,16 @@ export default function ProductCard({
         photos={photos}
         selectedPhotoIndex={selectedPhotoIndex}
         setSelectedPhotoIndex={setSelectedPhotoIndex}
-        productUrl={`/catalog/${slug}?color=${coloropts[
-          selectedColorIndex
-        ]?.color.toLowerCase()}`}
+        productUrl={`/catalog/${slug}?color=${getColorParam(
+          coloropts[selectedColorIndex],
+        )}`}
         badge={badge}
       />
       <div className="flex flex-col gap-y-[5px] tabxl:gap-y-[15px]">
         <Link
-          href={`/catalog/${slug}?color=${coloropts[
-            selectedColorIndex
-          ]?.color.toLowerCase()}`}
+          href={`/catalog/${slug}?color=${getColorParam(
+            coloropts[selectedColorIndex],
+          )}`}
           className="group"
         >
           <CardTitle generalname={generalname} name={name} />
@@ -158,7 +166,7 @@ export default function ProductCard({
             onClick={() =>
               openModal(
                 "characteristicsPopUp",
-                <Characteristics characteristics={chars} />
+                <Characteristics characteristics={chars} />,
               )
             }
           >
@@ -168,7 +176,7 @@ export default function ProductCard({
             onClick={() =>
               openModal(
                 "complectationPopUp",
-                <Complectation complectation={complect} />
+                <Complectation complectation={complect} />,
               )
             }
           >
@@ -183,8 +191,8 @@ export default function ProductCard({
           {outOfStock
             ? t("buttons.outOfStock")
             : preorder
-            ? t("buttons.preOrder")
-            : t("buttons.makeOrder")}
+              ? t("buttons.preOrder")
+              : t("buttons.makeOrder")}
         </Button>
         {!outOfStock && preorder && preordertext ? (
           <p className="absolute bottom-3 tabxl:bottom-4 px-4 deskxl:px-6 text-10med tabxl:text-14med text-white">

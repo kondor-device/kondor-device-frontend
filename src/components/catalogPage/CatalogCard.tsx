@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { ProductItem } from "@/types/productItem";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { v4 as uuidv4 } from "uuid";
 import { useTranslations } from "next-intl";
 import { useCartStore } from "@/store/cartStore";
@@ -14,6 +14,7 @@ import CartPopUp from "../homePage/catalog/cart/CartPopUp";
 import { sendGTMEvent } from "@next/third-parties/google";
 import CatalogCardButton from "../shared/buttons/CatalogCardButton";
 import ColorPicker from "./ColorPicker";
+import { getColorParam } from "@/utils/colorParam";
 
 interface CatalogCardProps {
   product: ProductItem;
@@ -36,6 +37,8 @@ export default function CatalogCard({
   const {
     id,
     generalname,
+    generalnameUk,
+    nameUk,
     name,
     slug,
     price,
@@ -50,7 +53,7 @@ export default function CatalogCard({
   } = product;
 
   const savings = (((price - (priceDiscount ?? price)) / price) * 100).toFixed(
-    0
+    0,
   );
 
   const badgeText = badge?.text ?? null;
@@ -75,6 +78,8 @@ export default function CatalogCard({
       preordertext,
       generalName: generalname,
       name,
+      generalNameUk: generalnameUk,
+      nameUk,
       priceDiscount,
       price,
       actualPrice,
@@ -82,13 +87,14 @@ export default function CatalogCard({
         ? coloropts[selectedColorIndex]?.photos[0]
         : { url: "", alt: "" },
       color: coloropts[selectedColorIndex]?.color,
+      colorUk: coloropts[selectedColorIndex]?.colorUk,
       code: coloropts[selectedColorIndex]?.code,
       quantity: 1,
     });
     openModal(
       "cartPopUp",
       <CartPopUp shownOnAddonsProducts={shownOnAddons} />,
-      "desk:max-w-[950px] desk:w-[950px] deskxl:max-w-[1681px] deskxl:w-[1681px]"
+      "desk:max-w-[950px] desk:w-[950px] deskxl:max-w-[1681px] deskxl:w-[1681px]",
     );
     sendGTMEvent({
       event: "add_to_cart",
@@ -97,8 +103,10 @@ export default function CatalogCard({
       items: [
         {
           item_id: coloropts[selectedColorIndex]?.code || id,
-          item_name: `${generalname} ${name}`.trim(),
-          item_variant: coloropts[selectedColorIndex]?.color,
+          item_name: `${generalnameUk ?? generalname} ${nameUk ?? name}`.trim(),
+          item_variant:
+            coloropts[selectedColorIndex]?.colorUk ??
+            coloropts[selectedColorIndex]?.color,
           price: actualPrice,
           quantity: 1,
         },
@@ -140,9 +148,9 @@ export default function CatalogCard({
         ) : null}
 
         <Link
-          href={`/catalog/${slug}?color=${coloropts[
-            selectedColorIndex
-          ]?.color.toLowerCase()}`}
+          href={`/catalog/${slug}?color=${getColorParam(
+            coloropts[selectedColorIndex],
+          )}`}
         >
           {coloropts[selectedColorIndex].photos ? (
             <Image
@@ -167,9 +175,9 @@ export default function CatalogCard({
         </Link>
       </div>
       <Link
-        href={`/catalog/${slug}?color=${coloropts[
-          selectedColorIndex
-        ]?.color.toLowerCase()}`}
+        href={`/catalog/${slug}?color=${getColorParam(
+          coloropts[selectedColorIndex],
+        )}`}
         className="group block mb-3 desk:mb-4"
       >
         <h3 className="flex flex-wrap gap-x-2 items-center text-12bold desk:text-18bold laptop:group-hover:brightness-125 focus-visible:brightness-125 active:brightness-125 active:scale-95 transition duration-300 ease-in-out">
@@ -223,7 +231,7 @@ export default function CatalogCard({
             onClick={() =>
               openModal(
                 "characteristicsPopUp",
-                <Characteristics characteristics={chars} />
+                <Characteristics characteristics={chars} />,
               )
             }
           >
@@ -233,7 +241,7 @@ export default function CatalogCard({
             onClick={() =>
               openModal(
                 "complectationPopUp",
-                <Complectation complectation={complect} />
+                <Complectation complectation={complect} />,
               )
             }
           >
@@ -253,8 +261,8 @@ export default function CatalogCard({
           {outOfStock
             ? t("buttons.outOfStock")
             : preorder
-            ? t("buttons.preOrder")
-            : t("buttons.makeOrder")}
+              ? t("buttons.preOrder")
+              : t("buttons.makeOrder")}
         </button>
         {!outOfStock && preorder && preordertext ? (
           <p className="absolute bottom-3 tabxl:bottom-4 px-4 deskxl:px-6 text-10med tabxl:text-14med text-white">
