@@ -17,11 +17,11 @@ export default function Blog({ posts, currentPage, totalPages }: BlogProps) {
   return (
     <>
       <PageTitle>{t("heroTitle")}</PageTitle>
-      <Breadcrumbs items={[{ label: t("heroTitle") }]} />
-      <section className="container w-full max-w-[1920px] pt-5 laptop:pt-8">
-        <p className="max-w-[720px] mb-5 laptop:mb-10 text-12med laptop:text-18med text-fg/70">
-          {t("heroSubtitle")}
-        </p>
+      <Breadcrumbs
+        items={[{ label: t("heroTitle") }]}
+        className="pt-4 laptop:pt-6"
+      />
+      <section className="container w-full max-w-[1920px] pt-4 laptop:pt-6">
         <BlogList posts={posts} />
         <Pagination
           currentPage={currentPage}
