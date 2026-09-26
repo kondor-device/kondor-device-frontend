@@ -13,8 +13,8 @@ export default function CatalogCardButton({
       aria-label={ariaLabel}
       type={type}
       onClick={onClick}
-      className={`flex items-center justify-between w-full h-5 laptop:h-[30px] px-[6px] laptop:px-3 text-10med laptop:text-12med rounded-full text-dark bg-white 
-        border border-dark transition duration-300 ease-out enabled:active:scale-95 tabxl:enabled:hover:invert enabled:focus-visible:invert outline-none ${className}`}
+      className={`flex items-center justify-between w-full h-5 laptop:h-[30px] px-[6px] laptop:px-3 text-10med laptop:text-12med rounded-full text-fg bg-surface 
+        border border-fg transition duration-300 ease-out enabled:active:scale-95 tabxl:enabled:hover:invert enabled:focus-visible:invert outline-none ${className}`}
     >
       {children}
 

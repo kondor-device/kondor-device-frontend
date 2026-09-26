@@ -94,10 +94,10 @@ export default function Navigation({ product }: NavigationProps) {
   }, [selected]);
 
   return (
-    <div className="relative mb-8 overflow-x-auto h-[43px] bg-white">
+    <div className="relative mb-8 overflow-x-auto h-[43px] bg-surface dark:bg-dark">
       <div
         ref={tabListRef}
-        className="fixed z-30 top-[56px] tabxl:top-[109px] left-0 tabxl:container tabxl:max-w-[1920px] pt-1.5 pb-0.5 w-full rounded-b-[12px] bg-white
+        className="fixed z-30 top-[56px] tabxl:top-[109px] left-0 tabxl:container tabxl:max-w-[1920px] pt-1.5 pb-0.5 w-full rounded-b-[12px] bg-surface dark:bg-dark
        shadow-catalogFilter tabxl:shadow-none  overflow-x-auto scrollbar 
       scrollbar-h-0 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-transparent 
       scrollbar-track-transparent"
@@ -109,12 +109,12 @@ export default function Navigation({ product }: NavigationProps) {
           radius="none"
           size="lg"
           classNames={{
-            base: "bg-white",
-            tabList: "bg-white",
+            base: "bg-surface dark:bg-dark",
+            tabList: "bg-surface dark:bg-dark",
             cursor:
-              "bg-yellow py-1.5 tabxl:py-2 px-4 tabxl:px-[22.5px] rounded-[12px] tabxl:rounded-full",
+              "bg-yellow dark:bg-yellow py-1.5 tabxl:py-2 px-4 tabxl:px-[22.5px] rounded-[12px] tabxl:rounded-full",
             tab: "py-1.5 tabxl:py-2 px-4 tabxl:px-[22.5px] w-fit",
-            tabContent: "text-12med tabxl:text-14med desk:text-18med",
+            tabContent: "group-data-[selected=true]:text-dark text-12med tabxl:text-14med desk:text-18med",
           }}
         >
           {navigationList.map((navigationItem) => (

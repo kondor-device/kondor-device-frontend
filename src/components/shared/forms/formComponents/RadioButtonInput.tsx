@@ -42,7 +42,7 @@ export default function RadioButtonInput({
         className={`${fieldStyles} ${fieldClassName} ${
           errors[fieldName] && touched[fieldName]
             ? "border-inputErrorLight"
-            : "shadow-radio border-[2.5px] border-white bg-white checked:bg-yellow"
+            : "shadow-radio border-[2.5px] border-surface bg-surface checked:bg-yellow"
         }`}
       ></Field>
       <p>{label}</p>

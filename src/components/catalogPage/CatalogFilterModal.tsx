@@ -56,12 +56,12 @@ export default function CatalogFiltersModal({
             variants={burgerMenuVariants}
             className={`${
               isOpen ? "no-doc-scroll" : ""
-            } tabxl:hidden absolute z-[70] top-[60px] left-1/2 transform -translate-x-1/2 w-[calc(100%-40px)] max-w-[400px] bg-white h-[calc(100dvh-82px)] rounded-[12px]`}
+            } tabxl:hidden absolute z-[70] top-[60px] left-1/2 transform -translate-x-1/2 w-[calc(100%-40px)] max-w-[400px] bg-surface h-[calc(100dvh-82px)] rounded-[12px]`}
           >
             <button
               type="button"
               onClick={onClose}
-              className="absolute top-4 right-4 z-10 cursor-pointer flex items-center justify-center size-[32px] p-1 md:p-0  xl:hover:text-dark focus-visible:text-dark transition duration-300 ease-in-out"
+              className="absolute top-4 right-4 z-10 cursor-pointer flex items-center justify-center size-[32px] p-1 md:p-0  xl:hover:text-fg focus-visible:text-fg transition duration-300 ease-in-out"
             >
               <IconClose className="rotate-45" />
             </button>

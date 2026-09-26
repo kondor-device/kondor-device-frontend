@@ -103,7 +103,7 @@ export default function ProductCard({
   return (
     <div
       className="relative flex flex-col gap-y-[15px] tabxl:flex-row tabxl:items-center tabxl:gap-x-8 min-h-full h-auto px-3 pt-3 pb-8 tabxl:p-8 deskxl:p-[35px] 
-    rounded-[8px] tabxl:rounded-[30px] bg-dark"
+    rounded-[8px] tabxl:rounded-[30px] bg-panel"
     >
       <ImagePicker
         photos={photos}

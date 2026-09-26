@@ -16,13 +16,13 @@ export default function CatalogItem({
     "&priceTo=4999&sort=default&priceFrom=499&availability=in-stock%2Cpre-order";
 
   return (
-    <li className="w-[calc(50%-8px)] tab:w-[calc(25%-12px)] tabxl:w-[calc(50%-8px)] py-5 px-6 rounded-[22px] shadow-catalogItem bg-white min-h-full laptop:hover:scale-[102%] laptop:hover:-translate-y-1 transition duration-300 ease-out">
+    <li className="w-[calc(50%-8px)] tab:w-[calc(25%-12px)] tabxl:w-[calc(50%-8px)] py-5 px-6 rounded-[22px] shadow-catalogItem bg-surface min-h-full laptop:hover:scale-[102%] laptop:hover:-translate-y-1 transition duration-300 ease-out">
       <Link
         href={`/catalog?type=${category}${searchParams}`}
         className="flex flex-col justify-center items-center h-full"
         onClick={() => setIsCatalogMenuOpened(false)}
       >
-        <div className="relative w-[102px] h-[105px] mb-[22px]">
+        <div className="relative w-[102px] h-[105px] mb-[22px] dark:rounded-[12px] dark:bg-white dark:overflow-hidden">
           <Image
             src={icon}
             alt={title}

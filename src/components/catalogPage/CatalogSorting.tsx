@@ -73,7 +73,7 @@ export default function CatalogSorting({
     >
       <button
         onClick={() => setIsOpenDropdown((prev) => !prev)}
-        className="relative z-20 group cursor-pointer flex items-center justify-between w-full h-8 xl:h-11 px-3 rounded-[8px] border border-dark text-[10px] xl:text-[16px] font-bold text-dark bg-white xl:hover:brightness-110 focus-visible:brightness-110 transition duration-300 ease-in-out"
+        className="relative z-20 group cursor-pointer flex items-center justify-between w-full h-8 xl:h-11 px-3 rounded-[8px] border border-fg text-[10px] xl:text-[16px] font-bold text-fg bg-surface xl:hover:brightness-110 focus-visible:brightness-110 transition duration-300 ease-in-out"
       >
         <div className="flex items-center gap-x-2">
           <p>{t("sort")}</p>
@@ -95,7 +95,7 @@ export default function CatalogSorting({
       <div
         className={`${
           isOpenDropdown ? "opacity-100" : "opacity-0 pointer-events-none"
-        } absolute z-10 top-[calc(100%-5px)] right-0 w-full px-3 bg-white rounded-b-[8px] border-x border-r border-b border-dark
+        } absolute z-10 top-[calc(100%-5px)] right-0 w-full px-3 bg-surface rounded-b-[8px] border-x border-r border-b border-fg
             shadow-catalogCard overflow-hidden text-[10px] xl:text-[16px] font-medium transition duration-500 ease-in-out`}
       >
         <div className="w-full h-1"></div>
@@ -103,7 +103,7 @@ export default function CatalogSorting({
           <button
             key={option.value}
             onClick={() => handleOptionClick(option)}
-            className={`cursor-pointer w-full text-left px-4 py-2 [&:not(:last-child)]:border-b border-black/30 xl:hover:text-yellow/50 text-dark transition duration-100 ease-in-out ${
+            className={`cursor-pointer w-full text-left px-4 py-2 [&:not(:last-child)]:border-b border-fg/30 xl:hover:text-yellow/50 text-fg transition duration-100 ease-in-out ${
               option.value === selected.value ? "text-yellow" : ""
             }`}
           >

@@ -17,7 +17,7 @@ export default function Complect({ complectation }: ComplectProps) {
       {complectation.length > 0 ? (
         <div
           id={COMPLECT_ID}
-          className="relative -z-20 mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px]  scroll-mt-[142px] tabxl:scroll-mt-[173px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard overflow-x-clip"
+          className="relative -z-20 mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px]  scroll-mt-[142px] tabxl:scroll-mt-[173px] bg-surface rounded-[20px] desk:rounded-[30px] shadow-catalogCard overflow-x-clip"
         >
           <AnimationWrapper
             sectionId={COMPLECT_ID}

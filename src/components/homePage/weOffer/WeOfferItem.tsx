@@ -14,7 +14,7 @@ export default function WeOfferItem({ weOfferItem, idx }: WeOfferItemProps) {
   const { title, icon } = weOfferItem;
 
   return (
-    <li className="flex items-center gap-x-[15px] laptop:gap-x-5 w-full max-w-[545px] px-[30px] deskxl:px-[39px] py-5 laptop:py-[30px] rounded-[20px] bg-yellowGradient">
+    <li className="flex items-center gap-x-[15px] laptop:gap-x-5 w-full max-w-[545px] px-[30px] deskxl:px-[39px] py-5 laptop:py-[30px] rounded-[20px] bg-yellowGradient text-dark">
       <AnimationWrapper
         sectionId="home-page-we-offer"
         commonStyles={`w-[46px] h-[46px] transition duration-700 ease-slow ${

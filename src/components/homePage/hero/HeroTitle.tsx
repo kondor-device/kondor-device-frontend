@@ -21,7 +21,7 @@ export default function HeroTitle() {
         >
           1
         </AnimationWrapper>
-        <p>{t("partOne")}</p>
+        <p className="text-dark">{t("partOne")}</p>
       </AnimationWrapper>
       <AnimationWrapper
         sectionId="home-page-hero"

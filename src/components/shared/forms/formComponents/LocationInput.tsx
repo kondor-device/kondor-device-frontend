@@ -76,7 +76,7 @@ export default function LocationInput({
       <ul
         className={`${
           isDropDownOpen ? "block" : "hidden"
-        } absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-grey rounded-[16px] h-[180px] overflow-x-hidden overflow-y-auto z-50 
+        } absolute top-[calc(100%+4px)] left-0 w-full bg-surface border border-grey rounded-[16px] h-[180px] overflow-x-hidden overflow-y-auto z-50 
         text-12med laptop:text-14med deskxl:text-18med scrollbar scrollbar-w-[2px] scrollbar-h-[2px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full 
         scrollbar-thumb-yellow popup-scroll`}
       >

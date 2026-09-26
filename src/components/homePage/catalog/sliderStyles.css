@@ -42,7 +42,7 @@
 }
 
 .swiper-pagination-bullet {
-  background: var(--lightGrey);
+  background: rgb(var(--lightGrey));
   opacity: 100%;
 }
 
@@ -115,6 +115,11 @@
   background-image: url("/images/icons/polygonRight.svg");
   background-position: center;
   background-repeat: no-repeat;
+}
+
+:root.dark .swiper-button-prev::after,
+:root.dark .swiper-button-next::after {
+  filter: invert(1);
 }
 
 .addons-slider.swiper {

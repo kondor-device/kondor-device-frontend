@@ -25,6 +25,7 @@ import { HeroUIProvider } from "@heroui/react";
 
 import type { Viewport } from "next";
 import UtmTracker from "@/components/shared/utmTracker/UtmTracker";
+import { themeScript } from "@/components/shared/themeToggle/themeScript";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -64,8 +65,10 @@ export default async function LocaleLayout({
   const res = await getProducts(GET_ALL_CATEGORIES_QUERY);
 
   return (
-    <html lang={locale} className="scroll-smooth">
+    // suppressHydrationWarning: themeScript sets the theme class on <html> before hydration
+    <html lang={locale} className="scroll-smooth" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} />
         <meta
           name="google-site-verification"

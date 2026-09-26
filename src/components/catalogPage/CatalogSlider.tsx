@@ -219,7 +219,7 @@ export default function CatalogSlider({
 
           {/* СЕКЦІЯ — Товари з інших категорій */}
           {showOtherCategorySection && filteredOtherItems.length > 0 && (
-            <div className="pt-4 tabxl:pt-10 tabxl:mt-10 border-t border-dark">
+            <div className="pt-4 tabxl:pt-10 tabxl:mt-10 border-t border-fg">
               <SectionTitle className="mb-6">
                 {t("otherCategories")}
               </SectionTitle>

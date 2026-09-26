@@ -18,7 +18,7 @@ export default function FaqItem({ faqItem }: FaqItemProps) {
   return (
     <li
       onClick={toggleShowMore}
-      className="cursor-pointer px-[20px] py-[15px] laptop:px-[50px] laptop:py-[40px] rounded-[11px] laptop:rounded-[30px] shadow-card"
+      className="cursor-pointer px-[20px] py-[15px] laptop:px-[50px] laptop:py-[40px] rounded-[11px] laptop:rounded-[30px] shadow-card bg-surface"
     >
       <div className={`flex items-center`}>
         <Image

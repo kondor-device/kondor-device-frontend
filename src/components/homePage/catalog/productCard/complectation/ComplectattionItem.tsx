@@ -14,7 +14,7 @@ export default function ComplectationItem({
   return (
     <li
       className="relative flex items-center gap-x-5 laptop:w-fit even:py-2 even:before:content-[''] before:absolute before:top-0 before:-right-[5px] laptop:before:-right-4 before:-z-10 before:w-screen 
-        before:h-full even:before:bg-yellowGradient before:rounded-[10px]"
+        before:h-full even:before:bg-yellowGradient even:text-dark dark:odd:[&_img]:brightness-0 dark:odd:[&_img]:invert before:rounded-[10px]"
     >
       <Image
         src={icon?.url || "/images/icons/logoSmall.svg"}

@@ -15,13 +15,20 @@ export default function BenefitItem({ benefitItem, idx }: BenefitItemProps) {
   const { title, description, icon } = benefitItem;
 
   return (
-    <li className="flex flex-col justify-center w-[48.5%] laptop:w-full px-[18px] py-[25px] laptop:p-[30px] desk:p-[50px] rounded-[15px] laptop:rounded-[30px] bg-yellowGradient">
+    <li className="flex flex-col justify-center w-[48.5%] laptop:w-full px-[18px] py-[25px] laptop:p-[30px] desk:p-[50px] rounded-[15px] laptop:rounded-[30px] bg-yellowGradient text-dark">
       <Image
         src={`/images/icons/${icon}.svg`}
         alt={title}
         width="40"
         height="40"
-        className="w-10 laptop:w-20 h-auto mb-[15px] laptop:mb-[30px]"
+        className="dark:hidden w-10 laptop:w-20 h-auto mb-[15px] laptop:mb-[30px]"
+      />
+      <Image
+        src={`/images/icons/${icon}Dark.svg`}
+        alt={title}
+        width="40"
+        height="40"
+        className="hidden dark:block w-10 laptop:w-20 h-auto mb-[15px] laptop:mb-[30px]"
       />
       <AnimationWrapper
         sectionId="home-page-benefits"

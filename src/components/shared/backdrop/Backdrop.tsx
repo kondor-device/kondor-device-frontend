@@ -43,6 +43,7 @@ export default function Backdrop() {
         fill
         className="absolute inset-0 object-cover"
       />
+      <div className="absolute inset-0 hidden dark:block bg-page/70" />
     </div>
   );
 }

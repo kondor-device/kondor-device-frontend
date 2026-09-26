@@ -15,7 +15,7 @@ export default function Header({ categories }: HeaderProps) {
 
   return (
     <>
-      <header className={`w-[100dvw] fixed z-[60] top-0 left-0"`}>
+      <header className="fixed z-[60] top-0 inset-x-0">
         <HeaderDesk setIsCatalogMenuOpened={setIsCatalogMenuOpened} />
         <HeaderMob
           setIsCatalogMenuOpened={setIsCatalogMenuOpened}

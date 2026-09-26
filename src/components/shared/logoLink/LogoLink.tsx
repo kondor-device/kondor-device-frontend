@@ -30,7 +30,16 @@ export default function LogoLink({
         alt="logo"
         width="203"
         height="81"
-        className={`${className} h-auto group-active:brightness-110 group-focus:brightness-110 laptop:group-hover:brightness-[115%] 
+        className={`${className} h-auto dark:hidden group-active:brightness-110 group-focus:brightness-110 laptop:group-hover:brightness-[115%]
+        transition duration-300 ease-out`}
+      />
+      <Image
+        src="/images/icons/logoDark.svg"
+        priority
+        alt="logo"
+        width="203"
+        height="81"
+        className={`${className} h-auto hidden dark:block group-active:brightness-110 group-focus:brightness-110 laptop:group-hover:brightness-[115%]
         transition duration-300 ease-out`}
       />
     </Link>

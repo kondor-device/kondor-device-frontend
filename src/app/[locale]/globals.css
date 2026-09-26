@@ -6,7 +6,27 @@
   --white: #ffffff;
   --dark: #191919;
   --yellow: #ffb300;
-  --lightGrey: #d9d9d9;
+
+  /* Theme colors as RGB channels, so Tailwind opacity modifiers work (bg-surface/50) */
+  --page: 255 255 255; /* page background */
+  --surface: 255 255 255; /* cards, header, modals, popups */
+  --fg: 25 25 25; /* main text and outlines */
+  --panel: 25 25 25; /* dark blocks: product card, cart summary */
+  --lightGrey: 217 217 217;
+  --shadow: 103 103 103;
+
+  color-scheme: light;
+}
+
+:root.dark {
+  --page: 18 18 18; /* #121212 */
+  --surface: 59 59 59; /* #3B3B3B, same as native input fill in dark mode */
+  --fg: 237 237 237; /* #EDEDED */
+  --panel: 59 59 59; /* #3B3B3B */
+  --lightGrey: 85 85 85; /* #555555 */
+  --shadow: 0 0 0;
+
+  color-scheme: dark;
 }
 
 :root:has(.no-doc-scroll) {
@@ -20,8 +40,8 @@ html {
 
 body {
   overflow-x: clip;
-  color: var(--dark);
-  background: var(--white);
+  color: rgb(var(--fg));
+  background: rgb(var(--page));
   font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
 }
 

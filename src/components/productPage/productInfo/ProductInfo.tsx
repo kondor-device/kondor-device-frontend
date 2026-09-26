@@ -219,7 +219,7 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
               {description ? (
                 <div
                   id={DESCRIPTION_ID}
-                  className="mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px]  scroll-mt-[142px] tabxl:scroll-mt-[173px] bg-white rounded-[20px] desk:rounded-[30px] shadow-catalogCard"
+                  className="mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px]  scroll-mt-[142px] tabxl:scroll-mt-[173px] bg-surface rounded-[20px] desk:rounded-[30px] shadow-catalogCard"
                 >
                   <AnimationWrapper
                     sectionId={DESCRIPTION_ID}
@@ -251,7 +251,7 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
           </div>
         </div>
       </section>
-      <div className="fixed tabxl:hidden z-50 left-0 bottom-0 flex items-center justify-center w-full min-h-[88px] px-5 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] rounded-t-[12px] bg-white shadow-catalogCard">
+      <div className="fixed tabxl:hidden z-50 left-0 bottom-0 flex items-center justify-center w-full min-h-[88px] px-5 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] rounded-t-[12px] bg-surface shadow-catalogCard">
         <Button
           onClick={onAddToCart}
           disabled={outOfStock}
