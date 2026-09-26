@@ -21,7 +21,7 @@ export default function Blog({ posts, currentPage, totalPages }: BlogProps) {
         items={[{ label: t("heroTitle") }]}
         className="pt-4 laptop:pt-6"
       />
-      <section className="container w-full max-w-[1920px] pt-4 laptop:pt-6">
+      <section className="container w-full max-w-[1920px] pt-8 laptop:pt-12">
         <BlogList posts={posts} />
         <Pagination
           currentPage={currentPage}
