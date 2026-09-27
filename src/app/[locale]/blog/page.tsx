@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import Blog from "@/components/blogPage/Blog";
-import Breadcrumbs from "@/components/shared/breadcrumbs/Breadcrumbs";
 import { BLOG_POSTS_PER_PAGE } from "@/constants/blog";
 import { getBlogPageSeo, getBlogPostsPage } from "@/data/blog";
 import { Locale } from "@/types/locale";
@@ -74,10 +73,7 @@ export async function generateMetadata({
 }
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
-  const [{ page: pageParam }, t] = await Promise.all([
-    searchParams,
-    getTranslations("breadcrumbs"),
-  ]);
+  const { page: pageParam } = await searchParams;
   const currentPage = parsePage(pageParam);
 
   const { posts, total } = await getBlogPostsPage(currentPage);
@@ -88,10 +84,6 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
   return (
     <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
-      <Breadcrumbs
-        items={[{ label: t("blog") }]}
-        className="pt-4 laptop:pt-6"
-      />
       <Blog posts={posts} currentPage={currentPage} totalPages={totalPages} />
     </div>
   );

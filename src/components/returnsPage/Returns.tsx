@@ -7,6 +7,7 @@ import {
   EMAIL_FIRST,
 } from "@/constants/constants";
 import PageTitle from "../shared/titles/PageTitle";
+import Breadcrumbs from "../shared/breadcrumbs/Breadcrumbs";
 
 export default function Returns() {
   const t = useTranslations("returnsPage");
@@ -14,7 +15,8 @@ export default function Returns() {
   return (
     <>
       <PageTitle>{t("title")}</PageTitle>
-      <section className="flex flex-col gap-y-5 container max-w-[1920px] py-5 laptop:py-[100px]">
+      <Breadcrumbs items={[{ label: t("title") }]} className="pt-4 laptop:pt-6" />
+      <section className="flex flex-col gap-y-5 container max-w-[1920px] pt-12 laptop:pt-20 pb-5 laptop:pb-[100px]">
         <p className="text-12reg laptop:text-24reg">
           {t("descOne")}
           <a
