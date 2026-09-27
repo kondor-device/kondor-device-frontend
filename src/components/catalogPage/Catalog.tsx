@@ -16,12 +16,16 @@ interface CatalogProps {
   currentCategories: CategoryItem[];
   allCategories: CategoryItem[];
   shownOnAddons: ProductItem[];
+  /** Set on /catalog/[category]: the filter defaults to this single category
+   * instead of every category (as it does on the shared /catalog). */
+  defaultCategorySlug?: string;
 }
 
 export default function Catalog({
   currentCategories,
   allCategories,
   shownOnAddons,
+  defaultCategorySlug,
 }: CatalogProps) {
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const [isOpenFilter, setIsOpenFilter] = useState(false);
@@ -82,6 +86,7 @@ export default function Catalog({
         allCategories={allCategories}
         handleApplyFilters={handleApplyFilters}
         className="hidden tabxl:block"
+        defaultCategorySlug={defaultCategorySlug}
       />
       <div className="flex flex-col w-full tabxl:w-[calc(100%-311px-16px)] laptop:w-[calc(100%-311px-30px)] gap-y-4 tabxl:gap-y-[30px]">
         <div className="flex items-center gap-3">
@@ -114,6 +119,7 @@ export default function Catalog({
         handleApplyFilters={handleApplyFilters}
         isOpen={isOpenFilter}
         onClose={() => setIsOpenFilter(false)}
+        defaultCategorySlug={defaultCategorySlug}
       />
       <Backdrop
         isVisible={isOpenFilter}

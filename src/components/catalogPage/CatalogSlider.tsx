@@ -46,7 +46,12 @@ export default function CatalogSlider({
     const availabilityValues = availability ? availability.split(",") : [];
 
     const filteredItems = categories
-      .flatMap((category) => category.items)
+      .flatMap((category) =>
+        category.items.map((item) => ({
+          ...item,
+          categorySlug: category.slug,
+        })),
+      )
       .filter((item) => {
         if (item.showonmain === true) return false;
         if (availabilityValues.length > 0) {

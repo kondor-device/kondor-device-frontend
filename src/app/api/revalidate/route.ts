@@ -87,8 +87,28 @@ function revalidateSitePages(): string[] {
   ];
 }
 
-function revalidateProductPage(slug: string): string[] {
-  return revalidatePaths(getLocalizedPaths(`/catalog/${slug}`), "page");
+function revalidateProductPage(
+  slug: string,
+  categorySlug: string | null
+): string[] {
+  const paths = [
+    // Легасі-редірект /catalog/[product] (без категорії в URL)
+    ...revalidatePaths(getLocalizedPaths(`/catalog/${slug}`), "page"),
+  ];
+
+  if (categorySlug) {
+    paths.push(
+      ...revalidatePaths(
+        getLocalizedPaths(`/catalog/${categorySlug}/${slug}`),
+        "page"
+      ),
+      // Категорія теж може змінити свій вміст (наприклад, товар щойно
+      // опублікували в цій категорії)
+      ...revalidatePaths(getLocalizedPaths(`/catalog/${categorySlug}`), "page")
+    );
+  }
+
+  return paths;
 }
 
 // Blog documents: list page, article pages and the blog SEO page.
@@ -150,6 +170,18 @@ async function resolveProductSlug(
   return document?.slug?.current ?? null;
 }
 
+async function resolveProductCategorySlug(
+  productSlug: string
+): Promise<string | null> {
+  const category = await client.fetch<{ slug?: string } | null>(
+    `*[_type == "item" && slug == $slug][0]{ "slug": cat->slug }`,
+    { slug: productSlug },
+    { cache: "no-store" }
+  );
+
+  return category?.slug ?? null;
+}
+
 async function revalidateOnItemChange(
   body?: SanityWebhookPayload
 ): Promise<{ paths: string[]; productSlug: string | null }> {
@@ -157,7 +189,8 @@ async function revalidateOnItemChange(
   const paths = [...revalidateFeeds(), ...revalidateSitePages()];
 
   if (productSlug) {
-    paths.push(...revalidateProductPage(productSlug));
+    const categorySlug = await resolveProductCategorySlug(productSlug);
+    paths.push(...revalidateProductPage(productSlug, categorySlug));
   }
 
   return { paths, productSlug };

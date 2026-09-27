@@ -99,7 +99,7 @@ function buildOfferXml(
   const priceOld = actualPrice !== null ? product.price : null;
 
   const fields: string[] = [
-    `<url>${escapeXml(buildLink(baseUrl, product.slug, color))}</url>`,
+    `<url>${escapeXml(buildLink(baseUrl, product.cat?.slug, product.slug, color))}</url>`,
     `<price>${price.toFixed(2)}</price>`,
     ...(priceOld !== null ? [`<price_old>${priceOld.toFixed(2)}</price_old>`] : []),
     `<currencyId>${CURRENCY}</currencyId>`,

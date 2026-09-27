@@ -50,4 +50,7 @@ export interface ProductItem {
   preorder: boolean;
   preordertext: string;
   outOfStock: boolean;
+  /** Slug of the parent category. Not returned by every query — attached
+   * client-side where the category is known, to build /catalog/[category]/[product] links. */
+  categorySlug?: string;
 }

@@ -41,6 +41,7 @@ export default function CatalogCard({
     nameUk,
     name,
     slug,
+    categorySlug,
     price,
     priceDiscount,
     chars,
@@ -51,6 +52,10 @@ export default function CatalogCard({
     coloropts,
     badge,
   } = product;
+
+  const productHref = `/catalog/${categorySlug}/${slug}?color=${getColorParam(
+    coloropts[selectedColorIndex],
+  )}`;
 
   const savings = (((price - (priceDiscount ?? price)) / price) * 100).toFixed(
     0,
@@ -147,11 +152,7 @@ export default function CatalogCard({
           </div>
         ) : null}
 
-        <Link
-          href={`/catalog/${slug}?color=${getColorParam(
-            coloropts[selectedColorIndex],
-          )}`}
-        >
+        <Link href={productHref}>
           {coloropts[selectedColorIndex].photos ? (
             <Image
               src={
@@ -174,12 +175,7 @@ export default function CatalogCard({
           )}
         </Link>
       </div>
-      <Link
-        href={`/catalog/${slug}?color=${getColorParam(
-          coloropts[selectedColorIndex],
-        )}`}
-        className="group block mb-3 desk:mb-4"
-      >
+      <Link href={productHref} className="group block mb-3 desk:mb-4">
         <h3 className="flex flex-wrap gap-x-2 items-center text-12bold desk:text-18bold laptop:group-hover:brightness-125 focus-visible:brightness-125 active:brightness-125 active:scale-95 transition duration-300 ease-in-out">
           <span>{generalname}</span>
           <span className="text-yellow">{name}</span>

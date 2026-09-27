@@ -23,6 +23,9 @@ interface CatalogFilterProps {
   className?: string;
   isOpenModal?: boolean;
   closeModal?: () => void;
+  /** On a category's own page (/catalog/[category]) the default `type`
+   * is just that category, not every category like on the shared /catalog. */
+  defaultCategorySlug?: string;
 }
 
 export default function CatalogFilter({
@@ -32,6 +35,7 @@ export default function CatalogFilter({
   isOpenModal = false,
   closeModal,
   className = "",
+  defaultCategorySlug,
 }: CatalogFilterProps) {
   const searchParams = useSearchParams();
 
@@ -68,7 +72,7 @@ export default function CatalogFilter({
 
     if (!typeParam) {
       const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set("type", allCategoriesSlugs);
+      newParams.set("type", defaultCategorySlug ?? allCategoriesSlugs);
 
       router.replace(`${pathname}?${newParams.toString()}`);
     }
@@ -128,7 +132,15 @@ export default function CatalogFilter({
       priceFrom: priceFromParam ? Number(priceFromParam) : undefined,
       priceTo: priceToParam ? Number(priceToParam) : undefined,
     });
-  }, [searchParams, allCategories, t, router, pathname, allCategoriesSlugs]);
+  }, [
+    searchParams,
+    allCategories,
+    t,
+    router,
+    pathname,
+    allCategoriesSlugs,
+    defaultCategorySlug,
+  ]);
 
   const applyFilters = () => {
     handleApplyFilters(filters);

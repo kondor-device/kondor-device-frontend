@@ -4,9 +4,11 @@ import ProductInfo from "@/components/productPage/productInfo/ProductInfo";
 import AddonsSlider from "@/components/productPage/AddonsSlider";
 import SimilarProductsSlider from "@/components/productPage/SimilarProductsSlider";
 import Manual from "@/components/productPage/Manual";
+import Breadcrumbs from "@/components/shared/breadcrumbs/Breadcrumbs";
 import { CategoryItem } from "@/types/categoryItem";
 import { Suspense } from "react";
 import Loader from "@/components/shared/loader/Loader";
+import { notFound, permanentRedirect } from "next/navigation";
 import { getDefaultMetadata, OG_LOCALES } from "@/utils/getDefaultMetadata";
 import { getPageAlternates } from "@/utils/getPageAlternates";
 import { Locale } from "@/types/locale";
@@ -14,7 +16,31 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 
 interface ProductPageProps {
-  params: Promise<{ locale: Locale; product: string }>;
+  params: Promise<{ locale: Locale; category: string; product: string }>;
+}
+
+// Категорія товару могла з часом змінитись (переніс товару в іншу категорію
+// в Sanity) — тоді URL з попередньою категорією в адресному рядку більше не
+// канонічний і його треба 301-редіректнути на актуальний.
+function findCategoryBySlug(categories: CategoryItem[], slug: string) {
+  const category = categories?.find((cat) =>
+    cat.items.some((item) => item.slug === slug),
+  );
+
+  if (!category) {
+    return null;
+  }
+
+  const filteredItems = category.items
+    .filter((item) => item.slug !== slug)
+    .map((item) => ({ ...item, categorySlug: category.slug }));
+
+  return {
+    categoryId: category.id,
+    categoryName: category.name,
+    categorySlug: category.slug,
+    items: filteredItems,
+  };
 }
 
 export async function generateMetadata({
@@ -28,6 +54,7 @@ export async function generateMetadata({
   });
 
   const currentProduct = res?.data?.allItems[0];
+  const category = findCategoryBySlug(res?.data?.allCategories, product);
 
   const defaultMetadata = getDefaultMetadata(t, locale);
   const title =
@@ -38,7 +65,10 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: getPageAlternates(locale, `/catalog/${product}`),
+    alternates: getPageAlternates(
+      locale,
+      `/catalog/${category?.categorySlug ?? "unknown"}/${product}`,
+    ),
     // openGraph of a page replaces the layout one, so it is filled in full
     openGraph: {
       title: title as string,
@@ -65,39 +95,49 @@ export async function generateMetadata({
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const { product } = await params;
+  const [{ category, product }, t] = await Promise.all([
+    params,
+    getTranslations("breadcrumbs"),
+  ]);
 
   const res = await getProducts(GET_ITEM_BY_SLUG_QUERY, {
     slug: product,
   });
 
-  function findCategoryBySlug(categories: CategoryItem[], slug: string) {
-    // Знаходимо категорію, де є товар з потрібним slug
-    const category = categories?.find((cat) =>
-      cat.items.some((item) => item.slug === slug),
-    );
+  const currentProduct = res?.data?.allItems?.[0];
 
-    if (!category) {
-      return null; // категорія не знайдена
-    }
-
-    // Відфільтровуємо товари без поточного
-    const filteredItems = category.items.filter((item) => item.slug !== slug);
-
-    return {
-      categoryId: category.id,
-      categoryName: category.name,
-      items: filteredItems,
-    };
+  if (!currentProduct) {
+    notFound();
   }
 
   const similarProducts = findCategoryBySlug(res?.data?.allCategories, product);
 
+  // Товар більше не належить категорії з URL (перенесений в адмінці) —
+  // 301 на актуальний URL, щоб не втратити SEO-вагу старого посилання.
+  if (similarProducts && similarProducts.categorySlug !== category) {
+    permanentRedirect(`/catalog/${similarProducts.categorySlug}/${product}`);
+  }
+
   return (
     <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
+      <Breadcrumbs
+        items={[
+          { label: t("catalog"), href: "/catalog" },
+          ...(similarProducts
+            ? [
+                {
+                  label: similarProducts.categoryName,
+                  href: `/catalog/${similarProducts.categorySlug}`,
+                },
+              ]
+            : []),
+          { label: currentProduct.name },
+        ]}
+        className="pt-4 laptop:pt-6"
+      />
       <Suspense fallback={<Loader />}>
         <ProductInfo
-          product={res?.data?.allItems[0]}
+          product={currentProduct}
           addons={res?.data?.shownOnAddons}
         />
         <AddonsSlider addons={res?.data?.shownOnAddons} />
@@ -105,7 +145,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           similarProducts={similarProducts}
           addons={res?.data?.shownOnAddons}
         />
-        <Manual product={res?.data?.allItems[0]} />
+        <Manual product={currentProduct} />
       </Suspense>
     </div>
   );
