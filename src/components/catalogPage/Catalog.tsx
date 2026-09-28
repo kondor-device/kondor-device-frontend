@@ -33,7 +33,48 @@ export default function Catalog({
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  // Застосовані (не чорнові — ті лишаються локальним станом усередині
+  // CatalogFilter, аж до кліку "Застосувати") фільтри тримаємо тут, а не
+  // чекаємо на них через router.push. `allCategories` вже містить повні
+  // дані (з усіма товарами) для кожної категорії, тож "застосувати" вибір
+  // категорій/наявності/ціни можна миттєво, локально — без повторного
+  // походу на Sanity, який раніше й давав відчутну затримку перед тим, як
+  // список товарів оновлювався.
+  const [appliedType, setAppliedType] = useState<string[]>(() =>
+    currentCategories.map((cat) => cat.slug),
+  );
+  const [appliedAvailability, setAppliedAvailability] = useState<string[]>(
+    () => {
+      const raw = searchParams.get("availability");
+      return raw ? raw.split(",") : ["in-stock", "pre-order", "out-of-stock"];
+    },
+  );
+  const [appliedPriceFrom, setAppliedPriceFrom] = useState<
+    number | undefined
+  >(() => {
+    const raw = searchParams.get("priceFrom");
+    return raw ? Number(raw) : undefined;
+  });
+  const [appliedPriceTo, setAppliedPriceTo] = useState<number | undefined>(
+    () => {
+      const raw = searchParams.get("priceTo");
+      return raw ? Number(raw) : undefined;
+    },
+  );
+  const [appliedNew, setAppliedNew] = useState(
+    () => searchParams.get("new") === "true",
+  );
+
   const handleApplyFilters = (filters: FiltersState) => {
+    setAppliedType(filters.type.map((item) => item.category));
+    setAppliedAvailability(filters.availability.map((item) => item.value));
+    setAppliedPriceFrom(filters.priceFrom);
+    setAppliedPriceTo(filters.priceTo);
+    setAppliedNew(!!filters.newValue);
+
+    // URL синхронізуємо у фоні — лише для посилань/закладок і сумісності з
+    // серверними дефолтами при прямому заході; на видиме оновлення списку
+    // товарів (стан вище) це більше не впливає.
     const params = new URLSearchParams(searchParams.toString());
 
     if (filters.type && filters.type.length > 0) {
@@ -71,12 +112,16 @@ export default function Catalog({
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
-  // Отримуємо id категорій, які зараз в currentCategories
-  const currentCategoryIds = new Set(currentCategories.map((cat) => cat.id));
-
-  // Фільтруємо всі категорії, які НЕ входять у currentCategories
+  // Список категорій, чиї товари зараз показуємо, рахуємо з allCategories
+  // (уже повністю завантажені) за застосованими слагами — а не з
+  // currentCategories (серверного пропу, актуального лише на момент
+  // початкового заходу на сторінку).
+  const appliedTypeSet = new Set(appliedType);
+  const resolvedCurrentCategories: CategoryItem[] = allCategories.filter(
+    (category) => appliedTypeSet.has(category.slug),
+  );
   const otherCategories: CategoryItem[] = allCategories.filter(
-    (category) => !currentCategoryIds.has(category.id)
+    (category) => !appliedTypeSet.has(category.slug),
   );
 
 
@@ -108,10 +153,14 @@ export default function Catalog({
           />
         </div>
         <CatalogSlider
-          currentCategories={currentCategories}
+          currentCategories={resolvedCurrentCategories}
           shownOnAddons={shownOnAddons}
           isOpenDropdown={isOpenDropdown}
           otherCategories={otherCategories}
+          availability={appliedAvailability}
+          priceFrom={appliedPriceFrom}
+          priceTo={appliedPriceTo}
+          newValue={appliedNew}
         />
       </div>
       <CatalogFiltersModal
