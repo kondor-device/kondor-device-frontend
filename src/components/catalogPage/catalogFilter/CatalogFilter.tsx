@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { useRouter, usePathname } from "@/i18n/routing";
 import { CategoryItem } from "@/types/categoryItem";
 import AvailabilityFilter from "./AvailabilityFilter";
 import PriceFilter from "./PriceFilter";
@@ -39,10 +38,6 @@ export default function CatalogFilter({
 }: CatalogFilterProps) {
   const searchParams = useSearchParams();
 
-  const router = useRouter();
-
-  const pathname = usePathname();
-
   const t = useTranslations("catalogPage");
 
   const [filters, setFilters] = useState<FiltersState>({
@@ -70,31 +65,21 @@ export default function CatalogFilter({
     const priceFromParam = searchParams.get("priceFrom");
     const priceToParam = searchParams.get("priceTo");
 
-    // Усі відсутні параметри дописуємо в URL ОДНИМ router.replace — окремі
-    // виклики для кожного параметра базувались на тому самому "застарілому"
-    // searchParams і перезаписували один одного (лишався тільки останній),
-    // через що категорія/наявність тимчасово зникали з URL і на місці
-    // товарів на мить показувалось "немає товарів".
+    // Лише ЛОКАЛЬНО заповнюємо дефолти для чекбоксів — і НЕ пишемо їх назад
+    // в URL. Раніше тут був router.replace(), що на монтуванні (в т.ч. одразу
+    // після переходу на іншу сторінку категорії) наввипередки змагався з
+    // власним ефектом CatalogSorting (теж писав у URL) і навіть сам із собою
+    // (новий router.replace стартував від того самого "застарілого"
+    // searchParams, поки попередній ще не долетів) — категорія/наявність на
+    // URL-рядку на мить губились, і на місці товарів блимало "немає
+    // товарів". Відсутність type/availability/price в URL і так коректно
+    // трактується як "показати все" у CatalogSlider, тож писати їх у URL
+    // непотрібно — досить тримати їх лише в локальному стані фільтра.
     const resolvedType = typeParam ?? defaultCategorySlug ?? allCategoriesSlugs;
     const resolvedAvailability =
       availabilityParam ?? "in-stock,pre-order,out-of-stock";
     const resolvedPriceFrom = priceFromParam ?? "499";
     const resolvedPriceTo = priceToParam ?? "4999";
-
-    if (
-      !typeParam ||
-      !availabilityParam ||
-      !priceFromParam ||
-      !priceToParam
-    ) {
-      const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set("type", resolvedType);
-      newParams.set("availability", resolvedAvailability);
-      newParams.set("priceFrom", resolvedPriceFrom);
-      newParams.set("priceTo", resolvedPriceTo);
-
-      router.replace(`${pathname}?${newParams.toString()}`);
-    }
 
     // Обробка type
     const type = resolvedType
@@ -128,15 +113,7 @@ export default function CatalogFilter({
       priceFrom: Number(resolvedPriceFrom),
       priceTo: Number(resolvedPriceTo),
     });
-  }, [
-    searchParams,
-    allCategories,
-    t,
-    router,
-    pathname,
-    allCategoriesSlugs,
-    defaultCategorySlug,
-  ]);
+  }, [searchParams, allCategories, t, allCategoriesSlugs, defaultCategorySlug]);
 
   const applyFilters = () => {
     handleApplyFilters(filters);

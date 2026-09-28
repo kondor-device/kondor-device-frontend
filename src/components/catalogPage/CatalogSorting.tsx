@@ -44,15 +44,14 @@ export default function CatalogSorting({
     router.replace(`?${newParams.toString()}`, { scroll: false });
   };
 
-  useEffect(() => {
-    if (!searchParams.get("sort")) {
-      const newParams = new URLSearchParams(Array.from(searchParams.entries()));
-      newParams.set("sort", "default");
-
-      router.replace(`?${newParams.toString()}`, { scroll: false });
-    }
-  }, [router, searchParams]);
-
+  // Немає власного "заповнюючого" ефекту для ?sort= — раніше він тут був,
+  // але одночасно з CatalogFilter (свій ефект для type/availability/price)
+  // обидва компоненти на монтуванні викликали router.replace() від того
+  // самого "застарілого" (порожнього) searchParams, і останній виклик
+  // перезаписував параметри, які щойно додав інший — категорія на мить
+  // зникала з URL і показувалось "немає товарів". Відсутність "sort" і так
+  // трактується як "default" усюди, де URL читається (CatalogSlider), тож
+  // дописувати його в URL непотрібно — досить самого select-стану нижче.
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (

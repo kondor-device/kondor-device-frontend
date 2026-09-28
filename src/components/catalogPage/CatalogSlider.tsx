@@ -31,8 +31,14 @@ export default function CatalogSlider({
 
   const newItems = searchParams.get("new");
   const availability = searchParams.get("availability");
-  const priceFrom = Number(searchParams.get("priceFrom"));
-  const priceTo = Number(searchParams.get("priceTo"));
+  // Number(null) === 0, not NaN — коли priceFrom/priceTo відсутні в URL (а
+  // тепер, коли дефолти більше не дописуються в URL, це звичайний стан),
+  // priceTo ставав 0 і відсікав УСІ товари (ціна > 0 завжди true), тому
+  // категорія виглядала порожньою. NaN коректно пропускає фільтр нижче.
+  const priceFromParam = searchParams.get("priceFrom");
+  const priceToParam = searchParams.get("priceTo");
+  const priceFrom = priceFromParam !== null ? Number(priceFromParam) : NaN;
+  const priceTo = priceToParam !== null ? Number(priceToParam) : NaN;
   const sort = searchParams.get("sort");
 
   const getFilteredAndSortedItems = (

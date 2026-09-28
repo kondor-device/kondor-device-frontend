@@ -39,12 +39,18 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     categories: categoryArray,
   });
 
+  // Без ?type= в URL (перший захід на /catalog) показуємо всі категорії —
+  // `selectedCategories` для порожнього масиву слагів завжди порожній.
+  const currentCategories = type
+    ? res.data.selectedCategories
+    : res.data.allCategories;
+
   return (
     <div className="pt-[60px] tabxl:pt-[113px]">
       <Breadcrumbs items={[{ label: t("catalog") }]} className="pt-4 laptop:pt-6" />
       <Suspense fallback={<Loader />}>
         <Catalog
-          currentCategories={res.data.selectedCategories}
+          currentCategories={currentCategories}
           allCategories={res.data.allCategories}
           shownOnAddons={res.data.shownOnAddons}
         />
