@@ -118,27 +118,31 @@ export default async function ProductPage({ params }: ProductPageProps) {
     permanentRedirect(`/catalog/${similarProducts.categorySlug}/${product}`);
   }
 
+  const breadcrumbs = (
+    <Breadcrumbs
+      items={[
+        { label: t("catalog"), href: "/catalog" },
+        ...(similarProducts
+          ? [
+              {
+                label: similarProducts.categoryName,
+                href: `/catalog/${similarProducts.categorySlug}`,
+              },
+            ]
+          : []),
+        { label: currentProduct.name },
+      ]}
+      className="pt-4 laptop:pt-6"
+    />
+  );
+
   return (
     <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
-      <Breadcrumbs
-        items={[
-          { label: t("catalog"), href: "/catalog" },
-          ...(similarProducts
-            ? [
-                {
-                  label: similarProducts.categoryName,
-                  href: `/catalog/${similarProducts.categorySlug}`,
-                },
-              ]
-            : []),
-          { label: currentProduct.name },
-        ]}
-        className="pt-4 laptop:pt-6"
-      />
       <Suspense fallback={<Loader />}>
         <ProductInfo
           product={currentProduct}
           addons={res?.data?.shownOnAddons}
+          breadcrumbs={breadcrumbs}
         />
         <AddonsSlider addons={res?.data?.shownOnAddons} />
         <SimilarProductsSlider

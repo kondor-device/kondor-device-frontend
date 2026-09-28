@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { ProductItem } from "@/types/productItem";
 import ImagePicker from "./ImagePicker";
@@ -23,6 +23,11 @@ import { findColorIndex } from "@/utils/colorParam";
 interface ProductInfoProps {
   product: ProductItem;
   addons: ProductItem[];
+  /** Server-rendered <Breadcrumbs/>, passed in as a node so it can be placed
+   * below Navigation's fixed tab bar — rendered in normal page flow (before
+   * ProductInfo/Navigation), it would sit right where that fixed bar
+   * overlays and be hidden underneath it. */
+  breadcrumbs?: ReactNode;
 }
 
 const SECTION_ID = "product-page-info";
@@ -31,7 +36,11 @@ const PRICE_ID = "product-page-price";
 
 const DESCRIPTION_ID = "description";
 
-export default function ProductInfo({ product, addons }: ProductInfoProps) {
+export default function ProductInfo({
+  product,
+  addons,
+  breadcrumbs,
+}: ProductInfoProps) {
   const {
     id,
     video,
@@ -138,8 +147,7 @@ export default function ProductInfo({ product, addons }: ProductInfoProps) {
   return (
     <>
       <section className="mb-8 desk:mb-[69px]">
-        <Navigation product={product} />
-
+        <Navigation product={product} breadcrumbs={breadcrumbs} />
         <div className="container max-w-[1920px]">
           <div className="tabxl:flex gap-x-[80px] desk:gap-x-[120px] w-full mb-5 tab:mb-[100px]">
             <ImagePicker photos={photos} />
