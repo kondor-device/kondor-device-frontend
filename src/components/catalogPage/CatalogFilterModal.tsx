@@ -12,12 +12,14 @@ interface CatalogFilterModalProps {
   handleApplyFilters: (filters: FiltersState) => void;
   isOpen: boolean;
   onClose: () => void;
+  defaultCategorySlug?: string;
 }
 export default function CatalogFiltersModal({
   allCategories,
   handleApplyFilters,
   isOpen,
   onClose,
+  defaultCategorySlug,
 }: CatalogFilterModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -71,6 +73,7 @@ export default function CatalogFiltersModal({
               allCategories={allCategories}
               isOpenModal={isOpen}
               closeModal={onClose}
+              defaultCategorySlug={defaultCategorySlug}
             />
           </motion.div>
         </div>

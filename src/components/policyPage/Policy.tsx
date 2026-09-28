@@ -1,5 +1,6 @@
 import React from "react";
 import PageTitle from "../shared/titles/PageTitle";
+import Breadcrumbs from "../shared/breadcrumbs/Breadcrumbs";
 import { useTranslations } from "next-intl";
 import PolicyList from "./PolicyList";
 import Button from "../shared/buttons/Button";
@@ -10,7 +11,11 @@ export default function Policy() {
   return (
     <>
       <PageTitle>{t("policyPage.title")}</PageTitle>
-      <section className="container max-w-[1920px] py-5 laptop:py-[100px]">
+      <Breadcrumbs
+        items={[{ label: t("policyPage.title") }]}
+        className="pt-4 laptop:pt-6"
+      />
+      <section className="container max-w-[1920px] pt-12 laptop:pt-20 pb-5 laptop:pb-[100px]">
         <PolicyList />
         <a
           href={TELEGRAM_URL}

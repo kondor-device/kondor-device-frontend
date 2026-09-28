@@ -15,6 +15,15 @@ interface CatalogSliderProps {
   shownOnAddons: ProductItem[];
   isOpenDropdown: boolean;
   otherCategories: CategoryItem[];
+  /** Застосовані фільтри — приходять як пропси від Catalog.tsx (локальний
+   * стан, оновлюється миттєво при кліку "Застосувати"), а не через
+   * useSearchParams(): значення в URL синхронізуються у фоні через
+   * router.push і оновлюються лише після відповіді сервера, що й давало
+   * відчутну затримку перед оновленням списку товарів. */
+  availability: string[];
+  priceFrom?: number;
+  priceTo?: number;
+  newValue: boolean;
 }
 
 export default function CatalogSlider({
@@ -22,31 +31,35 @@ export default function CatalogSlider({
   shownOnAddons,
   isOpenDropdown,
   otherCategories,
+  availability,
+  priceFrom,
+  priceTo,
+  newValue,
 }: CatalogSliderProps) {
   const ITEMS_PER_PAGE = 12;
 
   const t = useTranslations("catalogPage");
 
+  // Сортування лишається окремо, через URL (CatalogSorting) — цю дію
+  // користувач не описував як повільну, тож не чіпаємо.
   const searchParams = useSearchParams();
-
-  const newItems = searchParams.get("new");
-  const availability = searchParams.get("availability");
-  const priceFrom = Number(searchParams.get("priceFrom"));
-  const priceTo = Number(searchParams.get("priceTo"));
   const sort = searchParams.get("sort");
 
   const getFilteredAndSortedItems = (
     categories: CategoryItem[],
-    availability: string | null,
-    newItems: string | null,
-    priceFrom: number,
-    priceTo: number,
+    availabilityValues: string[],
+    isNew: boolean,
+    priceFrom: number | undefined,
+    priceTo: number | undefined,
     sort: string | null
   ): ProductItem[] => {
-    const availabilityValues = availability ? availability.split(",") : [];
-
     const filteredItems = categories
-      .flatMap((category) => category.items)
+      .flatMap((category) =>
+        category.items.map((item) => ({
+          ...item,
+          categorySlug: category.slug,
+        })),
+      )
       .filter((item) => {
         if (item.showonmain === true) return false;
         if (availabilityValues.length > 0) {
@@ -62,10 +75,10 @@ export default function CatalogSlider({
 
           if (!matchesAvailability) return false;
         }
-        if (newItems === "true" && item.newItem !== true) return false;
+        if (isNew && item.newItem !== true) return false;
         const actualPrice = item.priceDiscount ?? item.price;
-        if (!isNaN(priceFrom) && actualPrice < priceFrom) return false;
-        if (!isNaN(priceTo) && actualPrice > priceTo) return false;
+        if (priceFrom !== undefined && actualPrice < priceFrom) return false;
+        if (priceTo !== undefined && actualPrice > priceTo) return false;
         return true;
       });
 
@@ -104,12 +117,12 @@ export default function CatalogSlider({
       getFilteredAndSortedItems(
         currentCategories,
         availability,
-        newItems,
+        newValue,
         priceFrom,
         priceTo,
         sort
       ),
-    [currentCategories, availability, newItems, priceFrom, priceTo, sort]
+    [currentCategories, availability, newValue, priceFrom, priceTo, sort]
   );
 
   const filteredOtherItems = useMemo(
@@ -117,12 +130,12 @@ export default function CatalogSlider({
       getFilteredAndSortedItems(
         otherCategories, // <- зміна тут: передаємо масив категорій напряму
         availability,
-        newItems,
+        newValue,
         priceFrom,
         priceTo,
         sort
       ),
-    [otherCategories, availability, newItems, priceFrom, priceTo, sort]
+    [otherCategories, availability, newValue, priceFrom, priceTo, sort]
   );
 
   // --- Стан для основних товарів ---

@@ -130,8 +130,16 @@ export function buildAvailability(
   return "in stock";
 }
 
-export function buildLink(baseUrl: string, slug: string, color: string): string {
-  const url = new URL(`catalog/${slug}`, baseUrl);
+export function buildLink(
+  baseUrl: string,
+  categorySlug: string | null | undefined,
+  slug: string,
+  color: string
+): string {
+  // Без категорії посилання все одно валідне: /catalog/[product] 301-редіректить
+  // на канонічний /catalog/[category]/[product] на самому сайті.
+  const path = categorySlug ? `catalog/${categorySlug}/${slug}` : `catalog/${slug}`;
+  const url = new URL(path, baseUrl);
   if (color) url.searchParams.set("color", color.toLowerCase());
   return url.toString();
 }

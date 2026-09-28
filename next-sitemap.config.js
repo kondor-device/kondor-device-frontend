@@ -7,7 +7,7 @@ const SANITY_PROJECT_ID = "qmszlzqu";
 const SANITY_DATASET = "production";
 const SANITY_API_VERSION = "2025-11-11";
 
-export const GET_ALL_PRODUCTS_QUERY = `*[_type == "item" && defined(slug)]{ slug }`;
+export const GET_ALL_PRODUCTS_QUERY = `*[_type == "item" && defined(slug)]{ slug, "categorySlug": cat->slug }`;
 
 export async function getAllProducts() {
   try {
@@ -15,6 +15,21 @@ export async function getAllProducts() {
       method: "get",
       url: `https://${SANITY_PROJECT_ID}.apicdn.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}`,
       params: { query: GET_ALL_PRODUCTS_QUERY },
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}
+
+export const GET_ALL_CATEGORIES_SITEMAP_QUERY = `*[_type == "category" && defined(slug)]{ slug }`;
+
+export async function getAllCategoriesForSitemap() {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `https://${SANITY_PROJECT_ID}.apicdn.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}`,
+      params: { query: GET_ALL_CATEGORIES_SITEMAP_QUERY },
     });
     return response.data;
   } catch (error) {
@@ -38,16 +53,26 @@ export async function getAllBlogPosts() {
 }
 
 async function getDynamicPages() {
-  const [productsRes, blogRes] = await Promise.all([
+  const [productsRes, categoriesRes, blogRes] = await Promise.all([
     getAllProducts(),
+    getAllCategoriesForSitemap(),
     getAllBlogPosts(),
   ]);
 
+  const categories = categoriesRes?.result || [];
+  const categoryPages = categories
+    .filter((category) => Boolean(category?.slug))
+    .map((category) => ({
+      loc: `/catalog/${category.slug}`,
+    }));
+
   const products = productsRes?.result || [];
   const productsPages = products
-    .filter((product) => Boolean(product?.slug))
+    // Товар без категорії не має канонічного /catalog/[category]/[product]
+    // URL — такий запис пропускаємо, щоб не покласти в sitemap 404/редірект.
+    .filter((product) => Boolean(product?.slug) && Boolean(product?.categorySlug))
     .map((product) => ({
-      loc: `/catalog/${product.slug}`,
+      loc: `/catalog/${product.categorySlug}/${product.slug}`,
     }));
 
   const blogPosts = blogRes?.result || [];
@@ -59,7 +84,7 @@ async function getDynamicPages() {
       priority: 0.7,
     }));
 
-  return [...productsPages, ...blogPages];
+  return [...categoryPages, ...productsPages, ...blogPages];
 }
 
 // Домен продакшена (той самий, що CANONICAL_HOST у next.config.mjs)

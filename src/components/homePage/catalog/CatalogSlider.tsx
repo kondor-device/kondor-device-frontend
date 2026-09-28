@@ -29,9 +29,6 @@ export default function CatalogSlider({
   products,
   shownOnAddonsProducts,
 }: CatalogSliderProps) {
-  const searchParams =
-    "&priceTo=4999&sort=default&priceFrom=499&availability=in-stock%2Cpre-order%2Cout-of-stock";
-
   return (
     <li id={id} className="scroll-mt-[60px] tabxl:scroll-mt-[113px]">
       <AnimationWrapper
@@ -40,7 +37,7 @@ export default function CatalogSlider({
         visibleStyles="opacity-100 translate-x-0"
         unVisibleStyles="opacity-0 -translate-x-[50px]"
       >
-        <Link href={`/catalog?type=${slug}${searchParams}`} className="group">
+        <Link href={`/catalog/${slug}`} className="group">
           <h2 className="text-22bold tabxl:text-32bold laptop:text-40bold text-center laptop:group-hover:text-yellow focus-visible:text-yellow active:text-yellow active:scale-95 transition duration-300 ease-in-out">
             {title}
           </h2>
@@ -70,6 +67,7 @@ export default function CatalogSlider({
             <SwiperSlide key={idx}>
               <ProductCard
                 product={product}
+                categorySlug={slug}
                 shownOnAddonsProducts={shownOnAddonsProducts}
               />
             </SwiperSlide>

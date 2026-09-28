@@ -17,7 +17,7 @@ export default function CartButton({ shownOnAddonsProducts }: CartButtonProps) {
   const { openModal } = useModalStore();
 
   const pathname = usePathname();
-  const isProductPage = /^\/catalog\/[^/]+$/.test(pathname);
+  const isProductPage = /^\/catalog\/[^/]+\/[^/]+$/.test(pathname);
 
   return (
     <>

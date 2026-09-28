@@ -17,7 +17,7 @@ export default function Footer({ categories }: FooterProps) {
 
   const pathname = usePathname();
 
-  const isProductPage = /^\/catalog\/[^\/]+$/.test(pathname);
+  const isProductPage = /^\/catalog\/[^/]+\/[^/]+$/.test(pathname);
 
   return (
     <footer className={isProductPage ? "pb-[90px] tabxl:pb-0" : ""}>

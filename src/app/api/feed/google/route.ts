@@ -52,7 +52,7 @@ function buildItemXml(
     `<g:item_group_id>${escapeXml(product.id)}</g:item_group_id>`,
     `<g:title>${escapeXml(title)}</g:title>`,
     `<g:description>${escapeXml(description)}</g:description>`,
-    `<g:link>${escapeXml(buildLink(baseUrl, product.slug, color))}</g:link>`,
+    `<g:link>${escapeXml(buildLink(baseUrl, product.cat?.slug, product.slug, color))}</g:link>`,
     `<g:image_link>${escapeXml(toFeedImageUrl(mainPhoto.url))}</g:image_link>`,
     // Google Merchant Center дозволяє до 10 додаткових зображень на офер
     // (менше, ніж у Meta, де ліміт 20) — див.

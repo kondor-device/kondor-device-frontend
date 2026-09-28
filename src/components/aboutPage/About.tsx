@@ -1,5 +1,6 @@
 import React from "react";
 import PageTitle from "../shared/titles/PageTitle";
+import Breadcrumbs from "../shared/breadcrumbs/Breadcrumbs";
 import { useTranslations } from "next-intl";
 
 import Button from "../shared/buttons/Button";
@@ -12,7 +13,11 @@ export default function About() {
   return (
     <>
       <PageTitle>{t("aboutPage.title")}</PageTitle>
-      <section className="container max-w-[1920px] py-5 laptop:py-[100px]">
+      <Breadcrumbs
+        items={[{ label: t("aboutPage.title") }]}
+        className="pt-4 laptop:pt-6"
+      />
+      <section className="container max-w-[1920px] pt-12 laptop:pt-20 pb-5 laptop:pb-[100px]">
         <AboutInfo />
         <a
           href={INSTAGRAM_URL}
