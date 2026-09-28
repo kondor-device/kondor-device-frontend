@@ -144,6 +144,15 @@ export interface ProductLanding {
   sections: LandingSection[] | null;
 }
 
+export interface Review {
+  id: string;
+  author: string;
+  rating: number;
+  text: string;
+  /** ISO datetime */
+  date: string;
+}
+
 export interface ProductItem {
   id: string;
   generalname: string;
@@ -183,6 +192,12 @@ export interface ProductItem {
   bundlePhotos?: Photo[];
   /** Fixed content of a bundle (only when `kind === "bundle"`) */
   bundleComponents?: BundleComponent[];
+  /** Кількість схвалених відгуків (0, якщо їх немає) */
+  ratingCount?: number;
+  /** Середня оцінка схвалених відгуків; null/відсутня, якщо відгуків немає */
+  ratingAvg?: number | null;
+  /** Схвалені відгуки — лише в детальному запиті товару */
+  reviews?: Review[];
   /** Slug of the parent category. Not returned by every query — attached
    * client-side where the category is known, to build /catalog/[category]/[product] links. */
   categorySlug?: string;

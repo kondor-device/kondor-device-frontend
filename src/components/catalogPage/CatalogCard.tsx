@@ -15,6 +15,8 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import CatalogCardButton from "../shared/buttons/CatalogCardButton";
 import ColorPicker from "./ColorPicker";
 import { getColorParam } from "@/utils/colorParam";
+import StarRating from "../shared/StarRating";
+import { formatRating } from "@/utils/formatRating";
 
 interface CatalogCardProps {
   product: ProductItem;
@@ -51,6 +53,8 @@ export default function CatalogCard({
     outOfStock,
     coloropts,
     badge,
+    ratingAvg,
+    ratingCount = 0,
   } = product;
 
   const productHref = `/catalog/${categorySlug}/${slug}?color=${getColorParam(
@@ -189,6 +193,19 @@ export default function CatalogCard({
           />
         </h3>
       </Link>
+      {ratingCount > 0 ? (
+        <div className="flex items-center gap-x-1.5 -mt-1.5 desk:-mt-2 mb-3 desk:mb-4 text-10med desk:text-14med">
+          <StarRating
+            value={formatRating(ratingAvg)}
+            ariaLabel={t("productPage.reviews.ratingLabel", {
+              value: formatRating(ratingAvg),
+            })}
+            starClassName="size-3 desk:size-4"
+          />
+          <span className="font-bold">{formatRating(ratingAvg).toFixed(1)}</span>
+          <span className="text-grey">({ratingCount})</span>
+        </div>
+      ) : null}
 
       <div>
         {" "}

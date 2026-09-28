@@ -86,6 +86,7 @@ export default function Navigation({ product, breadcrumbs }: NavigationProps) {
     chars && { title: t("characteristics"), slug: "characteristics" },
     video && { title: t("see"), slug: "video" },
     complect && { title: t("complect"), slug: "complect" },
+    { title: t("reviews"), slug: "reviews" },
     manual && { title: t("manual"), slug: "manual" },
     driver && { title: t("driver"), slug: "driver" },
   ].filter(Boolean) as NavigationItem[];

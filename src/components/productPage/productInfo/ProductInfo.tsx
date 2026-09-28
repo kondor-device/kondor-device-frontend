@@ -19,6 +19,8 @@ import AnimationWrapper from "@/components/homePage/hero/AnimationWrapper";
 import { useScreenWidth } from "@/hooks/useScreenWidth";
 import { useSearchParams } from "next/navigation";
 import { findColorIndex } from "@/utils/colorParam";
+import Reviews from "@/components/productPage/reviews/Reviews";
+import ProductRating from "@/components/productPage/reviews/ProductRating";
 
 interface ProductInfoProps {
   product: ProductItem;
@@ -61,6 +63,9 @@ export default function ProductInfo({
     preorder,
     preordertext,
     outOfStock,
+    ratingAvg,
+    ratingCount = 0,
+    reviews = [],
   } = product;
 
   const searchParams = useSearchParams();
@@ -148,6 +153,17 @@ export default function ProductInfo({
     });
   };
 
+  // На десктопі відгуки — у кінці лівої колонки (після опису й відео), на
+  // мобільному/планшеті — окремим блоком на всю ширину під колонками.
+  const reviewsBlock = (
+    <Reviews
+      itemId={id}
+      reviews={reviews}
+      ratingAvg={ratingAvg}
+      ratingCount={ratingCount}
+    />
+  );
+
   return (
     <>
       <section className="mb-8 desk:mb-[69px]">
@@ -169,6 +185,10 @@ export default function ProductInfo({
                   <span>{generalname}</span>
                   <span className="text-yellow">{name}</span>
                 </h1>
+                <ProductRating
+                  ratingAvg={ratingAvg}
+                  ratingCount={ratingCount}
+                />
               </AnimationWrapper>
               {coloropts?.length > 0 ? (
                 <ColorPicker
@@ -269,7 +289,10 @@ export default function ProductInfo({
                   ></div>
                 </div>
               ) : null}
-              {isDesktop ? <Video video={video} /> : null}
+              {isDesktop ? (
+                <Video video={video} className="tab:!mb-8" />
+              ) : null}
+              {isDesktop ? reviewsBlock : null}
             </div>
             <div className="tabxl:w-[calc(50%-16px)]">
               {chars?.length > 0 ? (
@@ -279,6 +302,8 @@ export default function ProductInfo({
               {complect ? <Complect complectation={complect} /> : null}
             </div>
           </div>
+          {!isDesktop ? reviewsBlock : null}
+          <Manual product={product} withContainer={false} />
         </div>
       </section>
       <div className="fixed tabxl:hidden z-50 left-0 bottom-0 flex items-center justify-center w-full min-h-[88px] px-5 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] rounded-t-[12px] bg-surface shadow-catalogCard">

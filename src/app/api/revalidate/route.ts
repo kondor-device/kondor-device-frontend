@@ -1,3 +1,4 @@
+import { revalidateProductWithRating } from "@/lib/revalidate";
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { parseBody } from "next-sanity/webhook";
@@ -196,6 +197,33 @@ async function revalidateOnItemChange(
   return { paths, productSlug };
 }
 
+async function revalidateOnReviewChange(
+  body?: SanityWebhookPayload
+): Promise<{ paths: string[]; productSlug: string | null }> {
+  if (!body?._id) {
+    return { paths: [], productSlug: null };
+  }
+
+  const item = await client.fetch<{
+    slug?: string;
+    categorySlug?: string;
+  } | null>(
+    `*[_id == $id][0]{ "slug": item->slug, "categorySlug": item->cat->slug }`,
+    { id: body._id },
+    { cache: "no-store" }
+  );
+
+  if (!item?.slug) {
+    return { paths: [], productSlug: null };
+  }
+
+  return {
+    paths: await revalidateProductWithRating(item.slug, item.categorySlug),
+    productSlug: item.slug,
+  };
+}
+
+
 function isSeoPageId(id?: string): id is SiteSeoPageId {
   return Boolean(id) && Object.hasOwn(SITE_SEO_CONFIG, id as string);
 }
@@ -216,6 +244,8 @@ async function revalidateOnChange(body?: SanityWebhookPayload): Promise<{
   paths: string[];
   productSlug: string | null;
 }> {
+  if (body?._type === "review") return revalidateOnReviewChange(body);
+
   const id = body?._id?.replace(/^drafts\./, "");
 
   if (isSeoPageId(id)) {
