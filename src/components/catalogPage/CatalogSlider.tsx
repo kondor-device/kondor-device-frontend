@@ -89,6 +89,19 @@ export default function CatalogSlider({
       return parts.slice(1).join(" ").toLowerCase();
     };
 
+    // Товари без відгуків — завжди в кінці (а не як "0 зірок" вище за 3★);
+    // серед оцінених: вища середня оцінка, за рівності — більше відгуків.
+    if (sort === "rating") {
+      return filteredItems.sort((a, b) => {
+        const countA = a.ratingCount ?? 0;
+        const countB = b.ratingCount ?? 0;
+        if (!countA || !countB) return (countB ? 1 : 0) - (countA ? 1 : 0);
+        return (
+          (b.ratingAvg ?? 0) - (a.ratingAvg ?? 0) || countB - countA
+        );
+      });
+    }
+
     return filteredItems.sort((a, b) => {
       const priceA = a.priceDiscount ?? a.price;
       const priceB = b.priceDiscount ?? b.price;

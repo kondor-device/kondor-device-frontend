@@ -21,6 +21,15 @@ export interface ComplectItem {
   icon: { url: string; alt: string };
 }
 
+export interface Review {
+  id: string;
+  author: string;
+  rating: number;
+  text: string;
+  /** ISO datetime */
+  date: string;
+}
+
 export interface ProductItem {
   id: string;
   generalname: string;
@@ -50,6 +59,12 @@ export interface ProductItem {
   preorder: boolean;
   preordertext: string;
   outOfStock: boolean;
+  /** Кількість схвалених відгуків (0, якщо їх немає) */
+  ratingCount?: number;
+  /** Середня оцінка схвалених відгуків; null/відсутня, якщо відгуків немає */
+  ratingAvg?: number | null;
+  /** Схвалені відгуки — лише в детальному запиті товару */
+  reviews?: Review[];
   /** Slug of the parent category. Not returned by every query — attached
    * client-side where the category is known, to build /catalog/[category]/[product] links. */
   categorySlug?: string;

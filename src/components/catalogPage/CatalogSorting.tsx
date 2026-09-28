@@ -24,6 +24,7 @@ export default function CatalogSorting({
     { title: t("sortingOptions.priceAscending"), value: "price-ascending" },
     { title: t("sortingOptions.priceDescending"), value: "price-descending" },
     { title: t("sortingOptions.discount"), value: "discount" },
+    { title: t("sortingOptions.rating"), value: "rating" },
     { title: t("sortingOptions.nameAscending"), value: "name-ascending" },
     { title: t("sortingOptions.nameDescending"), value: "name-descending" },
   ];
