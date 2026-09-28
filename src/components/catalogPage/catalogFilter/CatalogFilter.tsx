@@ -70,24 +70,35 @@ export default function CatalogFilter({
     const priceFromParam = searchParams.get("priceFrom");
     const priceToParam = searchParams.get("priceTo");
 
-    if (!typeParam) {
-      const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set("type", defaultCategorySlug ?? allCategoriesSlugs);
+    // Усі відсутні параметри дописуємо в URL ОДНИМ router.replace — окремі
+    // виклики для кожного параметра базувались на тому самому "застарілому"
+    // searchParams і перезаписували один одного (лишався тільки останній),
+    // через що категорія/наявність тимчасово зникали з URL і на місці
+    // товарів на мить показувалось "немає товарів".
+    const resolvedType = typeParam ?? defaultCategorySlug ?? allCategoriesSlugs;
+    const resolvedAvailability =
+      availabilityParam ?? "in-stock,pre-order,out-of-stock";
+    const resolvedPriceFrom = priceFromParam ?? "499";
+    const resolvedPriceTo = priceToParam ?? "4999";
 
-      router.replace(`${pathname}?${newParams.toString()}`);
-    }
-
-    // Якщо відсутній параметр — показуємо товари з усіма статусами наявності
-    if (!availabilityParam) {
+    if (
+      !typeParam ||
+      !availabilityParam ||
+      !priceFromParam ||
+      !priceToParam
+    ) {
       const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set("availability", "in-stock,pre-order,out-of-stock");
+      newParams.set("type", resolvedType);
+      newParams.set("availability", resolvedAvailability);
+      newParams.set("priceFrom", resolvedPriceFrom);
+      newParams.set("priceTo", resolvedPriceTo);
 
       router.replace(`${pathname}?${newParams.toString()}`);
     }
 
     // Обробка type
-    const type = typeParam
-      ? typeParam.split(",").map((slug) => {
+    const type = resolvedType
+      ? resolvedType.split(",").map((slug) => {
           const found = allCategories.find((cat) => cat.slug === slug);
           return {
             category: slug,
@@ -96,8 +107,8 @@ export default function CatalogFilter({
         })
       : [];
 
-    const availability = availabilityParam
-      ? availabilityParam.split(",").map((value) => ({
+    const availability = resolvedAvailability
+      ? resolvedAvailability.split(",").map((value) => ({
           value,
           title:
             value === "in-stock"
@@ -110,27 +121,12 @@ export default function CatalogFilter({
         }))
       : [];
 
-    // Якщо відсутній priceFrom або priceTo — встановлюємо 499 та 4999
-    if (!priceFromParam) {
-      const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set("priceFrom", "499");
-
-      router.replace(`${pathname}?${newParams.toString()}`);
-    }
-
-    if (!priceToParam) {
-      const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set("priceTo", "4999");
-
-      router.replace(`${pathname}?${newParams.toString()}`);
-    }
-
     setFilters({
       type,
       newValue: newParam === "true",
       availability,
-      priceFrom: priceFromParam ? Number(priceFromParam) : undefined,
-      priceTo: priceToParam ? Number(priceToParam) : undefined,
+      priceFrom: Number(resolvedPriceFrom),
+      priceTo: Number(resolvedPriceTo),
     });
   }, [
     searchParams,
