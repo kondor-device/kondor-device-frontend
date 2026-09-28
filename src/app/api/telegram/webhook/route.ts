@@ -122,8 +122,23 @@ async function editMessage(
 async function handleCallback(cq: CallbackQuery) {
   const parsed = parseCallbackData(cq.data);
 
-  // Не наші кнопки або натиснули не в нашому каналі — ігноруємо
-  if (!parsed || !isConfiguredChat(cq.message?.chat)) return;
+  // Не наші кнопки — ігноруємо
+  if (!parsed) return;
+
+  // Натиснули не в налаштованому каналі: не мовчимо, а логуємо і показуємо
+  // модератору, щоб помилку в TELEGRAM_CHAT_ID було видно одразу
+  if (!isConfiguredChat(cq.message?.chat)) {
+    console.warn(
+      "[telegram webhook] Callback from unexpected chat:",
+      cq.message?.chat?.id,
+      cq.message?.chat?.username
+    );
+    await answer(
+      cq.id,
+      "Не вдалося опрацювати: перевірте TELEGRAM_CHAT_ID на сервері"
+    );
+    return;
+  }
 
   const review = await writeClient.fetch<ReviewDoc | null>(
     REVIEW_QUERY,
