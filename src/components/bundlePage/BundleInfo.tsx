@@ -41,7 +41,7 @@ export default async function BundleInfo({
   return (
     <section className="mb-8 desk:mb-[69px]">
       {breadcrumbs}
-      <div className="container max-w-[1920px] mt-4 tab:mt-6">
+      <div className="container max-w-[1920px] mt-3 tab:mt-6">
         {/* On desktop: gallery and description in the left column, the rest on the right (two equal
             columns, as on the product page); the second row takes the extra height, so the
             description sits right under the gallery. The description runs to 55px from the
