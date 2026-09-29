@@ -172,6 +172,32 @@ export default async function ProductPage({ params }: ProductPageProps) {
       },
     };
 
+    // Similar to a set: the other sets of its category, then the products of the categories
+    // its components belong to (the components themselves are already on the page)
+    const componentIds = new Set(
+      currentBundle.components.map((component) => component.itemId),
+    );
+    const componentCategories = new Set(
+      currentBundle.components.map((component) => component.categorySlug),
+    );
+    const related = ((res?.data?.allCategories ?? []) as CategoryItem[])
+      .filter((cat) => componentCategories.has(cat.slug))
+      .flatMap((cat) =>
+        cat.items
+          .filter(
+            (item) =>
+              item.kind !== "bundle" &&
+              item.showonmain !== true &&
+              !componentIds.has(item.id),
+          )
+          .map((item) => ({ ...item, categorySlug: cat.slug })),
+      );
+    const bundleSimilarProducts = {
+      categoryId: similarProducts?.categoryId ?? "",
+      categoryName: similarProducts?.categoryName ?? "",
+      items: [...(similarProducts?.items ?? []), ...related],
+    };
+
     return (
       <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
         <JsonLd data={bundleJsonLd} />
@@ -181,8 +207,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
             addons={res?.data?.shownOnAddons}
             breadcrumbs={breadcrumbs}
           />
+          <AddonsSlider addons={res?.data?.shownOnAddons} />
           <SimilarProductsSlider
-            similarProducts={similarProducts}
+            similarProducts={bundleSimilarProducts}
             addons={res?.data?.shownOnAddons}
           />
         </Suspense>
