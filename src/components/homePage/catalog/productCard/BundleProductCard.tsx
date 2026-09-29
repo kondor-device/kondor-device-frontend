@@ -119,7 +119,7 @@ export default function BundleProductCard({
             </p>
           </h3>
         </Link>
-        <ul className="flex flex-col gap-y-1 text-10med tabxl:text-16med text-white">
+        <ul className="flex flex-col gap-y-1 pl-4 tabxl:pl-5 list-disc marker:text-yellow text-10med tabxl:text-16med text-white">
           {components.map((component) => (
             <li key={`${component.itemId}-${component.code}`}>
               {component.generalname} {component.name}
