@@ -82,9 +82,6 @@ export default async function BundleComponents({
           );
         })}
       </ul>
-      <p className="mt-3 text-10med desk:text-14med text-grey">
-        {t("bundle.fixedColors")}
-      </p>
     </div>
   );
 }
