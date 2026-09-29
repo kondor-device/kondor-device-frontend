@@ -42,6 +42,11 @@ const CHARS_PROJECTION = `${l10nField("name")}, ${l10nField("char")}`;
 // so it is dropped from every list and its page returns 404. Used inside a bundle projection.
 const BUNDLE_AVAILABLE = `count(components) >= 2 && count(components[!defined(item->_id) || item->outOfStock == true]) == 0`;
 
+// The "Sets" category (slug: sets) exists only while it has at least one available set:
+// with no set entered (or none in stock) it is not shown anywhere: menu, filter, home page,
+// its own page. Other categories are listed as they are.
+const CATEGORY_VISIBLE = `(slug != "sets" || count((items[]->)[_type == "bundle" && (${BUNDLE_AVAILABLE})]) > 0)`;
+
 // One fixed line of a bundle. `^` in the color filter is the component (its colorCode).
 const BUNDLE_COMPONENT_PROJECTION = `
   "itemId": item->_id,
@@ -193,7 +198,7 @@ const ITEM_DETAIL_PROJECTION = `
 
 export const GET_ALL_DATA_QUERY = groq`
 {
-  "allCategories": *[_type == "category"] | order(pos asc) {
+  "allCategories": *[_type == "category" && ${CATEGORY_VISIBLE}] | order(pos asc) {
     ${CATEGORY_PROJECTION}
   },
   "shownOnMainProducts": *[_type == "item" && showonmain == true] | order(order asc) {
@@ -258,7 +263,7 @@ export const GET_PROMOCODE_BY_CODE = groq`
 
 export const GET_ALL_CATEGORIES_QUERY = groq`
 {
-  "allCategories": *[_type == "category"] {
+  "allCategories": *[_type == "category" && ${CATEGORY_VISIBLE}] {
     ${CATEGORY_PROJECTION}
   },
   "shownOnAddons": *[_type == "item" && showonaddons == true] {
@@ -269,10 +274,10 @@ export const GET_ALL_CATEGORIES_QUERY = groq`
 
 export const GET_CATEGORIES_BY_SLUGS_QUERY = groq`
 {
-  "selectedCategories": *[_type == "category" && slug in $categories] | order(pos asc) {
+  "selectedCategories": *[_type == "category" && slug in $categories && ${CATEGORY_VISIBLE}] | order(pos asc) {
     ${CATEGORY_PROJECTION}
   },
-  "allCategories": *[_type == "category"] | order(pos asc) {
+  "allCategories": *[_type == "category" && ${CATEGORY_VISIBLE}] | order(pos asc) {
     ${CATEGORY_PROJECTION}
   },
   "shownOnAddons": *[_type == "item" && showonaddons == true] {
@@ -292,7 +297,7 @@ export const GET_ITEM_BY_SLUG_QUERY = groq`
   "shownOnAddons": *[_type == "item" && showonaddons == true] {
     ${ADDONS_PROJECTION}
   },
-  "allCategories": *[_type == "category"] | order(pos asc) {
+  "allCategories": *[_type == "category" && ${CATEGORY_VISIBLE}] | order(pos asc) {
     ${CATEGORY_PROJECTION}
   }
 }

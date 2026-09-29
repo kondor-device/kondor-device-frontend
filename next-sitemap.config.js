@@ -43,7 +43,14 @@ export async function getAllBundles() {
   }
 }
 
-export const GET_ALL_CATEGORIES_SITEMAP_QUERY = `*[_type == "category" && defined(slug)]{ slug }`;
+// «Сети» без жодного доступного сету в sitemap не потрапляють (на сайті їх теж немає)
+export const GET_ALL_CATEGORIES_SITEMAP_QUERY = `*[
+  _type == "category" && defined(slug) &&
+  (slug != "sets" || count((items[]->)[
+    _type == "bundle" && count(components) >= 2 &&
+    count(components[!defined(item->_id) || item->outOfStock == true]) == 0
+  ]) > 0)
+]{ slug }`;
 
 export async function getAllCategoriesForSitemap() {
   try {
