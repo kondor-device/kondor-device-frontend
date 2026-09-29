@@ -42,11 +42,11 @@ export default async function BundleInfo({
     <section className="mb-8 desk:mb-[69px]">
       {breadcrumbs}
       <div className="container max-w-[1920px] mt-6">
-        {/* On desktop: gallery and description in the left column, the rest on the right. The
-            gallery's slides stick out of its box by 30px (thumbnails on the left), so the
-            description is 30px wider than the column to match what is seen.
-            The two columns are equal (as the flex layout of the product page); the second row
-            takes the extra height, so the description sits right under the gallery. */}
+        {/* On desktop: gallery and description in the left column, the rest on the right (two equal
+            columns, as on the product page); the second row takes the extra height, so the
+            description sits right under the gallery. The description runs to 30px from the
+            right column (the column gap is 80px, 120px on wide screens): the gallery's own
+            slides already stick out of its box by 30px. */}
         <div className="tabxl:grid tabxl:grid-cols-2 tabxl:grid-rows-[auto_1fr] tabxl:items-start gap-x-[80px] desk:gap-x-[120px] w-full mb-5 tab:mb-[100px]">
           <ImagePicker
             photos={photos.length > 0 ? photos : [LOGO]}
@@ -84,7 +84,7 @@ export default async function BundleInfo({
             <BundleBuyButton bundle={bundle} addons={addons} />
           </div>
           {description ? (
-            <div className="tabxl:col-start-1 tabxl:row-start-2 tabxl:w-[min(calc(100%+30px),647px)] mb-4 tab:mb-8 tabxl:mb-0 tabxl:mt-10 p-5 desk:py-[56px] desk:px-[76px] bg-surface rounded-[20px] desk:rounded-[30px] shadow-catalogCard">
+            <div className="tabxl:col-start-1 tabxl:row-start-2 tabxl:w-[calc(100%+50px)] desk:w-[calc(100%+90px)] mb-4 tab:mb-8 tabxl:mb-0 tabxl:mt-10 p-5 desk:py-[56px] desk:px-[76px] bg-surface rounded-[20px] desk:rounded-[30px] shadow-catalogCard">
               <p className="mb-5 text-14bold desk:text-24bold">
                 {t("productPage.description")}
               </p>
