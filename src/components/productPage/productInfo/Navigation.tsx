@@ -153,13 +153,13 @@ export default function Navigation({ product, breadcrumbs }: NavigationProps) {
       {/* Резервує місце в нормальному потоці під фіксовану панель табів
           нижче — та сама висота 43px + той самий відступ, що і в top
           фіксованої панелі, інакше контент під нею "підстрибне" вгору. */}
-      <div ref={placeholderRef} className="overflow-x-auto h-[calc(43px+32px)] tabxl:h-[calc(43px+56px)] bg-surface dark:bg-dark">
+      <div ref={placeholderRef} className="overflow-x-auto h-[calc(43px+20px)] tabxl:h-[calc(43px+56px)] bg-surface dark:bg-dark">
         <div
           ref={tabListRef}
-          // top = max(природна позиція + відступ під крихтами (32px/56px —
+          // top = max(природна позиція + відступ під крихтами (20px/56px —
           // той самий, що в висоті плейсхолдера), низ хедера).
           // Фолбек — до першого виміру.
-          className="fixed z-30 top-[max(calc(var(--nat-top,calc(56px+var(--breadcrumbs-h)))+32px),56px)] tabxl:top-[max(calc(var(--nat-top,calc(109px+var(--breadcrumbs-h)))+56px),109px)] left-0 tabxl:container tabxl:max-w-[1920px] pt-1.5 pb-0.5 w-full rounded-b-[12px] bg-surface dark:bg-dark
+          className="fixed z-30 top-[max(calc(var(--nat-top,calc(56px+var(--breadcrumbs-h)))+20px),56px)] tabxl:top-[max(calc(var(--nat-top,calc(109px+var(--breadcrumbs-h)))+56px),109px)] left-0 tabxl:container tabxl:max-w-[1920px] pt-1.5 pb-0.5 w-full rounded-b-[12px] bg-surface dark:bg-dark
        shadow-catalogFilter tabxl:shadow-none  overflow-x-auto scrollbar
       scrollbar-h-0 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-transparent
       scrollbar-track-transparent"
