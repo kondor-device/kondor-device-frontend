@@ -10,6 +10,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ProductItem } from "@/types/productItem";
 import CatalogCard from "../catalogPage/CatalogCard";
+import BundleCard from "../catalogPage/BundleCard";
 import { useTranslations } from "next-intl";
 import AnimationWrapper from "../homePage/hero/AnimationWrapper";
 
@@ -99,7 +100,11 @@ export default function SimilarProductsSlider({
         {items?.length > 0
           ? extendedItems.map((item, idx) => (
               <SwiperSlide key={idx}>
-                <CatalogCard product={item} shownOnAddons={addons} />
+                {item.kind === "bundle" ? (
+                  <BundleCard product={item} />
+                ) : (
+                  <CatalogCard product={item} shownOnAddons={addons} />
+                )}
               </SwiperSlide>
             ))
           : null}

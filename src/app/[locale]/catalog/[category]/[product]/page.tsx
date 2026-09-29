@@ -1,5 +1,7 @@
 import { getProducts } from "@/utils/getProducts";
 import { GET_ITEM_BY_SLUG_QUERY } from "@/lib/queries";
+import BundleInfo from "@/components/bundlePage/BundleInfo";
+import { Bundle } from "@/types/bundle";
 import ProductInfo from "@/components/productPage/productInfo/ProductInfo";
 import AddonsSlider from "@/components/productPage/AddonsSlider";
 import SimilarProductsSlider from "@/components/productPage/SimilarProductsSlider";
@@ -56,13 +58,23 @@ export async function generateMetadata({
   });
 
   const currentProduct = res?.data?.allItems[0];
+  // Not a product — maybe a bundle (set) with this slug (only available ones are returned)
+  const currentBundle: Bundle | undefined = currentProduct
+    ? undefined
+    : res?.data?.bundle;
   const category = findCategoryBySlug(res?.data?.allCategories, product);
 
   const defaultMetadata = getDefaultMetadata(t, locale);
   const title =
-    currentProduct?.seoTitle || currentProduct?.name || defaultMetadata.title;
+    currentProduct?.seoTitle ||
+    currentProduct?.name ||
+    currentBundle?.seoTitle ||
+    currentBundle?.name ||
+    defaultMetadata.title;
   const description =
-    currentProduct?.seoDescription || defaultMetadata.description;
+    currentProduct?.seoDescription ||
+    currentBundle?.seoDescription ||
+    defaultMetadata.description;
 
   return {
     title,
@@ -86,6 +98,8 @@ export async function generateMetadata({
           url:
             currentProduct?.seoImage?.url ||
             currentProduct?.coloropts[0]?.photos[0]?.url ||
+            currentBundle?.seoImage?.url ||
+            currentBundle?.components?.[0]?.colorOpt?.photos?.[0]?.url ||
             "/opengraph-image.jpg",
           width: 1200,
           height: 630,
@@ -107,8 +121,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
   });
 
   const currentProduct = res?.data?.allItems?.[0];
+  const currentBundle: Bundle | undefined = res?.data?.bundle ?? undefined;
 
-  if (!currentProduct) {
+  // Neither a product nor an available bundle (a set disappears while any of its
+  // components is out of stock: it cannot be bought)
+  if (!currentProduct && !currentBundle) {
     notFound();
   }
 
@@ -132,11 +149,50 @@ export default async function ProductPage({ params }: ProductPageProps) {
               },
             ]
           : []),
-        { label: currentProduct.name },
+        { label: (currentProduct ?? currentBundle)!.name },
       ]}
       className="pt-4 laptop:pt-6"
     />
   );
+
+  if (!currentProduct && currentBundle) {
+    const bundleJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: currentBundle.name,
+      description: currentBundle.description || undefined,
+      image: currentBundle.components
+        .map((component) => component.colorOpt?.photos?.[0]?.url)
+        .filter(Boolean),
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "UAH",
+        price: currentBundle.bundlePrice,
+        availability: "https://schema.org/InStock",
+      },
+    };
+
+    return (
+      <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
+        <JsonLd data={bundleJsonLd} />
+        <Suspense fallback={<Loader />}>
+          <BundleInfo
+            bundle={currentBundle}
+            addons={res?.data?.shownOnAddons}
+            breadcrumbs={breadcrumbs}
+          />
+          <SimilarProductsSlider
+            similarProducts={similarProducts}
+            addons={res?.data?.shownOnAddons}
+          />
+        </Suspense>
+      </div>
+    );
+  }
+
+  if (!currentProduct) {
+    notFound();
+  }
 
   // Рейтинг у видачі Google: Product з aggregateRating і відгуками —
   // лише коли є схвалені відгуки (порожній aggregateRating недопустимий)

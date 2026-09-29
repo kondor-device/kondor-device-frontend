@@ -1,0 +1,77 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { sendGTMEvent } from "@next/third-parties/google";
+import Button from "@/components/shared/buttons/Button";
+import CartPopUp from "@/components/homePage/catalog/cart/CartPopUp";
+import { useCartStore } from "@/store/cartStore";
+import { useModalStore } from "@/store/modalStore";
+import { Bundle } from "@/types/bundle";
+import { ProductItem } from "@/types/productItem";
+import { buildBundleCartItem } from "@/utils/bundleCart";
+
+interface BundleBuyButtonProps {
+  bundle: Bundle;
+  addons: ProductItem[];
+}
+
+// "Buy" button of a set page: desktop button in the page flow + the fixed bar on mobile
+// (as on the product page). The set goes into the cart as one line with its fixed content.
+export default function BundleBuyButton({
+  bundle,
+  addons,
+}: BundleBuyButtonProps) {
+  const t = useTranslations();
+
+  const { addToCart } = useCartStore();
+  const openModal = useModalStore((state) => state.openModal);
+
+  const onAddToCart = () => {
+    addToCart(
+      buildBundleCartItem({
+        id: bundle.id,
+        name: bundle.name,
+        nameUk: bundle.nameUk,
+        bundlePrice: bundle.bundlePrice,
+        components: bundle.components,
+        label: t("bundle.label"),
+      }),
+    );
+
+    openModal(
+      "cartPopUp",
+      <CartPopUp shownOnAddonsProducts={addons} />,
+      "desk:max-w-[950px] desk:w-[950px] deskxl:max-w-[1681px] deskxl:w-[1681px]",
+    );
+
+    sendGTMEvent({
+      event: "add_to_cart",
+      value: bundle.bundlePrice,
+      currency: "UAH",
+      items: [
+        {
+          item_id: bundle.id,
+          item_name: `Сет ${bundle.nameUk ?? bundle.name}`.trim(),
+          price: bundle.bundlePrice,
+          quantity: 1,
+        },
+      ],
+    });
+  };
+
+  return (
+    <>
+      <Button
+        onClick={onAddToCart}
+        className="hidden tabxl:block mt-5 desk:mt-9 w-full tab:w-[350px] desk:w-[437px] max-w-[327px] laptop:max-w-[350px] desk:max-w-[437px]"
+      >
+        {t("buttons.makeOrder")}
+      </Button>
+      <div className="fixed tabxl:hidden z-50 left-0 bottom-0 flex items-center justify-center w-full min-h-[88px] px-5 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] rounded-t-[12px] bg-surface shadow-catalogCard">
+        <Button onClick={onAddToCart} className="w-full max-w-[437px]">
+          {t("buttons.makeOrder")}
+        </Button>
+      </div>
+    </>
+  );
+}

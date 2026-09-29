@@ -9,6 +9,7 @@ import React from "react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./productCard/ProductCard";
+import BundleProductCard from "./productCard/BundleProductCard";
 import { ProductItem } from "@/types/productItem";
 import EmptyCategory from "./EmptyCategory";
 import AnimationWrapper from "../hero/AnimationWrapper";
@@ -65,11 +66,19 @@ export default function CatalogSlider({
         >
           {products.map((product, idx) => (
             <SwiperSlide key={idx}>
-              <ProductCard
-                product={product}
-                categorySlug={slug}
-                shownOnAddonsProducts={shownOnAddonsProducts}
-              />
+              {product.kind === "bundle" ? (
+                <BundleProductCard
+                  product={product}
+                  categorySlug={slug}
+                  shownOnAddonsProducts={shownOnAddonsProducts}
+                />
+              ) : (
+                <ProductCard
+                  product={product}
+                  categorySlug={slug}
+                  shownOnAddonsProducts={shownOnAddonsProducts}
+                />
+              )}
             </SwiperSlide>
           ))}
         </Swiper>

@@ -26,6 +26,7 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
     uniqueId,
     actualPrice,
     outOfStock,
+    bundle,
   } = cartItem;
 
   return (
@@ -50,10 +51,20 @@ export default function CartProductItem({ cartItem }: CartItemProps) {
           <p className="text-white">{generalName}</p>
           <p className="text-yellow">{name}</p>
         </h4>
-        <p className="text-10med laptop:text-12med deskxl:text-20med text-white">
-          {t("homePage.catalog.color")}
-          <span>{color}</span>
-        </p>
+        {bundle ? (
+          <ul className="flex flex-col gap-y-0.5 text-10med laptop:text-12med deskxl:text-16med text-white">
+            {bundle.components.map((component) => (
+              <li key={`${component.itemId}-${component.code}`}>
+                {component.generalName} {component.name}, {component.color}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-10med laptop:text-12med deskxl:text-20med text-white">
+            {t("homePage.catalog.color")}
+            <span>{color}</span>
+          </p>
+        )}
         {outOfStock ? (
           <p className="mt-1 text-10med laptop:text-12med deskxl:text-14med text-inputError">
             {t("homePage.catalog.outOfStockItem")}

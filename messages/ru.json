@@ -378,6 +378,15 @@
     "pagination": "Пагинация",
     "by": "Автор"
   },
+  "bundle": {
+    "label": "Сет",
+    "contents": "Что входит в сет",
+    "economy": "Экономия",
+    "separately": "По отдельности",
+    "color": "Цвет: ",
+    "details": "Подробнее",
+    "fixedColors": "Состав и цвета в сете фиксированы"
+  },
   "breadcrumbs": {
     "label": "Навигация",
     "home": "Главная",

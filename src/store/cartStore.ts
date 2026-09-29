@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { CartItem } from "@/types/cartItem";
 import { v4 as uuidv4 } from "uuid";
+import { getActualPrice } from "@/utils/bundlePricing";
 
 export interface CmsCartProduct {
   id: string;
@@ -15,6 +16,26 @@ export interface CmsCartProduct {
   nameUk?: string;
   preordertext?: string;
   coloropts?: { code: string; color?: string; colorUk?: string }[];
+}
+
+// A bundle as returned by GET_BUNDLES_BY_IDS
+export interface CmsCartBundle {
+  id: string;
+  name?: string;
+  nameUk?: string;
+  bundlePrice: number;
+  outOfStock: boolean;
+  components: {
+    itemId: string | null;
+    code: string;
+    generalname?: string;
+    name?: string;
+    generalnameUk?: string;
+    nameUk?: string;
+    price: number;
+    priceDiscount?: number | null;
+    colorOpt?: { color?: string; colorUk?: string } | null;
+  }[];
 }
 
 export interface CartSyncResult {
@@ -35,6 +56,11 @@ interface CartState {
   getTotalAmount: () => number;
   syncWithCmsProducts: (
     products: CmsCartProduct[],
+    options?: { discount?: number },
+  ) => CartSyncResult;
+  /** Same as syncWithCmsProducts, for the bundle lines of the cart */
+  syncBundlesWithCms: (
+    bundles: CmsCartBundle[],
     options?: { discount?: number },
   ) => CartSyncResult;
   hasOutOfStockItems: () => boolean;
@@ -132,6 +158,9 @@ export const useCartStore = create<CartState>()(
 
         const updatedItems = state.cartItems
           .filter((item) => {
+            // bundles are not products: they are synced by syncBundlesWithCms
+            if (item.bundle) return true;
+
             if (!productMap.has(item.id)) {
               removedCount++;
               return false;
@@ -139,6 +168,8 @@ export const useCartStore = create<CartState>()(
             return true;
           })
           .map((item) => {
+            if (item.bundle) return item;
+
             const product = productMap.get(item.id)!;
             const isOutOfStock = product.outOfStock === true;
 
@@ -169,6 +200,72 @@ export const useCartStore = create<CartState>()(
               price: product.price,
               priceDiscount: product.priceDiscount,
               actualPrice: Math.floor(basePrice * (1 - discount / 100)),
+            };
+          });
+
+        set({ cartItems: updatedItems });
+
+        return { outOfStockCount, removedCount };
+      },
+
+      syncBundlesWithCms: (bundles, options) => {
+        const state = get();
+        const bundleMap = new Map(bundles.map((bundle) => [bundle.id, bundle]));
+        const discount =
+          options?.discount ?? (state.promocode ? state.discount : 0);
+
+        let removedCount = 0;
+        let outOfStockCount = 0;
+
+        const updatedItems = state.cartItems
+          .filter((item) => {
+            if (!item.bundle) return true;
+
+            if (!bundleMap.has(item.id)) {
+              removedCount++;
+              return false;
+            }
+            return true;
+          })
+          .map((item) => {
+            if (!item.bundle) return item;
+
+            const bundle = bundleMap.get(item.id)!;
+
+            if (bundle.outOfStock) {
+              outOfStockCount++;
+            }
+
+            // The cart mirrors the current content of the set
+            const components = bundle.components
+              .filter((component) => component.itemId)
+              .map((component) => ({
+                itemId: component.itemId as string,
+                code: component.code,
+                generalName: component.generalname ?? "",
+                name: component.name ?? "",
+                generalNameUk: component.generalnameUk,
+                nameUk: component.nameUk,
+                color: component.colorOpt?.color ?? "",
+                colorUk: component.colorOpt?.colorUk,
+                price: getActualPrice(component),
+              }));
+
+            const regularPrice = components.reduce(
+              (sum, component) => sum + component.price,
+              0,
+            );
+
+            return {
+              ...item,
+              name: bundle.name ?? item.name,
+              nameUk: bundle.nameUk ?? item.nameUk,
+              outOfStock: bundle.outOfStock,
+              // never below the bundle price (the price a removed promocode falls back to)
+              price: Math.max(regularPrice, bundle.bundlePrice),
+              priceDiscount: bundle.bundlePrice,
+              actualPrice: Math.floor(bundle.bundlePrice * (1 - discount / 100)),
+              bundle: { components },
             };
           });
 

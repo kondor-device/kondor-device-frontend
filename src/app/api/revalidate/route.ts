@@ -19,7 +19,7 @@ import {
 //   URL:      https://www.kondor.ua/api/revalidate   (без ?secret= у самому URL!)
 //   Dataset:  production
 //   Trigger:  Create / Update / Delete
-//   Filter:   _type in ["item", "review", "blogPost", "blogPage", "blogAuthor"]
+//   Filter:   _type in ["item", "bundle", "review", "blogPost", "blogPage", "blogAuthor"]
 //   HTTP method: POST
 //   Secret:   те саме значення, що і в SANITY_REVALIDATE_SECRET
 //
@@ -30,6 +30,9 @@ import {
 //
 // SANITY_REVALIDATE_SECRET має бути заданий в env (.env.local та у Vercel)
 // і збігатись зі значенням поля "Secret" у налаштуваннях вебхука в Sanity.
+//
+// Зміна `bundle` (сету) або `outOfStock`/ціни товару-компонента скидає layout /catalog:
+// разом зі списками він охоплює і всі сторінки сетів.
 //
 // Важливо для next-intl + localePrefix: "as-needed":
 // кеш сторінки може бути під публічним URL (`/`) АБО під внутрішнім

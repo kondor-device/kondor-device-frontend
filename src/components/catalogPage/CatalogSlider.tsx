@@ -4,6 +4,7 @@ import { useMemo, useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { CategoryItem } from "@/types/categoryItem";
 import CatalogCard from "./CatalogCard";
+import BundleCard from "./BundleCard";
 import { ProductItem } from "@/types/productItem";
 import EmptyCategory from "../homePage/catalog/EmptyCategory";
 import Loader from "../shared/loader/Loader";
@@ -227,12 +228,20 @@ export default function CatalogSlider({
           <div className={`${isOpenDropdown ? "pointer-events-none" : ""}`}>
             <div className="flex flex-wrap gap-x-3 gap-y-4 laptop:gap-x-6 laptop:gap-y-[30px]">
               {currentItems.slice(0, visibleCount).map((item, idx) => (
-                <CatalogCard
-                  key={item.id ?? idx}
-                  product={item}
-                  shownOnAddons={shownOnAddons}
-                  className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
-                />
+                item.kind === "bundle" ? (
+                  <BundleCard
+                    key={item.id ?? idx}
+                    product={item}
+                    className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
+                  />
+                ) : (
+                  <CatalogCard
+                    key={item.id ?? idx}
+                    product={item}
+                    shownOnAddons={shownOnAddons}
+                    className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
+                  />
+                )
               ))}
             </div>
 
@@ -253,12 +262,20 @@ export default function CatalogSlider({
                 {filteredOtherItems
                   .slice(0, visibleCountOther)
                   .map((item, idx) => (
-                    <CatalogCard
-                      key={item.id ?? idx}
-                      product={item}
-                      shownOnAddons={shownOnAddons}
-                      className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
-                    />
+                    item.kind === "bundle" ? (
+                      <BundleCard
+                        key={item.id ?? idx}
+                        product={item}
+                        className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
+                      />
+                    ) : (
+                      <CatalogCard
+                        key={item.id ?? idx}
+                        product={item}
+                        shownOnAddons={shownOnAddons}
+                        className="w-[calc(50%-6px)] tab:w-[calc(33.33%-8px)] laptop:w-[calc(33.33%-16px)]"
+                      />
+                    )
                   ))}
               </div>
 

@@ -58,31 +58,95 @@ const COMPLECT_PROJECTION = `
 
 const CHARS_PROJECTION = `${l10nField("name")}, ${l10nField("char")}`;
 
+// Bundle (set) = 2–3 fixed products (with fixed colors) sold together for one price.
+// It is available only while every component is in stock: otherwise it cannot be bought,
+// so it is dropped from every list and its page returns 404. Used inside a bundle projection.
+const BUNDLE_AVAILABLE = `count(components) >= 2 && count(components[!defined(item->_id) || item->outOfStock == true]) == 0`;
+
+// One fixed line of a bundle. `^` in the color filter is the component (its colorCode).
+const BUNDLE_COMPONENT_PROJECTION = `
+  "itemId": item->_id,
+  "slug": item->slug,
+  "categorySlug": item->cat->slug,
+  "generalname": ${l10n("item->generalname")},
+  "name": ${l10n("item->name")},
+  "code": colorCode,
+  "colorOpt": item->coloropts[code == ^.colorCode][0]{ ${COLOR_OPTIONS_PROJECTION} },
+  "generalnameUk": item->generalname,
+  "nameUk": item->name,
+  "price": item->price,
+  "priceDiscount": item->priceDiscount,
+  "outOfStock": coalesce(item->outOfStock, false)
+`;
+
+// Sum of the components' current prices (discounted price when it is lower).
+// The savings themselves are calculated on the site, in utils/bundlePricing.ts.
+const BUNDLE_REGULAR_PRICE = `math::sum(components[].item->{ "p": select(priceDiscount > 0 && priceDiscount < price => priceDiscount, price) }.p)`;
+
+// Bundle in the shape of a catalog card (see ProductItem, kind: "bundle"), so that it flows
+// through the category lists, filters and sorting like a product.
+const BUNDLE_CARD_PROJECTION = `
+  "kind": "bundle",
+  "generalname": "",
+  ${l10nField("name")},
+  "generalnameUk": "",
+  "nameUk": name,
+  slug,
+  "price": ${BUNDLE_REGULAR_PRICE},
+  "priceDiscount": bundlePrice,
+  "newItem": false,
+  "showonaddons": false,
+  "preorder": false,
+  "outOfStock": false,
+  "chars": [],
+  "coloropts": [],
+  "complect": [],
+  "bundleComponents": components[]{ ${BUNDLE_COMPONENT_PROJECTION} }
+`;
+
+const BUNDLE_DETAIL_PROJECTION = `
+  "id": _id,
+  ${l10nField("name")},
+  "nameUk": name,
+  slug,
+  bundlePrice,
+  ${l10nField("description")},
+  ${l10nField("seoTitle")},
+  ${l10nField("seoDescription")},
+  "seoImage": select(defined(seoImage.asset->url) => { "url": seoImage.asset->url }),
+  "components": components[]{ ${BUNDLE_COMPONENT_PROJECTION} }
+`;
+
 const CATEGORY_PROJECTION = `
   "id": _id,
   ${l10nField("name")},
   pos,
   slug,
   "image": image{ ${IMAGE_PROJECTION} },
-  "items": items[]->{
+  "items": (items[]->)[_type != "bundle" || (${BUNDLE_AVAILABLE})]{
     "id": _id,
-    ${l10nField("generalname")},
-    ${l10nField("name")},
-    "generalnameUk": generalname,
-    "nameUk": name,
-    slug,
-    price,
-    priceDiscount,
-    showonaddons,
-    showonmain,
-    ${BADGE_PROJECTION},
-    preorder,
-    ${l10nField("preordertext")},
-    outOfStock,
-    ${RATING_PROJECTION},
-    "chars": chars[]{ ${CHARS_PROJECTION} },
-    "coloropts": coloropts[]{ ${COLOR_OPTIONS_PROJECTION} },
-    "complect": complect[]{ ${COMPLECT_PROJECTION} }
+    _type == "bundle" => {
+      ${BUNDLE_CARD_PROJECTION}
+    },
+    _type != "bundle" => {
+      ${l10nField("generalname")},
+      ${l10nField("name")},
+      "generalnameUk": generalname,
+      "nameUk": name,
+      slug,
+      price,
+      priceDiscount,
+      showonaddons,
+      showonmain,
+      ${BADGE_PROJECTION},
+      preorder,
+      ${l10nField("preordertext")},
+      outOfStock,
+      ${RATING_PROJECTION},
+      "chars": chars[]{ ${CHARS_PROJECTION} },
+      "coloropts": coloropts[]{ ${COLOR_OPTIONS_PROJECTION} },
+      "complect": complect[]{ ${COMPLECT_PROJECTION} }
+    }
   }
 `;
 
@@ -181,6 +245,31 @@ export const GET_PRODUCTS_BY_IDS = groq`
 }
 `;
 
+// Bundles of the cart. Unlike the catalog lists, an unavailable bundle is returned here too
+// (with outOfStock: true), so the cart can flag it instead of silently dropping it.
+export const GET_BUNDLES_BY_IDS = groq`
+{
+  "allBundles": *[_type == "bundle" && _id in $ids] {
+    "id": _id,
+    ${l10nField("name")},
+    "nameUk": name,
+    bundlePrice,
+    "outOfStock": !(${BUNDLE_AVAILABLE}),
+    "components": components[]{
+      "itemId": item->_id,
+      "code": colorCode,
+      "generalname": ${l10n("item->generalname")},
+      "name": ${l10n("item->name")},
+      "generalnameUk": item->generalname,
+      "nameUk": item->name,
+      "price": item->price,
+      "priceDiscount": item->priceDiscount,
+      "colorOpt": item->coloropts[code == ^.colorCode][0]{ ${l10nField("color")}, "colorUk": color }
+    }
+  }
+}
+`;
+
 export const GET_PROMOCODE_BY_CODE = groq`
 {
   "allPromocodes": *[_type == "promocode" && promocode == $code] {
@@ -219,6 +308,9 @@ export const GET_ITEM_BY_SLUG_QUERY = groq`
 {
   "allItems": *[_type == "item" && slug == $slug][0...1] {
     ${ITEM_DETAIL_PROJECTION}
+  },
+  "bundle": *[_type == "bundle" && slug == $slug && (${BUNDLE_AVAILABLE})][0] {
+    ${BUNDLE_DETAIL_PROJECTION}
   },
   "shownOnAddons": *[_type == "item" && showonaddons == true] {
     ${ADDONS_PROJECTION}

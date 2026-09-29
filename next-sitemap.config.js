@@ -22,6 +22,27 @@ export async function getAllProducts() {
   }
 }
 
+// Сети: лише доступні (усі компоненти в наявності), у категорії, — як і на сайті.
+// Без категорії в URL немає канонічного /catalog/[category]/[slug].
+export const GET_ALL_BUNDLES_QUERY = `*[
+  _type == "bundle" && defined(slug) &&
+  count(components) >= 2 &&
+  count(components[!defined(item->_id) || item->outOfStock == true]) == 0
+]{ slug, "categorySlug": *[_type == "category" && ^._id in items[]._ref][0].slug }`;
+
+export async function getAllBundles() {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `https://${SANITY_PROJECT_ID}.apicdn.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}`,
+      params: { query: GET_ALL_BUNDLES_QUERY },
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}
+
 export const GET_ALL_CATEGORIES_SITEMAP_QUERY = `*[_type == "category" && defined(slug)]{ slug }`;
 
 export async function getAllCategoriesForSitemap() {
@@ -53,8 +74,9 @@ export async function getAllBlogPosts() {
 }
 
 async function getDynamicPages() {
-  const [productsRes, categoriesRes, blogRes] = await Promise.all([
+  const [productsRes, bundlesRes, categoriesRes, blogRes] = await Promise.all([
     getAllProducts(),
+    getAllBundles(),
     getAllCategoriesForSitemap(),
     getAllBlogPosts(),
   ]);
@@ -75,6 +97,12 @@ async function getDynamicPages() {
       loc: `/catalog/${product.categorySlug}/${product.slug}`,
     }));
 
+  const bundlesPages = (bundlesRes?.result || [])
+    .filter((bundle) => Boolean(bundle?.slug) && Boolean(bundle?.categorySlug))
+    .map((bundle) => ({
+      loc: `/catalog/${bundle.categorySlug}/${bundle.slug}`,
+    }));
+
   const blogPosts = blogRes?.result || [];
   const blogPages = blogPosts
     .filter((post) => Boolean(post?.slug))
@@ -84,7 +112,7 @@ async function getDynamicPages() {
       priority: 0.7,
     }));
 
-  return [...categoryPages, ...productsPages, ...blogPages];
+  return [...categoryPages, ...productsPages, ...bundlesPages, ...blogPages];
 }
 
 // Домен продакшена (той самий, що CANONICAL_HOST у next.config.mjs)
