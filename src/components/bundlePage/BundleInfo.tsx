@@ -84,7 +84,7 @@ export default async function BundleInfo({
             <BundleBuyButton bundle={bundle} addons={addons} />
           </div>
           {description ? (
-            <div className="tabxl:col-start-1 tabxl:row-start-2 tabxl:w-[calc(100%+25px)] desk:w-[calc(100%+65px)] mb-4 tab:mb-8 tabxl:mb-0 tabxl:mt-14 desk:mt-16 p-5 desk:py-[56px] desk:px-[76px] bg-surface rounded-[20px] desk:rounded-[30px] shadow-catalogCard">
+            <div className="tabxl:col-start-1 tabxl:row-start-2 tabxl:w-[calc(100%+25px)] desk:w-[calc(100%+65px)] mt-8 mb-4 tab:mb-8 tabxl:mb-0 tabxl:mt-14 desk:mt-16 p-5 desk:py-[56px] desk:px-[76px] bg-surface rounded-[20px] desk:rounded-[30px] shadow-catalogCard">
               <p className="mb-5 text-14bold desk:text-24bold">
                 {t("productPage.description")}
               </p>
