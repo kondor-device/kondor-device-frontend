@@ -42,9 +42,15 @@ export default async function BundleInfo({
     <section className="mb-8 desk:mb-[69px]">
       {breadcrumbs}
       <div className="container max-w-[1920px] mt-6">
-        <div className="tabxl:flex gap-x-[80px] desk:gap-x-[120px] w-full mb-5 tab:mb-[100px]">
-          <ImagePicker photos={photos.length > 0 ? photos : [LOGO]} />
-          <div className="tabxl:w-[calc(50%-40px)] desk:w-[calc(50%-60px)]">
+        {/* On desktop: gallery and description in the left column, the rest on the right.
+            The two columns are equal (as the flex layout of the product page); the second row
+            takes the extra height, so the description sits right under the gallery. */}
+        <div className="tabxl:grid tabxl:grid-cols-2 tabxl:grid-rows-[auto_1fr] tabxl:items-start gap-x-[80px] desk:gap-x-[120px] w-full mb-5 tab:mb-[100px]">
+          <ImagePicker
+            photos={photos.length > 0 ? photos : [LOGO]}
+            fillColumn
+          />
+          <div className="tabxl:col-start-2 tabxl:row-start-1 tabxl:row-span-2">
             <p className="mb-2 desk:mb-3 text-12bold desk:text-18bold uppercase text-yellow">
               {t("bundle.label")}
             </p>
@@ -56,7 +62,8 @@ export default async function BundleInfo({
 
             {savingsUah > 0 ? (
               <p className="inline-flex w-fit mb-3 desk:mb-4 py-2 px-4 rounded-full border border-yellow text-14bold desk:text-18bold text-yellow">
-                {t("bundle.economy")} {savingsPercent}% · {formatSum(savingsUah)}
+                {t("bundle.economy")} {savingsPercent}% ·{" "}
+                {formatSum(savingsUah)}
                 {hrn}
               </p>
             ) : null}
@@ -74,17 +81,17 @@ export default async function BundleInfo({
             </div>
             <BundleBuyButton bundle={bundle} addons={addons} />
           </div>
+          {description ? (
+            <div className="tabxl:col-start-1 tabxl:row-start-2 tabxl:max-w-[617px] mb-4 tab:mb-8 tabxl:mb-0 tabxl:mt-10 p-5 desk:py-[56px] desk:px-[76px] bg-surface rounded-[20px] desk:rounded-[30px] shadow-catalogCard">
+              <p className="mb-5 text-14bold desk:text-24bold">
+                {t("productPage.description")}
+              </p>
+              <p className="whitespace-pre-line text-12med desk:text-18med">
+                {description}
+              </p>
+            </div>
+          ) : null}
         </div>
-        {description ? (
-          <div className="mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px] bg-surface rounded-[20px] desk:rounded-[30px] shadow-catalogCard">
-            <p className="mb-5 text-14bold desk:text-24bold">
-              {t("productPage.description")}
-            </p>
-            <p className="whitespace-pre-line text-12med desk:text-18med">
-              {description}
-            </p>
-          </div>
-        ) : null}
       </div>
     </section>
   );
