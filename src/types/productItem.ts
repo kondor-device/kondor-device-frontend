@@ -1,3 +1,5 @@
+import { BundleComponent } from "./bundle";
+
 interface Photo {
   alt: string;
   url: string;
@@ -50,6 +52,14 @@ export interface ProductItem {
   preorder: boolean;
   preordertext: string;
   outOfStock: boolean;
+  /** "bundle" for a bundle (set) card in a category: `price` is then the sum of the
+   * components' current prices, `priceDiscount` the bundle price, `coloropts`/`chars`/
+   * `complect` are empty. Absent for ordinary products. */
+  kind?: "bundle";
+  /** Photos of the set itself (only when `kind === "bundle"`), before the components' photos */
+  bundlePhotos?: Photo[];
+  /** Fixed content of a bundle (only when `kind === "bundle"`) */
+  bundleComponents?: BundleComponent[];
   /** Slug of the parent category. Not returned by every query — attached
    * client-side where the category is known, to build /catalog/[category]/[product] links. */
   categorySlug?: string;

@@ -1,4 +1,5 @@
-import { GET_PRODUCTS_BY_IDS } from "@/lib/queries";
+import { GET_BUNDLES_BY_IDS, GET_PRODUCTS_BY_IDS } from "@/lib/queries";
+import { getBundlesByIds } from "@/utils/getBundlesByIds";
 import { useCartStore } from "@/store/cartStore";
 import { getProductsByIds } from "@/utils/getProductsByIds";
 
@@ -23,15 +24,33 @@ export async function validateCartAvailability(
       return { outOfStockCount: 0, removedCount: 0 };
     }
 
-    const cartItemsIds = cartItems.map((item) => item.id);
-    const resProducts = await getProductsByIds(
-      GET_PRODUCTS_BY_IDS,
-      cartItemsIds,
-      locale
-    );
-    const productsFromCms = resProducts.data?.allItems ?? [];
+    const productIds = cartItems
+      .filter((item) => !item.bundle)
+      .map((item) => item.id);
+    const bundleIds = cartItems
+      .filter((item) => item.bundle)
+      .map((item) => item.id);
 
-    return useCartStore.getState().syncWithCmsProducts(productsFromCms);
+    const [resProducts, resBundles] = await Promise.all([
+      getProductsByIds(GET_PRODUCTS_BY_IDS, productIds, locale),
+      bundleIds.length > 0
+        ? getBundlesByIds(GET_BUNDLES_BY_IDS, bundleIds, locale)
+        : null,
+    ]);
+    const productsFromCms = resProducts.data?.allItems ?? [];
+    const bundlesFromCms = resBundles?.data?.allBundles ?? [];
+
+    const products = useCartStore
+      .getState()
+      .syncWithCmsProducts(productsFromCms);
+    const bundles = useCartStore
+      .getState()
+      .syncBundlesWithCms(bundlesFromCms);
+
+    return {
+      outOfStockCount: products.outOfStockCount + bundles.outOfStockCount,
+      removedCount: products.removedCount + bundles.removedCount,
+    };
   })().finally(() => {
     validationInFlight = null;
   });

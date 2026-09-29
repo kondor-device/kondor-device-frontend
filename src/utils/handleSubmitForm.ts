@@ -2,11 +2,17 @@ import { ValuesCheckoutFormType } from "@/components/homePage/catalog/checkout/C
 import axios from "axios";
 import { FormikHelpers } from "formik";
 import { Dispatch, SetStateAction } from "react";
-import { useCartStore } from "@/store/cartStore";
+import { CmsCartBundle, useCartStore } from "@/store/cartStore";
 import { useOrderStore } from "@/store/orderStore";
 import { generateOrderNumber } from "./generateOrderNumber";
 import { getProductsByIds } from "@/utils/getProductsByIds";
-import { GET_PRODUCTS_BY_IDS, GET_PROMOCODE_BY_CODE } from "@/lib/queries";
+import {
+  GET_BUNDLES_BY_IDS,
+  GET_PRODUCTS_BY_IDS,
+  GET_PROMOCODE_BY_CODE,
+} from "@/lib/queries";
+import { getBundlesByIds } from "@/utils/getBundlesByIds";
+import { formatOrderItem, formatPaymentItemName } from "@/utils/orderItems";
 import { ProductItem } from "@/types/productItem";
 import { CartItem } from "@/types/cartItem";
 import { useModalStore } from "@/store/modalStore";
@@ -30,6 +36,16 @@ const toUkrainianTexts = (item: CartItem): CartItem => ({
   generalName: item.generalNameUk ?? item.generalName,
   name: item.nameUk ?? item.name,
   color: item.colorUk ?? item.color,
+  ...(item.bundle && {
+    bundle: {
+      components: item.bundle.components.map((component) => ({
+        ...component,
+        generalName: component.generalNameUk ?? component.generalName,
+        name: component.nameUk ?? component.name,
+        color: component.colorUk ?? component.color,
+      })),
+    },
+  }),
 });
 
 export const handleSubmitForm = async <T>(
@@ -55,21 +71,31 @@ export const handleSubmitForm = async <T>(
 
   //Запитуємо з cms актуальні ціни на товари в кошику (тексти — мовою сайту,
   //українські версії приходять у полях *Uk)
-  const cartItemsIds = cartItems.map((cartItem) => cartItem.id);
+  const productIds = cartItems
+    .filter((cartItem) => !cartItem.bundle)
+    .map((cartItem) => cartItem.id);
+  const bundleIds = cartItems
+    .filter((cartItem) => cartItem.bundle)
+    .map((cartItem) => cartItem.id);
 
-  const resProducts = await getProductsByIds(
-    GET_PRODUCTS_BY_IDS,
-    cartItemsIds,
-    locale,
-  );
+  const [resProducts, resBundles] = await Promise.all([
+    getProductsByIds(GET_PRODUCTS_BY_IDS, productIds, locale),
+    bundleIds.length > 0
+      ? getBundlesByIds(GET_BUNDLES_BY_IDS, bundleIds, locale)
+      : null,
+  ]);
 
   const productsFromCms: ProductItem[] = resProducts.data?.allItems ?? [];
+  const bundlesFromCms: CmsCartBundle[] = resBundles?.data?.allBundles ?? [];
 
-  const { outOfStockCount } = useCartStore
+  const { outOfStockCount: productsOutOfStock } = useCartStore
     .getState()
     .syncWithCmsProducts(productsFromCms);
+  const { outOfStockCount: bundlesOutOfStock } = useCartStore
+    .getState()
+    .syncBundlesWithCms(bundlesFromCms);
 
-  if (outOfStockCount > 0) {
+  if (productsOutOfStock + bundlesOutOfStock > 0) {
     setIsLoading(false);
     return { success: false, reason: "out_of_stock" };
   }
@@ -88,6 +114,9 @@ export const handleSubmitForm = async <T>(
   useCartStore
     .getState()
     .syncWithCmsProducts(productsFromCms, { discount: updatedDiscount });
+  useCartStore
+    .getState()
+    .syncBundlesWithCms(bundlesFromCms, { discount: updatedDiscount });
 
   // Кошик і сторінка підтвердження — мовою сайту
   const updatedCartItems = useCartStore.getState().cartItems;
@@ -123,12 +152,7 @@ export const handleSubmitForm = async <T>(
 
   // Формуємо список товарів з переносами на новий рядок для Telegram та Google sheets
   const orderedListProducts = orderItems
-    .map(
-      (cartItem) =>
-        `- ${cartItem.preorder ? "Передзамовлення: " : ""}${
-          cartItem.generalName
-        } ${cartItem.name}, колір: ${cartItem.color}`,
-    )
+    .map((cartItem) => `- ${formatOrderItem(cartItem)}`)
     .join("\n");
 
   // Формуємо дані для telegram
@@ -220,9 +244,7 @@ export const handleSubmitForm = async <T>(
     // 4) Wayforpay — тільки коли замовлення вже є в KeyCRM (callback зможе mark-as-paid)
     if (collectedOrderData.payment === "Онлайн оплата (Wayforpay)") {
       try {
-        const productName = orderItems.map(
-          (item) => `${item.generalName} ${item.name} колір: ${item.color}`,
-        );
+        const productName = orderItems.map(formatPaymentItemName);
         const productPrice = updatedCartItems.map((item) =>
           Number(item.actualPrice),
         );

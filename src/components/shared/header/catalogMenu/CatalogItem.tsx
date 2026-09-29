@@ -32,7 +32,7 @@ export default function CatalogItem({
       >
         <div className="relative w-[102px] h-[105px] mb-[22px] dark:rounded-[12px] dark:bg-white dark:overflow-hidden">
           <Image
-            src={icon}
+            src={icon || "/images/icons/logoSmall.svg"}
             alt={title}
             fill
             className="object-cover"

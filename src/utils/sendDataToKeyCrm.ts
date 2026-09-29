@@ -1,6 +1,7 @@
 import axios from "axios";
 import { OrderData } from "@/types/orderData";
 import { useUtmStore } from "@/store/utmStore";
+import { expandItemsForCrm } from "@/utils/orderItems";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -22,12 +23,20 @@ export async function sendDataToKeyCrm(data: OrderData) {
     updatedCartItems,
   } = data;
 
-  const products = updatedCartItems.map((item) => ({
-    price: item.actualPrice,
-    quantity: item.quantity,
-    name: `${item.generalName} ${item.name}`,
-    sku: item.code,
-  }));
+  // Sets are expanded into their components: this is what makes the CRM write the real
+  // products off the stock
+  const products = expandItemsForCrm(updatedCartItems);
+
+  const productsSum = products.reduce(
+    (sum, product) => sum + product.price * product.quantity,
+    0,
+  );
+
+  if (productsSum !== totalSum) {
+    console.error(
+      `Сума позицій замовлення ${orderNumber} для KeyCRM (${productsSum}) не збігається із сумою оплати (${totalSum})`,
+    );
+  }
 
   const crmOrderData = {
     source_id: 2,

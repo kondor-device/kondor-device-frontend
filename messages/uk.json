@@ -334,6 +334,13 @@
     },
     "otherCategories": " Товари інших категорій"
   },
+  "bundle": {
+    "label": "Сет",
+    "economy": "Економія",
+    "separately": "Окремо",
+    "color": "Колір: ",
+    "details": "Детальніше"
+  },
   "breadcrumbs": {
     "label": "Навігація",
     "home": "Головна",

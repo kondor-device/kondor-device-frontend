@@ -14,9 +14,14 @@ type GalleryItem = ReactImageGalleryItem & { isPrimary?: boolean };
 
 interface ImagePickerProps {
   photos: { url: string; alt?: string }[];
+  /** The parent (a grid cell) already sets the width of the gallery: it just fills it */
+  fillColumn?: boolean;
 }
 
-export default function ImagePicker({ photos }: ImagePickerProps) {
+export default function ImagePicker({
+  photos,
+  fillColumn = false,
+}: ImagePickerProps) {
   const screenWidth = useScreenWidth();
   const isDesktop = screenWidth >= 1024;
 
@@ -86,7 +91,9 @@ export default function ImagePicker({ photos }: ImagePickerProps) {
     <>
       <div
         id="all"
-        className="gallery-container w-full max-w-[380px] tab:max-w-[514px] tabxl:max-w-[617px] tabxl:w-[calc(50%-40px)] desk:w-[calc(50%-60px)] mx-auto tabxl:mx-0 mb-8 tabxl:mb-0 scroll-mt-[142px] tabxl:scroll-mt-[173px]"
+        className={`gallery-container w-full max-w-[380px] tab:max-w-[514px] tabxl:max-w-[617px] ${
+          fillColumn ? "" : "tabxl:w-[calc(50%-40px)] desk:w-[calc(50%-60px)]"
+        } mx-auto tabxl:mx-0 mb-8 tabxl:mb-0 scroll-mt-[142px] tabxl:scroll-mt-[173px]`}
       >
         <ImageGallery
           ref={(ref) => {

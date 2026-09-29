@@ -24,9 +24,10 @@ export default function Catalog({
       <ul className="flex flex-col gap-y-5 laptop:gap-y-[30px]">
         {sortedCategories.map(
           ({ name, id, slug, items }: Category, idx: number) => {
-            // фільтрація продуктів, у яких showonmain === false
+            // фільтрація продуктів, у яких showonmain === false; сети (доступні —
+            // недоступні до списку не потрапляють) показуються завжди
             const filteredItems = items.filter(
-              (item) => item.showonmain === false
+              (item) => item.showonmain === false || item.kind === "bundle"
             );
 
             if (filteredItems.length === 0) return null;

@@ -49,20 +49,28 @@ export default async function Breadcrumbs({
       aria-label={t("label")}
       className={`container w-full max-w-[1920px] ${className}`}
     >
-      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-12med laptop:text-14med text-fg/60">
+      {/* One line only: every level is written in full, only the last one (the current page,
+          usually the longest) is cut with an ellipsis when it does not fit the screen width */}
+      <ol className="flex flex-nowrap items-center gap-x-1.5 tab:gap-x-2 overflow-hidden whitespace-nowrap text-12med laptop:text-14med text-fg/60">
         {trail.map((item, idx) => {
           const isLast = idx === trail.length - 1;
 
           return (
             <li
               key={`${item.label}-${idx}`}
-              className="flex items-center gap-x-2"
+              className={`flex items-center gap-x-1.5 tab:gap-x-2 ${
+                isLast ? "min-w-0" : "shrink-0"
+              }`}
             >
-              {idx > 0 && <span aria-hidden>/</span>}
+              {idx > 0 && (
+                <span aria-hidden className="shrink-0">
+                  /
+                </span>
+              )}
               {isLast || !item.href ? (
                 <span
                   aria-current={isLast ? "page" : undefined}
-                  className="text-fg"
+                  className="block min-w-0 truncate text-fg"
                 >
                   {item.label}
                 </span>
