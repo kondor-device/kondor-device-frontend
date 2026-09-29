@@ -3,15 +3,18 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { useState } from "react";
 import { Link } from "@/i18n/routing";
 import Button from "@/components/shared/buttons/Button";
 import CartPopUp from "../cart/CartPopUp";
+import ImagePicker from "./ImagePicker";
 import { useCartStore } from "@/store/cartStore";
 import { useModalStore } from "@/store/modalStore";
 import { ProductItem } from "@/types/productItem";
 import { formatSum } from "@/utils/formatSum";
 import { getBundleSavings } from "@/utils/bundlePricing";
 import { buildBundleCartItem } from "@/utils/bundleCart";
+import { getBundlePhotos } from "@/utils/bundlePhotos";
 
 interface BundleProductCardProps {
   /** A category item with `kind: "bundle"` */
@@ -41,13 +44,16 @@ export default function BundleProductCard({
     bundleComponents,
     bundlePhotos,
   } = product;
-  // The set's own photo (added in the admin) goes first; without it the card shows the components
-  const coverPhoto = bundlePhotos?.[0];
   const components = bundleComponents ?? [];
   const bundlePrice = priceDiscount ?? price;
   const { savingsPercent } = getBundleSavings(price, bundlePrice);
 
   const href = `/catalog/${categorySlug}/${slug}`;
+
+  // The set's own photos first (the first one is the main photo), then the components' photos;
+  // the thumbnails under the photo, as on the other cards
+  const photos = getBundlePhotos(bundlePhotos, components);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
 
   const onAddToCart = () => {
     addToCart(
@@ -86,47 +92,17 @@ export default function BundleProductCard({
       className="relative flex flex-col gap-y-[15px] tabxl:flex-row tabxl:items-center tabxl:gap-x-8 min-h-full h-auto px-3 pt-3 pb-8 tabxl:p-8 deskxl:p-[35px] 
     rounded-[8px] tabxl:rounded-[30px] bg-panel"
     >
-      <div
-        className="relative flex justify-between items-center w-full max-w-[306px] tabxl:max-w-[340px] tabxl:size-[340px] deskxl:max-w-[466px] deskxl:size-[466px] bg-white 
-  aspect-[1/1] rounded-[11px] tabxl:rounded-[40px] overflow-hidden"
-      >
-        {savingsPercent > 0 ? (
-          <div className="absolute z-10 top-1.5 tabxl:top-[14px] left-1.5 tabxl:left-[14px] shrink-0 w-fit py-[7px] px-2.5 tabxl:px-[14px] rounded-full border bg-white border-black text-black text-[10px] tabxl:text-[12px] font-semibold leading-[115%]">
-            {t("bundle.economy")} {savingsPercent}%
-          </div>
-        ) : null}
-        <Link
-          href={href}
-          className="flex items-center justify-center gap-2 size-full p-4 tabxl:p-8"
-        >
-          {coverPhoto ? (
-            <Image
-              src={coverPhoto.url}
-              alt={coverPhoto.alt || name}
-              width={1080}
-              height={1080}
-              className="max-w-full max-h-full object-contain"
-            />
-          ) : (
-            components.map((component) => {
-              const photo = component.colorOpt?.photos?.[0];
-
-              return (
-                <Image
-                  key={`${component.itemId}-${component.code}`}
-                  src={photo?.url || "/images/icons/logoSmall.svg"}
-                  alt={
-                    photo?.alt || `${component.generalname} ${component.name}`
-                  }
-                  width={1080}
-                  height={1080}
-                  className="min-w-0 flex-1 basis-0 max-h-full object-contain"
-                />
-              );
-            })
-          )}
-        </Link>
-      </div>
+      <ImagePicker
+        photos={photos}
+        selectedPhotoIndex={selectedPhotoIndex}
+        setSelectedPhotoIndex={setSelectedPhotoIndex}
+        productUrl={href}
+        badge={
+          savingsPercent > 0
+            ? { text: `${t("bundle.economy")} ${savingsPercent}%` }
+            : undefined
+        }
+      />
       <div className="flex flex-col gap-y-[5px] tabxl:gap-y-[15px]">
         <Link href={href} className="group">
           <h3 className="mb-[5px] tabxl:mb-[10px] text-18bold tabxl:text-32bold deskxl:text-36med laptop:group-hover:brightness-125 focus-visible:brightness-125 active:brightness-125 active:scale-95 transition duration-300 ease-in-out">
