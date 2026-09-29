@@ -19,8 +19,17 @@ export default function BundleCard({
 }: BundleCardProps) {
   const t = useTranslations();
 
-  const { name, slug, categorySlug, price, priceDiscount, bundleComponents } =
-    product;
+  const {
+    name,
+    slug,
+    categorySlug,
+    price,
+    priceDiscount,
+    bundleComponents,
+    bundlePhotos,
+  } = product;
+  // The set's own photo (added in the admin) goes first; without it the card shows the components
+  const coverPhoto = bundlePhotos?.[0];
   const components = bundleComponents ?? [];
   const bundlePrice = priceDiscount ?? price;
   const { savingsPercent } = getBundleSavings(price, bundlePrice);
@@ -42,20 +51,32 @@ export default function BundleCard({
           href={href}
           className="flex items-center justify-center gap-1 size-full p-2 desk:p-4"
         >
-          {components.map((component) => {
-            const photo = component.colorOpt?.photos?.[0];
+          {coverPhoto ? (
+            <Image
+              src={coverPhoto.url}
+              alt={coverPhoto.alt || name}
+              width={540}
+              height={540}
+              className="max-w-full max-h-full object-contain laptop:hover:scale-105 transition duration-1000 ease-in-out"
+            />
+          ) : (
+            components.map((component) => {
+              const photo = component.colorOpt?.photos?.[0];
 
-            return (
-              <Image
-                key={`${component.itemId}-${component.code}`}
-                src={photo?.url || "/images/icons/logoSmall.svg"}
-                alt={photo?.alt || `${component.generalname} ${component.name}`}
-                width={540}
-                height={540}
-                className="min-w-0 flex-1 basis-0 max-h-full object-contain laptop:hover:scale-105 transition duration-1000 ease-in-out"
-              />
-            );
-          })}
+              return (
+                <Image
+                  key={`${component.itemId}-${component.code}`}
+                  src={photo?.url || "/images/icons/logoSmall.svg"}
+                  alt={
+                    photo?.alt || `${component.generalname} ${component.name}`
+                  }
+                  width={540}
+                  height={540}
+                  className="min-w-0 flex-1 basis-0 max-h-full object-contain laptop:hover:scale-105 transition duration-1000 ease-in-out"
+                />
+              );
+            })
+          )}
         </Link>
       </div>
 

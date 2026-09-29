@@ -31,8 +31,18 @@ export default function BundleProductCard({
   const { addToCart } = useCartStore();
   const openModal = useModalStore((state) => state.openModal);
 
-  const { id, name, nameUk, slug, price, priceDiscount, bundleComponents } =
-    product;
+  const {
+    id,
+    name,
+    nameUk,
+    slug,
+    price,
+    priceDiscount,
+    bundleComponents,
+    bundlePhotos,
+  } = product;
+  // The set's own photo (added in the admin) goes first; without it the card shows the components
+  const coverPhoto = bundlePhotos?.[0];
   const components = bundleComponents ?? [];
   const bundlePrice = priceDiscount ?? price;
   const { savingsPercent } = getBundleSavings(price, bundlePrice);
@@ -47,6 +57,7 @@ export default function BundleProductCard({
         nameUk,
         bundlePrice,
         components,
+        photos: bundlePhotos,
         label: t("bundle.label"),
       }),
     );
@@ -88,20 +99,32 @@ export default function BundleProductCard({
           href={href}
           className="flex items-center justify-center gap-2 size-full p-4 tabxl:p-8"
         >
-          {components.map((component) => {
-            const photo = component.colorOpt?.photos?.[0];
+          {coverPhoto ? (
+            <Image
+              src={coverPhoto.url}
+              alt={coverPhoto.alt || name}
+              width={1080}
+              height={1080}
+              className="max-w-full max-h-full object-contain"
+            />
+          ) : (
+            components.map((component) => {
+              const photo = component.colorOpt?.photos?.[0];
 
-            return (
-              <Image
-                key={`${component.itemId}-${component.code}`}
-                src={photo?.url || "/images/icons/logoSmall.svg"}
-                alt={photo?.alt || `${component.generalname} ${component.name}`}
-                width={1080}
-                height={1080}
-                className="min-w-0 flex-1 basis-0 max-h-full object-contain"
-              />
-            );
-          })}
+              return (
+                <Image
+                  key={`${component.itemId}-${component.code}`}
+                  src={photo?.url || "/images/icons/logoSmall.svg"}
+                  alt={
+                    photo?.alt || `${component.generalname} ${component.name}`
+                  }
+                  width={1080}
+                  height={1080}
+                  className="min-w-0 flex-1 basis-0 max-h-full object-contain"
+                />
+              );
+            })
+          )}
         </Link>
       </div>
       <div className="flex flex-col gap-y-[5px] tabxl:gap-y-[15px]">

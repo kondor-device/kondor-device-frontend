@@ -71,6 +71,8 @@ export interface ProductItem {
    * components' current prices, `priceDiscount` the bundle price, `coloropts`/`chars`/
    * `complect` are empty. Absent for ordinary products. */
   kind?: "bundle";
+  /** Photos of the set itself (only when `kind === "bundle"`), before the components' photos */
+  bundlePhotos?: Photo[];
   /** Fixed content of a bundle (only when `kind === "bundle"`) */
   bundleComponents?: BundleComponent[];
   /** Slug of the parent category. Not returned by every query — attached

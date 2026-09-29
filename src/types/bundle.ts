@@ -29,5 +29,7 @@ export interface Bundle {
   seoTitle?: string;
   seoDescription?: string;
   seoImage?: { url: string };
+  /** Photos of the set itself (added in the admin): they go before the components' photos */
+  photos?: { url: string; alt: string }[];
   components: BundleComponent[];
 }

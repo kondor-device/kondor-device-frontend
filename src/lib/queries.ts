@@ -101,6 +101,7 @@ const BUNDLE_CARD_PROJECTION = `
   "chars": [],
   "coloropts": [],
   "complect": [],
+  "bundlePhotos": photos[]{ ${IMAGE_PROJECTION} },
   "bundleComponents": components[]{ ${BUNDLE_COMPONENT_PROJECTION} }
 `;
 
@@ -114,6 +115,7 @@ const BUNDLE_DETAIL_PROJECTION = `
   ${l10nField("seoTitle")},
   ${l10nField("seoDescription")},
   "seoImage": select(defined(seoImage.asset->url) => { "url": seoImage.asset->url }),
+  "photos": photos[]{ ${IMAGE_PROJECTION} },
   "components": components[]{ ${BUNDLE_COMPONENT_PROJECTION} }
 `;
 

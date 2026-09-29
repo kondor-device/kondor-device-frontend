@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { Bundle } from "@/types/bundle";
 import ImagePicker from "@/components/productPage/productInfo/ImagePicker";
 import { formatSum } from "@/utils/formatSum";
+import { getBundlePhotos } from "@/utils/bundlePhotos";
 import { getBundleSavings, getRegularPrice } from "@/utils/bundlePricing";
 import BundleComponents from "./BundleComponents";
 import BundleBuyButton from "./BundleBuyButton";
@@ -32,14 +33,8 @@ export default async function BundleInfo({
     bundlePrice,
   );
 
-  // The first photo of every component first, then the rest of their photos
-  const allPhotos = components.map(
-    (component) => component.colorOpt?.photos ?? [],
-  );
-  const photos = [
-    ...allPhotos.map((list) => list[0]),
-    ...allPhotos.flatMap((list) => list.slice(1)),
-  ].filter(Boolean);
+  // The set's own photos first, then the components' photos
+  const photos = getBundlePhotos(bundle.photos, components);
 
   const hrn = t("homePage.catalog.hrn");
 

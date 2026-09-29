@@ -34,6 +34,7 @@ export default function BundleBuyButton({
         nameUk: bundle.nameUk,
         bundlePrice: bundle.bundlePrice,
         components: bundle.components,
+        photos: bundle.photos,
         label: t("bundle.label"),
       }),
     );

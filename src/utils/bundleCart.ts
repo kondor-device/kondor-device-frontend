@@ -8,6 +8,8 @@ interface BundleCartSource {
   nameUk?: string;
   bundlePrice: number;
   components: BundleComponent[];
+  /** The set's own photos (the first one is the cart image) */
+  photos?: { url: string; alt?: string }[];
   /** Localized word "Set" (the cart is shown in the site language) */
   label: string;
 }
@@ -20,6 +22,7 @@ export const buildBundleCartItem = ({
   nameUk,
   bundlePrice,
   components,
+  photos,
   label,
 }: BundleCartSource): CartItem => {
   const cartComponents: CartBundleComponent[] = components.map((component) => ({
@@ -52,7 +55,9 @@ export const buildBundleCartItem = ({
     price: Math.max(regularPrice, bundlePrice),
     priceDiscount: bundlePrice,
     actualPrice: bundlePrice,
-    image: components[0]?.colorOpt?.photos?.[0] ?? { url: "", alt: "" },
+    image: photos?.[0]
+      ? { url: photos[0].url, alt: photos[0].alt ?? "" }
+      : (components[0]?.colorOpt?.photos?.[0] ?? { url: "", alt: "" }),
     color: "",
     code: "",
     quantity: 1,
