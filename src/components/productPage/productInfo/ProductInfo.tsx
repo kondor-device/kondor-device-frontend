@@ -214,7 +214,7 @@ export default function ProductInfo({
                 <Button
                   onClick={onAddToCart}
                   disabled={outOfStock}
-                  className="block w-full tab:w-[350px] desk:w-[437px] max-w-[327px] laptop:max-w-[350px] desk:max-w-[437px]"
+                  className="block w-full tab:w-[350px] tab:max-w-[327px] laptop:max-w-[350px] desk:w-[437px] desk:max-w-[437px]"
                 >
                   {outOfStock
                     ? t("buttons.outOfStock")
