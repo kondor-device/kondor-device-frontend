@@ -43,6 +43,7 @@ export default function BundleProductCard({
     priceDiscount,
     bundleComponents,
     bundlePhotos,
+    outOfStock,
   } = product;
   const components = bundleComponents ?? [];
   const bundlePrice = priceDiscount ?? price;
@@ -56,6 +57,8 @@ export default function BundleProductCard({
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
 
   const onAddToCart = () => {
+    if (outOfStock) return;
+
     addToCart(
       buildBundleCartItem({
         id,
@@ -148,9 +151,10 @@ export default function BundleProductCard({
         </div>
         <Button
           onClick={onAddToCart}
+          disabled={outOfStock}
           className="w-full tabxl:w-[350px] deskxl:w-[437px] max-w-[327px] tabxl:max-w-[350px] deskxl:max-w-[437px] h-9"
         >
-          {t("buttons.makeOrder")}
+          {outOfStock ? t("buttons.outOfStock") : t("buttons.makeOrder")}
         </Button>
       </div>
     </div>

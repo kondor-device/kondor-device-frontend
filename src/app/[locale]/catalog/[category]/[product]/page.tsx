@@ -167,7 +167,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
         "@type": "Offer",
         priceCurrency: "UAH",
         price: currentBundle.bundlePrice,
-        availability: "https://schema.org/InStock",
+        availability: currentBundle.outOfStock
+          ? "https://schema.org/OutOfStock"
+          : "https://schema.org/InStock",
       },
     };
 

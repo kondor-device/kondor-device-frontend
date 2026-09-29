@@ -76,7 +76,7 @@ const BUNDLE_CARD_PROJECTION = `
   "newItem": false,
   "showonaddons": false,
   "preorder": false,
-  "outOfStock": false,
+  "outOfStock": coalesce(outOfStock, false),
   "chars": [],
   "coloropts": [],
   "complect": [],
@@ -90,6 +90,7 @@ const BUNDLE_DETAIL_PROJECTION = `
   "nameUk": name,
   slug,
   bundlePrice,
+  "outOfStock": coalesce(outOfStock, false),
   ${l10nField("description")},
   ${l10nField("seoTitle")},
   ${l10nField("seoDescription")},
@@ -223,7 +224,8 @@ export const GET_PRODUCTS_BY_IDS = groq`
 `;
 
 // Bundles of the cart. Unlike the catalog lists, an unavailable bundle is returned here too
-// (with outOfStock: true), so the cart can flag it instead of silently dropping it.
+// (with outOfStock: true; also when the set is switched to "out of stock" in the admin), so
+// the cart can flag it instead of silently dropping it.
 export const GET_BUNDLES_BY_IDS = groq`
 {
   "allBundles": *[_type == "bundle" && _id in $ids] {
@@ -231,7 +233,7 @@ export const GET_BUNDLES_BY_IDS = groq`
     ${l10nField("name")},
     "nameUk": name,
     bundlePrice,
-    "outOfStock": !(${BUNDLE_AVAILABLE}),
+    "outOfStock": !(${BUNDLE_AVAILABLE}) || coalesce(outOfStock, false),
     "components": components[]{
       "itemId": item->_id,
       "code": colorCode,

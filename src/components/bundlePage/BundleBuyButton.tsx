@@ -26,7 +26,14 @@ export default function BundleBuyButton({
   const { addToCart } = useCartStore();
   const openModal = useModalStore((state) => state.openModal);
 
+  const outOfStock = Boolean(bundle.outOfStock);
+  const buttonText = outOfStock
+    ? t("buttons.outOfStock")
+    : t("buttons.makeOrder");
+
   const onAddToCart = () => {
+    if (outOfStock) return;
+
     addToCart(
       buildBundleCartItem({
         id: bundle.id,
@@ -64,13 +71,18 @@ export default function BundleBuyButton({
     <>
       <Button
         onClick={onAddToCart}
+        disabled={outOfStock}
         className="block mt-5 desk:mt-9 w-full max-w-[437px]"
       >
-        {t("buttons.makeOrder")}
+        {buttonText}
       </Button>
       <div className="fixed tabxl:hidden z-50 left-0 bottom-0 flex items-center justify-center w-full min-h-[88px] px-5 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] rounded-t-[12px] bg-surface shadow-catalogCard">
-        <Button onClick={onAddToCart} className="w-full max-w-[437px]">
-          {t("buttons.makeOrder")}
+        <Button
+          onClick={onAddToCart}
+          disabled={outOfStock}
+          className="w-full max-w-[437px]"
+        >
+          {buttonText}
         </Button>
       </div>
     </>

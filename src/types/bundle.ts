@@ -26,6 +26,8 @@ export interface Bundle {
   nameUk?: string;
   description?: string;
   bundlePrice: number;
+  /** Switched to "out of stock" in the admin: the set stays on the site, but cannot be bought */
+  outOfStock?: boolean;
   seoTitle?: string;
   seoDescription?: string;
   seoImage?: { url: string };

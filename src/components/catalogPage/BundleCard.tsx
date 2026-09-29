@@ -27,6 +27,7 @@ export default function BundleCard({
     priceDiscount,
     bundleComponents,
     bundlePhotos,
+    outOfStock,
   } = product;
   // The set's own photo (added in the admin) goes first; without it the card shows the components
   const coverPhoto = bundlePhotos?.[0];
@@ -108,12 +109,22 @@ export default function BundleCard({
             </p>
           ) : null}
         </div>
-        <Link
-          href={href}
-          className="flex items-center justify-center w-full h-[33px] desk:h-9 px-3 text-9bold desk:text-12bold rounded-full transition duration-300 ease-out active:scale-95 outline-none text-dark bg-yellowGradient active:brightness-[115%] desk:hover:brightness-[115%] focus-visible:brightness-[115%]"
-        >
-          {t("bundle.details")}
-        </Link>
+        {outOfStock ? (
+          <button
+            type="button"
+            disabled
+            className="flex items-center justify-center w-full h-[33px] desk:h-9 px-3 text-9bold desk:text-12bold rounded-full outline-none bg-grey text-white cursor-not-allowed"
+          >
+            {t("buttons.outOfStock")}
+          </button>
+        ) : (
+          <Link
+            href={href}
+            className="flex items-center justify-center w-full h-[33px] desk:h-9 px-3 text-9bold desk:text-12bold rounded-full transition duration-300 ease-out active:scale-95 outline-none text-dark bg-yellowGradient active:brightness-[115%] desk:hover:brightness-[115%] focus-visible:brightness-[115%]"
+          >
+            {t("bundle.details")}
+          </Link>
+        )}
       </div>
     </div>
   );
