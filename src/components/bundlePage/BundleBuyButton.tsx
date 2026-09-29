@@ -15,7 +15,7 @@ interface BundleBuyButtonProps {
   addons: ProductItem[];
 }
 
-// "Buy" button of a set page: desktop button in the page flow + the fixed bar on mobile
+// "Buy" button of a set page: the button under the price (all screens) + the fixed bar on mobile
 // (as on the product page). The set goes into the cart as one line with its fixed content.
 export default function BundleBuyButton({
   bundle,
@@ -64,7 +64,7 @@ export default function BundleBuyButton({
     <>
       <Button
         onClick={onAddToCart}
-        className="hidden tabxl:block mt-5 desk:mt-9 w-full tab:w-[350px] desk:w-[437px] max-w-[327px] laptop:max-w-[350px] desk:max-w-[437px]"
+        className="block mt-5 desk:mt-9 w-full tab:w-[350px] desk:w-[437px] max-w-[327px] laptop:max-w-[350px] desk:max-w-[437px]"
       >
         {t("buttons.makeOrder")}
       </Button>
