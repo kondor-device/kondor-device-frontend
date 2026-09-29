@@ -30,27 +30,6 @@ export const COLOR_OPTIONS_PROJECTION = `
   "photos": photos[]{${IMAGE_PROJECTION}}
 `;
 
-// Тільки схвалені відгуки товару. `^` — товар, у проєкції якого це підзапит.
-// Середню оцінку і кількість рахуємо тут, а не зберігаємо в `item`: так вони
-// завжди збігаються з поточними статусами відгуків (зокрема змінених у Studio).
-const APPROVED_REVIEWS = `*[_type == "review" && status == "approved" && item._ref == ^._id]`;
-
-const RATING_PROJECTION = `
-  "ratingCount": count(${APPROVED_REVIEWS}),
-  "ratingAvg": math::avg(${APPROVED_REVIEWS}.rating)
-`;
-
-// phone навмисно не віддаємо на фронт
-const REVIEWS_PROJECTION = `
-  "reviews": ${APPROVED_REVIEWS} | order(submittedAt desc)[0...50]{
-    "id": _id,
-    author,
-    rating,
-    text,
-    "date": submittedAt
-  }
-`;
-
 const COMPLECT_PROJECTION = `
   ${l10nField("name")},
   "icon": icon{ ${IMAGE_PROJECTION} }
@@ -144,7 +123,6 @@ const CATEGORY_PROJECTION = `
       preorder,
       ${l10nField("preordertext")},
       outOfStock,
-      ${RATING_PROJECTION},
       "chars": chars[]{ ${CHARS_PROJECTION} },
       "coloropts": coloropts[]{ ${COLOR_OPTIONS_PROJECTION} },
       "complect": complect[]{ ${COMPLECT_PROJECTION} }
@@ -182,8 +160,7 @@ const MAIN_PRODUCTS_PROJECTION = `
   "coloropts": coloropts[]{
     "photos": photos[]{ ${IMAGE_PROJECTION} }
   },
-  ${BADGE_PROJECTION},
-  ${RATING_PROJECTION}
+  ${BADGE_PROJECTION}
 `;
 
 const ITEM_DETAIL_PROJECTION = `
@@ -209,8 +186,6 @@ const ITEM_DETAIL_PROJECTION = `
   preorder,
   ${l10nField("preordertext")},
   outOfStock,
-  ${RATING_PROJECTION},
-  ${REVIEWS_PROJECTION},
   "chars": chars[]{ ${CHARS_PROJECTION} },
   "coloropts": coloropts[]{ ${COLOR_OPTIONS_PROJECTION} },
   "complect": complect[]{ ${COMPLECT_PROJECTION} }

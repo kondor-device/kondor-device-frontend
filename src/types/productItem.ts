@@ -23,15 +23,6 @@ export interface ComplectItem {
   icon: { url: string; alt: string };
 }
 
-export interface Review {
-  id: string;
-  author: string;
-  rating: number;
-  text: string;
-  /** ISO datetime */
-  date: string;
-}
-
 export interface ProductItem {
   id: string;
   generalname: string;
@@ -61,12 +52,6 @@ export interface ProductItem {
   preorder: boolean;
   preordertext: string;
   outOfStock: boolean;
-  /** Кількість схвалених відгуків (0, якщо їх немає) */
-  ratingCount?: number;
-  /** Середня оцінка схвалених відгуків; null/відсутня, якщо відгуків немає */
-  ratingAvg?: number | null;
-  /** Схвалені відгуки — лише в детальному запиті товару */
-  reviews?: Review[];
   /** "bundle" for a bundle (set) card in a category: `price` is then the sum of the
    * components' current prices, `priceDiscount` the bundle price, `coloropts`/`chars`/
    * `complect` are empty. Absent for ordinary products. */

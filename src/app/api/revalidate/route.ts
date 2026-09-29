@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { parseBody } from "next-sanity/webhook";
+import { routing } from "@/i18n/routing";
 import { client } from "@/lib/sanityClient";
-import {
-  resolveProductCategorySlug,
-  revalidatePaths,
-  revalidateProductPage,
-  revalidateProductWithRating,
-  revalidateSitePages,
-} from "@/lib/revalidate";
 
 // Ендпоінт для дострокового скидання кешу товарних фідів і сторінок сайту
 // одразу після публікації/зміни товару в Sanity Studio (замість очікування
@@ -18,7 +13,7 @@ import {
 //   URL:      https://www.kondor.ua/api/revalidate   (без ?secret= у самому URL!)
 //   Dataset:  production
 //   Trigger:  Create / Update / Delete
-//   Filter:   _type in ["item", "bundle", "review"]
+//   Filter:   _type in ["item", "bundle"]
 //   HTTP method: POST
 //   Secret:   те саме значення, що і в SANITY_REVALIDATE_SECRET
 //
@@ -54,8 +49,69 @@ const FEED_PATHS = [
   "/api/feed/google",
 ] as const;
 
+function getLocalizedPaths(pathname: string): string[] {
+  const paths = new Set<string>();
+
+  // Публічний URL без префікса (localePrefix: "as-needed")
+  paths.add(pathname);
+
+  // Внутрішній шлях App Router з [locale] — саме він часто є ключем кешу
+  // після static generation / ISR, включно для defaultLocale.
+  routing.locales.forEach((locale) => {
+    paths.add(`/${locale}${pathname === "/" ? "" : pathname}`);
+  });
+
+  return [...paths];
+}
+
+function revalidatePaths(
+  paths: string[],
+  type: "page" | "layout" = "page"
+): string[] {
+  const revalidated = new Set<string>();
+
+  paths.forEach((path) => {
+    revalidatePath(path, type);
+    revalidated.add(`${path} (${type})`);
+  });
+
+  return [...revalidated];
+}
+
 function revalidateFeeds(): string[] {
   return revalidatePaths([...FEED_PATHS]);
+}
+
+function revalidateSitePages(): string[] {
+  // layout — щоб скинути ISR layout (`revalidate = 3600`) і вкладені сторінки
+  return [
+    ...revalidatePaths(getLocalizedPaths("/"), "layout"),
+    ...revalidatePaths(getLocalizedPaths("/catalog"), "layout"),
+  ];
+}
+
+function revalidateProductPage(
+  slug: string,
+  categorySlug: string | null
+): string[] {
+  const paths = [
+    // Легасі-редірект /catalog/[product] (без категорії в URL)
+    ...revalidatePaths(getLocalizedPaths(`/catalog/${slug}`), "page"),
+  ];
+
+  if (categorySlug) {
+    paths.push(
+      ...revalidatePaths(
+        getLocalizedPaths(`/catalog/${categorySlug}/${slug}`),
+        "page"
+      ),
+      // Категорія теж може змінити свій вміст (наприклад, товар щойно
+      // опублікували в цій категорії)
+      ...revalidatePaths(getLocalizedPaths(`/catalog/${categorySlug}`), "page")
+    );
+  }
+
+  return paths;
 }
 
 function extractSlugFromPayload(body: SanityWebhookPayload): string | null {
@@ -100,6 +156,18 @@ async function resolveProductSlug(
   return document?.slug?.current ?? null;
 }
 
+async function resolveProductCategorySlug(
+  productSlug: string
+): Promise<string | null> {
+  const category = await client.fetch<{ slug?: string } | null>(
+    `*[_type == "item" && slug == $slug][0]{ "slug": cat->slug }`,
+    { slug: productSlug },
+    { cache: "no-store" }
+  );
+
+  return category?.slug ?? null;
+}
+
 async function revalidateOnItemChange(
   body?: SanityWebhookPayload
 ): Promise<{ paths: string[]; productSlug: string | null }> {
@@ -112,34 +180,6 @@ async function revalidateOnItemChange(
   }
 
   return { paths, productSlug };
-}
-
-// Відгук: змінили статус у Studio (або модератор у Telegram) — оновлюємо
-// сторінку товару, категорію і каталог, бо змінюється рейтинг.
-async function revalidateOnReviewChange(
-  body?: SanityWebhookPayload
-): Promise<{ paths: string[]; productSlug: string | null }> {
-  if (!body?._id) {
-    return { paths: [], productSlug: null };
-  }
-
-  const item = await client.fetch<{
-    slug?: string;
-    categorySlug?: string;
-  } | null>(
-    `*[_id == $id][0]{ "slug": item->slug, "categorySlug": item->cat->slug }`,
-    { id: body._id },
-    { cache: "no-store" }
-  );
-
-  if (!item?.slug) {
-    return { paths: [], productSlug: null };
-  }
-
-  return {
-    paths: await revalidateProductWithRating(item.slug, item.categorySlug),
-    productSlug: item.slug,
-  };
 }
 
 export async function POST(request: NextRequest) {
@@ -165,10 +205,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { paths, productSlug } =
-      body?._type === "review"
-        ? await revalidateOnReviewChange(body ?? undefined)
-        : await revalidateOnItemChange(body ?? undefined);
+    const { paths, productSlug } = await revalidateOnItemChange(
+      body ?? undefined
+    );
 
     return NextResponse.json({
       revalidated: true,

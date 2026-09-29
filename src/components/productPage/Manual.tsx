@@ -4,11 +4,9 @@ import Image from "next/image";
 
 interface ManualProps {
   product: ProductItem;
-  /** false — коли блок уже всередині `container` (напр. у ProductInfo) */
-  withContainer?: boolean;
 }
 
-export default function Manual({ product, withContainer = true }: ManualProps) {
+export default function Manual({ product }: ManualProps) {
   const t = useTranslations("productPage");
 
   const manual = product?.manual;
@@ -17,11 +15,7 @@ export default function Manual({ product, withContainer = true }: ManualProps) {
   if (!manual && !driver) return null;
 
   return (
-    <div
-      className={`flex flex-col tab:flex-row tab:gap-8 gap-4 ${
-        withContainer ? "container max-w-[1920px]" : ""
-      }`}
-    >
+    <div className="flex flex-col tab:flex-row tab:gap-8 gap-4 container max-w-[1920px]">
       {manual ? (
         <div
           id="manual"

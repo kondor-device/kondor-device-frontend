@@ -5,11 +5,10 @@ import { Bundle } from "@/types/bundle";
 import ProductInfo from "@/components/productPage/productInfo/ProductInfo";
 import AddonsSlider from "@/components/productPage/AddonsSlider";
 import SimilarProductsSlider from "@/components/productPage/SimilarProductsSlider";
+import Manual from "@/components/productPage/Manual";
 import Breadcrumbs from "@/components/shared/breadcrumbs/Breadcrumbs";
 import JsonLd from "@/components/shared/JsonLd";
-import { formatRating } from "@/utils/formatRating";
 import { CategoryItem } from "@/types/categoryItem";
-import { Review } from "@/types/productItem";
 import { Suspense } from "react";
 import Loader from "@/components/shared/loader/Loader";
 import { notFound, permanentRedirect } from "next/navigation";
@@ -221,42 +220,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  // Рейтинг у видачі Google: Product з aggregateRating і відгуками —
-  // лише коли є схвалені відгуки (порожній aggregateRating недопустимий)
-  const reviewsJsonLd =
-    currentProduct.ratingCount && currentProduct.ratingCount > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "Product",
-          name: `${currentProduct.generalname} ${currentProduct.name}`.trim(),
-          image: currentProduct.coloropts?.[0]?.photos?.[0]?.url,
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: formatRating(currentProduct.ratingAvg),
-            reviewCount: currentProduct.ratingCount,
-            bestRating: 5,
-            worstRating: 1,
-          },
-          review: (currentProduct.reviews ?? []).map(
-            (review: Review) => ({
-              "@type": "Review",
-              author: { "@type": "Person", name: review.author },
-              datePublished: review.date,
-              reviewBody: review.text,
-              reviewRating: {
-                "@type": "Rating",
-                ratingValue: review.rating,
-                bestRating: 5,
-                worstRating: 1,
-              },
-            }),
-          ),
-        }
-      : null;
-
   return (
     <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
-      {reviewsJsonLd ? <JsonLd data={reviewsJsonLd} /> : null}
       <Suspense fallback={<Loader />}>
         <ProductInfo
           product={currentProduct}
@@ -268,6 +233,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           similarProducts={similarProducts}
           addons={res?.data?.shownOnAddons}
         />
+        <Manual product={currentProduct} />
       </Suspense>
     </div>
   );
