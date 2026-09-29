@@ -123,7 +123,9 @@ export default function BundleProductCard({
           {components.map((component) => (
             <li key={`${component.itemId}-${component.code}`}>
               {component.generalname} {component.name}
-              {component.colorOpt?.color ? `, ${component.colorOpt.color}` : ""}
+              {component.colorOpt?.color
+                ? `, ${component.colorOpt.color.toLowerCase()}`
+                : ""}
             </li>
           ))}
         </ul>
