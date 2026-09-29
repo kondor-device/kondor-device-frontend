@@ -59,7 +59,13 @@ export default async function BundleInfo({
 
             <BundleComponents components={components} />
 
-            <div className="flex flex-row flex-wrap items-end gap-x-6 gap-y-2 mb-3 desk:mb-4">
+            {savingsUah > 0 ? (
+              <p className="inline-flex w-fit mb-3 desk:mb-4 py-2 px-4 rounded-full border border-yellow text-14bold desk:text-18bold text-yellow">
+                {t("bundle.economy")} {savingsPercent}% · {formatSum(savingsUah)}
+                {hrn}
+              </p>
+            ) : null}
+            <div className="flex flex-row flex-wrap items-end gap-x-6 gap-y-2 mb-0">
               <p className="text-[40px] desk:text-[54px] font-bold uppercase leading-none">
                 {formatSum(bundlePrice)}
                 {hrn}
@@ -71,12 +77,6 @@ export default async function BundleInfo({
                 </p>
               ) : null}
             </div>
-            {savingsUah > 0 ? (
-              <p className="inline-flex w-fit py-2 px-4 rounded-full border border-yellow text-14bold desk:text-18bold text-yellow">
-                {t("bundle.economy")} {savingsPercent}% · {formatSum(savingsUah)}
-                {hrn}
-              </p>
-            ) : null}
             <BundleBuyButton bundle={bundle} addons={addons} />
           </div>
         </div>

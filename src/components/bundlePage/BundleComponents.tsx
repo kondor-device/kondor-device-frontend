@@ -18,9 +18,6 @@ export default async function BundleComponents({
 
   return (
     <div className="mb-5 desk:mb-9">
-      <h2 className="mb-3 desk:mb-5 text-14bold desk:text-24bold">
-        {t("bundle.contents")}
-      </h2>
       <ul className="flex flex-col gap-y-3">
         {components.map((component) => {
           const { colorOpt, categorySlug, slug } = component;
