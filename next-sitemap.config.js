@@ -58,27 +58,11 @@ export async function getAllCategoriesForSitemap() {
   }
 }
 
-export const GET_ALL_BLOG_POSTS_QUERY = `*[_type == "blogPost" && defined(slug.current)]{ "slug": slug.current }`;
-
-export async function getAllBlogPosts() {
-  try {
-    const response = await axios({
-      method: "get",
-      url: `https://${SANITY_PROJECT_ID}.apicdn.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}`,
-      params: { query: GET_ALL_BLOG_POSTS_QUERY },
-    });
-    return response.data;
-  } catch (error) {
-    return error;
-  }
-}
-
 async function getDynamicPages() {
-  const [productsRes, bundlesRes, categoriesRes, blogRes] = await Promise.all([
+  const [productsRes, bundlesRes, categoriesRes] = await Promise.all([
     getAllProducts(),
     getAllBundles(),
     getAllCategoriesForSitemap(),
-    getAllBlogPosts(),
   ]);
 
   const categories = categoriesRes?.result || [];
@@ -103,16 +87,7 @@ async function getDynamicPages() {
       loc: `/catalog/${bundle.categorySlug}/${bundle.slug}`,
     }));
 
-  const blogPosts = blogRes?.result || [];
-  const blogPages = blogPosts
-    .filter((post) => Boolean(post?.slug))
-    .map((post) => ({
-      loc: `/blog/${post.slug}`,
-      changefreq: "monthly",
-      priority: 0.7,
-    }));
-
-  return [...categoryPages, ...productsPages, ...bundlesPages, ...blogPages];
+  return [...categoryPages, ...productsPages, ...bundlesPages];
 }
 
 // Домен продакшена (той самий, що CANONICAL_HOST у next.config.mjs)
@@ -209,11 +184,6 @@ const sitemapConfig = {
         loc: "/about",
         changefreq: "monthly",
         priority: 0.9,
-      },
-      {
-        loc: "/blog",
-        changefreq: "weekly",
-        priority: 0.8,
       },
       {
         loc: "/delivery",
