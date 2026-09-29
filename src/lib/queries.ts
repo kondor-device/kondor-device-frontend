@@ -105,7 +105,8 @@ const CATEGORY_PROJECTION = `
   pos,
   slug,
   "image": image{ ${IMAGE_PROJECTION} },
-  "items": (items[]->)[_type != "bundle" || (${BUNDLE_AVAILABLE})]{
+  // a category without any items (the field is missing) has an empty list, not null
+  "items": coalesce((items[]->)[_type != "bundle" || (${BUNDLE_AVAILABLE})]{
     "id": _id,
     _type == "bundle" => {
       ${BUNDLE_CARD_PROJECTION}
@@ -128,7 +129,7 @@ const CATEGORY_PROJECTION = `
       "coloropts": coloropts[]{ ${COLOR_OPTIONS_PROJECTION} },
       "complect": complect[]{ ${COMPLECT_PROJECTION} }
     }
-  }
+  }, [])
 `;
 
 const ADDONS_PROJECTION = `
