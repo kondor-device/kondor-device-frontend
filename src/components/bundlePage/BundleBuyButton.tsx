@@ -64,7 +64,7 @@ export default function BundleBuyButton({
     <>
       <Button
         onClick={onAddToCart}
-        className="block mt-5 desk:mt-9 w-full min-[640px]:w-[350px] min-[640px]:max-w-[327px] laptop:max-w-[350px] desk:w-[437px] desk:max-w-[437px]"
+        className="block mt-5 desk:mt-9 w-full mob:w-[350px] mob:max-w-[327px] laptop:max-w-[350px] desk:w-[437px] desk:max-w-[437px]"
       >
         {t("buttons.makeOrder")}
       </Button>
