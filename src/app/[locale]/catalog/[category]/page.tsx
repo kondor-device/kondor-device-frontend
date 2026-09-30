@@ -14,6 +14,7 @@ import type { Metadata } from "next";
 import { Locale } from "@/types/locale";
 import { getTranslations } from "next-intl/server";
 import { buildMetadataFromSeo } from "@/lib/seo/pageSeo";
+import SchemaJsonFromSeo from "@/components/seo/SchemaJsonFromSeo";
 
 // Категорія за старим (до впровадження вкладеної URL-структури) посиланням
 // /catalog/[product] могла бути товаром, а не категорією — 301-редіректимо
@@ -98,8 +99,12 @@ export default async function CategoryPage({
     notFound();
   }
 
+  // Same request as in generateMetadata (cached for the render)
+  const seoRes = await getProducts(GET_CATEGORY_SEO_QUERY, { slug: category });
+
   return (
     <div className="pt-[60px] tabxl:pt-[113px]">
+      <SchemaJsonFromSeo seo={seoRes?.data?.category?.seo} />
       <Breadcrumbs
         items={[
           { label: t("catalog"), href: "/catalog" },

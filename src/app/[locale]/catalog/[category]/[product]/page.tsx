@@ -8,11 +8,17 @@ import SimilarProductsSlider from "@/components/productPage/SimilarProductsSlide
 import Manual from "@/components/productPage/Manual";
 import Breadcrumbs from "@/components/shared/breadcrumbs/Breadcrumbs";
 import JsonLd from "@/components/shared/JsonLd";
+import { bundleJsonLd, productJsonLd } from "@/lib/seo/jsonLd";
+import { getLocalizedPath } from "@/utils/getLocalizedPath";
 import { CategoryItem } from "@/types/categoryItem";
 import { Suspense } from "react";
 import Loader from "@/components/shared/loader/Loader";
 import { notFound, permanentRedirect } from "next/navigation";
-import { buildMetadataFromSeo, truncateText } from "@/lib/seo/pageSeo";
+import {
+  absoluteUrl,
+  buildMetadataFromSeo,
+  truncateText,
+} from "@/lib/seo/pageSeo";
 import { toPlainDescription } from "@/lib/feed";
 import { Locale } from "@/types/locale";
 import { getTranslations } from "next-intl/server";
@@ -103,7 +109,7 @@ export async function generateMetadata({
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const [{ category, product }, t] = await Promise.all([
+  const [{ locale, category, product }, t] = await Promise.all([
     params,
     getTranslations("breadcrumbs"),
   ]);
@@ -129,6 +135,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
     permanentRedirect(`/catalog/${similarProducts.categorySlug}/${product}`);
   }
 
+  // Canonical address of the page (the category in the URL was checked above)
+  const pageUrl = absoluteUrl(
+    getLocalizedPath(
+      locale,
+      `/catalog/${similarProducts?.categorySlug ?? category}/${product}`,
+    ),
+  );
+
   const breadcrumbs = (
     <Breadcrumbs
       items={[
@@ -148,24 +162,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
   );
 
   if (!currentProduct && currentBundle) {
-    const bundleJsonLd = {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      name: currentBundle.name,
-      description: currentBundle.description || undefined,
-      image: currentBundle.components
-        .map((component) => component.colorOpt?.photos?.[0]?.url)
-        .filter(Boolean),
-      offers: {
-        "@type": "Offer",
-        priceCurrency: "UAH",
-        price: currentBundle.bundlePrice,
-        availability: currentBundle.outOfStock
-          ? "https://schema.org/OutOfStock"
-          : "https://schema.org/InStock",
-      },
-    };
-
     // Similar to a set: the other sets of its category, then the products of the categories
     // its components belong to (the components themselves are already on the page)
     const componentIds = new Set(
@@ -194,7 +190,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
     return (
       <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
-        <JsonLd data={bundleJsonLd} />
+        <JsonLd data={bundleJsonLd({ bundle: currentBundle, url: pageUrl })} />
         <Suspense fallback={<Loader />}>
           <BundleInfo
             bundle={currentBundle}
@@ -217,6 +213,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
+      <JsonLd
+        data={productJsonLd({
+          product: currentProduct,
+          url: pageUrl,
+          title: getProductTitle(currentProduct.generalname, currentProduct.name),
+          categoryName: similarProducts?.categoryName,
+        })}
+      />
       <Suspense fallback={<Loader />}>
         <ProductInfo
           product={currentProduct}

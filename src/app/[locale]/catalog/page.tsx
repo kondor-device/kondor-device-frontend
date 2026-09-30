@@ -7,6 +7,7 @@ import Loader from "@/components/shared/loader/Loader";
 import type { Metadata } from "next";
 import { Locale } from "@/types/locale";
 import { buildPageMetadata } from "@/lib/metadata";
+import SitePageSeo from "@/components/seo/SitePageSeo";
 import { getTranslations } from "next-intl/server";
 
 interface CatalogPageProps {
@@ -53,6 +54,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           shownOnAddons={res.data.shownOnAddons}
         />
       </Suspense>
+      <SitePageSeo pageId="seoCatalogPage" />
     </div>
   );
 }
