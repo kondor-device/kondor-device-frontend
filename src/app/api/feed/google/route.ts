@@ -63,7 +63,7 @@ function buildItemXml(
         (photo) =>
           `<g:additional_image_link>${escapeXml(toFeedImageUrl(photo.url))}</g:additional_image_link>`
       ),
-    `<g:color>${escapeXml(color)}</g:color>`,
+    ...(color ? [`<g:color>${escapeXml(color)}</g:color>`] : []),
     ...(product.cat?.name
       ? [`<g:product_type>${escapeXml(product.cat.name)}</g:product_type>`]
       : []),

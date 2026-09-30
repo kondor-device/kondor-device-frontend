@@ -108,7 +108,7 @@ function buildFeedXml(products: FeedProduct[], baseUrl: string): string {
 
 export async function GET() {
   try {
-    const products = await fetchFeedProducts(true);
+    const products = await fetchFeedProducts();
     const baseUrl = getBaseUrl();
     const xml = buildFeedXml(products, baseUrl);
 

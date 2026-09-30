@@ -371,19 +371,8 @@ const FEED_BUNDLE_PROJECTION = `
 // головної сторінки (showonmain: true) — це не реальні товари, а
 // декоративні банери категорій (порожні chars/complect/description).
 // Виключаємо їх за showonmain == true.
+// Фіди Meta, Rozetka і Google: лише позиції з showInFeed == true.
 export const GET_FEED_PRODUCTS_QUERY = groq`
-*[
-  _type == "item" &&
-  defined(slug) &&
-  defined(price) &&
-  showonmain != true
-] {
-  ${FEED_PRODUCT_PROJECTION}
-}
-`;
-
-// Фід Meta і Rozetka: лише позиції з showInFeed == true (Google-фід лишається на запиті вище).
-export const GET_FEED_SELECTED_PRODUCTS_QUERY = groq`
 [
   ...*[
     _type == "item" &&
