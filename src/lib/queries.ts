@@ -377,18 +377,14 @@ export const GET_CATEGORY_SEO_QUERY = groq`
 `;
 
 // Everything the sitemap lists. A page is in the sitemap only when it really exists on the site:
-// - a category with at least one visible item (empty ones, like a "Sets" category with no
-//   available set, show no products);
+// - every category, also an empty one (a "Sets" category while there is no available set);
 // - a product under the category of its canonical URL /catalog/[category]/[product]: the one
 //   whose list contains it, else the product's own category (the feeds link there). The "show
 //   on main page" tiles are anchors, not pages, so they stay out;
 // - a set only while it is available (the same rule as on its page).
 export const GET_SITEMAP_DATA_QUERY = groq`
 {
-  "categories": *[
-    _type == "category" && defined(slug) &&
-    count((items[]->)[_type != "bundle" || (${BUNDLE_AVAILABLE})]) > 0
-  ] {
+  "categories": *[_type == "category" && defined(slug)] {
     slug,
     "updatedAt": _updatedAt
   },
