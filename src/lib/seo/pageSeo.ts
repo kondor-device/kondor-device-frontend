@@ -32,11 +32,8 @@ export function absoluteUrl(pathname: string): string {
   return `${SITE_URL}${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
 }
 
-/** Canonical + hreflang (uk-UA, ru-UA, x-default) alternates of a page. */
-export function buildLanguageAlternates(
-  path: string,
-  locale: Locale,
-): NonNullable<Metadata["alternates"]> {
+/** hreflang → absolute url of every language version of a page (uk-UA, ru-UA, x-default). */
+export function buildLanguageUrls(path: string): Record<string, string> {
   const languages: Record<string, string> = {};
 
   for (const item of routing.locales) {
@@ -46,9 +43,17 @@ export function buildLanguageAlternates(
     getLocalizedPath(routing.defaultLocale, path),
   );
 
+  return languages;
+}
+
+/** Canonical + hreflang alternates of a page. */
+export function buildLanguageAlternates(
+  path: string,
+  locale: Locale,
+): NonNullable<Metadata["alternates"]> {
   return {
     canonical: absoluteUrl(getLocalizedPath(locale, path)),
-    languages,
+    languages: buildLanguageUrls(path),
   };
 }
 
@@ -137,7 +142,9 @@ export function buildMetadataFromSeo({
         .filter((item) => item !== locale)
         .map((item) => OG_LOCALE[item]),
       url: alternates.canonical as string,
-      images: [{ ...ogImage, alt: seo?.opengraphImage?.alt?.trim() || ogTitle }],
+      images: [
+        { ...ogImage, alt: seo?.opengraphImage?.alt?.trim() || ogTitle },
+      ],
     },
     twitter: {
       card: "summary_large_image",
