@@ -170,7 +170,7 @@ ${categories}
 
 export async function GET() {
   try {
-    const products = await fetchFeedProducts();
+    const products = await fetchFeedProducts(true);
     const baseUrl = getBaseUrl();
     const xml = buildFeedXml(products, baseUrl);
 

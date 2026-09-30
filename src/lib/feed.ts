@@ -1,5 +1,8 @@
 import { client } from "@/lib/sanityClient";
-import { GET_FEED_PRODUCTS_QUERY } from "@/lib/queries";
+import {
+  GET_FEED_PRODUCTS_QUERY,
+  GET_FEED_SELECTED_PRODUCTS_QUERY,
+} from "@/lib/queries";
 
 // Спільна логіка для всіх товарних фідів (Meta/Facebook, Rozetka тощо).
 // Винесено в один модуль, щоб:
@@ -38,8 +41,13 @@ export interface FeedProduct {
   coloropts: FeedColorOption[] | null;
 }
 
-export async function fetchFeedProducts(): Promise<FeedProduct[]> {
-  return client.fetch<FeedProduct[]>(GET_FEED_PRODUCTS_QUERY);
+// onlyFlagged: лише позиції (товари й сети) з перемикачем "Показувати в фіді" в адмінці.
+export async function fetchFeedProducts(
+  onlyFlagged = false
+): Promise<FeedProduct[]> {
+  return client.fetch<FeedProduct[]>(
+    onlyFlagged ? GET_FEED_SELECTED_PRODUCTS_QUERY : GET_FEED_PRODUCTS_QUERY
+  );
 }
 
 export function getBaseUrl(): string {

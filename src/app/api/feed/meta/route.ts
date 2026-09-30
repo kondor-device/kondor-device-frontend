@@ -63,7 +63,7 @@ function buildItemXml(
         (photo) =>
           `<g:additional_image_link>${escapeXml(toFeedImageUrl(photo.url))}</g:additional_image_link>`
       ),
-    `<g:color>${escapeXml(color)}</g:color>`,
+    ...(color ? [`<g:color>${escapeXml(color)}</g:color>`] : []),
     ...(product.cat?.name
       ? [`<g:product_type>${escapeXml(product.cat.name)}</g:product_type>`]
       : []),
@@ -108,7 +108,7 @@ function buildFeedXml(products: FeedProduct[], baseUrl: string): string {
 
 export async function GET() {
   try {
-    const products = await fetchFeedProducts();
+    const products = await fetchFeedProducts(true);
     const baseUrl = getBaseUrl();
     const xml = buildFeedXml(products, baseUrl);
 
