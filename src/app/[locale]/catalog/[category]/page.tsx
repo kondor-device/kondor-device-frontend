@@ -1,5 +1,6 @@
 import {
   GET_CATEGORIES_BY_SLUGS_QUERY,
+  GET_CATEGORY_SEO_QUERY,
   GET_ITEM_BY_SLUG_QUERY,
 } from "@/lib/queries";
 import { getProducts } from "@/utils/getProducts";
@@ -12,8 +13,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
 import { Locale } from "@/types/locale";
 import { getTranslations } from "next-intl/server";
-import { getDefaultMetadata } from "@/utils/getDefaultMetadata";
-import { getPageAlternates } from "@/utils/getPageAlternates";
+import { buildMetadataFromSeo } from "@/lib/seo/pageSeo";
 
 // Категорія за старим (до впровадження вкладеної URL-структури) посиланням
 // /catalog/[product] могла бути товаром, а не категорією — 301-редіректимо
@@ -36,23 +36,23 @@ export async function generateMetadata({
   params,
 }: CategoryPageProps): Promise<Metadata> {
   const { locale, category } = await params;
-  const t = await getTranslations("metadata");
+  const [t, res] = await Promise.all([
+    getTranslations({ locale, namespace: "metadata" }),
+    getProducts(GET_CATEGORY_SEO_QUERY, { slug: category }),
+  ]);
 
-  const res = await getProducts(GET_CATEGORIES_BY_SLUGS_QUERY, {
-    categories: [category],
+  const currentCategory = res?.data?.category;
+  const name: string | undefined = currentCategory?.name;
+
+  return buildMetadataFromSeo({
+    seo: currentCategory?.seo,
+    locale,
+    path: `/catalog/${category}`,
+    defaultTitle: name ? t("categoryTitle", { name }) : t("title"),
+    defaultDescription: name
+      ? t("categoryDescription", { name })
+      : t("description"),
   });
-
-  const currentCategory = res?.data?.selectedCategories?.[0];
-  const defaultMetadata = getDefaultMetadata(t, locale);
-  const title = currentCategory?.name
-    ? `${currentCategory.name} — ${defaultMetadata.title}`
-    : defaultMetadata.title;
-
-  return {
-    title,
-    description: defaultMetadata.description,
-    alternates: getPageAlternates(locale, `/catalog/${category}`),
-  };
 }
 
 export default async function CategoryPage({

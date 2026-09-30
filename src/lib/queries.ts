@@ -13,6 +13,21 @@ const IMAGE_PROJECTION = `"alt": coalesce(${l10n("alt")}, ""), "url": asset->url
 // Feeds are not localized (they do not receive $locale)
 const FEED_IMAGE_PROJECTION = `"alt": coalesce(alt, ""), "url": asset->url`;
 
+// Localized `seoSettings` block (categories and SEO pages of the admin). The share image is
+// a plain CDN url: the site crops it to 1200×630 itself.
+const SEO_PROJECTION = `
+  ${l10nField("metaTitle")},
+  ${l10nField("metaDescription")},
+  "keywords": select($locale == "ru" && count(keywordsRu) > 0 => keywordsRu, keywords),
+  ${l10nField("opengraphTitle")},
+  ${l10nField("opengraphDescription")},
+  "opengraphImage": select(defined(opengraphImage.asset->url) => {
+    "url": opengraphImage.asset->url,
+    "alt": ${l10n("opengraphImage.alt")}
+  }),
+  "schemaJsonUrl": schemaJson.asset->url
+`;
+
 const BADGE_PROJECTION = `
   "badge": badge->{
     ${l10nField("text")},
@@ -341,5 +356,22 @@ export const GET_FEED_PRODUCTS_QUERY = groq`
   showonmain != true
 ] {
   ${FEED_PRODUCT_PROJECTION}
+}
+`;
+
+// SEO block of a static page: a document with a fixed _id (seoHomePage, seoAboutPage, ...).
+export const GET_SITE_SEO_QUERY = groq`
+*[_id == $documentId][0] {
+  "seo": seo{ ${SEO_PROJECTION} }
+}
+`;
+
+// Title and SEO block of one category (much lighter than the full catalog query).
+export const GET_CATEGORY_SEO_QUERY = groq`
+{
+  "category": *[_type == "category" && slug == $slug][0] {
+    ${l10nField("name")},
+    "seo": seo{ ${SEO_PROJECTION} }
+  }
 }
 `;

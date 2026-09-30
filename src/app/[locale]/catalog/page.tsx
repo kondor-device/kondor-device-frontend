@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import Loader from "@/components/shared/loader/Loader";
 import type { Metadata } from "next";
 import { Locale } from "@/types/locale";
-import { getPageAlternates } from "@/utils/getPageAlternates";
+import { buildPageMetadata } from "@/lib/metadata";
 import { getTranslations } from "next-intl/server";
 
 interface CatalogPageProps {
@@ -22,9 +22,7 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { locale } = await params;
 
-  return {
-    alternates: getPageAlternates(locale, "/catalog"),
-  };
+  return buildPageMetadata(locale, "catalog");
 }
 
 export default async function CatalogPage({ searchParams }: CatalogPageProps) {

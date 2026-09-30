@@ -12,7 +12,14 @@ import { Locale } from "@/types/locale";
 import Header from "@/components/shared/header/Header";
 import Footer from "@/components/shared/footer/Footer";
 import { getTranslations } from "next-intl/server";
-import { getDefaultMetadata } from "@/utils/getDefaultMetadata";
+import type { Metadata } from "next";
+import {
+  DEFAULT_OG_IMAGE,
+  OG_LOCALE,
+  SITE_ALLOW_INDEXING,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/seo/constants";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { getProducts } from "@/utils/getProducts";
 import { GET_ALL_CATEGORIES_QUERY } from "@/lib/queries";
@@ -46,11 +53,33 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: Locale }>;
-}) {
+}): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata" });
+  const ogImage = {
+    url: `${SITE_URL}${DEFAULT_OG_IMAGE.path}`,
+    width: DEFAULT_OG_IMAGE.width,
+    height: DEFAULT_OG_IMAGE.height,
+    alt: SITE_NAME,
+  };
 
-  return getDefaultMetadata(t, locale);
+  // Defaults for every page; pages fill in their own title, description, canonical and OG
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: { default: t("title"), template: `%s | ${SITE_NAME}` },
+    description: t("description"),
+    ...(!SITE_ALLOW_INDEXING ? { robots: { index: false, follow: false } } : {}),
+    openGraph: {
+      type: "website",
+      siteName: SITE_NAME,
+      locale: OG_LOCALE[locale],
+      alternateLocale: Object.entries(OG_LOCALE)
+        .filter(([item]) => item !== locale)
+        .map(([, value]) => value),
+      images: [ogImage],
+    },
+    twitter: { card: "summary_large_image", images: [ogImage.url] },
+  };
 }
 
 export default async function LocaleLayout({

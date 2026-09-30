@@ -1,7 +1,7 @@
 import Delivery from "@/components/deliveryPage/Delivery";
 import type { Metadata } from "next";
 import { Locale } from "@/types/locale";
-import { getPageAlternates } from "@/utils/getPageAlternates";
+import { buildPageMetadata } from "@/lib/metadata";
 
 type PageProps = {
   params: Promise<{ locale: Locale }>;
@@ -12,9 +12,7 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { locale } = await params;
 
-  return {
-    alternates: getPageAlternates(locale, "/delivery"),
-  };
+  return buildPageMetadata(locale, "delivery");
 }
 
 export default function DeliveryPage() {

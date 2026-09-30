@@ -8,7 +8,7 @@ import { getProducts } from "@/utils/getProducts";
 import { GET_ALL_DATA_QUERY } from "@/lib/queries";
 import type { Metadata } from "next";
 import { Locale } from "@/types/locale";
-import { getPageAlternates } from "@/utils/getPageAlternates";
+import { buildPageMetadata } from "@/lib/metadata";
 
 type PageProps = {
   params: Promise<{ locale: Locale }>;
@@ -19,9 +19,7 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { locale } = await params;
 
-  return {
-    alternates: getPageAlternates(locale, "/"),
-  };
+  return buildPageMetadata(locale, "home", { absoluteTitle: true });
 }
 
 export default async function HomePage() {
