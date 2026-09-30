@@ -38,6 +38,7 @@ export interface FeedProduct {
   coloropts: FeedColorOption[] | null;
 }
 
+// Лише позиції (товари й сети) з перемикачем "Показувати в фіді" в адмінці.
 export async function fetchFeedProducts(): Promise<FeedProduct[]> {
   return client.fetch<FeedProduct[]>(GET_FEED_PRODUCTS_QUERY);
 }

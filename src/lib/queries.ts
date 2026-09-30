@@ -338,6 +338,29 @@ const FEED_PRODUCT_PROJECTION = `
   }
 `;
 
+// Сет (bundle) у формі FeedProduct: один "колірний варіант" без кольору, id = "set-<slug>",
+// фото сету, далі перше фото кожного компонента. Ціна — сума компонентів, знижка — ціна сету.
+const FEED_BUNDLE_PROJECTION = `
+  "id": _id,
+  "generalname": "",
+  "name": name,
+  slug,
+  description,
+  "price": ${BUNDLE_REGULAR_PRICE},
+  "priceDiscount": bundlePrice,
+  "preorder": false,
+  "preordertext": null,
+  "outOfStock": coalesce(outOfStock, false),
+  "cat": *[_type == "category" && ^._id in items[]._ref][0]{ "id": _id, name, slug },
+  "coloropts": [{
+    "code": "set-" + slug,
+    "color": "",
+    "photos": coalesce(photos[]{ ${FEED_IMAGE_PROJECTION} }, []) + array::compact(
+      components[]{ "photo": item->coloropts[code == ^.colorCode][0].photos[0]{ ${FEED_IMAGE_PROJECTION} } }.photo
+    )
+  }]
+`;
+
 // Всі опубліковані товари з усіма полями, потрібними для генерації
 // динамічного XML/YML фіда каталогу (Meta, Rozetka тощо).
 //
@@ -348,15 +371,27 @@ const FEED_PRODUCT_PROJECTION = `
 // головної сторінки (showonmain: true) — це не реальні товари, а
 // декоративні банери категорій (порожні chars/complect/description).
 // Виключаємо їх за showonmain == true.
+// Фіди Meta, Rozetka і Google: лише позиції з showInFeed == true.
 export const GET_FEED_PRODUCTS_QUERY = groq`
-*[
-  _type == "item" &&
-  defined(slug) &&
-  defined(price) &&
-  showonmain != true
-] {
-  ${FEED_PRODUCT_PROJECTION}
-}
+[
+  ...*[
+    _type == "item" &&
+    defined(slug) &&
+    defined(price) &&
+    showonmain != true &&
+    showInFeed == true
+  ] {
+    ${FEED_PRODUCT_PROJECTION}
+  },
+  ...*[
+    _type == "bundle" &&
+    defined(slug) &&
+    showInFeed == true &&
+    (${BUNDLE_AVAILABLE})
+  ] {
+    ${FEED_BUNDLE_PROJECTION}
+  }
+]
 `;
 
 // SEO block of a static page: a document with a fixed _id (seoHomePage, seoAboutPage, ...).
