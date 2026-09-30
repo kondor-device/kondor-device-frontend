@@ -14,11 +14,11 @@ export const SITE_NAME = "Kondor Device";
 export const SITE_ALLOW_INDEXING =
   process.env.VERCEL_ENV !== "preview" && process.env.NODE_ENV !== "development";
 
-/** Default share image (`public/opengraph-image.jpg`) with its real size. */
+/** Default share image (`public/opengraph-image.jpg`), 1200×630. */
 export const DEFAULT_OG_IMAGE = {
   path: "/opengraph-image.jpg",
-  width: 1377,
-  height: 1405,
+  width: 1200,
+  height: 630,
 };
 
 export const OG_LOCALE: Record<Locale, string> = {
