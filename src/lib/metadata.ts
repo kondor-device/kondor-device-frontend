@@ -11,9 +11,6 @@ import {
 
 export type { MetadataKey };
 
-/** Pages that stay out of the search index. */
-const NOINDEX_KEYS = new Set<MetadataKey>(["orderConfirmation"]);
-
 /**
  * Localized metadata of a static page. The title, description and share image come from the
  * page's SEO document in the admin; empty fields fall back to the `metadata` messages.
@@ -31,6 +28,11 @@ export async function buildPageMetadata(
     ? await fetchSiteSeoByPageId(pageId, locale).catch(() => null)
     : null;
 
+  // The order confirmation page and the pages flagged `noindex` in the config
+  const noindex = pageId
+    ? Boolean(SITE_SEO_CONFIG[pageId].noindex)
+    : key === "orderConfirmation";
+
   return buildMetadataFromSeo({
     seo,
     locale,
@@ -38,8 +40,6 @@ export async function buildPageMetadata(
     defaultTitle: t(`${key}.title`),
     defaultDescription: t(`${key}.description`),
     absoluteTitle: options.absoluteTitle,
-    robots: NOINDEX_KEYS.has(key)
-      ? { index: false, follow: false }
-      : undefined,
+    robots: noindex ? { index: false, follow: false } : undefined,
   });
 }

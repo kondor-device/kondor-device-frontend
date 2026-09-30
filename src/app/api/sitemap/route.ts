@@ -54,8 +54,10 @@ const escapeXml = (value: string) =>
 function buildEntries(data: SitemapData): SitemapEntry[] {
   const pageUpdatedAt = new Map(data.pages.map((p) => [p._id, p.updatedAt]));
 
-  // The order confirmation page is not listed: it is not indexed
-  const staticPages = SITE_SEO_PAGE_IDS.map((pageId) => {
+  // Pages that are not indexed (order confirmation, noindex pages) are not listed
+  const staticPages = SITE_SEO_PAGE_IDS.filter(
+    (pageId) => !SITE_SEO_CONFIG[pageId].noindex,
+  ).map((pageId) => {
     const { path } = SITE_SEO_CONFIG[pageId];
     return { path, lastmod: pageUpdatedAt.get(pageId), ...PAGE_PRIORITY[path] };
   });
