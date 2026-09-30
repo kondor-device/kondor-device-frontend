@@ -1,7 +1,7 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { Locale } from "@/types/locale";
-import { getLocalizedPath } from "@/utils/getPageAlternates";
+import { getLocalizedPath } from "@/utils/getLocalizedPath";
 
 export interface BreadcrumbItem {
   label: string;

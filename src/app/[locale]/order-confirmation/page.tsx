@@ -3,7 +3,7 @@ import Breadcrumbs from "@/components/shared/breadcrumbs/Breadcrumbs";
 import React from "react";
 import type { Metadata } from "next";
 import { Locale } from "@/types/locale";
-import { getPageAlternates } from "@/utils/getPageAlternates";
+import { buildPageMetadata } from "@/lib/metadata";
 import { getTranslations } from "next-intl/server";
 
 type PageProps = {
@@ -15,9 +15,7 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { locale } = await params;
 
-  return {
-    alternates: getPageAlternates(locale, "/order-confirmation"),
-  };
+  return buildPageMetadata(locale, "orderConfirmation");
 }
 
 export default async function OrderConfirmationPage() {

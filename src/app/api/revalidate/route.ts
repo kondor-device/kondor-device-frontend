@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { parseBody } from "next-sanity/webhook";
 import { routing } from "@/i18n/routing";
 import { client } from "@/lib/sanityClient";
+import { SITE_SEO_CONFIG, type SiteSeoPageId } from "@/lib/seo/siteSeoConfig";
 
 // Ендпоінт для дострокового скидання кешу товарних фідів і сторінок сайту
 // одразу після публікації/зміни товару в Sanity Studio (замість очікування
@@ -13,7 +14,8 @@ import { client } from "@/lib/sanityClient";
 //   URL:      https://www.kondor.ua/api/revalidate   (без ?secret= у самому URL!)
 //   Dataset:  production
 //   Trigger:  Create / Update / Delete
-//   Filter:   _type in ["item", "bundle"]
+//   Filter:   _type in ["item", "bundle", "category", "seoHomePage", "seoCatalogPage",
+//             "seoAboutPage", "seoDeliveryPage", "seoReturnsPage", "seoWarrantyPage", "seoPolicyPage"]
 //   HTTP method: POST
 //   Secret:   те саме значення, що і в SANITY_REVALIDATE_SECRET
 //
@@ -24,6 +26,12 @@ import { client } from "@/lib/sanityClient";
 //
 // SANITY_REVALIDATE_SECRET має бути заданий в env (.env.local та у Vercel)
 // і збігатись зі значенням поля "Secret" у налаштуваннях вебхука в Sanity.
+//
+// Що скидається залежно від типу документа:
+//   item, bundle — фіди, sitemap, головна і весь /catalog (разом із сторінкою товару);
+//   category     — те саме (назва й slug категорії є в меню, футері та фідах);
+//   seo*Page     — тег `site-seo:<_id>`, сама сторінка і sitemap (lastmod).
+// Якщо тип невідомий (наприклад, payload видаленого документа без `_type`) — скидаємо все.
 //
 // Зміна `bundle` (сету) або `outOfStock`/ціни товару-компонента скидає layout /catalog:
 // разом зі списками він охоплює і всі сторінки сетів.
@@ -42,6 +50,8 @@ interface SanityWebhookPayload {
   _id?: string;
   slug?: string | SanitySlug;
 }
+
+const SITEMAP_PATH = "/api/sitemap";
 
 const FEED_PATHS = [
   "/api/feed/meta",
@@ -172,7 +182,11 @@ async function revalidateOnItemChange(
   body?: SanityWebhookPayload
 ): Promise<{ paths: string[]; productSlug: string | null }> {
   const productSlug = await resolveProductSlug(body);
-  const paths = [...revalidateFeeds(), ...revalidateSitePages()];
+  const paths = [
+    ...revalidateFeeds(),
+    ...revalidatePaths([SITEMAP_PATH]),
+    ...revalidateSitePages(),
+  ];
 
   if (productSlug) {
     const categorySlug = await resolveProductCategorySlug(productSlug);
@@ -180,6 +194,35 @@ async function revalidateOnItemChange(
   }
 
   return { paths, productSlug };
+}
+
+function isSeoPageId(id?: string): id is SiteSeoPageId {
+  return Boolean(id) && Object.hasOwn(SITE_SEO_CONFIG, id as string);
+}
+
+// SEO document of a static page: its own cached data and the page itself
+function revalidateSeoPage(pageId: SiteSeoPageId): string[] {
+  revalidateTag("site-seo");
+  revalidateTag(`site-seo:${pageId}`);
+
+  return [
+    `tag: site-seo:${pageId}`,
+    ...revalidatePaths(getLocalizedPaths(SITE_SEO_CONFIG[pageId].path)),
+    ...revalidatePaths([SITEMAP_PATH]),
+  ];
+}
+
+async function revalidateOnChange(body?: SanityWebhookPayload): Promise<{
+  paths: string[];
+  productSlug: string | null;
+}> {
+  const id = body?._id?.replace(/^drafts\./, "");
+
+  if (isSeoPageId(id)) {
+    return { paths: revalidateSeoPage(id), productSlug: null };
+  }
+
+  return revalidateOnItemChange(body);
 }
 
 export async function POST(request: NextRequest) {
@@ -205,7 +248,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { paths, productSlug } = await revalidateOnItemChange(
+    const { paths, productSlug } = await revalidateOnChange(
       body ?? undefined
     );
 
@@ -237,6 +280,9 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    // Manual trigger: also drop the cached SEO documents of the static pages
+    revalidateTag("site-seo");
+
     const slug = request.nextUrl.searchParams.get("slug");
     const body = slug ? { slug } satisfies SanityWebhookPayload : undefined;
     const { paths, productSlug } = await revalidateOnItemChange(body);

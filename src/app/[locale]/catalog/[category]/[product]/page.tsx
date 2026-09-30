@@ -8,12 +8,18 @@ import SimilarProductsSlider from "@/components/productPage/SimilarProductsSlide
 import Manual from "@/components/productPage/Manual";
 import Breadcrumbs from "@/components/shared/breadcrumbs/Breadcrumbs";
 import JsonLd from "@/components/shared/JsonLd";
+import { bundleJsonLd, productJsonLd } from "@/lib/seo/jsonLd";
+import { getLocalizedPath } from "@/utils/getLocalizedPath";
 import { CategoryItem } from "@/types/categoryItem";
 import { Suspense } from "react";
 import Loader from "@/components/shared/loader/Loader";
 import { notFound, permanentRedirect } from "next/navigation";
-import { getDefaultMetadata, OG_LOCALES } from "@/utils/getDefaultMetadata";
-import { getPageAlternates } from "@/utils/getPageAlternates";
+import {
+  absoluteUrl,
+  buildMetadataFromSeo,
+  truncateText,
+} from "@/lib/seo/pageSeo";
+import { toPlainDescription } from "@/lib/feed";
 import { Locale } from "@/types/locale";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
@@ -46,71 +52,64 @@ function findCategoryBySlug(categories: CategoryItem[], slug: string) {
   };
 }
 
+// "Мишка" + "Kondor Astra PRO" -> "Мишка Kondor Astra PRO"; the general name is skipped
+// when the name already contains it
+function getProductTitle(generalname: string | undefined, name: string) {
+  const general = generalname?.replace(/\s+/g, " ").trim();
+  const title = name.replace(/\s+/g, " ").trim();
+
+  if (!general || title.toLowerCase().includes(general.toLowerCase())) {
+    return title;
+  }
+
+  return `${general} ${title}`;
+}
+
 export async function generateMetadata({
   params,
 }: ProductPageProps): Promise<Metadata> {
-  const { locale, product } = await params;
-  const t = await getTranslations("metadata");
+  const { locale, category: categorySlug, product } = await params;
+  const [t, res] = await Promise.all([
+    getTranslations({ locale, namespace: "metadata" }),
+    getProducts(GET_ITEM_BY_SLUG_QUERY, { slug: product }),
+  ]);
 
-  const res = await getProducts(GET_ITEM_BY_SLUG_QUERY, {
-    slug: product,
-  });
-
-  const currentProduct = res?.data?.allItems[0];
+  const currentProduct = res?.data?.allItems?.[0];
   // Not a product — maybe a bundle (set) with this slug (only available ones are returned)
   const currentBundle: Bundle | undefined = currentProduct
     ? undefined
     : res?.data?.bundle;
   const category = findCategoryBySlug(res?.data?.allCategories, product);
 
-  const defaultMetadata = getDefaultMetadata(t, locale);
-  const title =
-    currentProduct?.seoTitle ||
-    currentProduct?.name ||
-    currentBundle?.seoTitle ||
-    currentBundle?.name ||
-    defaultMetadata.title;
-  const description =
-    currentProduct?.seoDescription ||
-    currentBundle?.seoDescription ||
-    defaultMetadata.description;
+  const source = currentProduct ?? currentBundle;
+  const title = currentProduct
+    ? getProductTitle(currentProduct.generalname, currentProduct.name)
+    : currentBundle?.name;
 
-  return {
-    title,
-    description,
-    alternates: getPageAlternates(
-      locale,
-      `/catalog/${category?.categorySlug ?? "unknown"}/${product}`,
-    ),
-    // openGraph of a page replaces the layout one, so it is filled in full
-    openGraph: {
-      title: title as string,
-      description: description as string,
-      type: "website",
-      locale: OG_LOCALES[locale],
-      alternateLocale: Object.values(OG_LOCALES).filter(
-        (item) => item !== OG_LOCALES[locale],
-      ),
-      siteName: "Kondor Device",
-      images: [
-        {
-          url:
-            currentProduct?.seoImage?.url ||
-            currentProduct?.coloropts[0]?.photos[0]?.url ||
-            currentBundle?.seoImage?.url ||
-            currentBundle?.components?.[0]?.colorOpt?.photos?.[0]?.url ||
-            "/opengraph-image.jpg",
-          width: 1200,
-          height: 630,
-          alt: "Kondor Device",
-        },
-      ],
+  const description = truncateText(
+    toPlainDescription(source?.description ?? null),
+  );
+
+  return buildMetadataFromSeo({
+    seo: source && {
+      metaTitle: source.seoTitle,
+      metaDescription: source.seoDescription,
+      opengraphImage: source.seoImage,
     },
-  };
+    locale,
+    // Same URL the page redirects to when the category in the address is outdated
+    path: `/catalog/${category?.categorySlug ?? categorySlug}/${product}`,
+    defaultTitle: title || t("title"),
+    defaultDescription: description || t("description"),
+    fallbackImageUrl:
+      currentProduct?.coloropts?.[0]?.photos?.[0]?.url ||
+      currentBundle?.photos?.[0]?.url ||
+      currentBundle?.components?.[0]?.colorOpt?.photos?.[0]?.url,
+  });
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const [{ category, product }, t] = await Promise.all([
+  const [{ locale, category, product }, t] = await Promise.all([
     params,
     getTranslations("breadcrumbs"),
   ]);
@@ -136,6 +135,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
     permanentRedirect(`/catalog/${similarProducts.categorySlug}/${product}`);
   }
 
+  // Canonical address of the page (the category in the URL was checked above)
+  const pageUrl = absoluteUrl(
+    getLocalizedPath(
+      locale,
+      `/catalog/${similarProducts?.categorySlug ?? category}/${product}`,
+    ),
+  );
+
   const breadcrumbs = (
     <Breadcrumbs
       items={[
@@ -155,24 +162,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
   );
 
   if (!currentProduct && currentBundle) {
-    const bundleJsonLd = {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      name: currentBundle.name,
-      description: currentBundle.description || undefined,
-      image: currentBundle.components
-        .map((component) => component.colorOpt?.photos?.[0]?.url)
-        .filter(Boolean),
-      offers: {
-        "@type": "Offer",
-        priceCurrency: "UAH",
-        price: currentBundle.bundlePrice,
-        availability: currentBundle.outOfStock
-          ? "https://schema.org/OutOfStock"
-          : "https://schema.org/InStock",
-      },
-    };
-
     // Similar to a set: the other sets of its category, then the products of the categories
     // its components belong to (the components themselves are already on the page)
     const componentIds = new Set(
@@ -201,7 +190,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
     return (
       <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
-        <JsonLd data={bundleJsonLd} />
+        <JsonLd data={bundleJsonLd({ bundle: currentBundle, url: pageUrl })} />
         <Suspense fallback={<Loader />}>
           <BundleInfo
             bundle={currentBundle}
@@ -224,6 +213,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
+      <JsonLd
+        data={productJsonLd({
+          product: currentProduct,
+          url: pageUrl,
+          title: getProductTitle(currentProduct.generalname, currentProduct.name),
+          categoryName: similarProducts?.categoryName,
+        })}
+      />
       <Suspense fallback={<Loader />}>
         <ProductInfo
           product={currentProduct}

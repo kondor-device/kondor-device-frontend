@@ -1,7 +1,8 @@
 import Delivery from "@/components/deliveryPage/Delivery";
 import type { Metadata } from "next";
 import { Locale } from "@/types/locale";
-import { getPageAlternates } from "@/utils/getPageAlternates";
+import { buildPageMetadata } from "@/lib/metadata";
+import SitePageSeo from "@/components/seo/SitePageSeo";
 
 type PageProps = {
   params: Promise<{ locale: Locale }>;
@@ -12,15 +13,14 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { locale } = await params;
 
-  return {
-    alternates: getPageAlternates(locale, "/delivery"),
-  };
+  return buildPageMetadata(locale, "delivery");
 }
 
 export default function DeliveryPage() {
   return (
     <div className="pt-[60px] tabxl:pt-[113px]">
       <Delivery />
+      <SitePageSeo pageId="seoDeliveryPage" />
     </div>
   );
 }

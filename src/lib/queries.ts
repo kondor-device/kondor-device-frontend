@@ -13,6 +13,21 @@ const IMAGE_PROJECTION = `"alt": coalesce(${l10n("alt")}, ""), "url": asset->url
 // Feeds are not localized (they do not receive $locale)
 const FEED_IMAGE_PROJECTION = `"alt": coalesce(alt, ""), "url": asset->url`;
 
+// Localized `seoSettings` block (categories and SEO pages of the admin). The share image is
+// a plain CDN url: the site crops it to 1200×630 itself.
+const SEO_PROJECTION = `
+  ${l10nField("metaTitle")},
+  ${l10nField("metaDescription")},
+  "keywords": select($locale == "ru" && count(keywordsRu) > 0 => keywordsRu, keywords),
+  ${l10nField("opengraphTitle")},
+  ${l10nField("opengraphDescription")},
+  "opengraphImage": select(defined(opengraphImage.asset->url) => {
+    "url": opengraphImage.asset->url,
+    "alt": ${l10n("opengraphImage.alt")}
+  }),
+  "schemaJsonUrl": schemaJson.asset->url
+`;
+
 const BADGE_PROJECTION = `
   "badge": badge->{
     ${l10nField("text")},
@@ -341,5 +356,54 @@ export const GET_FEED_PRODUCTS_QUERY = groq`
   showonmain != true
 ] {
   ${FEED_PRODUCT_PROJECTION}
+}
+`;
+
+// SEO block of a static page: a document with a fixed _id (seoHomePage, seoAboutPage, ...).
+export const GET_SITE_SEO_QUERY = groq`
+*[_id == $documentId][0] {
+  "seo": seo{ ${SEO_PROJECTION} }
+}
+`;
+
+// Title and SEO block of one category (much lighter than the full catalog query).
+export const GET_CATEGORY_SEO_QUERY = groq`
+{
+  "category": *[_type == "category" && slug == $slug][0] {
+    ${l10nField("name")},
+    "seo": seo{ ${SEO_PROJECTION} }
+  }
+}
+`;
+
+// Everything the sitemap lists. A page is in the sitemap only when it really exists on the site:
+// - every category, also an empty one (a "Sets" category while there is no available set);
+// - a product under the category of its canonical URL /catalog/[category]/[product]: the one
+//   whose list contains it, else the product's own category (the feeds link there). The "show
+//   on main page" tiles are anchors, not pages, so they stay out;
+// - a set only while it is available (the same rule as on its page).
+export const GET_SITEMAP_DATA_QUERY = groq`
+{
+  "categories": *[_type == "category" && defined(slug)] {
+    slug,
+    "updatedAt": _updatedAt
+  },
+  "products": *[_type == "item" && defined(slug) && showonmain != true] {
+    slug,
+    "categorySlug": coalesce(
+      *[_type == "category" && ^._id in items[]._ref][0].slug,
+      cat->slug
+    ),
+    "updatedAt": _updatedAt
+  }[defined(categorySlug)],
+  "bundles": *[_type == "bundle" && defined(slug) && (${BUNDLE_AVAILABLE})] {
+    slug,
+    "categorySlug": *[_type == "category" && ^._id in items[]._ref][0].slug,
+    "updatedAt": _updatedAt
+  }[defined(categorySlug)],
+  "pages": *[_id in $pageIds] {
+    _id,
+    "updatedAt": _updatedAt
+  }
 }
 `;
