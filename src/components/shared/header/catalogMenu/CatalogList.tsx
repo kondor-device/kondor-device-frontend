@@ -8,7 +8,7 @@ interface CatalogListProps {
 
 export default function CatalogList({ catalogList, setIsCatalogMenuOpened }: CatalogListProps) {
   return (
-    <ul className="flex flex-wrap gap-4">
+    <ul className="flex flex-col divide-y divide-dark/10">
       {catalogList.map((catalogItem, idx) => (
         <CatalogItem
           catalogItem={catalogItem}

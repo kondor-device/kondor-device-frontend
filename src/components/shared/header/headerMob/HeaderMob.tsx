@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, Dispatch, SetStateAction } from "react";
+import React, { useState } from "react";
 import LogoLink from "@/components/shared/logoLink/LogoLink";
 import BurgerMenuButton from "./burgerMenu/BurgerMenuButton";
 import ThemeToggle from "../../themeToggle/ThemeToggle";
@@ -9,14 +9,10 @@ import CatalogMenu from "../catalogMenu/CatalogMenu";
 import { CategoryItem } from "@/types/categoryItem";
 
 interface HeaderMobProps {
-  setIsCatalogMenuOpened: Dispatch<SetStateAction<boolean>>;
   categories: CategoryItem[];
 }
 
-export default function HeaderMob({
-  setIsCatalogMenuOpened,
-  categories,
-}: HeaderMobProps) {
+export default function HeaderMob({ categories }: HeaderMobProps) {
   const [isHeaderMenuOpened, setIsHeaderMenuOpened] = useState(false);
   const toggleHeaderMenuOpen = () => setIsHeaderMenuOpened(!isHeaderMenuOpened);
 
@@ -35,7 +31,6 @@ export default function HeaderMob({
           <BurgerMenuButton
             isHeaderMenuOpened={isHeaderMenuOpened}
             toggleHeaderMenuOpen={toggleHeaderMenuOpen}
-            setIsCatalogMenuOpened={setIsCatalogMenuOpened}
           />
         </div>
       </div>
