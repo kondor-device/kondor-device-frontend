@@ -1,7 +1,5 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { burgerMenuVariants } from "@/utils/animationVariants";
 import CatalogFilter from "./catalogFilter/CatalogFilter";
 import { FiltersState } from "./catalogFilter/CatalogFilter";
 import IconClose from "../shared/icons/IconCLose";
@@ -43,39 +41,39 @@ export default function CatalogFiltersModal({
     }
   };
 
+  // Модалка змонтована завжди, а відкриття/закриття — лише opacity+visibility
+  // (CSS). Раніше вона монтувалась/розмонтовувалась через AnimatePresence на
+  // кожне відкриття: ~170 нових DOM-вузлів (чекбокси, повзунок HeroUI) у
+  // перший же кадр анімації, і слабкий Android не встигав їх малювати —
+  // модалка миготіла.
   return (
-    <AnimatePresence mode="wait">
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-[70] rounded-[12px]"
-          onClick={handleClickOutside}
+    <div
+      aria-hidden={!isOpen}
+      className={`fixed inset-0 z-[70] rounded-[12px] transition-[opacity,visibility] duration-200 ease-out ${
+        isOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
+      }`}
+      onClick={handleClickOutside}
+    >
+      <div
+        ref={modalRef}
+        className="tabxl:hidden absolute z-[70] top-[60px] inset-x-0 mx-auto w-[calc(100%-40px)] max-w-[400px] bg-surface h-[calc(100dvh-82px)] rounded-[12px]"
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 cursor-pointer flex items-center justify-center size-[32px] p-1 md:p-0  xl:hover:text-fg focus-visible:text-fg transition duration-300 ease-in-out"
         >
-          <motion.div
-            ref={modalRef}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            variants={burgerMenuVariants}
-            className="tabxl:hidden absolute z-[70] top-[60px] left-1/2 transform -translate-x-1/2 w-[calc(100%-40px)] max-w-[400px] bg-surface h-[calc(100svh-82px)] rounded-[12px]"
-          >
-            <button
-              type="button"
-              onClick={onClose}
-              className="absolute top-4 right-4 z-10 cursor-pointer flex items-center justify-center size-[32px] p-1 md:p-0  xl:hover:text-fg focus-visible:text-fg transition duration-300 ease-in-out"
-            >
-              <IconClose className="rotate-45" />
-            </button>
+          <IconClose className="rotate-45" />
+        </button>
 
-            <CatalogFilter
-              handleApplyFilters={handleApplyFilters}
-              allCategories={allCategories}
-              isOpenModal={isOpen}
-              closeModal={onClose}
-              defaultCategorySlug={defaultCategorySlug}
-            />
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
+        <CatalogFilter
+          handleApplyFilters={handleApplyFilters}
+          allCategories={allCategories}
+          isOpenModal={isOpen}
+          closeModal={onClose}
+          defaultCategorySlug={defaultCategorySlug}
+        />
+      </div>
+    </div>
   );
 }
