@@ -35,12 +35,12 @@ export default function NavMenu({ categories }: NavMenuProps) {
         {menuList.map((menuItem) =>
           menuItem.path === "catalog" ? (
             // li розтягнутий на всю висоту хедера, щоб курсор без розриву
-            // дійшов з пункту меню до випадаючого списку.
+            // дійшов з пункту меню до випадаючого списку. Клас активної
+            // сторінки — на посиланні, а не на li: інакше випадаючий список
+            // успадковує жовтий колір і шрифт.
             <li
               key={menuItem.path}
-              className={`relative flex items-center h-full text-center ${getLinkClass(
-                menuItem.path
-              )}`}
+              className="relative flex items-center h-full text-center"
               onMouseEnter={() => setIsCatalogOpened(true)}
               onMouseLeave={() => setIsCatalogOpened(false)}
               onFocus={() => setIsCatalogOpened(true)}
@@ -58,8 +58,8 @@ export default function NavMenu({ categories }: NavMenuProps) {
                 onClick={() => setIsCatalogOpened(false)}
                 aria-haspopup="true"
                 aria-expanded={isCatalogOpened}
-                className="flex items-center gap-2 transition duration-300 ease-out active:text-yellow focus-visible:text-yellow
-         laptop:hover:text-yellow outline-none"
+                className={`flex items-center gap-2 transition duration-300 ease-out active:text-yellow focus-visible:text-yellow
+         laptop:hover:text-yellow outline-none ${getLinkClass(menuItem.path)}`}
               >
                 {menuItem.title}
                 <IconChevron

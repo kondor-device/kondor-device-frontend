@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect, useCallback } from "react";
+import { memo, useMemo, useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { CategoryItem } from "@/types/categoryItem";
 import CatalogCard from "./CatalogCard";
@@ -27,7 +27,7 @@ interface CatalogSliderProps {
   newValue: boolean;
 }
 
-export default function CatalogSlider({
+function CatalogSlider({
   currentCategories,
   shownOnAddons,
   isOpenDropdown,
@@ -280,3 +280,7 @@ export default function CatalogSlider({
     </>
   );
 }
+
+// memo: відкриття/закриття модалки фільтра перерендерює Catalog, а список
+// карток від цього не змінюється — не перемальовуємо його.
+export default memo(CatalogSlider);

@@ -134,6 +134,7 @@ const CATEGORY_PROJECTION = `
       slug,
       price,
       priceDiscount,
+      newItem,
       showonaddons,
       showonmain,
       ${BADGE_PROJECTION},

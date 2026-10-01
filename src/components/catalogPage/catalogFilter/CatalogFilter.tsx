@@ -113,7 +113,16 @@ export default function CatalogFilter({
       priceFrom: Number(resolvedPriceFrom),
       priceTo: Number(resolvedPriceTo),
     });
-  }, [searchParams, allCategories, t, allCategoriesSlugs, defaultCategorySlug]);
+    // isOpenModal: модалка змонтована завжди, тож при кожному відкритті
+    // скидаємо чернетку до застосованих (URL) значень.
+  }, [
+    searchParams,
+    allCategories,
+    t,
+    allCategoriesSlugs,
+    defaultCategorySlug,
+    isOpenModal,
+  ]);
 
   const applyFilters = () => {
     handleApplyFilters(filters);
