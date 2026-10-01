@@ -56,9 +56,7 @@ export default function CatalogFiltersModal({
             animate="visible"
             exit="exit"
             variants={burgerMenuVariants}
-            className={`${
-              isOpen ? "no-doc-scroll" : ""
-            } tabxl:hidden absolute z-[70] top-[60px] left-1/2 transform -translate-x-1/2 w-[calc(100%-40px)] max-w-[400px] bg-surface h-[calc(100dvh-82px)] rounded-[12px]`}
+            className="tabxl:hidden absolute z-[70] top-[60px] left-1/2 transform -translate-x-1/2 w-[calc(100%-40px)] max-w-[400px] bg-surface h-[calc(100svh-82px)] rounded-[12px]"
           >
             <button
               type="button"

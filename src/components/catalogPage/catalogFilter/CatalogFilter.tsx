@@ -123,7 +123,7 @@ export default function CatalogFilter({
   return (
     <>
       <div
-        className={`block shrink-0 tabxl:w-[311px] h-[calc(100dvh-82px-76px)] tabxl:h-fit py-5 px-6 rounded-[12px] shadow-catalogFilter bg-surface overflow-y-auto scrollbar scrollbar-w-[2.5px] scrollbar-thumb-rounded-full 
+        className={`block shrink-0 tabxl:w-[311px] h-[calc(100svh-82px-76px)] tabxl:h-fit py-5 px-6 rounded-[12px] shadow-catalogFilter bg-surface overflow-y-auto scrollbar scrollbar-w-[2.5px] scrollbar-thumb-rounded-full 
       scrollbar-track-rounded-full scrollbar-thumb-orange scrollbar-track-transparent ${className}`}
       >
         <TypeFilter

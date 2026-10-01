@@ -27,7 +27,7 @@ export default function Backdrop({
 
   return (
     <div
-      className={`fixed z-[60] inset-0 w-dvw h-dvh bg-dark bg-opacity-40 transition duration-[1000ms] ease-in-out ${
+      className={`fixed z-[60] inset-0 bg-dark bg-opacity-40 transition duration-[1000ms] ease-in-out ${
         isVisible
           ? "opacity-100 no-doc-scroll"
           : "opacity-0 pointer-events-none"
