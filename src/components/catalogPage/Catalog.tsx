@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import { CategoryItem } from "@/types/categoryItem";
 import CatalogFilter from "./catalogFilter/CatalogFilter";
@@ -116,14 +116,20 @@ export default function Catalog({
   // (уже повністю завантажені) за застосованими слагами — а не з
   // currentCategories (серверного пропу, актуального лише на момент
   // початкового заходу на сторінку).
-  const appliedTypeSet = new Set(appliedType);
-  const resolvedCurrentCategories: CategoryItem[] = allCategories.filter(
-    (category) => appliedTypeSet.has(category.slug),
-  );
-  const otherCategories: CategoryItem[] = allCategories.filter(
-    (category) => !appliedTypeSet.has(category.slug),
-  );
-
+  // Мемоізуємо: інакше кожен рендер (напр. відкриття/закриття модалки
+  // фільтра) дає нові масиви, CatalogSlider перераховує список і скидає
+  // кількість підвантажених товарів — звідси блимання на мобільних.
+  const { resolvedCurrentCategories, otherCategories } = useMemo(() => {
+    const appliedTypeSet = new Set(appliedType);
+    return {
+      resolvedCurrentCategories: allCategories.filter((category) =>
+        appliedTypeSet.has(category.slug),
+      ),
+      otherCategories: allCategories.filter(
+        (category) => !appliedTypeSet.has(category.slug),
+      ),
+    };
+  }, [allCategories, appliedType]);
 
   return (
     <section className="flex gap-4 laptop:gap-[30px] container max-w-[1920px] mt-6 pb-8 laptop:pb-[100px]">
