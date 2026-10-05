@@ -2,23 +2,23 @@ import { LandingTextBlock } from "@/types/productItem";
 import LandingPicture from "./LandingPicture";
 import TextContent from "./TextContent";
 
-// Dark rounded card: the photo bleeds off the left edge of the card, the text is on the right
+// Dark rounded card: on mobile the photo is inside the card above the text; from 768px it bleeds off the left edge and the text is on the right
 export default function LandingDarkOverlay({
   block,
 }: {
   block: LandingTextBlock;
 }) {
   return (
-    <div className="my-4 tab:my-6 relative overflow-hidden rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px] bg-[#0a0b10]">
+    <div className="my-4 tab:my-6 relative overflow-hidden rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px] bg-[#0a0b10] px-5 py-[60px] tab:p-0">
       {block.image ? (
-        <div className="relative tab:absolute tab:left-[-6%] tab:top-1/2 tab:w-[52%] tab:-translate-y-1/2">
+        <div className="relative mb-8 tab:mb-0 tab:absolute tab:left-[-6%] tab:top-1/2 tab:w-[52%] tab:-translate-y-1/2">
           <LandingPicture
             image={block.image}
             sizes="(min-width: 768px) 52vw, 100vw"
           />
         </div>
       ) : null}
-      <div className="px-5 tab:pl-0 tab:pr-10 deskxl:pr-[100px] py-[60px] tab:py-[70px] laptop:pb-[145px] laptop:pt-[170px]">
+      <div className="tab:pr-10 deskxl:pr-[100px] tab:py-[70px] laptop:pb-[145px] laptop:pt-[170px]">
         <div className="tab:ml-[52%] laptop:ml-[50%]">
           <TextContent block={block} textClass="text-white" />
         </div>
