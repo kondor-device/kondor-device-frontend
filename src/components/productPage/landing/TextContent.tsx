@@ -56,12 +56,15 @@ interface TextContentProps {
   textClass: string;
   /** Badges under the text (the first block shows them under the photo instead) */
   withBadges?: boolean;
+  /** Max width of the description on desktop */
+  descriptionWidthClass?: string;
 }
 
 export default function TextContent({
   block,
   textClass,
   withBadges = true,
+  descriptionWidthClass = "laptop:max-w-[521px]",
 }: TextContentProps) {
   return (
     <div className="flex flex-col gap-6 deskxl:gap-[41px] laptop:max-w-[621px]">
@@ -76,7 +79,9 @@ export default function TextContent({
             </h2>
           ) : null}
           {hasText(block.description) ? (
-            <p className="text-[14px] deskxl:text-[16px] leading-[1.5] whitespace-pre-line laptop:max-w-[521px]">
+            <p
+              className={`text-[14px] deskxl:text-[16px] leading-[1.5] whitespace-pre-line ${descriptionWidthClass}`}
+            >
               {block.description}
             </p>
           ) : null}
