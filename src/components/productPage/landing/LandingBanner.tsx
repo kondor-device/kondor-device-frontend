@@ -3,7 +3,7 @@ import LandingPicture from "./LandingPicture";
 
 export default function LandingBanner({ image }: { image: LandingImage }) {
   return (
-    <div className="py-6">
+    <div className="py-10 tab:py-6">
       <LandingPicture
         image={image}
         sizes="100vw"

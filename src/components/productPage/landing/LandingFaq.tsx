@@ -14,7 +14,7 @@ export default function LandingFaq({ faq }: { faq: LandingFaqBlock }) {
   if (items.length === 0) return null;
 
   return (
-    <div className="py-8 text-fg">
+    <div className="py-[60px] tab:py-8 text-fg">
       <div>
         <h2 className="text-center font-actay uppercase text-[18px] tab:text-[22px] deskxl:text-[26px] leading-[normal]">
           {t("faqTitle")}
