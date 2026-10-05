@@ -38,6 +38,7 @@ export default function LandingSteps({ steps }: { steps: LandingStepsBlock }) {
           <LandingPicture
             image={steps.image}
             sizes="(min-width: 768px) 50vw, 100vw"
+            className="laptop:translate-x-10"
           />
         ) : null}
       </div>
