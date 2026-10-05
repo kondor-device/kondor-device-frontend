@@ -26,7 +26,7 @@ export default function LandingFaq({ faq }: { faq: LandingFaqBlock }) {
               className="group border-t border-fg/15 py-4 tab:py-6"
             >
               <summary className="flex items-center justify-between gap-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                <h3 className="font-semibold text-[16px] tab:text-[18px] deskxl:text-[22px] leading-[normal]">
+                <h3 className="font-semibold text-[16px] tab:text-[18px] laptop:text-[22px] leading-[normal]">
                   {item.question}
                 </h3>
                 <Image
@@ -37,7 +37,7 @@ export default function LandingFaq({ faq }: { faq: LandingFaqBlock }) {
                   className="shrink-0 rotate-180 group-open:rotate-0 transition-transform duration-300"
                 />
               </summary>
-              <p className="mt-4 deskxl:mt-8 text-[14px] laptop:text-[16px] leading-[1.5] whitespace-pre-line">
+              <p className="mt-4 laptop:mt-8 text-[14px] leading-[1.5] whitespace-pre-line">
                 {item.answer}
               </p>
             </details>
