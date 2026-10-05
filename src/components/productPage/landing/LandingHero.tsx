@@ -1,7 +1,11 @@
 import Image from "next/image";
 import { ProductLanding } from "@/types/productItem";
 import LandingPicture from "./LandingPicture";
-import { BADGE_HEIGHT_CLASS, BADGE_TEXT_CLASS } from "./TextContent";
+import {
+  BADGE_HEIGHT_CLASS,
+  BADGE_PADDING_CLASS,
+  BADGE_TEXT_CLASS,
+} from "./TextContent";
 import { gradient, hasText } from "./utils";
 
 type Hero = NonNullable<ProductLanding["hero"]>;
@@ -58,7 +62,7 @@ export default function LandingHero({ hero }: { hero: Hero }) {
                 <li key={index} className="flex items-center gap-3">
                   {hasText(item.badge) ? (
                     <span
-                      className={`flex items-center justify-center min-w-[56px] bg-white text-dark ${BADGE_HEIGHT_CLASS} ${BADGE_TEXT_CLASS}`}
+                      className={`flex items-center justify-center min-w-[56px] bg-white text-dark ${BADGE_HEIGHT_CLASS} ${BADGE_PADDING_CLASS} ${BADGE_TEXT_CLASS}`}
                     >
                       {item.badge}
                     </span>

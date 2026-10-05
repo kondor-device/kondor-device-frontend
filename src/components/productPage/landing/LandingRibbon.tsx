@@ -32,7 +32,7 @@ export default function LandingRibbon({
                 />
               ) : null}
               <span
-                className={`flex items-center justify-center py-1 text-center bg-white text-[#0a0b10] ${BADGE_MIN_HEIGHT_CLASS} ${BADGE_TEXT_CLASS}`}
+                className={`flex items-center justify-center py-1 text-center bg-white text-[#0a0b10] px-6 tab:px-5 laptop:px-6 deskxl:px-8 ${BADGE_MIN_HEIGHT_CLASS} ${BADGE_TEXT_CLASS}`}
               >
                 {item.text}
               </span>
