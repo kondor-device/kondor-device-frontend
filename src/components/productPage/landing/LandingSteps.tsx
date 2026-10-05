@@ -36,7 +36,7 @@ export default function LandingSteps({ steps }: { steps: LandingStepsBlock }) {
         </ol>
         {steps.image ? (
           // From 1280px the photo is 680×564 (810×672 from 1550px) and sticks to the right edge of the screen
-          <div className="tab:w-[136%] tab:max-w-none tab:translate-x-[2%] laptop:translate-x-0 laptop:absolute laptop:right-[calc(50%-50vw-200px)] desk:right-[calc(50%-50vw-140px)] laptop:top-1/2 laptop:h-[564px] laptop:w-[680px] desk:h-[672px] desk:w-[810px] laptop:-translate-y-1/2">
+          <div className="tab:w-[136%] tab:max-w-none tab:translate-x-[2%] laptop:translate-x-0 laptop:absolute laptop:right-[calc(50%-50vw-260px)] desk:right-[calc(50%-50vw-140px)] laptop:top-1/2 laptop:h-[564px] laptop:w-[680px] desk:h-[672px] desk:w-[810px] laptop:-translate-y-1/2">
             <LandingPicture
               image={steps.image}
               sizes="(min-width: 1550px) 810px, (min-width: 1280px) 680px, (min-width: 768px) 50vw, 100vw"
