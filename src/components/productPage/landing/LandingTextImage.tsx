@@ -17,7 +17,7 @@ export default function LandingTextImage({
   badgesUnderImage = false,
 }: LandingTextImageProps) {
   return (
-    <div className="py-10 tab:py-[70px] laptop:py-[99px]">
+    <div className="py-[60px] tab:py-[70px] laptop:py-[99px]">
       <div
         className={[
           "grid items-center gap-8 tab:gap-10 laptop:gap-[80px] deskxl:gap-[120px]",
