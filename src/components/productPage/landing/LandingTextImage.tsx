@@ -17,7 +17,7 @@ export default function LandingTextImage({
   badgesUnderImage = false,
 }: LandingTextImageProps) {
   return (
-    <div className="py-10 tab:py-[70px] desk:py-[99px]">
+    <div className="py-10 tab:py-[70px] laptop:py-[99px]">
       <div
         className={[
           "grid items-center gap-8 tab:gap-10 laptop:gap-[80px] deskxl:gap-[120px]",
@@ -32,9 +32,9 @@ export default function LandingTextImage({
         {block.image ? (
           <div
             className={[
-              "flex flex-col gap-5 desk:gap-10",
+              "flex flex-col gap-5 laptop:gap-10",
               // On desktop the free-standing photo stops growing at 630×399
-              framed ? "" : "desk:w-[630px]",
+              framed ? "" : "laptop:w-[630px]",
             ].join(" ")}
           >
             <LandingPicture
@@ -42,12 +42,12 @@ export default function LandingTextImage({
               sizes={
                 framed
                   ? "(min-width: 768px) 55vw, 100vw"
-                  : "(min-width: 1550px) 630px, (min-width: 768px) 55vw, 100vw"
+                  : "(min-width: 1280px) 630px, (min-width: 768px) 55vw, 100vw"
               }
               className={
                 framed
                   ? "rounded-[16px] deskxl:rounded-[28px]"
-                  : "desk:h-[399px] object-contain"
+                  : "laptop:h-[399px] object-contain"
               }
             />
             {badgesUnderImage ? <Badges block={block} /> : null}

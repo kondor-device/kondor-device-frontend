@@ -52,17 +52,17 @@ export default function TextContent({
   withBadges = true,
 }: TextContentProps) {
   return (
-    <div className="flex flex-col gap-6 deskxl:gap-[41px] tab:max-w-[621px]">
-      <div className={["flex flex-col gap-5 desk:gap-8", textClass].join(" ")}>
+    <div className="flex flex-col gap-6 deskxl:gap-[41px] laptop:max-w-[621px]">
+      <div className={["flex flex-col gap-5 laptop:gap-8", textClass].join(" ")}>
         <Sparkles color={block.accentColor ?? FALLBACK_ACCENT} />
-        <div className="flex flex-col gap-4 desk:gap-8">
+        <div className="flex flex-col gap-4 laptop:gap-8">
           {hasText(block.title) ? (
             <h2 className="font-actay uppercase text-[22px] tab:text-[26px] laptop:text-[30px] deskxl:text-[36px] leading-[normal] break-words">
               {block.title}
             </h2>
           ) : null}
           {hasText(block.description) ? (
-            <p className="text-[14px] deskxl:text-[16px] leading-[1.5] whitespace-pre-line tab:max-w-[521px]">
+            <p className="text-[14px] deskxl:text-[16px] leading-[1.5] whitespace-pre-line laptop:max-w-[521px]">
               {block.description}
             </p>
           ) : null}
