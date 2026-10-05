@@ -21,7 +21,10 @@ export default function LandingFaq({ faq }: { faq: LandingFaqBlock }) {
         </h2>
         <div className="mt-6 deskxl:mt-8">
           {items.map((item, index) => (
-            <details key={index} className="group border-t border-fg/15 py-4 tab:py-6">
+            <details
+              key={index}
+              className="group border-t border-fg/15 py-4 tab:py-6"
+            >
               <summary className="flex items-center justify-between gap-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                 <h3 className="font-semibold text-[16px] tab:text-[18px] deskxl:text-[22px] leading-[normal]">
                   {item.question}

@@ -25,7 +25,13 @@ export default function LandingHero({ hero }: { hero: Hero }) {
         />
         {hasText(hero.label) ? (
           <span className="flex items-center gap-2 text-10bold tab:text-14bold uppercase tracking-wide">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="12"
+              height="12"
+              fill="currentColor"
+              aria-hidden="true"
+            >
               <path d="M12 0c.6 6.6 4.8 11.4 12 12-7.2.6-11.4 5.4-12 12-.6-6.6-4.8-11.4-12-12C7.2 11.4 11.4 6.6 12 0Z" />
             </svg>
             {hero.label}

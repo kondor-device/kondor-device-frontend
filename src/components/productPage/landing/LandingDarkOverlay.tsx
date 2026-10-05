@@ -3,7 +3,11 @@ import LandingPicture from "./LandingPicture";
 import TextContent from "./TextContent";
 
 // Dark rounded card: the photo bleeds off the left edge of the card, the text is on the right
-export default function LandingDarkOverlay({ block }: { block: LandingTextBlock }) {
+export default function LandingDarkOverlay({
+  block,
+}: {
+  block: LandingTextBlock;
+}) {
   return (
     <div className="my-4 tab:my-6 relative overflow-hidden rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px] bg-[#0a0b10]">
       {block.image ? (

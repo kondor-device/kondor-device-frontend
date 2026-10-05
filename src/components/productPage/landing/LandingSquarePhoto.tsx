@@ -3,7 +3,11 @@ import LandingPicture from "./LandingPicture";
 import TextContent from "./TextContent";
 
 // Photo on a dark square on the left, text on the right
-export default function LandingSquarePhoto({ block }: { block: LandingTextBlock }) {
+export default function LandingSquarePhoto({
+  block,
+}: {
+  block: LandingTextBlock;
+}) {
   return (
     <div className="py-6 tab:py-8">
       <div className="grid items-center gap-8 tab:grid-cols-[minmax(0,640px)_1fr] tab:gap-10 laptop:gap-[80px] deskxl:gap-[96px]">

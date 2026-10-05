@@ -30,11 +30,25 @@ export default function LandingTextImage({
           withBadges={!badgesUnderImage}
         />
         {block.image ? (
-          <div className="flex flex-col gap-5 deskxl:gap-[29px]">
+          <div
+            className={[
+              "flex flex-col gap-5 deskxl:gap-[29px]",
+              // On desktop the free-standing photo stops growing at 630×399
+              framed ? "" : "desk:w-[630px]",
+            ].join(" ")}
+          >
             <LandingPicture
               image={block.image}
-              sizes="(min-width: 768px) 55vw, 100vw"
-              className={framed ? "rounded-[16px] deskxl:rounded-[28px]" : undefined}
+              sizes={
+                framed
+                  ? "(min-width: 768px) 55vw, 100vw"
+                  : "(min-width: 1550px) 630px, (min-width: 768px) 55vw, 100vw"
+              }
+              className={
+                framed
+                  ? "rounded-[16px] deskxl:rounded-[28px]"
+                  : "desk:h-[399px] object-contain"
+              }
             />
             {badgesUnderImage ? <Badges block={block} /> : null}
           </div>
