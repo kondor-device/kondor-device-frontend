@@ -10,7 +10,7 @@ export default function LandingSteps({ steps }: { steps: LandingStepsBlock }) {
   return (
     <div className="py-10 tab:py-[70px] deskxl:py-[110px] text-fg">
       <div className="grid items-center gap-8 tab:grid-cols-2 tab:gap-10 laptop:gap-[80px]">
-        <ol className="flex flex-col gap-6 tab:gap-10 deskxl:gap-[86px]">
+        <ol className="flex flex-col gap-6 tab:gap-10 laptop:gap-[86px]">
           {items.map((item, index) => (
             <li
               key={index}
