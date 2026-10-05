@@ -3,7 +3,7 @@ import Sparkles from "./Sparkles";
 import { FALLBACK_ACCENT, hasText } from "./utils";
 
 export const BADGE_CLASS =
-  "flex items-center h-[40px] tab:h-[46px] deskxl:h-[53px] px-4 deskxl:px-[22px] rounded-full text-white font-actay text-[11px] tab:text-[12px] deskxl:text-[14px] uppercase whitespace-nowrap";
+  "flex items-center h-[40px] tab:h-[32px] laptop:h-[46px] deskxl:h-[53px] px-4 tab:px-3 laptop:px-4 deskxl:px-[22px] rounded-full text-white font-actay text-[11px] tab:text-[10px] laptop:text-[12px] deskxl:text-[14px] uppercase whitespace-nowrap";
 
 export function Badges({
   block,
@@ -19,7 +19,7 @@ export function Badges({
   return (
     <ul
       className={[
-        "flex flex-wrap items-center gap-3 deskxl:gap-[22px]",
+        "flex flex-wrap items-center gap-3 tab:gap-2 laptop:gap-3 deskxl:gap-[22px]",
         className,
       ]
         .filter(Boolean)
