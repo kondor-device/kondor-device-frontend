@@ -1,4 +1,8 @@
-import { ProductLanding as ProductLandingData } from "@/types/productItem";
+import {
+  LandingSection,
+  LandingTextBlock,
+  ProductLanding as ProductLandingData,
+} from "@/types/productItem";
 import LandingHero from "./LandingHero";
 import LandingTextImage from "./LandingTextImage";
 import LandingDarkOverlay from "./LandingDarkOverlay";
@@ -13,59 +17,69 @@ interface ProductLandingProps {
   landing?: ProductLandingData | null;
 }
 
-type TextBlockData = ProductLandingData["textBlock1"];
+// A block is shown only when something is filled in it
+const hasTextBlock = (block: LandingTextBlock) =>
+  hasText(block.title) || hasText(block.description) || Boolean(block.image);
 
-// A section is shown only when something is filled in it
-const hasTextBlock = (block: TextBlockData) =>
-  Boolean(block && (hasText(block.title) || hasText(block.description) || block.image));
+function renderSection(section: LandingSection) {
+  switch (section._type) {
+    case "landingTextPhoto":
+      return hasTextBlock(section) ? (
+        <LandingTextImage
+          key={section._key}
+          block={section}
+          framed={section.framed}
+          badgesUnderImage={section.badgesUnderImage}
+        />
+      ) : null;
+    case "landingDarkCard":
+      return hasTextBlock(section) ? (
+        <LandingDarkOverlay key={section._key} block={section} />
+      ) : null;
+    case "landingSquarePhoto":
+      return hasTextBlock(section) ? (
+        <LandingSquarePhoto key={section._key} block={section} />
+      ) : null;
+    case "landingRibbon":
+      return (section.badges ?? []).some((item) => hasText(item.text)) ? (
+        <LandingRibbon key={section._key} ribbon={section} />
+      ) : null;
+    case "landingSteps":
+      return (section.items ?? []).length > 0 || section.image ? (
+        <LandingSteps key={section._key} steps={section} />
+      ) : null;
+    case "landingBanner":
+      return section.image ? (
+        <LandingBanner key={section._key} image={section.image} />
+      ) : null;
+    case "landingFaq":
+      return (section.items ?? []).length > 0 ? (
+        <LandingFaq key={section._key} faq={section} />
+      ) : null;
+    // A block type the site does not know yet (e.g. added in the admin first) is skipped
+    default:
+      return null;
+  }
+}
 
-// Sections after the main content of the product page (filled in the admin)
+// Blocks after the main content of the product page (filled in the admin)
 export default function ProductLanding({ landing }: ProductLandingProps) {
   if (!landing) return null;
 
-  const {
-    hero,
-    textBlock1,
-    textBlock2,
-    ribbon,
-    steps,
-    banner,
-    textBlock3,
-    textBlock4,
-    faq,
-  } = landing;
+  const { hero, sections } = landing;
 
-  const sections = [
+  const blocks = [
     hero && (hasText(hero.model) || hero.image) ? (
       <LandingHero key="hero" hero={hero} />
     ) : null,
-    hasTextBlock(textBlock1) ? (
-      <LandingTextImage key="block1" block={textBlock1!} badgesUnderImage />
-    ) : null,
-    hasTextBlock(textBlock2) ? (
-      <LandingDarkOverlay key="block2" block={textBlock2!} />
-    ) : null,
-    ribbon && (ribbon.badges ?? []).some((item) => hasText(item.text)) ? (
-      <LandingRibbon key="ribbon" ribbon={ribbon} />
-    ) : null,
-    steps && ((steps.items ?? []).length > 0 || steps.image) ? (
-      <LandingSteps key="steps" steps={steps} />
-    ) : null,
-    banner?.image ? <LandingBanner key="banner" image={banner.image} /> : null,
-    hasTextBlock(textBlock3) ? (
-      <LandingSquarePhoto key="block3" block={textBlock3!} />
-    ) : null,
-    hasTextBlock(textBlock4) ? (
-      <LandingTextImage key="block4" block={textBlock4!} framed />
-    ) : null,
-    faq && (faq.items ?? []).length > 0 ? <LandingFaq key="faq" faq={faq} /> : null,
+    ...(sections ?? []).map(renderSection),
   ].filter(Boolean);
 
-  if (sections.length === 0) return null;
+  if (blocks.length === 0) return null;
 
   return (
     <section className="mt-10 desk:mt-[60px] overflow-hidden bg-white">
-      {sections}
+      {blocks}
     </section>
   );
 }

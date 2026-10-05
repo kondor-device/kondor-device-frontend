@@ -38,7 +38,60 @@ export interface LandingTextBlock {
   badges: { text: string | null }[] | null;
 }
 
-/** Sections shown after the main content of the product page (filled in the admin) */
+/** Block of the landing builder; `_type` tells which one it is */
+interface LandingBlockBase {
+  _key: string;
+}
+
+export interface LandingTextPhotoBlock extends LandingTextBlock, LandingBlockBase {
+  _type: "landingTextPhoto";
+  /** Photo in a rounded frame, wider than the usual one */
+  framed: boolean;
+  /** Badges under the photo instead of under the text */
+  badgesUnderImage: boolean;
+}
+
+export interface LandingDarkCardBlock extends LandingTextBlock, LandingBlockBase {
+  _type: "landingDarkCard";
+}
+
+export interface LandingSquarePhotoBlock extends LandingTextBlock, LandingBlockBase {
+  _type: "landingSquarePhoto";
+}
+
+export interface LandingRibbonBlock extends LandingBlockBase {
+  _type: "landingRibbon";
+  gradientFrom: string | null;
+  gradientTo: string | null;
+  badges: { text: string | null }[] | null;
+}
+
+export interface LandingStepsBlock extends LandingBlockBase {
+  _type: "landingSteps";
+  image: LandingImage | null;
+  items: { title: string | null; description: string | null }[] | null;
+}
+
+export interface LandingBannerBlock extends LandingBlockBase {
+  _type: "landingBanner";
+  image: LandingImage | null;
+}
+
+export interface LandingFaqBlock extends LandingBlockBase {
+  _type: "landingFaq";
+  items: { question: string | null; answer: string | null }[] | null;
+}
+
+export type LandingSection =
+  | LandingTextPhotoBlock
+  | LandingDarkCardBlock
+  | LandingSquarePhotoBlock
+  | LandingRibbonBlock
+  | LandingStepsBlock
+  | LandingBannerBlock
+  | LandingFaqBlock;
+
+/** Header and blocks shown after the main content of the product page (filled in the admin) */
 export interface ProductLanding {
   hero: {
     label: string | null;
@@ -49,23 +102,7 @@ export interface ProductLanding {
     gradientTo: string | null;
     badges: { badge: string | null; text: string | null }[] | null;
   } | null;
-  textBlock1: LandingTextBlock | null;
-  textBlock2: LandingTextBlock | null;
-  ribbon: {
-    gradientFrom: string | null;
-    gradientTo: string | null;
-    badges: { text: string | null }[] | null;
-  } | null;
-  steps: {
-    image: LandingImage | null;
-    items: { title: string | null; description: string | null }[] | null;
-  } | null;
-  banner: { image: LandingImage | null } | null;
-  textBlock3: LandingTextBlock | null;
-  textBlock4: LandingTextBlock | null;
-  faq: {
-    items: { question: string | null; answer: string | null }[] | null;
-  } | null;
+  sections: LandingSection[] | null;
 }
 
 export interface ProductItem {

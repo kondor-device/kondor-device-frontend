@@ -1,9 +1,7 @@
-import { ProductLanding } from "@/types/productItem";
+import { LandingRibbonBlock } from "@/types/productItem";
 import { gradient, hasText } from "./utils";
 
-type Ribbon = NonNullable<ProductLanding["ribbon"]>;
-
-export default function LandingRibbon({ ribbon }: { ribbon: Ribbon }) {
+export default function LandingRibbon({ ribbon }: { ribbon: LandingRibbonBlock }) {
   const badges = (ribbon.badges ?? []).filter((item) => hasText(item.text));
 
   return (

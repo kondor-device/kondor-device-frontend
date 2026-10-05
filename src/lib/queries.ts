@@ -191,14 +191,15 @@ const LANDING_COLOR = (field: string) =>
 
 const LANDING_BADGES = `"badges": badges[]{ ${l10nField("text")} }`;
 
-const LANDING_TEXT_BLOCK = `{
+const LANDING_TEXT_BLOCK = `
   ${l10nField("title")},
   ${l10nField("description")},
   ${LANDING_IMAGE("image")},
   ${LANDING_COLOR("accentColor")},
   ${LANDING_BADGES}
-}`;
+`;
 
+// The header and the blocks of the builder (`_type` tells which block it is)
 const LANDING_PROJECTION = `
   "hero": hero{
     "label": label,
@@ -209,22 +210,32 @@ const LANDING_PROJECTION = `
     ${LANDING_COLOR("gradientTo")},
     "badges": badges[]{ badge, ${l10nField("text")} }
   },
-  "textBlock1": textBlock1${LANDING_TEXT_BLOCK},
-  "textBlock2": textBlock2${LANDING_TEXT_BLOCK},
-  "ribbon": ribbon{
-    ${LANDING_COLOR("gradientFrom")},
-    ${LANDING_COLOR("gradientTo")},
-    ${LANDING_BADGES}
-  },
-  "steps": steps{
-    ${LANDING_IMAGE("image")},
-    "items": items[]{ ${l10nField("title")}, ${l10nField("description")} }
-  },
-  "banner": banner{ ${LANDING_IMAGE("image")} },
-  "textBlock3": textBlock3${LANDING_TEXT_BLOCK},
-  "textBlock4": textBlock4${LANDING_TEXT_BLOCK},
-  "faq": faq{
-    "items": items[]{ ${l10nField("question")}, ${l10nField("answer")} }
+  "sections": sections[]{
+    _key,
+    _type,
+    _type == "landingTextPhoto" => {
+      ${LANDING_TEXT_BLOCK},
+      "framed": coalesce(framed, false),
+      "badgesUnderImage": coalesce(badgesUnderImage, false)
+    },
+    _type in ["landingDarkCard", "landingSquarePhoto"] => {
+      ${LANDING_TEXT_BLOCK}
+    },
+    _type == "landingRibbon" => {
+      ${LANDING_COLOR("gradientFrom")},
+      ${LANDING_COLOR("gradientTo")},
+      ${LANDING_BADGES}
+    },
+    _type == "landingSteps" => {
+      ${LANDING_IMAGE("image")},
+      "items": items[]{ ${l10nField("title")}, ${l10nField("description")} }
+    },
+    _type == "landingBanner" => {
+      ${LANDING_IMAGE("image")}
+    },
+    _type == "landingFaq" => {
+      "items": items[]{ ${l10nField("question")}, ${l10nField("answer")} }
+    }
   }
 `;
 

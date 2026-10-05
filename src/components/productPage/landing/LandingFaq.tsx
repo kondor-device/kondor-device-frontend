@@ -1,12 +1,10 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ProductLanding } from "@/types/productItem";
+import { LandingFaqBlock } from "@/types/productItem";
 import { hasText } from "./utils";
 
-type Faq = NonNullable<ProductLanding["faq"]>;
-
 // <details> keeps the accordion working without client JS and keeps the answers in the HTML
-export default function LandingFaq({ faq }: { faq: Faq }) {
+export default function LandingFaq({ faq }: { faq: LandingFaqBlock }) {
   const t = useTranslations("productPage.landing");
 
   const items = (faq.items ?? []).filter(

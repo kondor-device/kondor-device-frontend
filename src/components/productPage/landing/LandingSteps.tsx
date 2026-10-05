@@ -1,10 +1,8 @@
-import { ProductLanding } from "@/types/productItem";
+import { LandingStepsBlock } from "@/types/productItem";
 import LandingPicture from "./LandingPicture";
 import { hasText } from "./utils";
 
-type Steps = NonNullable<ProductLanding["steps"]>;
-
-export default function LandingSteps({ steps }: { steps: Steps }) {
+export default function LandingSteps({ steps }: { steps: LandingStepsBlock }) {
   const items = (steps.items ?? []).filter(
     (item) => hasText(item.title) || hasText(item.description),
   );
