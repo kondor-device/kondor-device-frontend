@@ -8,9 +8,9 @@ export default function LandingSteps({ steps }: { steps: LandingStepsBlock }) {
   );
 
   return (
-    <div className="py-10 tab:py-[70px] deskxl:py-[110px] text-fg">
-      <div className="grid items-center gap-8 tab:grid-cols-2 tab:gap-10 laptop:gap-[80px]">
-        <ol className="flex flex-col gap-6 tab:gap-10 laptop:gap-[86px]">
+    <div className="relative py-10 tab:py-[70px] laptop:flex laptop:min-h-[41.72vw] deskxl:min-h-[801px] laptop:items-center laptop:py-0 text-fg">
+      <div className="grid items-center gap-8 tab:grid-cols-2 tab:gap-10 laptop:block">
+        <ol className="flex flex-col gap-6 tab:gap-10 laptop:max-w-[742.5px] laptop:gap-[86px]">
           {items.map((item, index) => (
             <li
               key={index}
@@ -35,11 +35,14 @@ export default function LandingSteps({ steps }: { steps: LandingStepsBlock }) {
           ))}
         </ol>
         {steps.image ? (
-          <LandingPicture
-            image={steps.image}
-            sizes="(min-width: 768px) 50vw, 100vw"
-            className="laptop:translate-x-10"
-          />
+          // From 1280px the photo sticks to the right edge of the screen: 965×801 from 1920px, proportionally smaller below (so it does not cover the text)
+          <div className="laptop:absolute laptop:right-[calc(50%-50vw-40px)] laptop:top-1/2 laptop:h-[41.72vw] laptop:w-[50.26vw] deskxl:h-[801px] deskxl:w-[965px] laptop:-translate-y-1/2">
+            <LandingPicture
+              image={steps.image}
+              sizes="(min-width: 1920px) 965px, (min-width: 1280px) 50vw, (min-width: 768px) 50vw, 100vw"
+              className="laptop:h-full laptop:object-contain"
+            />
+          </div>
         ) : null}
       </div>
     </div>
