@@ -1,4 +1,5 @@
 import { LandingRibbonBlock } from "@/types/productItem";
+import { BADGE_MIN_HEIGHT_CLASS, BADGE_TEXT_CLASS } from "./TextContent";
 import { gradient, hasText } from "./utils";
 
 export default function LandingRibbon({
@@ -27,7 +28,9 @@ export default function LandingRibbon({
                 className="hidden tab:block size-6 deskxl:size-[40px] rounded-full bg-white"
               />
             ) : null}
-            <span className="flex items-center justify-center min-h-[40px] tab:h-[50px] deskxl:h-[68px] px-5 tab:px-8 deskxl:px-[54px] rounded-full bg-white text-[#0a0b10] font-actay uppercase text-[12px] tab:text-[16px] laptop:text-[20px] deskxl:text-[24px] text-center">
+            <span
+              className={`flex items-center justify-center py-1 text-center bg-white text-[#0a0b10] ${BADGE_MIN_HEIGHT_CLASS} ${BADGE_TEXT_CLASS}`}
+            >
               {item.text}
             </span>
           </li>

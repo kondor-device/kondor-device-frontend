@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ProductLanding } from "@/types/productItem";
 import LandingPicture from "./LandingPicture";
+import { BADGE_HEIGHT_CLASS, BADGE_TEXT_CLASS } from "./TextContent";
 import { gradient, hasText } from "./utils";
 
 type Hero = NonNullable<ProductLanding["hero"]>;
@@ -56,7 +57,9 @@ export default function LandingHero({ hero }: { hero: Hero }) {
               {badges.map((item, index) => (
                 <li key={index} className="flex items-center gap-3">
                   {hasText(item.badge) ? (
-                    <span className="min-w-[56px] px-3 py-1 rounded-full bg-white text-dark text-12bold tab:text-14bold text-center">
+                    <span
+                      className={`flex items-center justify-center min-w-[56px] bg-white text-dark ${BADGE_HEIGHT_CLASS} ${BADGE_TEXT_CLASS}`}
+                    >
                       {item.badge}
                     </span>
                   ) : null}
