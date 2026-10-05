@@ -59,7 +59,7 @@ export default function TextContent({
             </h2>
           ) : null}
           {hasText(block.description) ? (
-            <p className="text-[14px] deskxl:text-[16px] leading-[1.5] whitespace-pre-line">
+            <p className="text-[14px] deskxl:text-[16px] leading-[1.5] whitespace-pre-line tab:max-w-[521px]">
               {block.description}
             </p>
           ) : null}
