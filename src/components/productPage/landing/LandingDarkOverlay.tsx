@@ -9,7 +9,7 @@ export default function LandingDarkOverlay({
   block: LandingTextBlock;
 }) {
   return (
-    <div className="my-4 tab:my-6 relative overflow-hidden rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px] bg-[#0a0b10] px-5 py-[60px] tab:p-0">
+    <div className="my-4 tab:my-6 [&:has(+[data-landing-ribbon])]:mb-0 relative overflow-hidden rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px] bg-[#0a0b10] px-5 py-[60px] tab:p-0">
       {block.image ? (
         <div className="relative mb-8 tab:mb-0 tab:absolute tab:left-[-6%] tab:top-1/2 tab:w-[52%] tab:-translate-y-1/2">
           <LandingPicture
