@@ -16,7 +16,7 @@ export default function LandingFaq({ faq }: { faq: LandingFaqBlock }) {
   return (
     <div className="py-[60px] tab:py-[70px] laptop:py-[100px] text-fg">
       <div>
-        <h2 className="text-center font-actay uppercase text-[18px] tab:text-[22px] deskxl:text-[26px] leading-[normal]">
+        <h2 className="text-center font-actay uppercase text-[18px] tab:text-[22px] laptop:text-[26px] leading-[normal]">
           {t("faqTitle")}
         </h2>
         <div className="mt-6">
