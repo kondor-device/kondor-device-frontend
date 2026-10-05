@@ -7,6 +7,7 @@ interface LandingFaqItemProps {
   answer: string;
 }
 
+// The whole row is clickable (the button inside keeps the keyboard and screen reader support).
 // The answer stays in the HTML while collapsed (for search engines): the row is folded to
 // 0 height with a grid-rows transition instead of being removed.
 export default function LandingFaqItem({
@@ -17,13 +18,15 @@ export default function LandingFaqItem({
   const answerId = useId();
 
   return (
-    <div className="border-t border-fg/15 py-4 tab:py-6">
+    <div
+      onClick={() => setIsOpen((prev) => !prev)}
+      className="border-t border-fg/15 py-4 tab:py-6 cursor-pointer"
+    >
       <h3>
         <button
           type="button"
           aria-expanded={isOpen}
           aria-controls={answerId}
-          onClick={() => setIsOpen((prev) => !prev)}
           className="flex w-full items-center justify-between gap-4 text-left cursor-pointer"
         >
           <span className="font-semibold text-[16px] tab:text-[18px] laptop:text-[22px] leading-[normal]">
