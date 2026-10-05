@@ -32,7 +32,7 @@ export default function LandingTextImage({
         {block.image ? (
           <div
             className={[
-              "flex flex-col gap-5 deskxl:gap-[29px]",
+              "flex flex-col gap-5 desk:gap-10",
               // On desktop the free-standing photo stops growing at 630×399
               framed ? "" : "desk:w-[630px]",
             ].join(" ")}
