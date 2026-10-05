@@ -18,7 +18,7 @@ export default function LandingDarkOverlay({
           />
         </div>
       ) : null}
-      <div className="tab:pr-10 deskxl:pr-[100px] tab:py-[70px] laptop:pb-[145px] laptop:pt-[170px]">
+      <div className="tab:pr-10 deskxl:pr-[100px] tab:py-[70px] tabxl:py-[110px] laptop:pb-[145px] laptop:pt-[170px]">
         <div className="tab:ml-[52%] laptop:ml-[50%]">
           <TextContent block={block} textClass="text-white" />
         </div>
