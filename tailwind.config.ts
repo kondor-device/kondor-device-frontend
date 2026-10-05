@@ -16,6 +16,7 @@ export default {
     extend: {
       fontFamily: {
         montserrat: ["var(--font-montserrat)"],
+        actay: ["var(--font-actay)", "var(--font-montserrat)"],
       },
       screens: {
         mob: "390px",
