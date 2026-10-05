@@ -1,21 +1,17 @@
 interface SparklesProps {
-  color: string | null;
-  className?: string;
+  color: string;
 }
 
-// Three small decorative stars above a section title
-export default function Sparkles({ color, className }: SparklesProps) {
+// Three stars above a section title. The shape is the file from the design, painted with the
+// accent colour of the section through a mask.
+export default function Sparkles({ color }: SparklesProps) {
+  const mask = "url(/images/landing/sparkles.svg) no-repeat center / contain";
+
   return (
     <span
       aria-hidden="true"
-      className={["flex gap-1.5", className].filter(Boolean).join(" ")}
-      style={{ color: color ?? "currentColor" }}
-    >
-      {[0, 1, 2].map((index) => (
-        <svg key={index} viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-          <path d="M12 0c.6 6.6 4.8 11.4 12 12-7.2.6-11.4 5.4-12 12-.6-6.6-4.8-11.4-12-12C7.2 11.4 11.4 6.6 12 0Z" />
-        </svg>
-      ))}
-    </span>
+      className="block w-[80px] tab:w-[96px] deskxl:w-[112.639px] aspect-[112.639/28.0852]"
+      style={{ backgroundColor: color, mask, WebkitMask: mask }}
+    />
   );
 }

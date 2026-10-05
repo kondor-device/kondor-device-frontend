@@ -62,6 +62,7 @@ export interface ProductLanding {
   } | null;
   banner: { image: LandingImage | null } | null;
   textBlock3: LandingTextBlock | null;
+  textBlock4: LandingTextBlock | null;
   faq: {
     items: { question: string | null; answer: string | null }[] | null;
   } | null;

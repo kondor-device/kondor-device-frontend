@@ -222,6 +222,7 @@ const LANDING_PROJECTION = `
   },
   "banner": banner{ ${LANDING_IMAGE("image")} },
   "textBlock3": textBlock3${LANDING_TEXT_BLOCK},
+  "textBlock4": textBlock4${LANDING_TEXT_BLOCK},
   "faq": faq{
     "items": items[]{ ${l10nField("question")}, ${l10nField("answer")} }
   }
