@@ -213,7 +213,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   return (
-    <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
+    <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(40px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
       <JsonLd
         data={productJsonLd({
           product: currentProduct,
