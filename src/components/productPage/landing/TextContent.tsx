@@ -53,9 +53,7 @@ export default function TextContent({
 }: TextContentProps) {
   return (
     <div className="flex flex-col gap-6 deskxl:gap-[41px] tab:max-w-[621px]">
-      <div
-        className={["flex flex-col gap-5 desk:gap-8", textClass].join(" ")}
-      >
+      <div className={["flex flex-col gap-5 desk:gap-8", textClass].join(" ")}>
         <Sparkles color={block.accentColor ?? FALLBACK_ACCENT} />
         <div className="flex flex-col gap-4 desk:gap-8">
           {hasText(block.title) ? (
