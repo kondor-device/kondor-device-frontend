@@ -16,7 +16,7 @@ export default function LandingSteps({ steps }: { steps: LandingStepsBlock }) {
               key={index}
               className="flex items-center gap-4 tab:gap-6 laptop:gap-14"
             >
-              <span className="shrink-0 flex items-center justify-center size-[56px] tab:size-[80px] laptop:size-[121.5px] rounded-full bg-[#0a0b10] text-white font-actay text-[24px] tab:text-[36px] laptop:text-[56px]">
+              <span className="shrink-0 flex items-center justify-center size-[56px] tab:size-[60px] laptop:size-[121.5px] rounded-full bg-[#0a0b10] text-white font-actay text-[24px] tab:text-[26px] laptop:text-[56px]">
                 {index + 1}
               </span>
               <div className="flex flex-col gap-3 laptop:gap-6">
