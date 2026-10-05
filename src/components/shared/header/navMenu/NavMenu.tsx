@@ -31,7 +31,7 @@ export default function NavMenu({ categories }: NavMenuProps) {
 
   return (
     <nav className="relative flex justify-center items-center max-w-[1920px]">
-      <ul className="flex flex-row items-center h-full gap-8 laptop:gap-16">
+      <ul className="flex flex-row items-center h-full gap-8 desk:gap-16">
         {menuList.map((menuItem) =>
           menuItem.path === "catalog" ? (
             // li розтягнутий на всю висоту хедера, щоб курсор без розриву
