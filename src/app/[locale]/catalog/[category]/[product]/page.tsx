@@ -6,6 +6,7 @@ import ProductInfo from "@/components/productPage/productInfo/ProductInfo";
 import AddonsSlider from "@/components/productPage/AddonsSlider";
 import SimilarProductsSlider from "@/components/productPage/SimilarProductsSlider";
 import Manual from "@/components/productPage/Manual";
+import ProductLanding from "@/components/productPage/landing/ProductLanding";
 import Breadcrumbs from "@/components/shared/breadcrumbs/Breadcrumbs";
 import JsonLd from "@/components/shared/JsonLd";
 import { bundleJsonLd, productJsonLd } from "@/lib/seo/jsonLd";
@@ -233,6 +234,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           addons={res?.data?.shownOnAddons}
         />
         <Manual product={currentProduct} />
+        <ProductLanding landing={currentProduct.landing} />
       </Suspense>
     </div>
   );
