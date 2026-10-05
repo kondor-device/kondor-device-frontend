@@ -8,7 +8,7 @@ export default function LandingSteps({ steps }: { steps: LandingStepsBlock }) {
   );
 
   return (
-    <div className="relative py-10 tab:py-[70px] laptop:flex laptop:min-h-[564px] desk:min-h-[672px] laptop:items-center laptop:py-0 text-fg">
+    <div className="relative py-10 tab:py-[70px] laptop:flex laptop:min-h-[564px] desk:min-h-[672px] laptop:items-center laptop:pb-[150px] laptop:pt-[114px] text-fg">
       <div className="grid items-center gap-8 tab:grid-cols-2 tab:gap-10 laptop:block">
         <ol className="flex flex-col gap-6 tab:gap-10 laptop:max-w-[742px] laptop:gap-[86px]">
           {items.map((item, index) => (
