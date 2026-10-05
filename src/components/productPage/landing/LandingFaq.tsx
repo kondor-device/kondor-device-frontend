@@ -37,7 +37,7 @@ export default function LandingFaq({ faq }: { faq: LandingFaqBlock }) {
                   className="shrink-0 rotate-180 group-open:rotate-0 transition-transform duration-300"
                 />
               </summary>
-              <p className="mt-4 deskxl:mt-8 text-[14px] leading-[1.5] whitespace-pre-line">
+              <p className="mt-4 deskxl:mt-8 text-[14px] laptop:text-[16px] leading-[1.5] whitespace-pre-line">
                 {item.answer}
               </p>
             </details>

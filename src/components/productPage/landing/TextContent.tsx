@@ -80,7 +80,7 @@ export default function TextContent({
           ) : null}
           {hasText(block.description) ? (
             <p
-              className={`text-[14px] deskxl:text-[16px] leading-[1.5] whitespace-pre-line ${descriptionWidthClass}`}
+              className={`text-[14px] laptop:text-[16px] leading-[1.5] whitespace-pre-line ${descriptionWidthClass}`}
             >
               {block.description}
             </p>
