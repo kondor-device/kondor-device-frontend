@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { LandingRibbonBlock } from "@/types/productItem";
 import { BADGE_MIN_HEIGHT_CLASS, BADGE_TEXT_CLASS } from "./TextContent";
 import { gradient, hasText } from "./utils";
@@ -19,24 +20,23 @@ export default function LandingRibbon({
       }}
     >
       <div className="container max-w-[1920px] h-full flex items-center justify-center">
-        <ul className="flex flex-wrap items-center justify-center gap-3 tab:gap-5 deskxl:gap-8">
+        <ul className="flex flex-col tab:flex-row items-center justify-center gap-3 tab:gap-5 deskxl:gap-8">
           {badges.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center gap-3 tab:gap-5 deskxl:gap-8"
-            >
+            <Fragment key={index}>
               {index > 0 ? (
-                <span
+                <li
                   aria-hidden="true"
-                  className="hidden tab:block size-6 deskxl:size-[40px] rounded-full bg-white"
+                  className="size-4 tab:size-6 deskxl:size-[40px] rounded-full bg-white"
                 />
               ) : null}
-              <span
-                className={`flex items-center justify-center py-1 text-center bg-white text-[#0a0b10] px-6 tab:px-5 laptop:px-6 deskxl:px-8 ${BADGE_MIN_HEIGHT_CLASS} ${BADGE_TEXT_CLASS}`}
-              >
-                {item.text}
-              </span>
-            </li>
+              <li>
+                <span
+                  className={`flex items-center justify-center py-1 text-center bg-white text-[#0a0b10] px-6 tab:px-5 laptop:px-6 deskxl:px-8 ${BADGE_MIN_HEIGHT_CLASS} ${BADGE_TEXT_CLASS}`}
+                >
+                  {item.text}
+                </span>
+              </li>
+            </Fragment>
           ))}
         </ul>
       </div>
