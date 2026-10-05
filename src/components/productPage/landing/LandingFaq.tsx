@@ -19,7 +19,7 @@ export default function LandingFaq({ faq }: { faq: LandingFaqBlock }) {
         <h2 className="text-center font-actay uppercase text-[18px] tab:text-[22px] laptop:text-[26px] leading-[normal]">
           {t("faqTitle")}
         </h2>
-        <div className="mt-6">
+        <div className="mt-6 laptop:mt-8">
           {items.map((item, index) => (
             <details
               key={index}
