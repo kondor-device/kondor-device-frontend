@@ -23,7 +23,7 @@ export default function LandingDarkOverlay({
           <TextContent
             block={block}
             textClass="text-white"
-            descriptionWidthClass="laptop:max-w-[621px]"
+            descriptionWidthClass="laptop:max-w-[579px]"
           />
         </div>
       </div>
