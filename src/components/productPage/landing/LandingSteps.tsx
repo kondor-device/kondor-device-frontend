@@ -8,7 +8,7 @@ export default function LandingSteps({ steps }: { steps: LandingStepsBlock }) {
   );
 
   return (
-    <div className="relative py-10 tab:py-[70px] laptop:flex laptop:min-h-[730px] laptop:items-center laptop:py-0 text-fg">
+    <div className="relative py-10 tab:py-[70px] laptop:flex laptop:min-h-[672px] laptop:items-center laptop:py-0 text-fg">
       <div className="grid items-center gap-8 tab:grid-cols-2 tab:gap-10 laptop:block">
         <ol className="flex flex-col gap-6 tab:gap-10 laptop:max-w-[742px] laptop:gap-[86px]">
           {items.map((item, index) => (
@@ -35,11 +35,11 @@ export default function LandingSteps({ steps }: { steps: LandingStepsBlock }) {
           ))}
         </ol>
         {steps.image ? (
-          // From 1280px the photo is 880×730 and sticks to the right edge of the screen
-          <div className="laptop:absolute laptop:right-[calc(50%-50vw-100px)] laptop:top-1/2 laptop:h-[730px] laptop:w-[880px] laptop:-translate-y-1/2">
+          // From 1280px the photo is 810×672 and sticks to the right edge of the screen
+          <div className="laptop:absolute laptop:right-[calc(50%-50vw-140px)] laptop:top-1/2 laptop:h-[672px] laptop:w-[810px] laptop:-translate-y-1/2">
             <LandingPicture
               image={steps.image}
-              sizes="(min-width: 1280px) 880px, (min-width: 768px) 50vw, 100vw"
+              sizes="(min-width: 1280px) 810px, (min-width: 768px) 50vw, 100vw"
               className="laptop:h-full laptop:object-contain"
             />
           </div>
