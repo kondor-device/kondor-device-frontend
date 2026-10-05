@@ -23,6 +23,50 @@ export interface ComplectItem {
   icon: { url: string; alt: string };
 }
 
+/** Every section, photo and colour of the landing may be null: the admin fields are optional */
+export interface LandingImage {
+  alt: string;
+  url: string;
+}
+
+export interface LandingTextBlock {
+  title: string | null;
+  description: string | null;
+  image: LandingImage | null;
+  /** Colour of the decorative stars and of the badges (hex) */
+  accentColor: string | null;
+  badges: { text: string | null }[] | null;
+}
+
+/** Sections shown after the main content of the product page (filled in the admin) */
+export interface ProductLanding {
+  hero: {
+    label: string | null;
+    model: string | null;
+    description: string | null;
+    image: LandingImage | null;
+    gradientFrom: string | null;
+    gradientTo: string | null;
+    badges: { badge: string | null; text: string | null }[] | null;
+  } | null;
+  textBlock1: LandingTextBlock | null;
+  textBlock2: LandingTextBlock | null;
+  ribbon: {
+    gradientFrom: string | null;
+    gradientTo: string | null;
+    badges: { text: string | null }[] | null;
+  } | null;
+  steps: {
+    image: LandingImage | null;
+    items: { title: string | null; description: string | null }[] | null;
+  } | null;
+  banner: { image: LandingImage | null } | null;
+  textBlock3: LandingTextBlock | null;
+  faq: {
+    items: { question: string | null; answer: string | null }[] | null;
+  } | null;
+}
+
 export interface ProductItem {
   id: string;
   generalname: string;
@@ -48,6 +92,8 @@ export interface ProductItem {
   complect: ComplectItem[];
   coloropts: ColorOpt[];
   chars: Characteristic[];
+  /** Only returned by the product page query; null when nothing is filled in */
+  landing?: ProductLanding | null;
   cat: { name: string; id: string };
   preorder: boolean;
   preordertext: string;

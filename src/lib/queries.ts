@@ -181,6 +181,52 @@ const MAIN_PRODUCTS_PROJECTION = `
   ${BADGE_PROJECTION}
 `;
 
+// Product landing (sections after the main product content, filled in the admin).
+// A section / photo / colour that is not filled in is null, so the site can skip it.
+const LANDING_IMAGE = (field: string) =>
+  `"image": select(defined(${field}.asset->url) => ${field}{ ${IMAGE_PROJECTION} })`;
+
+const LANDING_COLOR = (field: string) =>
+  `"${field}": select(defined(${field}.hex) => ${field}.hex)`;
+
+const LANDING_BADGES = `"badges": badges[]{ ${l10nField("text")} }`;
+
+const LANDING_TEXT_BLOCK = `{
+  ${l10nField("title")},
+  ${l10nField("description")},
+  ${LANDING_IMAGE("image")},
+  ${LANDING_COLOR("accentColor")},
+  ${LANDING_BADGES}
+}`;
+
+const LANDING_PROJECTION = `
+  "hero": hero{
+    "label": label,
+    "model": model,
+    ${l10nField("description")},
+    ${LANDING_IMAGE("image")},
+    ${LANDING_COLOR("gradientFrom")},
+    ${LANDING_COLOR("gradientTo")},
+    "badges": badges[]{ badge, ${l10nField("text")} }
+  },
+  "textBlock1": textBlock1${LANDING_TEXT_BLOCK},
+  "textBlock2": textBlock2${LANDING_TEXT_BLOCK},
+  "ribbon": ribbon{
+    ${LANDING_COLOR("gradientFrom")},
+    ${LANDING_COLOR("gradientTo")},
+    ${LANDING_BADGES}
+  },
+  "steps": steps{
+    ${LANDING_IMAGE("image")},
+    "items": items[]{ ${l10nField("title")}, ${l10nField("description")} }
+  },
+  "banner": banner{ ${LANDING_IMAGE("image")} },
+  "textBlock3": textBlock3${LANDING_TEXT_BLOCK},
+  "faq": faq{
+    "items": items[]{ ${l10nField("question")}, ${l10nField("answer")} }
+  }
+`;
+
 const ITEM_DETAIL_PROJECTION = `
   "id": _id,
   ${l10nField("generalname")},
@@ -206,7 +252,8 @@ const ITEM_DETAIL_PROJECTION = `
   outOfStock,
   "chars": chars[]{ ${CHARS_PROJECTION} },
   "coloropts": coloropts[]{ ${COLOR_OPTIONS_PROJECTION} },
-  "complect": complect[]{ ${COMPLECT_PROJECTION} }
+  "complect": complect[]{ ${COMPLECT_PROJECTION} },
+  "landing": landing{ ${LANDING_PROJECTION} }
 `;
 
 export const GET_ALL_DATA_QUERY = groq`
