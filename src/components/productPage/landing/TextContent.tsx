@@ -37,7 +37,7 @@ export function Badges({
 
 interface TextContentProps {
   block: LandingTextBlock;
-  /** Text colour: the template uses #221f1f on light blocks, white on dark ones */
+  /** Text colour: follows the site theme on light blocks, white on dark ones */
   textClass: string;
   /** Badges under the text (the first block shows them under the photo instead) */
   withBadges?: boolean;
