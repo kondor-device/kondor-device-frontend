@@ -49,7 +49,7 @@ export default function TextContent({
   withBadges = true,
 }: TextContentProps) {
   return (
-    <div className="flex flex-col gap-6 deskxl:gap-[41px]">
+    <div className="flex flex-col gap-6 deskxl:gap-[41px] tab:max-w-[621px]">
       <div className={["flex flex-col gap-5 deskxl:gap-8", textClass].join(" ")}>
         <Sparkles color={block.accentColor ?? FALLBACK_ACCENT} />
         <div className="flex flex-col gap-4 deskxl:gap-8">
