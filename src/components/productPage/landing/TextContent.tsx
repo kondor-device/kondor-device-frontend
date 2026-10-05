@@ -74,7 +74,7 @@ export default function TextContent({
         <Sparkles color={block.accentColor ?? FALLBACK_ACCENT} />
         <div className="flex flex-col gap-4 laptop:gap-8">
           {hasText(block.title) ? (
-            <h2 className="font-actay uppercase text-[22px] tab:text-[26px] laptop:text-[30px] deskxl:text-[36px] leading-[normal] break-words whitespace-pre-line">
+            <h2 className="font-actay uppercase text-[22px] tab:text-[26px] laptop:text-[36px] leading-[normal] break-words whitespace-pre-line">
               {block.title}
             </h2>
           ) : null}
