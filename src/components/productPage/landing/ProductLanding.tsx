@@ -68,9 +68,18 @@ export default function ProductLanding({ landing }: ProductLandingProps) {
 
   const { hero, sections } = landing;
 
+  // The header has no colour of its own: it takes the accent of the first block that has one
+  const accentBlock = (sections ?? []).find(
+    (
+      section,
+    ): section is Extract<LandingSection, { accentColor: string | null }> =>
+      "accentColor" in section && Boolean(section.accentColor),
+  );
+  const accentColor = accentBlock?.accentColor ?? null;
+
   const blocks = [
     hero && (hasText(hero.model) || hero.image) ? (
-      <LandingHero key="hero" hero={hero} />
+      <LandingHero key="hero" hero={hero} accentColor={accentColor} />
     ) : null,
     ...(sections ?? []).map(renderSection),
   ].filter(Boolean);

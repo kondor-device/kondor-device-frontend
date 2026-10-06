@@ -6,11 +6,18 @@ import {
   BADGE_PADDING_CLASS,
   BADGE_TEXT_CLASS,
 } from "./TextContent";
-import { hasText, heroGradient } from "./utils";
+import { FALLBACK_ACCENT, hasText, heroGradient } from "./utils";
 
 type Hero = NonNullable<ProductLanding["hero"]>;
 
-export default function LandingHero({ hero }: { hero: Hero }) {
+export default function LandingHero({
+  hero,
+  accentColor,
+}: {
+  hero: Hero;
+  /** Accent colour of the landing (taken from its text blocks) */
+  accentColor?: string | null;
+}) {
   const badges = (hero.badges ?? []).filter(
     (item) => hasText(item.badge) || hasText(item.text),
   );
@@ -36,23 +43,25 @@ export default function LandingHero({ hero }: { hero: Hero }) {
           className="w-[130px] tab:w-[190px] laptop:w-[250px] deskxl:w-[314px] h-auto"
         />
         {hasText(hero.label) ? (
-          <span className="flex items-center gap-2 text-10bold tab:text-14bold uppercase tracking-wide">
-            <svg
-              viewBox="0 0 24 24"
-              width="12"
-              height="12"
-              fill="currentColor"
+          <span className="flex items-center gap-2 font-actay uppercase text-[clamp(14px,2.34vw,45px)] leading-none">
+            {/* One star of the sparkles file from the design, in the accent colour */}
+            <span
               aria-hidden="true"
-            >
-              <path d="M12 0c.6 6.6 4.8 11.4 12 12-7.2.6-11.4 5.4-12 12-.6-6.6-4.8-11.4-12-12C7.2 11.4 11.4 6.6 12 0Z" />
-            </svg>
+              className="block size-[28px] shrink-0"
+              style={{
+                backgroundColor: accentColor ?? FALLBACK_ACCENT,
+                mask: "url(/images/landing/sparkles.svg) no-repeat left center / auto 100%",
+                WebkitMask:
+                  "url(/images/landing/sparkles.svg) no-repeat left center / auto 100%",
+              }}
+            />
             {hero.label}
           </span>
         ) : null}
       </div>
 
       {hasText(hero.model) ? (
-        <h2 className="mt-6 tab:mt-4 font-actay text-[40px] leading-none tab:text-[56px] laptop:text-[12.7vw] deskxl:text-[244px] uppercase break-words">
+        <h2 className="mt-6 tab:mt-4 font-actay text-[12.7vw] leading-none deskxl:text-[244px] uppercase break-words">
           {hero.model}
         </h2>
       ) : null}
