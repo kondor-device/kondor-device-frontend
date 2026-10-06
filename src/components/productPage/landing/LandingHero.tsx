@@ -37,8 +37,8 @@ export default function LandingHero({
         aria-hidden="true"
         width={3520}
         height={1330}
-        sizes="(min-width: 1920px) 1440px, 100vw"
-        className="pointer-events-none absolute bottom-0 right-0 -z-10 h-auto w-full select-none opacity-40 invert"
+        sizes="(min-width: 1920px) 1760px, 92vw"
+        className="pointer-events-none absolute bottom-0 right-0 -z-10 h-auto w-[91.67vw] max-w-none select-none opacity-40 invert deskxl:w-[1760px]"
       />
 
       <div className="flex items-center justify-between">
