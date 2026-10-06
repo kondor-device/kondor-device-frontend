@@ -51,13 +51,14 @@ export default function LandingHero({ hero }: { hero: Hero }) {
         ) : null}
       </div>
 
-      <div className="mt-6 tab:mt-4 grid tab:grid-cols-2 items-center gap-6 tab:gap-10">
+      {hasText(hero.model) ? (
+        <h2 className="mt-6 tab:mt-4 font-actay text-[40px] leading-none tab:text-[56px] laptop:text-[12.7vw] deskxl:text-[244px] uppercase break-words">
+          {hero.model}
+        </h2>
+      ) : null}
+
+      <div className="mt-6 grid tab:grid-cols-2 items-center gap-6 tab:gap-10">
         <div>
-          {hasText(hero.model) ? (
-            <h2 className="font-actay text-[40px] leading-none tab:text-[56px] laptop:text-[12.7vw] deskxl:text-[244px] uppercase break-words">
-              {hero.model}
-            </h2>
-          ) : null}
           {hasText(hero.description) ? (
             <p className="mt-3 tab:mt-4 text-12med tab:text-16med max-w-[420px] uppercase opacity-80">
               {hero.description}
