@@ -25,7 +25,7 @@ export default function LandingHero({
 
   return (
     <div
-      className="relative overflow-hidden p-5 tab:p-10 desk:py-[50px] desk:px-[100px] text-white rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px] laptop:min-h-[calc(min(633px,0.438*(100vw-160px))+200px)] desk:min-h-[calc(min(633px,0.438*(100vw-200px))+200px)] deskxl:min-h-[833px]"
+      className="relative overflow-hidden p-5 tab:p-10 desk:py-[50px] desk:px-[100px] text-white rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px] laptop:min-h-[calc(32.97vw+200px)] deskxl:min-h-[833px]"
       style={{
         background: heroGradient([
           hero.gradientColor1,
@@ -94,8 +94,8 @@ export default function LandingHero({
           ) : null}
         </div>
         {hero.image ? (
-          // On desktop the photo is 968×633, over the title and flush with the bottom of the header
-          <div className="-mb-5 tab:-mb-10 laptop:absolute laptop:bottom-0 laptop:right-[100px] laptop:z-10 laptop:mb-0 laptop:w-[min(968px,68%)] pointer-events-none">
+          // From 1280px the photo is over the title and flush with the bottom of the header: 968×633 with a 100px right offset at 1920px, proportionally smaller below
+          <div className="-mb-5 tab:-mb-10 laptop:absolute laptop:bottom-0 laptop:right-[5.21vw] deskxl:right-[100px] laptop:z-10 laptop:mb-0 laptop:w-[50.42vw] deskxl:w-[968px] pointer-events-none">
             <LandingPicture
               image={hero.image}
               sizes="(min-width: 1280px) 968px, (min-width: 768px) 50vw, 100vw"
