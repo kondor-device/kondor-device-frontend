@@ -95,7 +95,7 @@ export default function LandingHero({
         </div>
         {hero.image ? (
           // On desktop the photo is 968×633, over the title and flush with the bottom of the header
-          <div className="-mb-5 tab:-mb-10 laptop:absolute laptop:bottom-0 laptop:right-0 laptop:z-10 laptop:mb-0 laptop:w-[min(968px,68%)] pointer-events-none">
+          <div className="-mb-5 tab:-mb-10 laptop:absolute laptop:bottom-0 laptop:right-[100px] laptop:z-10 laptop:mb-0 laptop:w-[min(968px,68%)] pointer-events-none">
             <LandingPicture
               image={hero.image}
               sizes="(min-width: 1280px) 968px, (min-width: 768px) 50vw, 100vw"
