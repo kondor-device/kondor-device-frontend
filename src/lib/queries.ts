@@ -206,8 +206,10 @@ const LANDING_PROJECTION = `
     "model": model,
     ${l10nField("description")},
     ${LANDING_IMAGE("image")},
-    ${LANDING_COLOR("gradientFrom")},
-    ${LANDING_COLOR("gradientTo")},
+    ${LANDING_COLOR("gradientColor1")},
+    ${LANDING_COLOR("gradientColor2")},
+    ${LANDING_COLOR("gradientColor3")},
+    ${LANDING_COLOR("gradientColor4")},
     "badges": badges[]{ badge, ${l10nField("text")} }
   },
   "sections": sections[]{

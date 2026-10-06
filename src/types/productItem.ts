@@ -98,8 +98,11 @@ export interface ProductLanding {
     model: string | null;
     description: string | null;
     image: LandingImage | null;
-    gradientFrom: string | null;
-    gradientTo: string | null;
+    /** Four colours of the header gradient, from the darkest to the lightest */
+    gradientColor1: string | null;
+    gradientColor2: string | null;
+    gradientColor3: string | null;
+    gradientColor4: string | null;
     badges: { badge: string | null; text: string | null }[] | null;
   } | null;
   sections: LandingSection[] | null;

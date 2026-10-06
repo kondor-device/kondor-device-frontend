@@ -25,3 +25,15 @@ export function getImageSize(image: LandingImage) {
     ? { width: Number(match[1]), height: Number(match[2]) }
     : { width: 1200, height: 800 };
 }
+
+/**
+ * Gradient of the landing header: the formula is fixed, only the four colours come from the
+ * admin. Missing colours fall back to the darkest of the filled ones (or the default dark).
+ */
+export function heroGradient(colors: (string | null)[]) {
+  const filled = colors.filter((color): color is string => Boolean(color));
+  const fallback = filled[0] ?? FALLBACK_COLOR;
+  const [c1, c2, c3, c4] = [0, 1, 2, 3].map((i) => colors[i] ?? fallback);
+
+  return `linear-gradient(308.65deg, ${c1} 18.05%, ${c2} 48.49%, ${c3} 75.83%, ${c4} 101.59%)`;
+}

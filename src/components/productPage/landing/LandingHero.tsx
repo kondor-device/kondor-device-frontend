@@ -6,7 +6,7 @@ import {
   BADGE_PADDING_CLASS,
   BADGE_TEXT_CLASS,
 } from "./TextContent";
-import { gradient, hasText } from "./utils";
+import { hasText, heroGradient } from "./utils";
 
 type Hero = NonNullable<ProductLanding["hero"]>;
 
@@ -18,7 +18,14 @@ export default function LandingHero({ hero }: { hero: Hero }) {
   return (
     <div
       className="p-5 tab:p-10 desk:py-[50px] desk:px-[100px] text-white rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px]"
-      style={{ background: gradient(hero.gradientFrom, hero.gradientTo) }}
+      style={{
+        background: heroGradient([
+          hero.gradientColor1,
+          hero.gradientColor2,
+          hero.gradientColor3,
+          hero.gradientColor4,
+        ]),
+      }}
     >
       <div className="flex items-center justify-between">
         <Image
