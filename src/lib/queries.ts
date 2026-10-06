@@ -202,15 +202,7 @@ const LANDING_TEXT_BLOCK = `
 // The header and the blocks of the builder (`_type` tells which block it is)
 const LANDING_PROJECTION = `
   "hero": hero{
-    "label": label,
-    "model": model,
-    ${l10nField("description")},
-    ${LANDING_IMAGE("image")},
-    ${LANDING_COLOR("gradientColor1")},
-    ${LANDING_COLOR("gradientColor2")},
-    ${LANDING_COLOR("gradientColor3")},
-    ${LANDING_COLOR("gradientColor4")},
-    "badges": badges[]{ badge, ${l10nField("text")} }
+    ${LANDING_IMAGE("image")}
   },
   "sections": sections[]{
     _key,

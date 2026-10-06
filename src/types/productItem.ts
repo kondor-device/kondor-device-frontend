@@ -43,7 +43,9 @@ interface LandingBlockBase {
   _key: string;
 }
 
-export interface LandingTextPhotoBlock extends LandingTextBlock, LandingBlockBase {
+export interface LandingTextPhotoBlock
+  extends LandingTextBlock,
+    LandingBlockBase {
   _type: "landingTextPhoto";
   /** Photo in a rounded frame, wider than the usual one */
   framed: boolean;
@@ -51,11 +53,15 @@ export interface LandingTextPhotoBlock extends LandingTextBlock, LandingBlockBas
   badgesUnderImage: boolean;
 }
 
-export interface LandingDarkCardBlock extends LandingTextBlock, LandingBlockBase {
+export interface LandingDarkCardBlock
+  extends LandingTextBlock,
+    LandingBlockBase {
   _type: "landingDarkCard";
 }
 
-export interface LandingSquarePhotoBlock extends LandingTextBlock, LandingBlockBase {
+export interface LandingSquarePhotoBlock
+  extends LandingTextBlock,
+    LandingBlockBase {
   _type: "landingSquarePhoto";
 }
 
@@ -93,18 +99,7 @@ export type LandingSection =
 
 /** Header and blocks shown after the main content of the product page (filled in the admin) */
 export interface ProductLanding {
-  hero: {
-    label: string | null;
-    model: string | null;
-    description: string | null;
-    image: LandingImage | null;
-    /** Four colours of the header gradient, from the darkest to the lightest */
-    gradientColor1: string | null;
-    gradientColor2: string | null;
-    gradientColor3: string | null;
-    gradientColor4: string | null;
-    badges: { badge: string | null; text: string | null }[] | null;
-  } | null;
+  hero: { image: LandingImage | null } | null;
   sections: LandingSection[] | null;
 }
 
