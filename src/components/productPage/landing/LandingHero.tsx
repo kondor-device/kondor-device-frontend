@@ -29,11 +29,11 @@ export default function LandingHero({ hero }: { hero: Hero }) {
     >
       <div className="flex items-center justify-between">
         <Image
-          src="/images/icons/logo.svg"
+          src="/images/landing/kondor-logo.svg"
           alt="Kondor"
-          width={203}
-          height={81}
-          className="w-[70px] tab:w-[100px] h-auto brightness-0 invert"
+          width={314}
+          height={79}
+          className="w-[130px] tab:w-[190px] laptop:w-[250px] deskxl:w-[314px] h-auto"
         />
         {hasText(hero.label) ? (
           <span className="flex items-center gap-2 text-10bold tab:text-14bold uppercase tracking-wide">
