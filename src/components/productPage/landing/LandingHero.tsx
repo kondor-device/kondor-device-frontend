@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ProductLanding } from "@/types/productItem";
+import LandingHeroTitle from "./LandingHeroTitle";
 import LandingPicture from "./LandingPicture";
 import {
   BADGE_HEIGHT_CLASS,
@@ -43,11 +44,11 @@ export default function LandingHero({
           className="w-[130px] tab:w-[190px] laptop:w-[250px] deskxl:w-[314px] h-auto"
         />
         {hasText(hero.label) ? (
-          <span className="flex items-center gap-2 font-actay uppercase text-[clamp(14px,2.34vw,45px)] leading-none">
-            {/* One star of the sparkles file from the design, in the accent colour */}
+          <span className="flex items-center gap-[22px] font-actay uppercase text-[clamp(14px,2.34vw,45px)] leading-none">
+            {/* One star of the sparkles file from the design, in the accent colour; lifted to the middle of the capitals */}
             <span
               aria-hidden="true"
-              className="block size-[28px] shrink-0"
+              className="block size-[28px] shrink-0 -translate-y-[0.09em]"
               style={{
                 backgroundColor: accentColor ?? FALLBACK_ACCENT,
                 mask: "url(/images/landing/sparkles.svg) no-repeat left center / auto 100%",
@@ -61,9 +62,7 @@ export default function LandingHero({
       </div>
 
       {hasText(hero.model) ? (
-        <h2 className="mt-6 tab:mt-4 font-actay text-[12.7vw] leading-none deskxl:text-[244px] uppercase break-words">
-          {hero.model}
-        </h2>
+        <LandingHeroTitle>{hero.model}</LandingHeroTitle>
       ) : null}
 
       <div className="mt-6 grid tab:grid-cols-2 items-center gap-6 tab:gap-10">
