@@ -20,7 +20,7 @@ export default function LandingHero({
 
   return (
     <div
-      className="relative overflow-hidden p-5 tab:p-10 desk:py-[50px] desk:px-[100px] text-white rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px] laptop:min-h-[calc(32.97vw+200px)] deskxl:min-h-[833px]"
+      className="relative isolate overflow-hidden p-5 tab:p-10 desk:py-[50px] desk:px-[100px] text-white rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px] laptop:min-h-[calc(32.97vw+200px)] deskxl:min-h-[833px]"
       style={{
         background: heroGradient([
           hero.gradientColor1,
@@ -30,6 +30,17 @@ export default function LandingHero({
         ]),
       }}
     >
+      {/* The dotted texture of the design: the same for every product, under the texts */}
+      <Image
+        src="/images/landing/halftone.webp"
+        alt=""
+        aria-hidden="true"
+        width={3520}
+        height={1330}
+        sizes="(min-width: 1920px) 1440px, 100vw"
+        className="pointer-events-none absolute bottom-0 right-0 -z-10 h-auto w-full select-none opacity-40 invert"
+      />
+
       <div className="flex items-center justify-between">
         <Image
           src="/images/landing/kondor-logo.svg"
