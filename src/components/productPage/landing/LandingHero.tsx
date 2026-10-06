@@ -2,11 +2,6 @@ import Image from "next/image";
 import { ProductLanding } from "@/types/productItem";
 import LandingHeroTitle from "./LandingHeroTitle";
 import LandingPicture from "./LandingPicture";
-import {
-  BADGE_HEIGHT_CLASS,
-  BADGE_PADDING_CLASS,
-  BADGE_TEXT_CLASS,
-} from "./TextContent";
 import { FALLBACK_ACCENT, hasText, heroGradient } from "./utils";
 
 type Hero = NonNullable<ProductLanding["hero"]>;
@@ -68,23 +63,24 @@ export default function LandingHero({
       <div className="mt-6 grid tab:grid-cols-2 items-center gap-6 tab:gap-10">
         <div className="relative z-20">
           {hasText(hero.description) ? (
-            <p className="mt-3 tab:mt-4 text-12med tab:text-16med max-w-[420px] uppercase opacity-80">
+            <p className="mt-3 tab:mt-4 max-w-[17em] text-[clamp(12px,1.406vw,27px)] leading-[1.25] uppercase opacity-80">
               {hero.description}
             </p>
           ) : null}
           {badges.length > 0 ? (
             <ul className="mt-6 tab:mt-10 flex flex-col gap-3">
               {badges.map((item, index) => (
-                <li key={index} className="flex items-center gap-3">
+                <li
+                  key={index}
+                  className="flex items-center gap-3 deskxl:gap-5"
+                >
                   {hasText(item.badge) ? (
-                    <span
-                      className={`flex items-center justify-center min-w-[56px] bg-white text-dark ${BADGE_HEIGHT_CLASS} ${BADGE_PADDING_CLASS} ${BADGE_TEXT_CLASS}`}
-                    >
+                    <span className="flex h-[clamp(36px,4.02vw,77px)] min-w-[clamp(44px,4.05vw,78px)] items-center justify-center rounded-full bg-white px-[clamp(14px,1.8vw,34px)] font-actay text-[clamp(14px,1.667vw,32px)] leading-none text-dark">
                       {item.badge}
                     </span>
                   ) : null}
                   {hasText(item.text) ? (
-                    <span className="text-10med tab:text-12med opacity-80">
+                    <span className="text-[clamp(10px,0.833vw,16px)] uppercase opacity-80">
                       {item.text}
                     </span>
                   ) : null}
