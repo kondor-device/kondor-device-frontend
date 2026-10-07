@@ -33,17 +33,17 @@ export default function LandingHero({
         <>
           <LandingBackdrop
             background={heroMobileGradient(mobileGradientColors ?? [])}
-            className={`${BACKDROP_ROUNDED} sm:hidden`}
+            className={`${BACKDROP_ROUNDED} overflow-hidden sm:hidden`}
           />
           <LandingBackdrop
             background={heroGradient(gradientColors)}
-            className={`${BACKDROP_ROUNDED} hidden sm:block`}
+            className={`${BACKDROP_ROUNDED} hidden overflow-hidden sm:block`}
           />
         </>
       ) : (
         <LandingBackdrop
           background={heroGradient(gradientColors)}
-          className={BACKDROP_ROUNDED}
+          className={`${BACKDROP_ROUNDED} overflow-hidden`}
         />
       )}
       <div className="container max-w-[1920px]">
