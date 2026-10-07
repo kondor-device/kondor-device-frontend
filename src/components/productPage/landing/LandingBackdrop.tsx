@@ -1,5 +1,9 @@
 // A background layer as wide as the screen behind a block that stays inside the site container.
 // The block needs `relative isolate`: the layer sits under its content.
+// The same rounding as the other full-width blocks of the landing (the dark cards)
+export const BACKDROP_ROUNDED =
+  "rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px]";
+
 export default function LandingBackdrop({
   background,
   className,

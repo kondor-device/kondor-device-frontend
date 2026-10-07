@@ -1,5 +1,5 @@
 import { LandingBannerBlock } from "@/types/productItem";
-import LandingBackdrop from "./LandingBackdrop";
+import LandingBackdrop, { BACKDROP_ROUNDED } from "./LandingBackdrop";
 import LandingPicture from "./LandingPicture";
 import { bannerGradient } from "./utils";
 
@@ -18,6 +18,7 @@ export default function LandingBanner({
       {hasBackground ? (
         <LandingBackdrop
           background={bannerGradient(banner.gradientFrom, banner.gradientTo)}
+          className={BACKDROP_ROUNDED}
         />
       ) : null}
       <LandingPicture

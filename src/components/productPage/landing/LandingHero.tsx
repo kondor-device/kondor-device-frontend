@@ -1,5 +1,5 @@
 import { LandingImage } from "@/types/productItem";
-import LandingBackdrop from "./LandingBackdrop";
+import LandingBackdrop, { BACKDROP_ROUNDED } from "./LandingBackdrop";
 import LandingPicture from "./LandingPicture";
 import { heroGradient, heroMobileGradient } from "./utils";
 
@@ -30,15 +30,18 @@ export default function LandingHero({
         <>
           <LandingBackdrop
             background={heroMobileGradient(mobileGradientColors ?? [])}
-            className="sm:hidden"
+            className={`${BACKDROP_ROUNDED} sm:hidden`}
           />
           <LandingBackdrop
             background={heroGradient(gradientColors)}
-            className="hidden sm:block"
+            className={`${BACKDROP_ROUNDED} hidden sm:block`}
           />
         </>
       ) : (
-        <LandingBackdrop background={heroGradient(gradientColors)} />
+        <LandingBackdrop
+          background={heroGradient(gradientColors)}
+          className={BACKDROP_ROUNDED}
+        />
       )}
       {mobileImage ? (
         <>
