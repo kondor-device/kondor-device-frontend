@@ -202,7 +202,8 @@ const LANDING_TEXT_BLOCK = `
 // The header and the blocks of the builder (`_type` tells which block it is)
 const LANDING_PROJECTION = `
   "hero": hero{
-    ${LANDING_IMAGE("image")}
+    ${LANDING_IMAGE("image")},
+    ${LANDING_IMAGE("mobileImage")}
   },
   "sections": sections[]{
     _key,

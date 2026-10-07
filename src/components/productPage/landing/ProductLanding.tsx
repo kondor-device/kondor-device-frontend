@@ -69,7 +69,13 @@ export default function ProductLanding({ landing }: ProductLandingProps) {
   const { hero, sections } = landing;
 
   const blocks = [
-    hero?.image ? <LandingHero key="hero" image={hero.image} /> : null,
+    hero?.image ? (
+      <LandingHero
+        key="hero"
+        image={hero.image}
+        mobileImage={hero.mobileImage}
+      />
+    ) : null,
     ...(sections ?? []).map(renderSection),
   ].filter(Boolean);
 
