@@ -99,7 +99,7 @@ export type LandingSection =
 
 /** Header and blocks shown after the main content of the product page (filled in the admin) */
 export interface ProductLanding {
-  /** The header is one picture: `image` for tablet / desktop, `mobileImage` (optional) for mobile */
+  /** The header is one picture: `image` from 640px, `mobileImage` (optional) below 640px */
   hero: {
     image: LandingImage | null;
     mobileImage: LandingImage | null;

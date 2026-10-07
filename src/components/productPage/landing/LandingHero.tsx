@@ -2,9 +2,9 @@ import { LandingImage } from "@/types/productItem";
 import LandingPicture from "./LandingPicture";
 
 interface LandingHeroProps {
-  /** Tablet and desktop picture (also the mobile one when there is no mobile picture) */
+  /** Picture from 640px (also the mobile one when there is no mobile picture) */
   image: LandingImage;
-  /** Picture for screens narrower than 768px */
+  /** Picture for screens narrower than 640px */
   mobileImage?: LandingImage | null;
 }
 
@@ -18,12 +18,12 @@ export default function LandingHero({ image, mobileImage }: LandingHeroProps) {
           <LandingPicture
             image={mobileImage}
             sizes="100vw"
-            className="tab:hidden"
+            className="sm:hidden"
           />
           <LandingPicture
             image={image}
             sizes="(min-width: 1920px) 1440px, 100vw"
-            className="hidden tab:block"
+            className="hidden sm:block"
           />
         </>
       ) : (
