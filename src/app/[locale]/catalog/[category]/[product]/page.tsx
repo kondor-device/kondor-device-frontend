@@ -218,7 +218,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
         data={productJsonLd({
           product: currentProduct,
           url: pageUrl,
-          title: getProductTitle(currentProduct.generalname, currentProduct.name),
+          title: getProductTitle(
+            currentProduct.generalname,
+            currentProduct.name,
+          ),
           categoryName: similarProducts?.categoryName,
         })}
       />
@@ -227,6 +230,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           product={currentProduct}
           addons={res?.data?.shownOnAddons}
           breadcrumbs={breadcrumbs}
+          landing={<ProductLanding landing={currentProduct.landing} />}
         />
         <AddonsSlider addons={res?.data?.shownOnAddons} />
         <SimilarProductsSlider
@@ -234,7 +238,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
           addons={res?.data?.shownOnAddons}
         />
         <Manual product={currentProduct} />
-        <ProductLanding landing={currentProduct.landing} />
       </Suspense>
     </div>
   );

@@ -82,7 +82,7 @@ export default function ProductLanding({ landing }: ProductLandingProps) {
   if (blocks.length === 0) return null;
 
   return (
-    <section className="container max-w-[1920px] mt-10 desk:mt-[60px]">
+    <section className="container max-w-[1920px] mb-5 tab:mb-[100px]">
       {blocks}
     </section>
   );
