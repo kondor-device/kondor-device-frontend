@@ -37,16 +37,18 @@ export default function ThemeToggle({ className = "" }: ThemeToggleProps) {
     document.documentElement.classList.toggle("dark", nextIsDark);
     document.documentElement.classList.toggle("light", !nextIsDark);
 
-    // Mirror the choice in the address so the copied link opens the same theme.
+    // The user picked a theme themselves: the one from the link no longer applies, so drop it.
     // replaceState: no navigation and no history entry; other parameters and the hash stay.
     try {
       const url = new URL(window.location.href);
-      url.searchParams.set(THEME_QUERY_PARAM, nextIsDark ? "dark" : "light");
-      window.history.replaceState(
-        window.history.state,
-        "",
-        `${url.pathname}${url.search}${url.hash}`,
-      );
+      if (url.searchParams.has(THEME_QUERY_PARAM)) {
+        url.searchParams.delete(THEME_QUERY_PARAM);
+        window.history.replaceState(
+          window.history.state,
+          "",
+          `${url.pathname}${url.search}${url.hash}`,
+        );
+      }
     } catch {}
   };
 
