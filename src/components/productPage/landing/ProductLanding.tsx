@@ -71,34 +71,37 @@ export default function ProductLanding({ landing }: ProductLandingProps) {
 
   const { hero, sections } = landing;
 
-  const blocks = [
-    hero?.image ? (
-      <LandingHero
-        key="hero"
-        image={hero.image}
-        mobileImage={hero.mobileImage}
-        gradientColors={[
-          hero.gradientColor1,
-          hero.gradientColor2,
-          hero.gradientColor3,
-          hero.gradientColor4,
-        ]}
-        mobileGradientColors={[
-          hero.mobileGradientColor1,
-          hero.mobileGradientColor2,
-          hero.mobileGradientColor3,
-          hero.mobileGradientColor4,
-        ]}
-      />
-    ) : null,
-    ...(sections ?? []).map(renderSection),
-  ].filter(Boolean);
+  const heroBlock = hero?.image ? (
+    <LandingHero
+      image={hero.image}
+      mobileImage={hero.mobileImage}
+      gradientColors={[
+        hero.gradientColor1,
+        hero.gradientColor2,
+        hero.gradientColor3,
+        hero.gradientColor4,
+      ]}
+      mobileGradientColors={[
+        hero.mobileGradientColor1,
+        hero.mobileGradientColor2,
+        hero.mobileGradientColor3,
+        hero.mobileGradientColor4,
+      ]}
+    />
+  ) : null;
 
-  if (blocks.length === 0) return null;
+  const blocks = (sections ?? []).map(renderSection).filter(Boolean);
+
+  if (!heroBlock && blocks.length === 0) return null;
 
   return (
-    <section className="container max-w-[1920px] mb-5 tab:mb-[100px]">
-      {blocks}
-    </section>
+    <div className="mb-5 tab:mb-[100px]">
+      {/* The header is outside the padded container: its picture has the container's width
+          and margins, but no side paddings */}
+      {heroBlock}
+      {blocks.length > 0 ? (
+        <section className="container max-w-[1920px]">{blocks}</section>
+      ) : null}
+    </div>
   );
 }
