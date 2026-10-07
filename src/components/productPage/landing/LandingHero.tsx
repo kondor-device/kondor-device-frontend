@@ -14,9 +14,8 @@ interface LandingHeroProps {
   mobileGradientColors?: (string | null)[];
 }
 
-// Below 640px the picture is never narrower than 380px (the screen cuts it when the screen is
-// narrower), then it grows in proportion to the screen (380px at 390px)
-const MOBILE_PICTURE = "w-[max(380px,97.44vw)] sm:w-full";
+// Below 640px the picture is as wide as the screen (it leaves the side paddings of the container)
+const MOBILE_PICTURE = "mx-[calc(50%-50vw)] w-screen sm:mx-0 sm:w-full";
 
 // The header: a gradient over the whole screen width, the picture (logo, title, photo,
 // characteristics) inside the ordinary site container
@@ -52,7 +51,7 @@ export default function LandingHero({
           <>
             {/* A hidden lazy image is not downloaded, so only one of the two is loaded */}
             <div className={`${MOBILE_PICTURE} sm:hidden`}>
-              <LandingPicture image={mobileImage} sizes="max(380px, 97.44vw)" />
+              <LandingPicture image={mobileImage} sizes="100vw" />
             </div>
             <div className="hidden sm:block">
               <LandingPicture
@@ -65,7 +64,7 @@ export default function LandingHero({
           <div className={MOBILE_PICTURE}>
             <LandingPicture
               image={image}
-              sizes="(min-width: 1920px) 1440px, (min-width: 640px) 100vw, max(380px, 97.44vw)"
+              sizes="(min-width: 1920px) 1440px, 100vw"
             />
           </div>
         )}
