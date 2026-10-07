@@ -14,7 +14,7 @@ export default function LandingBanner({
   const hasBackground = Boolean(banner.gradientFrom || banner.gradientTo);
 
   return (
-    <div className="relative isolate py-10 tab:py-6">
+    <div className="relative isolate">
       {hasBackground ? (
         <LandingBackdrop
           background={bannerGradient(banner.gradientFrom, banner.gradientTo)}
