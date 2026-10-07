@@ -4,7 +4,8 @@ import { THEME_STORAGE_KEY } from "./themeScript";
 
 // The theme class on <html> is set by themeScript before hydration, but it is lost when the
 // root layout re-renders on client navigation (e.g. switching the language).
-// Restores it from the saved choice (or the system theme) whenever neither class is present.
+// Restores it whenever neither class is present, by the same rule as themeScript: dark only
+// if the user chose it (the system theme is ignored, light is the default).
 export default function ThemeKeeper() {
   useEffect(() => {
     const html = document.documentElement;
@@ -19,9 +20,7 @@ export default function ThemeKeeper() {
         saved = localStorage.getItem(THEME_STORAGE_KEY);
       } catch {}
 
-      const isDark = saved
-        ? saved === "dark"
-        : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const isDark = saved === "dark";
 
       html.classList.toggle("dark", isDark);
       html.classList.toggle("light", !isDark);
