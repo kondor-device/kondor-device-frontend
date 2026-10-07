@@ -224,9 +224,16 @@ export default function ProductInfo({
                 </Button>
               </AnimationWrapper>
               {!outOfStock && preorder && preordertext ? (
-                <p className="absolute bottom-3 tabxl:bottom-4 px-4 deskxl:px-6 text-10med tabxl:text-14med text-white">
-                  {preordertext}
-                </p>
+                <AnimationWrapper
+                  sectionId={PRICE_ID}
+                  commonStyles="-mt-3 mb-5 desk:-mt-6 desk:mb-9 transition duration-1000 ease-slow"
+                  visibleStyles="opacity-100 translate-y-0 delay-[1400ms]"
+                  unVisibleStyles="opacity-0 translate-y-[12px]"
+                >
+                  <p className="text-12med desk:text-16med text-yellow">
+                    {preordertext}
+                  </p>
+                </AnimationWrapper>
               ) : null}
             </div>
           </div>
