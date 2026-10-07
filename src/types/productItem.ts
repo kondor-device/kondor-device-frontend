@@ -77,6 +77,17 @@ export interface LandingRibbonBlock extends LandingBlockBase {
   gradientColor7: string | null;
   gradientColor8: string | null;
   gradientColor9: string | null;
+  /** Stop positions (%) and angle of the ribbon gradient; the design defaults when empty */
+  gradientPosition1: number | null;
+  gradientPosition2: number | null;
+  gradientPosition3: number | null;
+  gradientPosition4: number | null;
+  gradientPosition5: number | null;
+  gradientPosition6: number | null;
+  gradientPosition7: number | null;
+  gradientPosition8: number | null;
+  gradientPosition9: number | null;
+  gradientAngle: number | null;
   gradientFrom: string | null;
   gradientTo: string | null;
   badges: { text: string | null }[] | null;
@@ -93,6 +104,10 @@ export interface LandingBannerBlock extends LandingBlockBase {
   image: LandingImage | null;
   gradientFrom: string | null;
   gradientTo: string | null;
+  /** Angle and stop positions (%) of the gradient; the defaults of the first design when empty */
+  gradientAngle: number | null;
+  gradientFromPosition: number | null;
+  gradientToPosition: number | null;
 }
 
 export interface LandingFaqBlock extends LandingBlockBase {

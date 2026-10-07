@@ -17,19 +17,25 @@ export function gradient(from: string | null, to: string | null, angle = 135) {
   return `linear-gradient(${angle}deg, ${start} 0%, ${end} 100%)`;
 }
 
-// Stops of the nine-colour ribbon gradient (from the design)
+// Default stops and angle of the nine-colour ribbon gradient (from the design)
 const RIBBON_STOPS = [
   1.85, 41.26, 94.29, 142.68, 188.41, 232.82, 278.56, 318.99, 374.76,
 ];
+const RIBBON_ANGLE = 89.64;
 
-/** Ribbon gradient from up to nine colours; empty slots are skipped, null when nothing is filled */
-export function ribbonGradient(colors: (string | null)[]) {
+/** Ribbon gradient from up to nine colours; empty slots are skipped, null when nothing is filled.
+ * Positions (%) and angle come from the admin, the defaults above are used for what is empty */
+export function ribbonGradient(
+  colors: (string | null)[],
+  positions: (number | null)[] = [],
+  angle: number | null = null,
+) {
   const stops = colors.flatMap((color, index) =>
-    color ? [`${color} ${RIBBON_STOPS[index]}%`] : [],
+    color ? [`${color} ${positions[index] ?? RIBBON_STOPS[index]}%`] : [],
   );
 
   return stops.length > 0
-    ? `linear-gradient(89.64deg, ${stops.join(", ")})`
+    ? `linear-gradient(${angle ?? RIBBON_ANGLE}deg, ${stops.join(", ")})`
     : null;
 }
 
@@ -51,12 +57,19 @@ export function heroGradient(colors: (string | null)[]) {
   return `linear-gradient(308.65deg, ${c1} 18.05%, ${c2} 48.49%, ${c3} 75.83%, ${c4} 101.59%)`;
 }
 
-/** Background of the full-width photo block: a fixed formula, two colours from the admin */
-export function bannerGradient(from: string | null, to: string | null) {
+/** Background of the full-width photo block: two colours from the admin; angle and stops (%) are
+ * optional in the admin, the defaults are the first design */
+export function bannerGradient(
+  from: string | null,
+  to: string | null,
+  angle: number | null = null,
+  fromPosition: number | null = null,
+  toPosition: number | null = null,
+) {
   const start = from ?? to ?? FALLBACK_COLOR;
   const end = to ?? from ?? FALLBACK_COLOR;
 
-  return `linear-gradient(119.61deg, ${start} 47.56%, ${end} 128.27%)`;
+  return `linear-gradient(${angle ?? 119.61}deg, ${start} ${fromPosition ?? 47.56}%, ${end} ${toPosition ?? 128.27}%)`;
 }
 
 /** Background of the header on mobile: its own fixed formula and four colours from the admin */

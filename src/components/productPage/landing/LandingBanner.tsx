@@ -17,7 +17,13 @@ export default function LandingBanner({
     <div className="relative isolate">
       {hasBackground ? (
         <LandingBackdrop
-          background={bannerGradient(banner.gradientFrom, banner.gradientTo)}
+          background={bannerGradient(
+            banner.gradientFrom,
+            banner.gradientTo,
+            banner.gradientAngle,
+            banner.gradientFromPosition,
+            banner.gradientToPosition,
+          )}
           className={BACKDROP_ROUNDED}
         />
       ) : null}

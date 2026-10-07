@@ -228,6 +228,10 @@ const LANDING_PROJECTION = `
       ${[1, 2, 3, 4, 5, 6, 7, 8, 9]
         .map((n) => LANDING_COLOR(`gradientColor${n}`))
         .join(",\n      ")},
+      ${[1, 2, 3, 4, 5, 6, 7, 8, 9]
+        .map((n) => `gradientPosition${n}`)
+        .join(",\n      ")},
+      gradientAngle,
       ${LANDING_COLOR("gradientFrom")},
       ${LANDING_COLOR("gradientTo")},
       ${LANDING_BADGES}
@@ -239,7 +243,10 @@ const LANDING_PROJECTION = `
     _type == "landingBanner" => {
       ${LANDING_IMAGE("image")},
       ${LANDING_COLOR("gradientFrom")},
-      ${LANDING_COLOR("gradientTo")}
+      ${LANDING_COLOR("gradientTo")},
+      gradientAngle,
+      gradientFromPosition,
+      gradientToPosition
     },
     _type == "landingFaq" => {
       "items": items[]{ ${l10nField("question")}, ${l10nField("answer")} }
