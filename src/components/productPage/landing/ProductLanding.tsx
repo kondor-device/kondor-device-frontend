@@ -117,7 +117,7 @@ export default function ProductLanding({ landing }: ProductLandingProps) {
   if (!heroBlock && blocks.length === 0) return null;
 
   return (
-    <div className="mb-5 pt-5 tab:mb-[100px] tab:pt-0">
+    <div className="mb-5 pt-10 tab:mb-[100px] tab:pt-0">
       {heroBlock}
       {blocks}
     </div>
