@@ -14,7 +14,8 @@ interface LandingHeroProps {
   mobileGradientColors?: (string | null)[];
 }
 
-// The header: a gradient over the whole width of the page, the picture (logo, title, photo,
+// The header: one rounded block (everything inside is cut by its corners) with a gradient over the
+// whole width of the page, the picture (logo, title, photo,
 // characteristics) is as wide as the screen on mobile and inside the site container from 640px
 export default function LandingHero({
   image,
@@ -25,23 +26,20 @@ export default function LandingHero({
   const hasMobileGradient = Boolean(mobileGradientColors?.some(Boolean));
 
   return (
-    <div className="relative isolate">
+    <div className={`relative isolate overflow-hidden ${BACKDROP_ROUNDED}`}>
       {hasMobileGradient ? (
         <>
           <LandingBackdrop
             background={heroMobileGradient(mobileGradientColors ?? [])}
-            className={`${BACKDROP_ROUNDED} overflow-hidden sm:hidden`}
+            className="sm:hidden"
           />
           <LandingBackdrop
             background={heroGradient(gradientColors)}
-            className={`${BACKDROP_ROUNDED} hidden overflow-hidden sm:block`}
+            className="hidden sm:block"
           />
         </>
       ) : (
-        <LandingBackdrop
-          background={heroGradient(gradientColors)}
-          className={`${BACKDROP_ROUNDED} overflow-hidden`}
-        />
+        <LandingBackdrop background={heroGradient(gradientColors)} />
       )}
       {/* Below 640px the picture is as wide as the screen, from 640px it is in the site container.
           A hidden lazy image is not downloaded, so only one of the two is loaded. */}
