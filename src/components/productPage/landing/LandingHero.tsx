@@ -15,10 +15,8 @@ interface LandingHeroProps {
 }
 
 // Below 640px the picture is never narrower than 380px (the screen cuts it when the screen is
-// narrower), then it grows in proportion to the screen (380px at 390px); it is 20px lower than the top of the header
-// and sits 27px from the left edge of the screen (the container has 20px of padding there)
-const MOBILE_PICTURE =
-  "relative left-[7px] w-[max(380px,97.44vw)] sm:left-0 sm:w-full";
+// narrower), then it grows in proportion to the screen (380px at 390px)
+const MOBILE_PICTURE = "w-[max(380px,97.44vw)] sm:w-full";
 
 // The header: a gradient over the whole screen width, the picture (logo, title, photo,
 // characteristics) inside the ordinary site container
@@ -31,7 +29,7 @@ export default function LandingHero({
   const hasMobileGradient = Boolean(mobileGradientColors?.some(Boolean));
 
   return (
-    <div className="relative isolate pt-5 sm:pt-0">
+    <div className="relative isolate">
       {hasMobileGradient ? (
         <>
           <LandingBackdrop
