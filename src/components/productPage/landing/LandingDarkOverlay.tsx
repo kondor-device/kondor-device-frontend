@@ -2,23 +2,33 @@ import { LandingTextBlock } from "@/types/productItem";
 import LandingPicture from "./LandingPicture";
 import TextContent from "./TextContent";
 
-// Dark rounded card: on mobile the photo is inside the card above the text; from 768px it bleeds off the left edge and the text is on the right
+// Dark rounded block over the whole screen width: on mobile the photo is above the text; from 768px
+// it bleeds off the left edge of the screen and the text (inside the site container) is on the right
 export default function LandingDarkOverlay({
   block,
 }: {
   block: LandingTextBlock;
 }) {
   return (
-    <div className="my-4 tab:my-6 [&:has(+[data-landing-ribbon])]:mb-0 relative overflow-hidden rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px] bg-[#0a0b10] px-5 py-[60px] tab:p-0">
+    // The block itself is in the site container (so the text lines up with the rest of the page);
+    // its dark fill is a layer as wide as the screen behind it
+    <div className="relative isolate my-4 tab:my-6 [&:has(+[data-landing-ribbon])]:mb-0 py-[60px] tab:py-0">
+      <div className="absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 overflow-hidden rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px] bg-[#0a0b10]">
+        {block.image ? (
+          <div className="absolute left-[-6%] top-1/2 hidden w-[52%] -translate-y-1/2 tab:block">
+            <LandingPicture
+              image={block.image}
+              sizes="(min-width: 768px) 52vw, 100vw"
+            />
+          </div>
+        ) : null}
+      </div>
       {block.image ? (
-        <div className="relative mb-8 tab:mb-0 tab:absolute tab:left-[-6%] tab:top-1/2 tab:w-[52%] tab:-translate-y-1/2">
-          <LandingPicture
-            image={block.image}
-            sizes="(min-width: 768px) 52vw, 100vw"
-          />
+        <div className="mb-8 tab:hidden">
+          <LandingPicture image={block.image} sizes="100vw" />
         </div>
       ) : null}
-      <div className="tab:pr-10 deskxl:pr-[100px] tab:py-[70px] tabxl:py-[110px] laptop:pb-[145px] laptop:pt-[170px]">
+      <div className="tab:py-[70px] tabxl:py-[110px] laptop:pb-[145px] laptop:pt-[170px]">
         <div className="tab:ml-[52%] laptop:ml-[50%]">
           <TextContent
             block={block}
