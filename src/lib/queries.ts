@@ -183,8 +183,8 @@ const MAIN_PRODUCTS_PROJECTION = `
 
 // Product landing (sections after the main product content, filled in the admin).
 // A section / photo / colour that is not filled in is null, so the site can skip it.
-const LANDING_IMAGE = (field: string) =>
-  `"image": select(defined(${field}.asset->url) => ${field}{ ${IMAGE_PROJECTION} })`;
+const LANDING_IMAGE = (field: string, key = "image") =>
+  `"${key}": select(defined(${field}.asset->url) => ${field}{ ${IMAGE_PROJECTION} })`;
 
 const LANDING_COLOR = (field: string) =>
   `"${field}": select(defined(${field}.hex) => ${field}.hex)`;
@@ -203,7 +203,7 @@ const LANDING_TEXT_BLOCK = `
 const LANDING_PROJECTION = `
   "hero": hero{
     ${LANDING_IMAGE("image")},
-    ${LANDING_IMAGE("mobileImage")}
+    ${LANDING_IMAGE("mobileImage", "mobileImage")}
   },
   "sections": sections[]{
     _key,
