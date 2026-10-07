@@ -50,7 +50,10 @@ function renderSection(section: LandingSection) {
       ) : null;
     case "landingBanner":
       return section.image ? (
-        <LandingBanner key={section._key} image={section.image} />
+        <LandingBanner
+          key={section._key}
+          banner={{ ...section, image: section.image }}
+        />
       ) : null;
     case "landingFaq":
       return (section.items ?? []).length > 0 ? (
@@ -74,6 +77,12 @@ export default function ProductLanding({ landing }: ProductLandingProps) {
         key="hero"
         image={hero.image}
         mobileImage={hero.mobileImage}
+        gradientColors={[
+          hero.gradientColor1,
+          hero.gradientColor2,
+          hero.gradientColor3,
+          hero.gradientColor4,
+        ]}
       />
     ) : null,
     ...(sections ?? []).map(renderSection),

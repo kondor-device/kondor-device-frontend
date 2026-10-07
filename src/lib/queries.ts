@@ -203,7 +203,11 @@ const LANDING_TEXT_BLOCK = `
 const LANDING_PROJECTION = `
   "hero": hero{
     ${LANDING_IMAGE("image")},
-    ${LANDING_IMAGE("mobileImage", "mobileImage")}
+    ${LANDING_IMAGE("mobileImage", "mobileImage")},
+    ${LANDING_COLOR("gradientColor1")},
+    ${LANDING_COLOR("gradientColor2")},
+    ${LANDING_COLOR("gradientColor3")},
+    ${LANDING_COLOR("gradientColor4")}
   },
   "sections": sections[]{
     _key,
@@ -226,7 +230,9 @@ const LANDING_PROJECTION = `
       "items": items[]{ ${l10nField("title")}, ${l10nField("description")} }
     },
     _type == "landingBanner" => {
-      ${LANDING_IMAGE("image")}
+      ${LANDING_IMAGE("image")},
+      ${LANDING_COLOR("gradientFrom")},
+      ${LANDING_COLOR("gradientTo")}
     },
     _type == "landingFaq" => {
       "items": items[]{ ${l10nField("question")}, ${l10nField("answer")} }

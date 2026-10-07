@@ -81,6 +81,8 @@ export interface LandingStepsBlock extends LandingBlockBase {
 export interface LandingBannerBlock extends LandingBlockBase {
   _type: "landingBanner";
   image: LandingImage | null;
+  gradientFrom: string | null;
+  gradientTo: string | null;
 }
 
 export interface LandingFaqBlock extends LandingBlockBase {
@@ -103,6 +105,11 @@ export interface ProductLanding {
   hero: {
     image: LandingImage | null;
     mobileImage: LandingImage | null;
+    /** Four colours of the full-width background, from the darkest to the lightest */
+    gradientColor1: string | null;
+    gradientColor2: string | null;
+    gradientColor3: string | null;
+    gradientColor4: string | null;
   } | null;
   sections: LandingSection[] | null;
 }

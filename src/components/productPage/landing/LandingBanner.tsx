@@ -1,13 +1,28 @@
-import { LandingImage } from "@/types/productItem";
+import { LandingBannerBlock } from "@/types/productItem";
+import LandingBackdrop from "./LandingBackdrop";
 import LandingPicture from "./LandingPicture";
+import { bannerGradient } from "./utils";
 
-export default function LandingBanner({ image }: { image: LandingImage }) {
+// Photo in the site container on a gradient that fills the whole screen width
+export default function LandingBanner({
+  banner,
+}: {
+  banner: LandingBannerBlock & {
+    image: NonNullable<LandingBannerBlock["image"]>;
+  };
+}) {
+  const hasBackground = Boolean(banner.gradientFrom || banner.gradientTo);
+
   return (
-    <div className="py-10 tab:py-6">
+    <div className="relative isolate py-10 tab:py-6">
+      {hasBackground ? (
+        <LandingBackdrop
+          background={bannerGradient(banner.gradientFrom, banner.gradientTo)}
+        />
+      ) : null}
       <LandingPicture
-        image={image}
-        sizes="100vw"
-        className="rounded-[16px] deskxl:rounded-[28px]"
+        image={banner.image}
+        sizes="(min-width: 1920px) 1440px, 100vw"
       />
     </div>
   );

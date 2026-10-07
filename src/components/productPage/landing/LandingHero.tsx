@@ -1,18 +1,27 @@
 import { LandingImage } from "@/types/productItem";
+import LandingBackdrop from "./LandingBackdrop";
 import LandingPicture from "./LandingPicture";
+import { heroGradient } from "./utils";
 
 interface LandingHeroProps {
   /** Picture from 640px (also the mobile one when there is no mobile picture) */
   image: LandingImage;
   /** Picture for screens narrower than 640px */
   mobileImage?: LandingImage | null;
+  /** Four colours of the background gradient */
+  gradientColors: (string | null)[];
 }
 
-// The whole header (background, logo, title, photo, characteristics) is one picture from the admin,
-// edge to edge of the screen (it leaves the site container)
-export default function LandingHero({ image, mobileImage }: LandingHeroProps) {
+// The header: a gradient over the whole screen width, the picture (logo, title, photo,
+// characteristics) inside the site container
+export default function LandingHero({
+  image,
+  mobileImage,
+  gradientColors,
+}: LandingHeroProps) {
   return (
-    <div className="mx-[calc(50%-50vw)]">
+    <div className="relative isolate">
+      <LandingBackdrop background={heroGradient(gradientColors)} />
       {mobileImage ? (
         <>
           {/* A hidden lazy image is not downloaded, so only one of the two is loaded */}
@@ -23,12 +32,15 @@ export default function LandingHero({ image, mobileImage }: LandingHeroProps) {
           />
           <LandingPicture
             image={image}
-            sizes="100vw"
+            sizes="(min-width: 1920px) 1440px, 100vw"
             className="hidden sm:block"
           />
         </>
       ) : (
-        <LandingPicture image={image} sizes="100vw" />
+        <LandingPicture
+          image={image}
+          sizes="(min-width: 1920px) 1440px, 100vw"
+        />
       )}
     </div>
   );
