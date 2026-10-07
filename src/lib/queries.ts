@@ -207,7 +207,11 @@ const LANDING_PROJECTION = `
     ${LANDING_COLOR("gradientColor1")},
     ${LANDING_COLOR("gradientColor2")},
     ${LANDING_COLOR("gradientColor3")},
-    ${LANDING_COLOR("gradientColor4")}
+    ${LANDING_COLOR("gradientColor4")},
+    ${LANDING_COLOR("mobileGradientColor1")},
+    ${LANDING_COLOR("mobileGradientColor2")},
+    ${LANDING_COLOR("mobileGradientColor3")},
+    ${LANDING_COLOR("mobileGradientColor4")}
   },
   "sections": sections[]{
     _key,

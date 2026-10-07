@@ -110,6 +110,11 @@ export interface ProductLanding {
     gradientColor2: string | null;
     gradientColor3: string | null;
     gradientColor4: string | null;
+    /** Optional gradient for screens narrower than 640px (the desktop one when empty) */
+    mobileGradientColor1: string | null;
+    mobileGradientColor2: string | null;
+    mobileGradientColor3: string | null;
+    mobileGradientColor4: string | null;
   } | null;
   sections: LandingSection[] | null;
 }

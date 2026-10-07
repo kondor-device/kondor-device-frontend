@@ -1,7 +1,7 @@
 import { LandingImage } from "@/types/productItem";
 import LandingBackdrop from "./LandingBackdrop";
 import LandingPicture from "./LandingPicture";
-import { heroGradient } from "./utils";
+import { heroGradient, heroMobileGradient } from "./utils";
 
 interface LandingHeroProps {
   /** Picture from 640px (also the mobile one when there is no mobile picture) */
@@ -10,6 +10,8 @@ interface LandingHeroProps {
   mobileImage?: LandingImage | null;
   /** Four colours of the background gradient */
   gradientColors: (string | null)[];
+  /** Four colours of the gradient for screens narrower than 640px (optional) */
+  mobileGradientColors?: (string | null)[];
 }
 
 // The header: a gradient over the whole screen width, the picture (logo, title, photo,
@@ -18,10 +20,26 @@ export default function LandingHero({
   image,
   mobileImage,
   gradientColors,
+  mobileGradientColors,
 }: LandingHeroProps) {
+  const hasMobileGradient = Boolean(mobileGradientColors?.some(Boolean));
+
   return (
     <div className="relative isolate">
-      <LandingBackdrop background={heroGradient(gradientColors)} />
+      {hasMobileGradient ? (
+        <>
+          <LandingBackdrop
+            background={heroMobileGradient(mobileGradientColors ?? [])}
+            className="sm:hidden"
+          />
+          <LandingBackdrop
+            background={heroGradient(gradientColors)}
+            className="hidden sm:block"
+          />
+        </>
+      ) : (
+        <LandingBackdrop background={heroGradient(gradientColors)} />
+      )}
       {mobileImage ? (
         <>
           {/* A hidden lazy image is not downloaded, so only one of the two is loaded */}

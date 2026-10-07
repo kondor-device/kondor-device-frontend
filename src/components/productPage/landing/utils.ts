@@ -42,3 +42,12 @@ export function bannerGradient(from: string | null, to: string | null) {
 
   return `linear-gradient(119.61deg, ${start} 47.56%, ${end} 128.27%)`;
 }
+
+/** Background of the header on mobile: its own fixed formula and four colours from the admin */
+export function heroMobileGradient(colors: (string | null)[]) {
+  const filled = colors.filter((color): color is string => Boolean(color));
+  const fallback = filled[0] ?? FALLBACK_COLOR;
+  const [c1, c2, c3, c4] = [0, 1, 2, 3].map((i) => colors[i] ?? fallback);
+
+  return `linear-gradient(351.48deg, ${c1} 19.96%, ${c2} 42.22%, ${c3} 66.9%, ${c4} 99.12%)`;
+}

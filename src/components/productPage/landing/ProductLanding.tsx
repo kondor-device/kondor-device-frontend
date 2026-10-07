@@ -83,6 +83,12 @@ export default function ProductLanding({ landing }: ProductLandingProps) {
           hero.gradientColor3,
           hero.gradientColor4,
         ]}
+        mobileGradientColors={[
+          hero.mobileGradientColor1,
+          hero.mobileGradientColor2,
+          hero.mobileGradientColor3,
+          hero.mobileGradientColor4,
+        ]}
       />
     ) : null,
     ...(sections ?? []).map(renderSection),
