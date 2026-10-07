@@ -16,13 +16,12 @@ interface LandingHeroProps {
 
 // Below 640px the picture is never narrower than 380px (the screen cuts it when the screen is
 // narrower), then it grows in proportion to the screen (380px at 390px); it is 20px lower than the top of the header
-// and sits 27px from the left edge of the screen (the picture's container has no side paddings)
+// and sits 27px from the left edge of the screen (the container has 20px of padding there)
 const MOBILE_PICTURE =
-  "relative left-[27px] w-[max(380px,97.44vw)] sm:left-0 sm:w-full";
+  "relative left-[7px] w-[max(380px,97.44vw)] sm:left-0 sm:w-full";
 
 // The header: a gradient over the whole screen width, the picture (logo, title, photo,
-// characteristics) in a block with the width and the margins of the site container, but without
-// its side paddings
+// characteristics) inside the ordinary site container
 export default function LandingHero({
   image,
   mobileImage,
@@ -50,7 +49,7 @@ export default function LandingHero({
           className={BACKDROP_ROUNDED}
         />
       )}
-      <div className="container max-w-[1920px] !px-0">
+      <div className="container max-w-[1920px]">
         {mobileImage ? (
           <>
             {/* A hidden lazy image is not downloaded, so only one of the two is loaded */}
