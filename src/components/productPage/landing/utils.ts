@@ -17,6 +17,22 @@ export function gradient(from: string | null, to: string | null, angle = 135) {
   return `linear-gradient(${angle}deg, ${start} 0%, ${end} 100%)`;
 }
 
+// Stops of the nine-colour ribbon gradient (from the design)
+const RIBBON_STOPS = [
+  1.85, 41.26, 94.29, 142.68, 188.41, 232.82, 278.56, 318.99, 374.76,
+];
+
+/** Ribbon gradient from up to nine colours; empty slots are skipped, null when nothing is filled */
+export function ribbonGradient(colors: (string | null)[]) {
+  const stops = colors.flatMap((color, index) =>
+    color ? [`${color} ${RIBBON_STOPS[index]}%`] : [],
+  );
+
+  return stops.length > 0
+    ? `linear-gradient(89.64deg, ${stops.join(", ")})`
+    : null;
+}
+
 /** Sanity asset urls end with `-<width>x<height>.<ext>`: lets next/image reserve the right space */
 export function getImageSize(image: LandingImage) {
   const match = image.url.match(/-(\d+)x(\d+)\.\w+(?:\?.*)?$/);

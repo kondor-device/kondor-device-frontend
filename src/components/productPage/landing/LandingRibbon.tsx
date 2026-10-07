@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { LandingRibbonBlock } from "@/types/productItem";
 import { BADGE_MIN_HEIGHT_CLASS, BADGE_TEXT_CLASS } from "./TextContent";
-import { gradient, hasText } from "./utils";
+import { gradient, hasText, ribbonGradient } from "./utils";
 
 export default function LandingRibbon({
   ribbon,
@@ -16,7 +16,18 @@ export default function LandingRibbon({
       data-landing-ribbon
       className="py-5 tab:py-8 deskxl:py-0 deskxl:h-[191px]"
       style={{
-        background: gradient(ribbon.gradientFrom, ribbon.gradientTo, 91),
+        background:
+          ribbonGradient([
+            ribbon.gradientColor1,
+            ribbon.gradientColor2,
+            ribbon.gradientColor3,
+            ribbon.gradientColor4,
+            ribbon.gradientColor5,
+            ribbon.gradientColor6,
+            ribbon.gradientColor7,
+            ribbon.gradientColor8,
+            ribbon.gradientColor9,
+          ]) ?? gradient(ribbon.gradientFrom, ribbon.gradientTo, 91),
       }}
     >
       <div className="container max-w-[1920px] h-full flex items-center justify-center">

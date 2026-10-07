@@ -225,6 +225,9 @@ const LANDING_PROJECTION = `
       ${LANDING_TEXT_BLOCK}
     },
     _type == "landingRibbon" => {
+      ${[1, 2, 3, 4, 5, 6, 7, 8, 9]
+        .map((n) => LANDING_COLOR(`gradientColor${n}`))
+        .join(",\n      ")},
       ${LANDING_COLOR("gradientFrom")},
       ${LANDING_COLOR("gradientTo")},
       ${LANDING_BADGES}

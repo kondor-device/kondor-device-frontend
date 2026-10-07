@@ -67,6 +67,16 @@ export interface LandingSquarePhotoBlock
 
 export interface LandingRibbonBlock extends LandingBlockBase {
   _type: "landingRibbon";
+  /** Nine colours of the ribbon gradient (used when at least one is filled) */
+  gradientColor1: string | null;
+  gradientColor2: string | null;
+  gradientColor3: string | null;
+  gradientColor4: string | null;
+  gradientColor5: string | null;
+  gradientColor6: string | null;
+  gradientColor7: string | null;
+  gradientColor8: string | null;
+  gradientColor9: string | null;
   gradientFrom: string | null;
   gradientTo: string | null;
   badges: { text: string | null }[] | null;
