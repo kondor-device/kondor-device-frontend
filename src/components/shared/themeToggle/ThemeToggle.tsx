@@ -1,7 +1,7 @@
 "use client";
 import React, { useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
-import { THEME_STORAGE_KEY } from "./themeScript";
+import { THEME_QUERY_PARAM, THEME_STORAGE_KEY } from "./themeScript";
 
 interface ThemeToggleProps {
   className?: string;
@@ -36,6 +36,18 @@ export default function ThemeToggle({ className = "" }: ThemeToggleProps) {
 
     document.documentElement.classList.toggle("dark", nextIsDark);
     document.documentElement.classList.toggle("light", !nextIsDark);
+
+    // Mirror the choice in the address so the copied link opens the same theme.
+    // replaceState: no navigation and no history entry; other parameters and the hash stay.
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set(THEME_QUERY_PARAM, nextIsDark ? "dark" : "light");
+      window.history.replaceState(
+        window.history.state,
+        "",
+        `${url.pathname}${url.search}${url.hash}`,
+      );
+    } catch {}
   };
 
   return (
