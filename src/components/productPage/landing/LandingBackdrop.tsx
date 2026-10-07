@@ -1,9 +1,9 @@
-// A background layer as wide as the screen behind a block that stays inside the site container.
-// The block needs `relative isolate`: the layer sits under its content.
 // The same rounding as the other full-width blocks of the landing (the dark cards)
 export const BACKDROP_ROUNDED =
   "rounded-[24px] tab:rounded-[40px] deskxl:rounded-[58px]";
 
+// A background layer over the whole block. The block is as wide as the page (it is not inside the
+// site container) and needs `relative isolate`: the layer sits under its content.
 export default function LandingBackdrop({
   background,
   className,
@@ -14,10 +14,7 @@ export default function LandingBackdrop({
   return (
     <div
       aria-hidden="true"
-      className={[
-        "absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2",
-        className,
-      ]
+      className={["absolute inset-0 -z-10", className]
         .filter(Boolean)
         .join(" ")}
       style={{ background }}

@@ -14,11 +14,8 @@ interface LandingHeroProps {
   mobileGradientColors?: (string | null)[];
 }
 
-// Below 640px the picture is as wide as the screen (it leaves the side paddings of the container)
-const MOBILE_PICTURE = "mx-[calc(50%-50vw)] w-screen sm:mx-0 sm:w-full";
-
-// The header: a gradient over the whole screen width, the picture (logo, title, photo,
-// characteristics) inside the ordinary site container
+// The header: a gradient over the whole width of the page, the picture (logo, title, photo,
+// characteristics) is as wide as the screen on mobile and inside the site container from 640px
 export default function LandingHero({
   image,
   mobileImage,
@@ -46,28 +43,16 @@ export default function LandingHero({
           className={`${BACKDROP_ROUNDED} overflow-hidden`}
         />
       )}
-      <div className="container max-w-[1920px]">
-        {mobileImage ? (
-          <>
-            {/* A hidden lazy image is not downloaded, so only one of the two is loaded */}
-            <div className={`${MOBILE_PICTURE} sm:hidden`}>
-              <LandingPicture image={mobileImage} sizes="100vw" />
-            </div>
-            <div className="hidden sm:block">
-              <LandingPicture
-                image={image}
-                sizes="(min-width: 1920px) 1440px, 100vw"
-              />
-            </div>
-          </>
-        ) : (
-          <div className={MOBILE_PICTURE}>
-            <LandingPicture
-              image={image}
-              sizes="(min-width: 1920px) 1440px, 100vw"
-            />
-          </div>
-        )}
+      {/* Below 640px the picture is as wide as the screen, from 640px it is in the site container.
+          A hidden lazy image is not downloaded, so only one of the two is loaded. */}
+      <div className="sm:hidden">
+        <LandingPicture image={mobileImage ?? image} sizes="100vw" />
+      </div>
+      <div className="container hidden max-w-[1920px] sm:block">
+        <LandingPicture
+          image={image}
+          sizes="(min-width: 1920px) 1440px, 100vw"
+        />
       </div>
     </div>
   );

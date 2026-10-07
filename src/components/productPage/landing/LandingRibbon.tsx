@@ -11,10 +11,10 @@ export default function LandingRibbon({
   const badges = (ribbon.badges ?? []).filter((item) => hasText(item.text));
 
   return (
-    // The fill goes edge to edge of the screen, the text stays inside the site container
+    // The fill goes edge to edge of the page, the text stays inside the site container
     <div
       data-landing-ribbon
-      className="mx-[calc(50%-50vw)] py-5 tab:py-8 deskxl:py-0 deskxl:h-[191px]"
+      className="py-5 tab:py-8 deskxl:py-0 deskxl:h-[191px]"
       style={{
         background: gradient(ribbon.gradientFrom, ribbon.gradientTo, 91),
       }}

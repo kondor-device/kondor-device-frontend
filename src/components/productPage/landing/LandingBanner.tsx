@@ -3,7 +3,7 @@ import LandingBackdrop, { BACKDROP_ROUNDED } from "./LandingBackdrop";
 import LandingPicture from "./LandingPicture";
 import { bannerGradient } from "./utils";
 
-// Photo in the site container on a gradient that fills the whole screen width
+// Photo in the site container on a gradient that fills the whole width of the page
 export default function LandingBanner({
   banner,
 }: {
@@ -21,10 +21,12 @@ export default function LandingBanner({
           className={BACKDROP_ROUNDED}
         />
       ) : null}
-      <LandingPicture
-        image={banner.image}
-        sizes="(min-width: 1920px) 1440px, 100vw"
-      />
+      <div className="container max-w-[1920px]">
+        <LandingPicture
+          image={banner.image}
+          sizes="(min-width: 1920px) 1440px, 100vw"
+        />
+      </div>
     </div>
   );
 }

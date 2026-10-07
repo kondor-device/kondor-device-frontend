@@ -21,6 +21,13 @@ interface ProductLandingProps {
 const hasTextBlock = (block: LandingTextBlock) =>
   hasText(block.title) || hasText(block.description) || Boolean(block.image);
 
+// Blocks with a background over the whole width of the page (the others sit in the site container)
+const FULL_WIDTH_BLOCKS = new Set<LandingSection["_type"]>([
+  "landingDarkCard",
+  "landingRibbon",
+  "landingBanner",
+]);
+
 function renderSection(section: LandingSection) {
   switch (section._type) {
     case "landingTextPhoto":
@@ -90,18 +97,29 @@ export default function ProductLanding({ landing }: ProductLandingProps) {
     />
   ) : null;
 
-  const blocks = (sections ?? []).map(renderSection).filter(Boolean);
+  const blocks = (sections ?? [])
+    .map((section) => {
+      const block = renderSection(section);
+
+      if (!block) return null;
+
+      // Blocks with a full-width background lay out their own container
+      return FULL_WIDTH_BLOCKS.has(section._type) ? (
+        block
+      ) : (
+        <div key={section._key} className="container max-w-[1920px]">
+          {block}
+        </div>
+      );
+    })
+    .filter(Boolean);
 
   if (!heroBlock && blocks.length === 0) return null;
 
   return (
     <div className="mb-5 tab:mb-[100px]">
-      {/* The header is outside the padded container: its picture has the container's width
-          and margins, but no side paddings */}
       {heroBlock}
-      {blocks.length > 0 ? (
-        <section className="container max-w-[1920px]">{blocks}</section>
-      ) : null}
+      {blocks}
     </div>
   );
 }
