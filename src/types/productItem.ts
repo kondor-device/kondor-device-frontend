@@ -23,6 +23,127 @@ export interface ComplectItem {
   icon: { url: string; alt: string };
 }
 
+/** Every section, photo and colour of the landing may be null: the admin fields are optional */
+export interface LandingImage {
+  alt: string;
+  url: string;
+}
+
+export interface LandingTextBlock {
+  title: string | null;
+  description: string | null;
+  image: LandingImage | null;
+  /** Colour of the decorative stars and of the badges (hex) */
+  accentColor: string | null;
+  badges: { text: string | null }[] | null;
+}
+
+/** Block of the landing builder; `_type` tells which one it is */
+interface LandingBlockBase {
+  _key: string;
+}
+
+export interface LandingTextPhotoBlock
+  extends LandingTextBlock,
+    LandingBlockBase {
+  _type: "landingTextPhoto";
+  /** Photo in a rounded frame, wider than the usual one */
+  framed: boolean;
+  /** Badges under the photo instead of under the text */
+  badgesUnderImage: boolean;
+}
+
+export interface LandingDarkCardBlock
+  extends LandingTextBlock,
+    LandingBlockBase {
+  _type: "landingDarkCard";
+}
+
+export interface LandingSquarePhotoBlock
+  extends LandingTextBlock,
+    LandingBlockBase {
+  _type: "landingSquarePhoto";
+}
+
+export interface LandingRibbonBlock extends LandingBlockBase {
+  _type: "landingRibbon";
+  /** Nine colours of the ribbon gradient (used when at least one is filled) */
+  gradientColor1: string | null;
+  gradientColor2: string | null;
+  gradientColor3: string | null;
+  gradientColor4: string | null;
+  gradientColor5: string | null;
+  gradientColor6: string | null;
+  gradientColor7: string | null;
+  gradientColor8: string | null;
+  gradientColor9: string | null;
+  /** Stop positions (%) and angle of the ribbon gradient; the design defaults when empty */
+  gradientPosition1: number | null;
+  gradientPosition2: number | null;
+  gradientPosition3: number | null;
+  gradientPosition4: number | null;
+  gradientPosition5: number | null;
+  gradientPosition6: number | null;
+  gradientPosition7: number | null;
+  gradientPosition8: number | null;
+  gradientPosition9: number | null;
+  gradientAngle: number | null;
+  gradientFrom: string | null;
+  gradientTo: string | null;
+  badges: { text: string | null }[] | null;
+}
+
+export interface LandingStepsBlock extends LandingBlockBase {
+  _type: "landingSteps";
+  image: LandingImage | null;
+  items: { title: string | null; description: string | null }[] | null;
+}
+
+export interface LandingBannerBlock extends LandingBlockBase {
+  _type: "landingBanner";
+  image: LandingImage | null;
+  gradientFrom: string | null;
+  gradientTo: string | null;
+  /** Angle and stop positions (%) of the gradient; the defaults of the first design when empty */
+  gradientAngle: number | null;
+  gradientFromPosition: number | null;
+  gradientToPosition: number | null;
+}
+
+export interface LandingFaqBlock extends LandingBlockBase {
+  _type: "landingFaq";
+  items: { question: string | null; answer: string | null }[] | null;
+}
+
+export type LandingSection =
+  | LandingTextPhotoBlock
+  | LandingDarkCardBlock
+  | LandingSquarePhotoBlock
+  | LandingRibbonBlock
+  | LandingStepsBlock
+  | LandingBannerBlock
+  | LandingFaqBlock;
+
+/** Header and blocks shown after the main content of the product page (filled in the admin) */
+export interface ProductLanding {
+  /** The header is one picture: `image` from 640px, `mobileImage` (optional) below 640px */
+  hero: {
+    image: LandingImage | null;
+    mobileImage: LandingImage | null;
+    /** Four colours of the full-width background, from the darkest to the lightest */
+    gradientColor1: string | null;
+    gradientColor2: string | null;
+    gradientColor3: string | null;
+    gradientColor4: string | null;
+    /** Optional gradient for screens narrower than 640px (the desktop one when empty) */
+    mobileGradientColor1: string | null;
+    mobileGradientColor2: string | null;
+    mobileGradientColor3: string | null;
+    mobileGradientColor4: string | null;
+  } | null;
+  sections: LandingSection[] | null;
+}
+
 export interface ProductItem {
   id: string;
   generalname: string;
@@ -48,6 +169,8 @@ export interface ProductItem {
   complect: ComplectItem[];
   coloropts: ColorOpt[];
   chars: Characteristic[];
+  /** Only returned by the product page query; null when nothing is filled in */
+  landing?: ProductLanding | null;
   cat: { name: string; id: string };
   preorder: boolean;
   preordertext: string;

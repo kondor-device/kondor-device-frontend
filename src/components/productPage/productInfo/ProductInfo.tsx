@@ -28,6 +28,9 @@ interface ProductInfoProps {
    * ProductInfo/Navigation), it would sit right where that fixed bar
    * overlays and be hidden underneath it. */
   breadcrumbs?: ReactNode;
+  /** Server-rendered landing sections (made in the admin), shown between the photo / price
+   * block and the description. Renders nothing when the product has no landing. */
+  landing?: ReactNode;
 }
 
 const SECTION_ID = "product-page-info";
@@ -40,6 +43,7 @@ export default function ProductInfo({
   product,
   addons,
   breadcrumbs,
+  landing,
 }: ProductInfoProps) {
   const {
     id,
@@ -237,6 +241,9 @@ export default function ProductInfo({
               ) : null}
             </div>
           </div>
+        </div>
+        {landing}
+        <div className="container max-w-[1920px]">
           <div className="tabxl:flex gap-x-8">
             <div className="tabxl:w-[calc(50%-16px)]">
               {description ? (

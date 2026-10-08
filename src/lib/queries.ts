@@ -181,6 +181,79 @@ const MAIN_PRODUCTS_PROJECTION = `
   ${BADGE_PROJECTION}
 `;
 
+// Product landing (sections after the main product content, filled in the admin).
+// A section / photo / colour that is not filled in is null, so the site can skip it.
+const LANDING_IMAGE = (field: string, key = "image") =>
+  `"${key}": select(defined(${field}.asset->url) => ${field}{ ${IMAGE_PROJECTION} })`;
+
+const LANDING_COLOR = (field: string) =>
+  `"${field}": select(defined(${field}.hex) => ${field}.hex)`;
+
+const LANDING_BADGES = `"badges": badges[]{ ${l10nField("text")} }`;
+
+const LANDING_TEXT_BLOCK = `
+  ${l10nField("title")},
+  ${l10nField("description")},
+  ${LANDING_IMAGE("image")},
+  ${LANDING_COLOR("accentColor")},
+  ${LANDING_BADGES}
+`;
+
+// The header and the blocks of the builder (`_type` tells which block it is)
+const LANDING_PROJECTION = `
+  "hero": hero{
+    ${LANDING_IMAGE("image")},
+    ${LANDING_IMAGE("mobileImage", "mobileImage")},
+    ${LANDING_COLOR("gradientColor1")},
+    ${LANDING_COLOR("gradientColor2")},
+    ${LANDING_COLOR("gradientColor3")},
+    ${LANDING_COLOR("gradientColor4")},
+    ${LANDING_COLOR("mobileGradientColor1")},
+    ${LANDING_COLOR("mobileGradientColor2")},
+    ${LANDING_COLOR("mobileGradientColor3")},
+    ${LANDING_COLOR("mobileGradientColor4")}
+  },
+  "sections": sections[]{
+    _key,
+    _type,
+    _type == "landingTextPhoto" => {
+      ${LANDING_TEXT_BLOCK},
+      "framed": coalesce(framed, false),
+      "badgesUnderImage": coalesce(badgesUnderImage, false)
+    },
+    _type in ["landingDarkCard", "landingSquarePhoto"] => {
+      ${LANDING_TEXT_BLOCK}
+    },
+    _type == "landingRibbon" => {
+      ${[1, 2, 3, 4, 5, 6, 7, 8, 9]
+        .map((n) => LANDING_COLOR(`gradientColor${n}`))
+        .join(",\n      ")},
+      ${[1, 2, 3, 4, 5, 6, 7, 8, 9]
+        .map((n) => `gradientPosition${n}`)
+        .join(",\n      ")},
+      gradientAngle,
+      ${LANDING_COLOR("gradientFrom")},
+      ${LANDING_COLOR("gradientTo")},
+      ${LANDING_BADGES}
+    },
+    _type == "landingSteps" => {
+      ${LANDING_IMAGE("image")},
+      "items": items[]{ ${l10nField("title")}, ${l10nField("description")} }
+    },
+    _type == "landingBanner" => {
+      ${LANDING_IMAGE("image")},
+      ${LANDING_COLOR("gradientFrom")},
+      ${LANDING_COLOR("gradientTo")},
+      gradientAngle,
+      gradientFromPosition,
+      gradientToPosition
+    },
+    _type == "landingFaq" => {
+      "items": items[]{ ${l10nField("question")}, ${l10nField("answer")} }
+    }
+  }
+`;
+
 const ITEM_DETAIL_PROJECTION = `
   "id": _id,
   ${l10nField("generalname")},
@@ -206,7 +279,8 @@ const ITEM_DETAIL_PROJECTION = `
   outOfStock,
   "chars": chars[]{ ${CHARS_PROJECTION} },
   "coloropts": coloropts[]{ ${COLOR_OPTIONS_PROJECTION} },
-  "complect": complect[]{ ${COMPLECT_PROJECTION} }
+  "complect": complect[]{ ${COMPLECT_PROJECTION} },
+  "landing": landing{ ${LANDING_PROJECTION} }
 `;
 
 export const GET_ALL_DATA_QUERY = groq`

@@ -6,6 +6,7 @@ import ProductInfo from "@/components/productPage/productInfo/ProductInfo";
 import AddonsSlider from "@/components/productPage/AddonsSlider";
 import SimilarProductsSlider from "@/components/productPage/SimilarProductsSlider";
 import Manual from "@/components/productPage/Manual";
+import ProductLanding from "@/components/productPage/landing/ProductLanding";
 import Breadcrumbs from "@/components/shared/breadcrumbs/Breadcrumbs";
 import JsonLd from "@/components/shared/JsonLd";
 import { bundleJsonLd, productJsonLd } from "@/lib/seo/jsonLd";
@@ -212,12 +213,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   return (
-    <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
+    <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(40px+env(safe-area-inset-bottom,0px))] tabxl:pb-10">
       <JsonLd
         data={productJsonLd({
           product: currentProduct,
           url: pageUrl,
-          title: getProductTitle(currentProduct.generalname, currentProduct.name),
+          title: getProductTitle(
+            currentProduct.generalname,
+            currentProduct.name,
+          ),
           categoryName: similarProducts?.categoryName,
         })}
       />
@@ -226,6 +230,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           product={currentProduct}
           addons={res?.data?.shownOnAddons}
           breadcrumbs={breadcrumbs}
+          landing={<ProductLanding landing={currentProduct.landing} />}
         />
         <AddonsSlider addons={res?.data?.shownOnAddons} />
         <SimilarProductsSlider

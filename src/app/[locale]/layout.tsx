@@ -8,6 +8,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Montserrat } from "next/font/google";
+import localFont from "next/font/local";
 import { Locale } from "@/types/locale";
 import Header from "@/components/shared/header/Header";
 import Footer from "@/components/shared/footer/Footer";
@@ -47,6 +48,15 @@ const montserrat = Montserrat({
   weight: ["400", "500", "600", "700"],
   variable: "--font-montserrat",
   subsets: ["latin", "cyrillic"],
+});
+
+// Headings of the product landing sections. Used on product pages only, so it is not preloaded.
+const actayWide = localFont({
+  src: "../../fonts/ActayWide-Bold.woff2",
+  weight: "700",
+  variable: "--font-actay",
+  display: "swap",
+  preload: false,
 });
 
 export async function generateMetadata({
@@ -115,7 +125,7 @@ export default async function LocaleLayout({
         />
       </head>
       <body
-        className={`${montserrat.variable} relative z-[1] flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
+        className={`${montserrat.variable} ${actayWide.variable} relative z-[1] flex min-h-screen flex-col antialiased text-12med laptop:text-24med`}
       >
         <NextIntlClientProvider messages={messages}>
           <HeroUIProvider className="flex min-h-screen flex-col">
