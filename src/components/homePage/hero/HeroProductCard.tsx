@@ -21,11 +21,8 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
   const categoryLink = `/#${cat?.id}`;
 
   return (
-    <li
-      className="flex flex-col justify-between w-[48.5%] tabxl:w-[47%] laptop:w-[48.5%] deskxl:w-[48%] max-w-[350px] rounded-[18px] tabxl:rounded-[24px] deskxl:rounded-[40px] p-[18px] tabxl:p-[22px] deskxl:py-[30px] deskxl:px-10 
-    shadow-card bg-surface"
-    >
-      <div className="flex items-center justify-center w-full tab:w-[85%] tabxl:w-[65%] deskxl:size-[90%] aspect-[1/1] mx-auto my-auto rounded-[12px] tabxl:rounded-[20px] bg-white overflow-hidden">
+    <li className="flex flex-col items-center shrink-0 w-[137px] h-[201px] sm:w-[166px] sm:h-[243px] snap-start overflow-hidden rounded-[24px] sm:rounded-[30px] px-[10px] pt-[14px] pb-[12px] sm:pt-[24px] sm:pb-[18px] shadow-card bg-surface">
+      <div className="flex items-center justify-center w-[84%] sm:w-[80%] aspect-[1/1] mx-auto my-auto rounded-[12px] bg-white overflow-hidden">
         <Link
           href={cat?.id ? categoryLink : catalogLink}
           className="group block w-fit mx-auto"
@@ -40,16 +37,18 @@ export default function HeroProductCard({ product }: HeroProductCardProps) {
           />
         </Link>
       </div>
-      <h2 className="mt-auto mb-[11px] dark:pt-3 tabxl:dark:pt-4 deskxl:dark:pt-5 desk:mb-[15px] deskxl:mb-[25px] text-12bold mob:text-14bold sm:text-20bold tabxl:text-18bold laptop:text-20bold deskxl:text-28bold text-center">
+      <h2 className="mt-auto mb-2 sm:mb-[10px] pt-3 text-14bold sm:text-16bold text-center">
         {name}
       </h2>
       <Link
         href={cat?.id ? categoryLink : catalogLink}
-        className="block w-fit mx-auto"
+        className="block w-full max-w-[146px] mx-auto"
       >
-        <SmallButton>{`${t("homePage.hero.from")} ${formatSum(
-          priceDiscount || price
-        ).toString()} ${t("homePage.catalog.hrn")}`}</SmallButton>
+        <SmallButton className="!w-full !px-2 !text-[13px] sm:!text-[14px] !border-2 sm:!border-2">{`${t(
+          "homePage.hero.from",
+        )} ${formatSum(priceDiscount || price).toString()} ${t(
+          "homePage.catalog.hrn",
+        )}`}</SmallButton>
       </Link>
     </li>
   );
