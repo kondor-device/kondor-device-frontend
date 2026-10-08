@@ -18,8 +18,8 @@ export default function Benefits() {
       </SectionTitle>
       <BenefitsList />
       <div className="flex items-center gap-x-5 laptop:gap-x-8 mt-5 tabxl:mt-10 laptop:mt-[60px]">
-        <Link href="/#catalog" className="block w-fit shrink-0">
-          <Button className="enabled:!bg-none enabled:!bg-dark dark:enabled:!bg-panel !text-white w-full laptop:w-[350px] deskxl:w-[437px] max-w-[327px] laptop:max-w-[350px] deskxl:max-w-[437px]">
+        <Link href="/#catalog" className="block w-full sm:w-fit sm:shrink-0">
+          <Button className="enabled:!bg-none enabled:!bg-dark dark:enabled:!bg-panel !text-white w-full laptop:w-[350px] deskxl:w-[437px] sm:max-w-[327px] laptop:max-w-[350px] deskxl:max-w-[437px]">
             {t("buttons.makeOrder")}
           </Button>
         </Link>
