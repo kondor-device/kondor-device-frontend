@@ -8,6 +8,7 @@ import HeroProducts from "./HeroProducts";
 import { ProductItem } from "@/types/productItem";
 import AnimationWrapper from "./AnimationWrapper";
 import { CategoryItem } from "@/types/categoryItem";
+import { getHeroProducts } from "@/utils/homeCatalog";
 
 interface HeroProps {
   shownOnMainProducts: ProductItem[];
@@ -120,7 +121,9 @@ export default function Hero({ shownOnMainProducts, categories }: HeroProps) {
       </div>
 
       <div className="relative z-[1] container w-full max-w-[1920px] sm:mt-[52px] desk:mt-[36px] deskxl:mt-[52px]">
-        <HeroProducts shownOnMainProducts={shownOnMainProducts} />
+        <HeroProducts
+          shownOnMainProducts={getHeroProducts(shownOnMainProducts, categories)}
+        />
       </div>
     </section>
   );

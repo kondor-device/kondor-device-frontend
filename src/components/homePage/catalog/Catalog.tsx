@@ -3,6 +3,7 @@ import CatalogSlider from "./CatalogSlider";
 import { Category } from "@/types/category";
 import { CategoryItem } from "@/types/categoryItem";
 import { ProductItem } from "@/types/productItem";
+import { getHomeCatalogItems } from "@/utils/homeCatalog";
 
 interface CatalogProps {
   categories: CategoryItem[];
@@ -24,11 +25,8 @@ export default function Catalog({
       <ul className="flex flex-col gap-y-5 laptop:gap-y-[30px]">
         {sortedCategories.map(
           ({ name, id, slug, items }: Category, idx: number) => {
-            // фільтрація продуктів, у яких showonmain === false; сети (доступні —
-            // недоступні до списку не потрапляють) показуються завжди
-            const filteredItems = items.filter(
-              (item) => item.showonmain === false || item.kind === "bundle"
-            );
+            // продукти без showonmain (вони в хіро) та доступні сети
+            const filteredItems = getHomeCatalogItems(items);
 
             if (filteredItems.length === 0) return null;
 
