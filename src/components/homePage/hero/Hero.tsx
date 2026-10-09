@@ -36,15 +36,22 @@ export default function Hero({ shownOnMainProducts, categories }: HeroProps) {
   return (
     <section id={SECTION_ID} className="relative pb-[40px] laptop:pb-[34px]">
       {/* Mobile: yellow circle peeking from under the header at the top right */}
-      <Image
-        src="/images/bgImages/homeHero/circle.svg"
-        alt=""
-        aria-hidden="true"
-        width={280}
-        height={280}
-        priority
-        className="sm:hidden absolute -z-10 top-[-175px] left-[330px] size-[280px] max-w-none"
-      />
+      <AnimationWrapper
+        sectionId={SECTION_ID}
+        commonStyles="sm:hidden absolute -z-10 top-[-175px] left-[330px] size-[280px] transition delay-300 duration-[1500ms] ease-slow"
+        visibleStyles="opacity-100"
+        unVisibleStyles="opacity-0"
+      >
+        <Image
+          src="/images/bgImages/homeHero/circle.svg"
+          alt=""
+          aria-hidden="true"
+          width={280}
+          height={280}
+          priority
+          className="size-full max-w-none"
+        />
+      </AnimationWrapper>
       {/* Desktop: devices on the yellow shape. Same size and place as at 768px on every wider screen, pinned to the left edge: a wider screen gradually reveals more of the picture instead of cropping it */}
       <AnimationWrapper
         sectionId={SECTION_ID}
@@ -78,7 +85,7 @@ export default function Hero({ shownOnMainProducts, categories }: HeroProps) {
           sectionId={SECTION_ID}
           commonStyles="relative z-10 transition delay-[700ms] duration-1000 ease-slow"
           visibleStyles="opacity-100 translate-y-0"
-          unVisibleStyles="opacity-0 laptop:translate-y-[50px]"
+          unVisibleStyles="opacity-0 max-sm:translate-y-[20px] laptop:translate-y-[50px]"
         >
           <Link
             href={`/catalog?type=${allCategoriesSlugs}${searchParams}`}
@@ -94,7 +101,12 @@ export default function Hero({ shownOnMainProducts, categories }: HeroProps) {
       {/* Mobile: devices between the button and the product cards */}
       <div aria-hidden="true" className="sm:hidden relative w-full h-[246px]">
         {/* Fixed 602x494 frame (476x390 + 15% + 10%) on any screen width (on a narrower screen the right part goes past the screen edge); the picture is trimmed top and bottom, not stretched */}
-        <div className="absolute top-[-139px] left-[-98px] w-[602px] h-[494px] max-w-none overflow-hidden">
+        <AnimationWrapper
+          sectionId={SECTION_ID}
+          commonStyles="absolute top-[-139px] left-[-98px] w-[602px] h-[494px] max-w-none overflow-hidden transition delay-500 duration-[1500ms] ease-slow"
+          visibleStyles="opacity-100"
+          unVisibleStyles="opacity-0"
+        >
           <Image
             src="/images/bgImages/homeHero/devices-mobile.webp"
             alt=""
@@ -104,7 +116,7 @@ export default function Hero({ shownOnMainProducts, categories }: HeroProps) {
             unoptimized
             className="object-cover"
           />
-        </div>
+        </AnimationWrapper>
       </div>
 
       <div className="relative z-[1] container w-full max-w-[1920px] sm:mt-[52px] desk:mt-[36px] deskxl:mt-[52px]">
