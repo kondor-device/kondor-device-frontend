@@ -159,7 +159,7 @@ export default function Navigation({ product, breadcrumbs }: NavigationProps) {
           // top = max(природна позиція + відступ під крихтами (12px, 24px від 768px —
           // той самий, що в висоті плейсхолдера), низ хедера).
           // Фолбек — до першого виміру.
-          className="fixed z-30 top-[max(calc(var(--nat-top,calc(56px+var(--breadcrumbs-h)))+12px),56px)] tab:top-[max(calc(var(--nat-top,calc(56px+var(--breadcrumbs-h)))+24px),56px)] tabxl:top-[max(calc(var(--nat-top,calc(109px+var(--breadcrumbs-h)))+24px),109px)] left-0 tabxl:container tabxl:max-w-[1920px] pt-1.5 pb-0.5 w-full rounded-b-[12px] bg-surface dark:bg-dark
+          className="fixed z-30 top-[max(calc(var(--nat-top,calc(56px+var(--breadcrumbs-h)))+12px),56px)] tab:top-[max(calc(var(--nat-top,calc(56px+var(--breadcrumbs-h)))+24px),56px)] tabxl:top-[max(calc(var(--nat-top,calc(109px+var(--breadcrumbs-h)))+24px),109px)] inset-x-0 tabxl:container tabxl:max-w-[1920px] pt-1.5 pb-0.5 w-full rounded-b-[12px] bg-surface dark:bg-dark
        shadow-catalogFilter tabxl:shadow-none  overflow-x-auto scrollbar
       scrollbar-h-0 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-transparent
       scrollbar-track-transparent"
