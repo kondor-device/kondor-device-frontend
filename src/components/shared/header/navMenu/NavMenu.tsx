@@ -27,7 +27,9 @@ export default function NavMenu({ categories }: NavMenuProps) {
   ];
 
   const getLinkClass = (path: string) =>
-    currentPath === path ? "text-yellow text-18semi" : "text-18med";
+    currentPath === path
+      ? "text-yellow text-14semi laptop:text-18semi"
+      : "text-14med laptop:text-18med";
 
   return (
     <nav className="relative flex justify-center items-center max-w-[1920px]">
@@ -80,7 +82,7 @@ export default function NavMenu({ categories }: NavMenuProps) {
               menuItem={menuItem}
               className={getLinkClass(menuItem.path)}
             />
-          )
+          ),
         )}
       </ul>
     </nav>

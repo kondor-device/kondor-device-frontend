@@ -39,7 +39,7 @@ export default function CatalogSlider({
         unVisibleStyles="opacity-0 -translate-x-[50px]"
       >
         <Link href={`/catalog/${slug}`} className="group">
-          <h2 className="text-22bold tabxl:text-32bold laptop:text-40bold text-center laptop:group-hover:text-yellow focus-visible:text-yellow active:text-yellow active:scale-95 transition duration-300 ease-in-out">
+          <h2 className="uppercase text-22bold tabxl:text-32bold laptop:text-40bold text-center laptop:group-hover:text-yellow focus-visible:text-yellow active:text-yellow active:scale-95 transition duration-300 ease-in-out">
             {title}
           </h2>
         </Link>
