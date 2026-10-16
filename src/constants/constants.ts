@@ -1,6 +1,9 @@
 export const EMAIL_FIRST = "support@kondor.pro";
 export const EMAIL_SECOND = "partner@kondor.pro";
 
+export const PHONE = "+38 (067) 645-77-70";
+export const PHONE_URL = "tel:+380676457770";
+
 export const TELEGRAM = "@kondor_device";
 export const INSTAGRAM = "@kondor.ua";
 
