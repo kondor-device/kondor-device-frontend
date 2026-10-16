@@ -5,6 +5,8 @@ import {
   EMAIL_SECOND,
   INSTAGRAM,
   INSTAGRAM_URL,
+  PHONE,
+  PHONE_URL,
   TELEGRAM,
   TELEGRAM_URL,
 } from "@/constants/constants";
@@ -18,6 +20,21 @@ export default function Contacts() {
     <div>
       <FooterSubTitle>{t("footer.contacts.title")}</FooterSubTitle>
       <ul className="flex flex-col gap-y-[10px] laptop:gap-y-[15px]">
+        <li>
+          <a
+            href={PHONE_URL}
+            className="flex text-12med laptop:text-18med outline-none laptop:hover:text-yellow focus-visible:text-yellow active:text-yellow transition duration-300 ease-out"
+          >
+            <Image
+              src="/images/icons/phoneSmall.svg"
+              alt="phone"
+              width="20"
+              height="21"
+              className="w-5 laptop:w-6 h-auto mr-[10px]"
+            />
+            {PHONE}
+          </a>
+        </li>
         <li>
           <a
             href={`mailto:${EMAIL_FIRST}`}
