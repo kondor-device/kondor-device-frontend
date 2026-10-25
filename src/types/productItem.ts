@@ -28,6 +28,7 @@ export interface Review {
   text: string;
   /** ISO datetime */
   date: string;
+  reply?: { text: string; date: string } | null;
 }
 
 export interface ProductItem {

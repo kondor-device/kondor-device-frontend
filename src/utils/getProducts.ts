@@ -1,5 +1,5 @@
 import { getLocale } from "next-intl/server";
-import { fetchSanityData } from "./fetchSanityData";
+import { client } from "@/lib/sanityClient";
 
 // Server-only: passes the request locale as $locale, so GROQ queries return localized fields
 export async function getProducts(
@@ -8,5 +8,10 @@ export async function getProducts(
 ) {
   const locale = await getLocale();
 
-  return fetchSanityData(query, { locale, ...variables });
+  // Read on this deployment, bypassing CDN/Next caches after moderation.
+  // The old proxy URL pointed at production, whose cache cannot be invalidated here.
+  const data = await client.withConfig({ useCdn: false }).fetch(
+    query, { locale, ...variables }, { cache: "no-store" },
+  );
+  return { data };
 }
