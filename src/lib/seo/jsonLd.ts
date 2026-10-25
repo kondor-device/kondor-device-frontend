@@ -8,6 +8,7 @@ import {
 } from "@/constants/constants";
 import { toPlainDescription } from "@/lib/feed";
 import { SITE_NAME, SITE_URL } from "@/lib/seo/constants";
+import { formatRating } from "@/utils/formatRating";
 
 // schema.org structured data (JSON-LD) built from the same data the page shows.
 // Render it with components/shared/JsonLd.
@@ -121,6 +122,20 @@ export function productJsonLd({
     sku: coloropts[0]?.code?.trim() || undefined,
     brand: BRAND,
     category: categoryName,
+    aggregateRating: product.ratingCount ? {
+      "@type": "AggregateRating",
+      ratingValue: formatRating(product.ratingAvg),
+      reviewCount: product.ratingCount,
+      bestRating: 5,
+      worstRating: 1,
+    } : undefined,
+    review: product.ratingCount ? (product.reviews ?? []).map((review) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: review.author },
+      datePublished: review.date,
+      reviewBody: review.text,
+      reviewRating: { "@type": "Rating", ratingValue: review.rating, bestRating: 5, worstRating: 1 },
+    })) : undefined,
     additionalProperty: (product.chars ?? [])
       .filter((item) => item.name && item.char)
       .map((item) => ({

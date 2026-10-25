@@ -115,6 +115,16 @@ export default function Reviews({
                   <p className="whitespace-pre-line break-words text-12med desk:text-18med">
                     {review.text}
                   </p>
+                  {review.reply?.text ? (
+                    <div className="mt-4 ml-3 border-l-2 border-yellow pl-4">
+                      <p className="mb-1 text-14bold desk:text-18bold">
+                        {locale === "ru" ? "Ответ Kondor" : "Відповідь Kondor"}
+                      </p>
+                      <p className="whitespace-pre-line break-words text-12med desk:text-18med">
+                        {review.reply.text}
+                      </p>
+                    </div>
+                  ) : null}
                 </li>
               ))}
             </ul>

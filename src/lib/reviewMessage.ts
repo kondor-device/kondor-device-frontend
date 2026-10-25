@@ -10,6 +10,8 @@ export interface ReviewMessageData {
   text: string;
   itemName: string;
   productUrl?: string;
+  reply?: { text: string };
+  botUsername?: string;
 }
 
 const STATUS_LINES: Record<Exclude<ReviewStatus, "pending">, string> = {
@@ -26,7 +28,7 @@ export const buildCallbackData = (action: "a" | "r", id: string) =>
 export function parseCallbackData(
   data?: string
 ): { action: "approve" | "reject"; id: string } | null {
-  const match = data?.match(/^rv:(a|r):(.+)$/);
+  const match = data?.match(/^rv:(a|r):([A-Za-z0-9_-]{1,60})$/);
 
   if (!match) return null;
 
@@ -54,6 +56,7 @@ export function buildReviewMessage(
     review.phone ? `<b>Телефон:</b> ${escapeHtml(review.phone)}` : "",
     `<b>Оцінка:</b> ${stars} (${review.rating}/5)`,
     `<b>Текст:</b> ${escapeHtml(review.text)}`,
+    review.reply?.text ? `<b>Відповідь Kondor:</b> ${escapeHtml(review.reply.text)}` : "",
   ].filter(Boolean);
 
   return {
@@ -73,7 +76,12 @@ export function buildReviewMessage(
                 },
               ],
             ]
-          : [],
+          : status === "approved" && review.botUsername
+            ? [[{
+                text: review.reply?.text ? "✏️ Змінити відповідь" : "💬 Відповісти",
+                url: `https://t.me/${review.botUsername}?start=reply_${review.id}`,
+              }]]
+            : [],
     },
   };
 }

@@ -62,7 +62,8 @@ const REVIEWS_PROJECTION = `
     author,
     rating,
     text,
-    "date": submittedAt
+    "date": submittedAt,
+    "reply": reply{ text, "date": publishedAt }
   }
 `;
 

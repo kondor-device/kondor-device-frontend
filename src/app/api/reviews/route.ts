@@ -102,7 +102,8 @@ export async function POST(request: NextRequest) {
     // Відгук уже збережений зі статусом pending (модерувати можна і зі Studio),
     // тож збій Telegram не має ламати відповідь користувачу.
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const host = process.env.VERCEL_BRANCH_URL || process.env.VERCEL_URL;
+      const baseUrl = host ? `https://${host}/` : process.env.NEXT_PUBLIC_BASE_URL;
       const message = buildReviewMessage(
         {
           id: created._id,
@@ -130,13 +131,13 @@ export async function POST(request: NextRequest) {
         .patch(created._id)
         .set({ telegramMessageId: sent.message_id })
         .commit();
-    } catch (error) {
-      console.error("[reviews] Failed to notify Telegram:", error);
+    } catch {
+      console.error("[reviews] Failed to notify Telegram");
     }
 
     return NextResponse.json({ ok: true });
-  } catch (error) {
-    console.error("[reviews] Failed to save review:", error);
+  } catch {
+    console.error("[reviews] Failed to save review");
     return NextResponse.json(
       { error: "Failed to save review" },
       { status: 500 },
