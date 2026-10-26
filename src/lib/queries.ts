@@ -57,6 +57,9 @@ const RATING_PROJECTION = `
 
 // phone навмисно не віддаємо на фронт
 const REVIEWS_PROJECTION = `
+  "ratingDistribution": [${[5, 4, 3, 2, 1]
+    .map((rating) => `count(*[_type == "review" && status == "approved" && item._ref == ^._id && rating == ${rating}])`)
+    .join(", ")}],
   "reviews": ${APPROVED_REVIEWS} | order(submittedAt desc)[0...50]{
     "id": _id,
     author,

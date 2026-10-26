@@ -197,6 +197,8 @@ export interface ProductItem {
   ratingCount?: number;
   /** Середня оцінка схвалених відгуків; null/відсутня, якщо відгуків немає */
   ratingAvg?: number | null;
+  /** Approved review counts in descending star order: 5, 4, 3, 2, 1. */
+  ratingDistribution?: number[];
   /** Схвалені відгуки — лише в детальному запиті товару */
   reviews?: Review[];
   /** Slug of the parent category. Not returned by every query — attached

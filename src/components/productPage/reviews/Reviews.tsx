@@ -1,151 +1,144 @@
 "use client";
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import AnimationWrapper from "@/components/homePage/hero/AnimationWrapper";
 import Button from "@/components/shared/buttons/Button";
 import StarRating from "@/components/shared/StarRating";
-import { useModalStore } from "@/store/modalStore";
+import IconStar from "@/components/shared/icons/IconStar";
 import { formatRating } from "@/utils/formatRating";
+import { scrollToProductSection } from "@/utils/productSectionNavigation";
 import { Review } from "@/types/productItem";
-import WriteReviewForm, {
-  WRITE_REVIEW_MODAL,
-  WRITE_REVIEW_MODAL_STYLES,
-} from "./WriteReviewForm";
+import WriteReviewForm from "./WriteReviewForm";
 
 export const REVIEWS_ID = "reviews";
-
+export const REVIEW_FORM_ID = "review-form";
 const VISIBLE_COUNT = 3;
+const STARS = [5, 4, 3, 2, 1];
 
 interface ReviewsProps {
   itemId: string;
   reviews: Review[];
   ratingAvg?: number | null;
   ratingCount: number;
+  ratingDistribution?: number[];
 }
 
 export default function Reviews({
-  itemId,
-  reviews,
-  ratingAvg,
-  ratingCount,
+  itemId, reviews, ratingAvg, ratingCount, ratingDistribution,
 }: ReviewsProps) {
   const t = useTranslations("productPage.reviews");
   const locale = useLocale();
-  const openModal = useModalStore((state) => state.openModal);
   const [showAll, setShowAll] = useState(false);
-
   const avg = formatRating(ratingAvg);
   const visible = showAll ? reviews : reviews.slice(0, VISIBLE_COUNT);
+  const counts = ratingDistribution ?? STARS.map(star => reviews.filter(review => review.rating === star).length);
+  const dateFormatter = new Intl.DateTimeFormat(locale === "ru" ? "ru-RU" : "uk-UA", {
+    day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Kyiv",
+  });
 
-  // Явна часова зона, щоб дата збігалась на сервері й у браузері (гідрація)
-  const dateFormatter = new Intl.DateTimeFormat(
-    locale === "ru" ? "ru-RU" : "uk-UA",
-    { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Kyiv" },
-  );
-
-  const onWriteReview = () =>
-    openModal(
-      WRITE_REVIEW_MODAL,
-      <WriteReviewForm itemId={itemId} />,
-      WRITE_REVIEW_MODAL_STYLES,
-    );
+  const onWriteReview = () => {
+    scrollToProductSection(REVIEW_FORM_ID, REVIEWS_ID);
+    document.getElementById(REVIEW_FORM_ID)?.focus({ preventScroll: true });
+  };
 
   return (
-    <div
+    <section
       id={REVIEWS_ID}
-      className="mb-4 tab:mb-8 p-5 desk:py-[56px] desk:px-[76px] scroll-mt-[142px] tabxl:scroll-mt-[173px] bg-surface rounded-[20px] desk:rounded-[30px] shadow-catalogCard"
+      aria-labelledby="reviews-title"
+      className="mt-5 tab:mt-8 rounded-[24px] bg-surface p-4 tab:p-6 desk:p-8 shadow-catalogCard scroll-mt-[128px] tabxl:scroll-mt-[180px]"
     >
-      <AnimationWrapper
-        sectionId={REVIEWS_ID}
-        commonStyles="transition duration-700 ease-slow"
-        visibleStyles="opacity-100 translate-y-0"
-        unVisibleStyles="opacity-0 translate-y-[24px]"
-      >
-        <div className="mb-5">
-          <div>
-            <h2 className="mb-2 text-14bold desk:text-24bold">{t("title")}</h2>
-            {ratingCount > 0 ? (
-              <div className="flex items-center gap-x-3">
-                <span className="text-24bold leading-none">
-                  {avg.toFixed(1)}
-                </span>
-                <StarRating
-                  value={avg}
-                  ariaLabel={t("ratingLabel", { value: avg })}
-                  starClassName="size-5 desk:size-6"
-                />
-                <span className="text-12med desk:text-16med text-grey">
-                  {t("count", { count: ratingCount })}
-                </span>
-              </div>
-            ) : null}
+      <div className="mb-5 tab:mb-6 flex flex-wrap items-center justify-between gap-4">
+        <h2 id="reviews-title" className="text-[24px] leading-tight font-bold tab:text-[28px]">
+          {t("title")}
+        </h2>
+        <Button onClick={onWriteReview} className="hidden laptop:flex !min-h-11 !py-3 !px-7">
+          {t("write")}
+        </Button>
+      </div>
+
+      <div className="grid items-start gap-5 laptop:grid-cols-[220px_minmax(0,1fr)_300px] desk:grid-cols-[260px_minmax(0,1fr)_340px]">
+        <div className="min-w-0 rounded-[20px] bg-surface p-4 tab:p-5 shadow-catalogCard">
+          <div className="grid grid-cols-[104px_minmax(0,1fr)] items-center gap-4 tab:grid-cols-[180px_minmax(0,1fr)] laptop:block">
+            <div className="flex min-w-0 flex-col items-center laptop:mb-6">
+              <p aria-label={ratingCount ? t("ratingLabel", { value: avg }) : t("noRating")}
+                className="mb-2 text-[64px] tab:text-[80px] font-bold leading-none tracking-[-0.06em]">
+                {ratingCount ? avg.toFixed(1).replace(".", ",") : "—"}
+              </p>
+              <StarRating value={avg} ariaLabel={t("ratingLabel", { value: avg })}
+                starClassName="size-5 tab:size-7 laptop:size-6 desk:size-7" />
+              <p className="mt-2 text-center text-[12px] tab:text-[15px] leading-5 text-fg/65">
+                {t("count", { count: ratingCount })}
+              </p>
+            </div>
+            <ul className="space-y-3" aria-label={t("distribution")}>
+              {STARS.map((star, index) => {
+                const count = counts[index] ?? 0;
+                const percent = ratingCount ? Math.min(100, count / ratingCount * 100) : 0;
+                return (
+                  <li key={star} aria-label={t("distributionLabel", { stars: star, count })}
+                    className="flex items-center gap-2 text-[13px] tab:text-[15px]">
+                    <span className="flex shrink-0 items-center gap-1" aria-hidden="true">
+                      {star}<IconStar className="size-4 text-yellow" />
+                    </span>
+                    <span className="h-2.5 flex-1 overflow-hidden rounded-full bg-fg/10" aria-hidden="true">
+                      <span className="block h-full rounded-full bg-yellow" style={{ width: `${percent}%` }} />
+                    </span>
+                    <span className="min-w-4 text-right tabular-nums text-fg/65" aria-hidden="true">{count}</span>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </div>
 
-        {reviews.length === 0 ? (
-          <p className="pb-1 text-left text-12med desk:text-18med text-grey">
-            {t("empty")}
-          </p>
-        ) : (
-          <>
-            <ul>
-              {visible.map((review) => (
-                <li
-                  key={review.id}
-                  className="py-4 not-last:border-b border-fg/10"
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 mb-2">
-                    <div className="flex items-center gap-x-3">
-                      <p className="text-14bold desk:text-18bold">
-                        {review.author}
-                      </p>
-                      <StarRating
-                        value={review.rating}
-                        ariaLabel={t("ratingLabel", { value: review.rating })}
-                        starClassName="size-4 desk:size-5"
-                      />
-                    </div>
-                    <time
-                      dateTime={review.date}
-                      className="text-12med desk:text-14med text-grey"
-                    >
-                      {dateFormatter.format(new Date(review.date))}
-                    </time>
-                  </div>
-                  <p className="whitespace-pre-line break-words text-12med desk:text-18med">
-                    {review.text}
-                  </p>
-                  {review.reply?.text ? (
-                    <div className="mt-4 ml-3 border-l-2 border-yellow pl-4">
-                      <p className="mb-1 text-14bold desk:text-18bold">
-                        {locale === "ru" ? "Ответ Kondor" : "Відповідь Kondor"}
-                      </p>
-                      <p className="whitespace-pre-line break-words text-12med desk:text-18med">
-                        {review.reply.text}
-                      </p>
-                    </div>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
-            {reviews.length > VISIBLE_COUNT ? (
-              <Button
-                variant="secondary"
-                onClick={() => setShowAll((prev) => !prev)}
-                className="mt-4 w-full tab:w-auto"
-              >
-                {showAll ? t("showLess") : t("showMore")}
-              </Button>
-            ) : null}
-          </>
-        )}
-        <Button
-          onClick={onWriteReview}
-          className="mt-5 w-full tab:w-fit !min-h-[44px] !py-2"
-        >
+        <Button onClick={onWriteReview} className="w-full laptop:hidden !min-h-12 !py-3">
           {t("write")}
         </Button>
-      </AnimationWrapper>
-    </div>
+
+        <div className="min-w-0">
+          {reviews.length === 0 ? (
+            <div className="rounded-[20px] bg-surface p-5 tab:p-6 shadow-catalogCard">
+              <p className="text-[15px] leading-6 text-fg/70">{t("empty")}</p>
+            </div>
+          ) : (
+            <>
+              <ul className="space-y-4" aria-label={t("listLabel")}>
+                {visible.map(review => (
+                  <li key={review.id} className="rounded-[20px] bg-surface p-5 tab:p-6 laptop:p-5 desk:p-6 shadow-catalogCard">
+                    <article>
+                      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                        <h3 className="min-w-0 break-words text-[18px] leading-6 font-bold">{review.author}</h3>
+                        <time dateTime={review.date} className="text-[12px] leading-5 text-fg/60">
+                          {dateFormatter.format(new Date(review.date))}
+                        </time>
+                      </div>
+                      <StarRating value={review.rating} ariaLabel={t("ratingLabel", { value: review.rating })}
+                        className="mt-2 mb-3" starClassName="size-5 tab:size-6" />
+                      <p className="whitespace-pre-line break-words text-[15px] tab:text-[16px] leading-[1.6]">{review.text}</p>
+                      {review.reply?.text ? (
+                        <div className="mt-4 rounded-r-xl border-l-2 border-yellow bg-yellow/5 py-3 pl-4 pr-3">
+                          <p className="mb-1 text-[14px] font-bold">{t("storeReply")}</p>
+                          <p className="whitespace-pre-line break-words text-[14px] leading-6">{review.reply.text}</p>
+                        </div>
+                      ) : null}
+                    </article>
+                  </li>
+                ))}
+              </ul>
+              {reviews.length > VISIBLE_COUNT ? (
+                <Button variant="secondary" onClick={() => setShowAll(prev => !prev)}
+                  className="mt-4 w-full !min-h-11 !py-3">
+                  {showAll ? t("showLess") : t("showMore")}
+                </Button>
+              ) : null}
+            </>
+          )}
+        </div>
+
+        <div id={REVIEW_FORM_ID} tabIndex={-1}
+          className="min-w-0 rounded-[20px] bg-surface p-5 tab:p-6 laptop:p-5 desk:p-6 shadow-catalogCard scroll-mt-[128px] tabxl:scroll-mt-[180px] outline-none focus-visible:ring-2 focus-visible:ring-yellow">
+          <WriteReviewForm itemId={itemId} />
+        </div>
+      </div>
+    </section>
   );
 }

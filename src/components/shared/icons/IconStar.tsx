@@ -1,10 +1,13 @@
 import { IconProps } from "@/types/iconsProps";
 
-export default function IconStar({ className = "" }: IconProps) {
+export default function IconStar({ className = "", outlined = false }: IconProps & { outlined?: boolean }) {
   return (
     <svg
       viewBox="0 0 24 24"
-      fill="currentColor"
+      fill={outlined ? "none" : "currentColor"}
+      stroke={outlined ? "currentColor" : undefined}
+      strokeWidth={outlined ? 1.7 : undefined}
+      strokeLinejoin="round"
       aria-hidden="true"
       className={className}
     >

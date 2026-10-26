@@ -168,9 +168,11 @@ test('reply rendering uses text nodes and translated store label', () => {
   const Wrapper = ({ children }) => React.createElement('div', null, children);
   const Reviews = compile('src/components/productPage/reviews/Reviews.tsx', {
     react: React, 'react/jsx-runtime': require('react/jsx-runtime'),
-    'next-intl': { useLocale: () => 'uk', useTranslations: () => key => key },
+    'next-intl': { useLocale: () => 'uk', useTranslations: () => key => key === 'storeReply' ? 'Відповідь Kondor' : key },
     '@/components/homePage/hero/AnimationWrapper': { default: Wrapper },
     '@/components/shared/buttons/Button': { default: Wrapper }, '@/components/shared/StarRating': { default: Empty },
+    '@/components/shared/icons/IconStar': { default: Empty },
+    '@/utils/productSectionNavigation': { scrollToProductSection() {} },
     '@/store/modalStore': { useModalStore: () => () => {} }, '@/utils/formatRating': { formatRating: n => n || 0 },
     './WriteReviewForm': { default: Empty },
   }).default;

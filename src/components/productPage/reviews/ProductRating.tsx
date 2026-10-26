@@ -2,6 +2,7 @@
 import { useTranslations } from "next-intl";
 import StarRating from "@/components/shared/StarRating";
 import { formatRating } from "@/utils/formatRating";
+import { scrollToProductSection } from "@/utils/productSectionNavigation";
 import { REVIEWS_ID } from "./Reviews";
 
 interface ProductRatingProps {
@@ -17,26 +18,24 @@ export default function ProductRating({
   const t = useTranslations("productPage.reviews");
   const avg = formatRating(ratingAvg);
 
-  const scrollToReviews = () =>
-    document
-      .getElementById(REVIEWS_ID)
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const scrollToReviews = () => scrollToProductSection(REVIEWS_ID);
 
   return (
     <button
       type="button"
       onClick={scrollToReviews}
-      className="flex items-center gap-x-2 mb-5 desk:mb-9 text-12med desk:text-16med outline-none transition duration-300 ease-out laptop:hover:text-yellow focus-visible:text-yellow"
+      className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-5 desk:mb-9 min-h-11 text-[15px] leading-6 tab:text-[17px] outline-none rounded-lg transition-colors hover:text-yellow focus-visible:ring-2 focus-visible:ring-yellow focus-visible:ring-offset-4 focus-visible:ring-offset-surface"
     >
       <StarRating
         value={avg}
         ariaLabel={t("ratingLabel", { value: avg })}
-        starClassName="size-4 desk:size-5"
+        starClassName="size-6 tab:size-7"
       />
       {ratingCount > 0 ? (
-        <span className="font-bold">{avg.toFixed(1)}</span>
+        <span className="font-bold text-fg">{avg.toFixed(1).replace(".", ",")}</span>
       ) : null}
-      <span className="text-grey">({t("count", { count: ratingCount })})</span>
+      <span aria-hidden="true" className="h-5 w-px bg-fg/20" />
+      <span className="underline underline-offset-4">{t("count", { count: ratingCount })}</span>
     </button>
   );
 }

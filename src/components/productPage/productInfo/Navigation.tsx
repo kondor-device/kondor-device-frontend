@@ -1,8 +1,9 @@
 "use client";
-import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
+import { CSSProperties, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { ProductItem } from "@/types/productItem";
 import { useTranslations } from "next-intl";
 import { Tabs, Tab } from "@heroui/react";
+import { PRODUCT_SECTION_EVENT, scrollToProductSection } from "@/utils/productSectionNavigation";
 
 interface NavigationProps {
   product: ProductItem;
@@ -17,7 +18,7 @@ type NavigationItem = { title: string; slug: string };
 
 export default function Navigation({ product, breadcrumbs }: NavigationProps) {
   const [selected, setSelected] = useState("all");
-  const isManuallySelecting = useRef(false);
+  const manualSelectionUntil = useRef(0);
   const tabListRef = useRef<HTMLDivElement>(null);
   const breadcrumbsRef = useRef<HTMLDivElement>(null);
   const placeholderRef = useRef<HTMLDivElement>(null);
@@ -64,62 +65,66 @@ export default function Navigation({ product, breadcrumbs }: NavigationProps) {
 
   const t = useTranslations("productPage.navigation");
 
-  const { description, complect, chars, video, manual, driver } = product;
+  const { description, complect, chars, video, manual, driver, ratingCount = 0 } = product;
 
   const handleTabChange = (key: string) => {
-    isManuallySelecting.current = true; // ← блокуємо автооновлення
+    manualSelectionUntil.current = performance.now() + 1500;
     setSelected(key);
-    const el = document.getElementById(key);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    // Відновимо через таймер
-    setTimeout(() => {
-      isManuallySelecting.current = false;
-    }, 1000); // 1 сек — достатньо для scrollIntoView завершитись
+    scrollToProductSection(key);
   };
 
-  const navigationList = [
+  const navigationList = useMemo(() => [
     { title: t("allAboutProduct"), slug: "all" },
     description && { title: t("description"), slug: "description" },
     chars && { title: t("characteristics"), slug: "characteristics" },
     video && { title: t("see"), slug: "video" },
     complect && { title: t("complect"), slug: "complect" },
-    { title: t("reviews"), slug: "reviews" },
+    { title: `${t("reviews")} (${ratingCount})`, slug: "reviews" },
     manual && { title: t("manual"), slug: "manual" },
     driver && { title: t("driver"), slug: "driver" },
-  ].filter(Boolean) as NavigationItem[];
+  ].filter(Boolean) as NavigationItem[], [t, description, chars, video, complect, manual, driver, ratingCount]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (isManuallySelecting.current) return;
-
-      const vh = window.innerHeight;
-      const start = vh * 0.1;
-      const end = vh * 0.4;
-      let active = selected;
-
+    let frame = 0;
+    const updateActive = () => {
+      frame = 0;
+      if (performance.now() < manualSelectionUntil.current) return;
+      const anchor = (tabListRef.current?.getBoundingClientRect().bottom ?? 110) + 24;
+      let active = "all";
+      let nearestTop = -Infinity;
       for (const item of navigationList) {
-        const el = document.getElementById(item.slug);
-        if (!el) continue;
-        const top = el.getBoundingClientRect().top;
-        if (top >= start && top <= end) {
+        const element = document.getElementById(item.slug);
+        if (!element) continue;
+        const rect = element.getBoundingClientRect();
+        // Use the actual sticky header edge, not a viewport percentage.
+        // Side-by-side product columns must not override the full-width reviews.
+        if (rect.height > 0 && rect.top <= anchor && rect.top > nearestTop) {
           active = item.slug;
-          break;
+          nearestTop = rect.top;
         }
       }
-
-      if (active !== selected) setSelected(active);
+      setSelected(previous => previous === active ? previous : active);
     };
-
+    const handleScroll = () => {
+      if (!frame) frame = requestAnimationFrame(updateActive);
+    };
+    const handleSectionLink = (event: Event) => {
+      const key = (event as CustomEvent<string>).detail;
+      if (!navigationList.some(item => item.slug === key)) return;
+      manualSelectionUntil.current = performance.now() + 1500;
+      setSelected(key);
+    };
+    document.addEventListener(PRODUCT_SECTION_EVENT, handleSectionLink);
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
     handleScroll();
-
     return () => {
+      cancelAnimationFrame(frame);
+      document.removeEventListener(PRODUCT_SECTION_EVENT, handleSectionLink);
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
     };
-  }, [navigationList, selected]);
+  }, [navigationList]);
 
   // Автоскрол лише всередині рядка табів — без scrollIntoView,
   // бо він на iOS зсуває всю сторінку по горизонталі.
