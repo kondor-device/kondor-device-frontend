@@ -134,7 +134,7 @@ export default function ProductCard({
         >
           <CardTitle generalname={generalname} name={name} />
         </Link>
-        <CardRating ratingAvg={product.ratingAvg} ratingCount={product.ratingCount}
+        <CardRating ratingAvg={product.ratingAvg} ratingCount={product.ratingCount} onDark
           href={`/catalog/${categorySlug}/${slug}?color=${getColorParam(coloropts[selectedColorIndex])}#reviews`} />
         {coloropts.length > 0 ? (
           <ColorPicker
