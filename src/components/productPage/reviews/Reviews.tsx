@@ -124,8 +124,10 @@ export default function Reviews({
                             </svg>
                             {t("confirmedPurchase")}
                           </span>
-                          <StarRating value={review.rating} ariaLabel={t("ratingLabel", { value: review.rating })}
-                            className="mt-2 w-fit" starClassName="size-5 tab:size-6" />
+                          <div className="mt-2 leading-none">
+                            <StarRating value={review.rating} ariaLabel={t("ratingLabel", { value: review.rating })}
+                              starClassName="size-5 tab:size-6" />
+                          </div>
                         </div>
                       </div>
                       <p className="whitespace-pre-line break-words text-[15px] tab:text-[16px] leading-[1.6]">{review.text}</p>
