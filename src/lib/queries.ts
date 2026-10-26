@@ -95,7 +95,9 @@ const BUNDLE_COMPONENT_PROJECTION = `
   "nameUk": item->name,
   "price": item->price,
   "priceDiscount": item->priceDiscount,
-  "outOfStock": coalesce(item->outOfStock, false)
+  "outOfStock": coalesce(item->outOfStock, false),
+  "ratingCount": count(*[_type == "review" && status == "approved" && item._ref == ^.item._ref]),
+  "ratingAvg": math::avg(*[_type == "review" && status == "approved" && item._ref == ^.item._ref].rating)
 `;
 
 // Sum of the components' current prices (discounted price when it is lower).
@@ -198,6 +200,8 @@ const MAIN_PRODUCTS_PROJECTION = `
   "id": _id,
   ${l10nField("name")},
   slug,
+  "categorySlug": cat->slug,
+  ${RATING_PROJECTION},
   price,
   priceDiscount,
   "cat": cat->{ "id": _id, ${l10nField("name")} },

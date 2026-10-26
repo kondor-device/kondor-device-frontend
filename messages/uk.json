@@ -382,7 +382,8 @@
       "distribution": "Розподіл оцінок",
       "distributionLabel": "{stars} зірок: {count} відгуків",
       "listLabel": "Відгуки покупців",
-      "storeReply": "Відповідь Kondor"
+      "storeReply": "Відповідь Kondor",
+      "confirmedPurchase": "Підтверджена покупка"
     }
   },
   "catalogPage": {

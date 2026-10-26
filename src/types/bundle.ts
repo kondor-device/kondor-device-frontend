@@ -13,6 +13,8 @@ export interface BundleComponent {
   price: number;
   priceDiscount?: number;
   outOfStock: boolean;
+  ratingCount?: number;
+  ratingAvg?: number | null;
   /** Color option code — the SKU in the CRM, its stock is what gets written off */
   code: string;
   colorOpt: ColorOpt;

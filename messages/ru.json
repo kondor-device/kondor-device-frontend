@@ -382,7 +382,8 @@
       "distribution": "Распределение оценок",
       "distributionLabel": "{stars} звёзд: {count} отзывов",
       "listLabel": "Отзывы покупателей",
-      "storeReply": "Ответ Kondor"
+      "storeReply": "Ответ Kondor",
+      "confirmedPurchase": "Подтверждённая покупка"
     }
   },
   "catalogPage": {

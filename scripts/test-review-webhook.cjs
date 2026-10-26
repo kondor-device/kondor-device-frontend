@@ -173,6 +173,7 @@ test('reply rendering uses text nodes and translated store label', () => {
     '@/components/shared/buttons/Button': { default: Wrapper }, '@/components/shared/StarRating': { default: Empty },
     '@/components/shared/icons/IconStar': { default: Empty },
     '@/utils/productSectionNavigation': { scrollToProductSection() {} },
+    '@/utils/getInitials': { getInitials: name => name.slice(0, 1) },
     '@/store/modalStore': { useModalStore: () => () => {} }, '@/utils/formatRating': { formatRating: n => n || 0 },
     './WriteReviewForm': { default: Empty },
   }).default;
@@ -181,4 +182,28 @@ test('reply rendering uses text nodes and translated store label', () => {
       text: 'Review', date: '2026-10-25', reply: { text: '<script>alert(1)</script>', date: '2026-10-25' } }],
   }));
   assert.match(html, /Відповідь Kondor/); assert.match(html, /&lt;script&gt;/); assert.doesNotMatch(html, /<script>/);
+});
+
+test('home and set component ratings count only approved reviews for the matching product', async () => {
+  const { parse, evaluate } = require('groq-js');
+  const groq = (parts, ...values) => parts.reduce((text, part, i) => text + part + (values[i] ?? ''), '');
+  const queries = compile('src/lib/queries.ts', { 'next-sanity': { groq } });
+  const ref = id => ({ _type: 'reference', _ref: id });
+  const dataset = [
+    { _id: 'cat', _type: 'category', name: 'Миші', slug: 'mishi', items: [ref('a'), ref('b')] },
+    ...['a', 'b', 'empty'].map(id => ({ _id: id, _type: 'item', slug: id, name: id, price: 100,
+      showonmain: true, cat: ref('cat'), coloropts: [{ code: '1', photos: [] }] })),
+    { _id: 'set', _type: 'bundle', slug: 'set', components: ['a', 'b'].map(id => ({ item: ref(id), colorCode: '1' })) },
+    ...[
+      ['r1', 'a', 'approved', 5], ['r2', 'a', 'approved', 3], ['r3', 'a', 'pending', 1],
+      ['r4', 'b', 'approved', 2], ['r5', 'b', 'rejected', 5],
+    ].map(([id, item, status, rating]) => ({ _id: id, _type: 'review', item: ref(item), status, rating })),
+  ];
+  const run = async (query, params) => (await evaluate(parse(query), { dataset, params: { locale: 'uk', ...params } })).get();
+  const home = await run(queries.GET_ALL_DATA_QUERY);
+  const ratings = items => items.map(item => [item.ratingCount, item.ratingAvg]);
+  assert.deepEqual(ratings(home.shownOnMainProducts), [[2, 4], [1, 2], [0, null]]);
+  assert.deepEqual(ratings(home.allCategories[0].items), [[2, 4], [1, 2]]);
+  const detail = await run(queries.GET_ITEM_BY_SLUG_QUERY, { slug: 'set' });
+  assert.deepEqual(ratings(detail.bundle.components), [[2, 4], [1, 2]]);
 });

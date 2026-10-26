@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { formatSum } from "@/utils/formatSum";
 import { Link } from "@/i18n/routing";
 import AnimationWrapper from "./AnimationWrapper";
+import CardRating from "@/components/shared/CardRating";
 
 interface HeroProductCardProps {
   product: ProductItem;
@@ -36,7 +37,7 @@ export default function HeroProductCard({
   const categoryLink = `/#${cat?.id}`;
 
   return (
-    <li className="shrink-0 w-[137px] h-[201px] sm:w-[166px] sm:h-[243px] snap-start">
+    <li className="shrink-0 w-[137px] h-[225px] sm:w-[166px] sm:h-[267px] snap-start">
       <AnimationWrapper
         sectionId="home-page-hero"
         commonStyles={`flex flex-col items-center w-full h-full overflow-hidden rounded-[24px] sm:rounded-[30px] px-[10px] pt-[14px] pb-[12px] sm:pt-[24px] sm:pb-[18px] shadow-card bg-surface transition duration-1000 ease-slow ${APPEAR_DELAYS[index] ?? APPEAR_DELAYS[APPEAR_DELAYS.length - 1]}`}
@@ -61,6 +62,8 @@ export default function HeroProductCard({
         <h2 className="mt-auto mb-2 sm:mb-[10px] pt-3 text-14bold sm:text-16bold text-center">
           {name}
         </h2>
+        <CardRating ratingAvg={product.ratingAvg} ratingCount={product.ratingCount} compact className="mb-2 shrink-0"
+          href={product.categorySlug ? `/catalog/${product.categorySlug}/${product.slug}#reviews` : undefined} />
         <Link
           href={cat?.id ? categoryLink : catalogLink}
           className="block w-full max-w-[146px] mx-auto"

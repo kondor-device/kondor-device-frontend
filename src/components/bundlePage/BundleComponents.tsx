@@ -5,6 +5,7 @@ import { BundleComponent } from "@/types/bundle";
 import { formatSum } from "@/utils/formatSum";
 import { getActualPrice } from "@/utils/bundlePricing";
 import { getColorParam } from "@/utils/colorParam";
+import CardRating from "@/components/shared/CardRating";
 
 interface BundleComponentsProps {
   components: BundleComponent[];
@@ -43,6 +44,7 @@ export default async function BundleComponents({
                   <span>{component.generalname}</span>{" "}
                   <span className="text-yellow">{component.name}</span>
                 </p>
+                <CardRating ratingAvg={component.ratingAvg} ratingCount={component.ratingCount} />
                 <p className="flex items-center gap-x-2 text-12med desk:text-16med">
                   {colorOpt?.colorset?.hex ? (
                     <span

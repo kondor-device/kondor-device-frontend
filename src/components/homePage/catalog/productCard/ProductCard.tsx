@@ -18,6 +18,7 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import { formatSum } from "@/utils/formatSum";
 import { Link } from "@/i18n/routing";
 import { getColorParam } from "@/utils/colorParam";
+import CardRating from "@/components/shared/CardRating";
 
 interface ProductCardProps {
   product: ProductItem;
@@ -133,6 +134,8 @@ export default function ProductCard({
         >
           <CardTitle generalname={generalname} name={name} />
         </Link>
+        <CardRating ratingAvg={product.ratingAvg} ratingCount={product.ratingCount}
+          href={`/catalog/${categorySlug}/${slug}?color=${getColorParam(coloropts[selectedColorIndex])}#reviews`} />
         {coloropts.length > 0 ? (
           <ColorPicker
             coloropts={coloropts}

@@ -6,6 +6,7 @@ import StarRating from "@/components/shared/StarRating";
 import IconStar from "@/components/shared/icons/IconStar";
 import { formatRating } from "@/utils/formatRating";
 import { scrollToProductSection } from "@/utils/productSectionNavigation";
+import { getInitials } from "@/utils/getInitials";
 import { Review } from "@/types/productItem";
 import WriteReviewForm from "./WriteReviewForm";
 
@@ -105,14 +106,28 @@ export default function Reviews({
                 {visible.map(review => (
                   <li key={review.id} className="rounded-[20px] bg-surface p-5 tab:p-6 laptop:p-5 desk:p-6 shadow-catalogCard">
                     <article>
-                      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                        <h3 className="min-w-0 break-words text-[18px] leading-6 font-bold">{review.author}</h3>
-                        <time dateTime={review.date} className="text-[12px] leading-5 text-fg/60">
-                          {dateFormatter.format(new Date(review.date))}
-                        </time>
+                      <div className="mb-3 flex items-start gap-3">
+                        <span aria-hidden="true" className="flex size-11 shrink-0 items-center justify-center rounded-full bg-fg/10 text-[15px] font-bold text-fg/70">
+                          {getInitials(review.author)}
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                            <h3 className="min-w-0 break-words text-[18px] leading-6 font-bold">{review.author}</h3>
+                            <time dateTime={review.date} className="text-[12px] leading-5 text-fg/60">
+                              {dateFormatter.format(new Date(review.date))}
+                            </time>
+                          </div>
+                          <span className="mt-1 inline-flex items-center gap-1 text-[11px] leading-4 font-medium text-emerald-700 dark:text-emerald-400">
+                            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="size-4 shrink-0">
+                              <circle cx="10" cy="10" r="9" />
+                              <path d="m6 10 2.5 2.5L14 7" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                            {t("confirmedPurchase")}
+                          </span>
+                          <StarRating value={review.rating} ariaLabel={t("ratingLabel", { value: review.rating })}
+                            className="mt-2 w-fit" starClassName="size-5 tab:size-6" />
+                        </div>
                       </div>
-                      <StarRating value={review.rating} ariaLabel={t("ratingLabel", { value: review.rating })}
-                        className="mt-2 mb-3" starClassName="size-5 tab:size-6" />
                       <p className="whitespace-pre-line break-words text-[15px] tab:text-[16px] leading-[1.6]">{review.text}</p>
                       {review.reply?.text ? (
                         <div className="mt-4 rounded-r-xl border-l-2 border-yellow bg-yellow/5 py-3 pl-4 pr-3">
