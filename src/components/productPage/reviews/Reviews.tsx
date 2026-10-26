@@ -112,18 +112,20 @@ export default function Reviews({
                         </span>
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                            <h3 className="min-w-0 break-words text-[18px] leading-6 font-bold">{review.author}</h3>
+                            <div className="flex min-w-0 items-center gap-2">
+                              <h3 className="min-w-0 break-words text-[18px] leading-6 font-bold">{review.author}</h3>
+                              <span role="img" aria-label={t("confirmedPurchase")} title={t("confirmedPurchase")}
+                                className="inline-flex shrink-0 text-emerald-700 dark:text-emerald-400">
+                                <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="size-3.5">
+                                  <circle cx="10" cy="10" r="9" />
+                                  <path d="m6 10 2.5 2.5L14 7" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              </span>
+                            </div>
                             <time dateTime={review.date} className="text-[12px] leading-5 text-fg/60">
                               {dateFormatter.format(new Date(review.date))}
                             </time>
                           </div>
-                          <span className="mt-1 inline-flex items-center gap-1 text-[11px] leading-4 font-medium text-emerald-700 dark:text-emerald-400">
-                            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="size-4 shrink-0">
-                              <circle cx="10" cy="10" r="9" />
-                              <path d="m6 10 2.5 2.5L14 7" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                            {t("confirmedPurchase")}
-                          </span>
                           <div className="mt-2 leading-none">
                             <StarRating value={review.rating} ariaLabel={t("ratingLabel", { value: review.rating })}
                               starClassName="size-5 tab:size-6" />
