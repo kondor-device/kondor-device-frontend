@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { ProductItem } from "@/types/productItem";
 import ImagePicker from "./ImagePicker";
@@ -21,6 +21,7 @@ import { useSearchParams } from "next/navigation";
 import { findColorIndex } from "@/utils/colorParam";
 import Reviews from "@/components/productPage/reviews/Reviews";
 import ProductRating from "@/components/productPage/reviews/ProductRating";
+import { scrollToProductSection } from "@/utils/productSectionNavigation";
 
 interface ProductInfoProps {
   product: ProductItem;
@@ -84,6 +85,19 @@ export default function ProductInfo({
 
   const screenWidth = useScreenWidth();
   const isDesktop = screenWidth >= 1024 ? true : false;
+  const hashHandledFor = useRef<string | null>(null);
+  const layoutReady = screenWidth > 0;
+
+  useEffect(() => {
+    if (!layoutReady || hashHandledFor.current === id || window.location.hash !== "#reviews") return;
+    // The server initially renders the mobile layout. Resolve the review anchor
+    // after hydration has selected the actual responsive layout.
+    const frame = requestAnimationFrame(() => {
+      hashHandledFor.current = id;
+      scrollToProductSection("reviews");
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [id, layoutReady, isDesktop]);
 
   const { photos } = coloropts[selectedColorIndex];
 
