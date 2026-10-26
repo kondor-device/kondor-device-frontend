@@ -55,7 +55,7 @@ export default function Reviews({
         </Button>
       </div>
 
-      <div className="grid items-start gap-5 laptop:grid-cols-[220px_minmax(0,1fr)_300px] desk:grid-cols-[260px_minmax(0,1fr)_340px]">
+      <div className="grid items-start gap-5 laptop:grid-cols-[280px_minmax(0,1fr)_360px] desk:grid-cols-[300px_minmax(0,1fr)_380px]">
         <div className="min-w-0 rounded-[20px] bg-surface p-4 tab:p-5 shadow-catalogCard">
           <div className="grid grid-cols-[104px_minmax(0,1fr)] items-center gap-4 tab:grid-cols-[180px_minmax(0,1fr)] laptop:block">
             <div className="flex min-w-0 flex-col items-center laptop:mb-6">
