@@ -69,7 +69,7 @@ export default function WriteReviewForm({ itemId }: WriteReviewFormProps) {
           <h3 id={`${fieldPrefix}-title`} className="text-[20px] leading-tight font-bold">{t("form.title")}</h3>
           <RatingField />
           <div>
-            <label htmlFor={`${fieldPrefix}-name`} className="mb-2 block text-[14px] leading-5 font-medium">{tForms("name")} *</label>
+            <label htmlFor={`${fieldPrefix}-name`} className="mb-2 block text-[14px] leading-5 font-medium">{tForms("name")}</label>
             <Field id={`${fieldPrefix}-name`} name="name" type="text" autoComplete="name" required
               maxLength={REVIEW_LIMITS.nameMax} placeholder={t("form.namePlaceholder")} className={fieldStyles}
               aria-invalid={!!(touched.name && errors.name)}
@@ -77,7 +77,7 @@ export default function WriteReviewForm({ itemId }: WriteReviewFormProps) {
             {touched.name && errors.name ? <p id={`${fieldPrefix}-name-error`} className="mt-1 text-[12px] leading-4 text-inputError">{errors.name}</p> : null}
           </div>
           <div>
-            <label htmlFor={`${fieldPrefix}-phone`} className="mb-2 block text-[14px] leading-5 font-medium">{tForms("phone")} *</label>
+            <label htmlFor={`${fieldPrefix}-phone`} className="mb-2 block text-[14px] leading-5 font-medium">{tForms("phone")}</label>
             <Field as={MaskedInput} mask={PHONE_NUMBER_MASK} id={`${fieldPrefix}-phone`} name="phone"
               type="tel" inputMode="tel" autoComplete="tel" required placeholder="+38 (0__) ___-__-__" className={fieldStyles}
               aria-invalid={!!(touched.phone && errors.phone)}

@@ -26,6 +26,7 @@ export default function RatingField() {
     else if (event.key === "End") next = 5;
     else return;
     event.preventDefault();
+    setHovered(0);
     select(next);
     buttons.current[next - 1]?.focus();
   };
@@ -35,7 +36,7 @@ export default function RatingField() {
       <p id={labelId} className="mb-1 text-[14px] leading-5 font-medium">{t("form.rating")}</p>
       <div role="radiogroup" aria-labelledby={labelId} aria-required="true"
         aria-describedby={meta.touched && meta.error ? `${labelId}-error` : undefined}
-        className="flex flex-wrap gap-1" onMouseLeave={() => setHovered(0)}>
+        className="flex flex-wrap gap-0 tab:gap-1" onMouseLeave={() => setHovered(0)}>
         {STARS.map(value => (
           <button key={value} ref={node => { buttons.current[value - 1] = node; }}
             type="button" role="radio" aria-checked={field.value === value}

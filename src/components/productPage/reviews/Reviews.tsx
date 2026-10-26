@@ -44,7 +44,7 @@ export default function Reviews({
     <section
       id={REVIEWS_ID}
       aria-labelledby="reviews-title"
-      className="mt-5 tab:mt-8 rounded-[24px] bg-surface p-4 tab:p-6 desk:p-8 shadow-catalogCard scroll-mt-[128px] tabxl:scroll-mt-[180px]"
+      className="mt-5 tab:mt-8 rounded-[24px] bg-surface p-2 tab:p-6 desk:p-8 shadow-catalogCard scroll-mt-[128px] tabxl:scroll-mt-[180px]"
     >
       <div className="mb-5 tab:mb-6 flex flex-wrap items-center justify-between gap-4">
         <h2 id="reviews-title" className="text-[24px] leading-tight font-bold tab:text-[28px]">
@@ -135,7 +135,7 @@ export default function Reviews({
         </div>
 
         <div id={REVIEW_FORM_ID} tabIndex={-1}
-          className="min-w-0 rounded-[20px] bg-surface p-5 tab:p-6 laptop:p-5 desk:p-6 shadow-catalogCard scroll-mt-[128px] tabxl:scroll-mt-[180px] outline-none focus-visible:ring-2 focus-visible:ring-yellow">
+          className="min-w-0 rounded-[20px] bg-surface p-3 tab:p-6 laptop:p-5 desk:p-6 shadow-catalogCard scroll-mt-[128px] tabxl:scroll-mt-[180px] outline-none focus-visible:ring-2 focus-visible:ring-yellow">
           <WriteReviewForm itemId={itemId} />
         </div>
       </div>
