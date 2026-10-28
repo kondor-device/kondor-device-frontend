@@ -1,12 +1,20 @@
 export const REVIEW_STATUSES = ['pending', 'approved', 'hidden', 'rejected'];
 export class ReviewConflictError extends Error {
-    constructor() { super('Відгук уже змінився. Оновіть картку перед повторною дією.'); this.name = 'ReviewConflictError'; }
+    constructor() {
+        super('Відгук уже змінився. Оновіть картку перед повторною дією.');
+        this.name = 'ReviewConflictError';
+    }
 }
 export const reviewState = (review) => ({
-    text: review.text, status: review.status, reply: review.reply ?? null,
+    text: review.text,
+    status: review.status,
+    reply: review.reply ?? null,
 });
 const canonical = (value) => JSON.stringify(value, (_key, item) => item && typeof item === 'object' && !Array.isArray(item)
-    ? Object.fromEntries(Object.keys(item).sort().map(key => [key, item[key]])) : item);
+    ? Object.fromEntries(Object.keys(item)
+        .sort()
+        .map((key) => [key, item[key]]))
+    : item);
 export function buildModerationPlan(current, action, editor, auditId, changedAt, edits, undoAudit) {
     if (current._type !== 'review' || !/^[a-zA-Z0-9_-]{1,128}$/.test(current._id) || !current._rev)
         throw new Error('Некоректний відгук');
@@ -26,8 +34,13 @@ export function buildModerationPlan(current, action, editor, auditId, changedAt,
         if (!text || text.length > 5000 || replyText.length > 5000)
             throw new Error('Текст має містити від 1 до 5000 символів; відповідь — до 5000');
         after = {
-            text, status: 'approved',
-            reply: replyText ? (replyText === current.reply?.text ? current.reply : { ...current.reply, text: replyText, publishedAt: changedAt }) ?? null : null,
+            text,
+            status: 'approved',
+            reply: replyText
+                ? ((replyText === current.reply?.text
+                    ? current.reply
+                    : { ...current.reply, text: replyText, publishedAt: changedAt }) ?? null)
+                : null,
         };
     }
     else if (action === 'hide') {
@@ -41,9 +54,13 @@ export function buildModerationPlan(current, action, editor, auditId, changedAt,
         after.status = 'rejected';
     }
     else if (action === 'undo') {
-        if (!undoAudit || undoAudit._type !== 'reviewAudit' || undoAudit.reviewId !== current._id || canonical(undoAudit.after) !== canonical(before))
+        if (!undoAudit ||
+            undoAudit._type !== 'reviewAudit' ||
+            undoAudit.reviewId !== current._id ||
+            canonical(undoAudit.after) !== canonical(before))
             throw new ReviewConflictError();
-        if (!REVIEW_STATUSES.includes(undoAudit.before.status) || typeof undoAudit.before.text !== 'string')
+        if (!REVIEW_STATUSES.includes(undoAudit.before.status) ||
+            typeof undoAudit.before.text !== 'string')
             throw new Error('Некоректна історія змін');
         after = { ...undoAudit.before };
     }
@@ -51,14 +68,34 @@ export function buildModerationPlan(current, action, editor, auditId, changedAt,
         throw new Error('Невідома дія');
     if (canonical(before) === canonical(after))
         throw new Error('Немає змін для збереження');
-    const audit = { _id: auditId, _type: 'reviewAudit', reviewId: current._id, action, changedAt, editor, before, after, sourceRevision: current._rev };
+    const audit = {
+        _id: auditId,
+        _type: 'reviewAudit',
+        reviewId: current._id,
+        action,
+        changedAt,
+        editor,
+        before,
+        after,
+        sourceRevision: current._rev,
+    };
     const set = { text: after.text, status: after.status };
     if (after.reply)
         set.reply = after.reply;
-    return { audit, mutations: [
+    return {
+        audit,
+        mutations: [
             { create: audit },
-            { patch: { id: current._id, ifRevisionID: current._rev, set, ...(!after.reply ? { unset: ['reply'] } : {}) } },
-        ] };
+            {
+                patch: {
+                    id: current._id,
+                    ifRevisionID: current._rev,
+                    set,
+                    ...(!after.reply ? { unset: ['reply'] } : {}),
+                },
+            },
+        ],
+    };
 }
 export async function moderateReview(client, expected, action, editor, edits, undoAudit) {
     const config = client.config();

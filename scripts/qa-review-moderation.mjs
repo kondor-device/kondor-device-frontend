@@ -9,6 +9,19 @@ assert.equal(process.env.VERCEL_ENV,'preview');
 assert.ok(process.env.SANITY_WRITE_TOKEN,'Missing server-side Sanity credential');
 const client=createClient({projectId:'qmszlzqu',dataset:'production',apiVersion:'2025-11-11',useCdn:false,token:process.env.SANITY_WRITE_TOKEN,perspective:'raw'});
 const publicClient=client.withConfig({token:undefined,perspective:'published'});
+assert.equal(publicClient.config().token,undefined);
+const uiReview='qa-review-admin-ui-20261028',uiProduct='qaReviewProduct.admin-ui-20261028';
+if(process.argv.includes('--cleanup-ui-fixture')){
+ const doc=await client.getDocument(uiReview);
+ if(doc){
+  assert.equal(doc.qaOwner,'codex-review-admin-20261028');
+  const owned=await client.fetch(`*[_type=="reviewAudit" && reviewId==$id]{_id}`,{id:uiReview});
+  assert.ok(owned.every(a=>/^reviewAudit\.[\w-]+$/.test(a._id)));
+  await client.mutate([uiReview,...owned.map(a=>a._id),uiProduct].map(id=>({delete:{id}})),{visibility:'sync'});
+ }
+ console.log('[review-ui-fixture]',JSON.stringify({cleaned:true}));
+ process.exit(0);
+}
 const snapshotQuery=`*[_type=="review" && !(_id in path("drafts.**"))] | order(_id asc){_id,item,author,rating,text,status,submittedAt,reply}`;
 const digest=data=>createHash('sha256').update(JSON.stringify(data)).digest('hex');
 const before=await client.fetch(snapshotQuery);
@@ -65,3 +78,9 @@ try{
 const after=await client.fetch(snapshotQuery);
 assert.equal(digest(after),digest(before),'Existing review content or statuses changed');
 console.log('[review-data-preserved]',JSON.stringify({reviews:after.length,sha256:digest(after),temporaryRecordsRemaining:await client.fetch(`count(*[_id==$id || _id==$product || (_type=="reviewAudit" && reviewId==$id)])`,{id:reviewId,product:productId})}));
+if(process.argv.includes('--prepare-ui-fixture')){
+ const previous=await client.getDocument(uiReview);
+ assert.ok(!previous,'UI fixture already exists; never overwrite it');
+ await client.mutate([{create:{_id:uiProduct,_type:'reviewTestProduct',name:'QA — перевірка модерації (не товар каталогу)',slug:'qa-moderation'}},{create:{_id:uiReview,_type:'review',item:{_type:'reference',_ref:uiProduct},author:'QA — тест модерації, тимчасовий запис',rating:3,text:'Тестовий текст для перевірки редактора. Не відгук покупця.',status:'pending',submittedAt:new Date().toISOString(),qaOwner:'codex-review-admin-20261028'}}],{visibility:'sync'});
+ console.log('[review-ui-fixture]',JSON.stringify({reviewId:uiReview,prepared:true}));
+}
