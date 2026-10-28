@@ -22,7 +22,7 @@ try {
   const member = await call("getChatMember", { chat_id: process.env.TELEGRAM_CHAT_ID, user_id: bot.id });
   console.log("[review-bot]", JSON.stringify({ username: bot.username, channelRole: member.status }));
   if (!target) process.exit(0);
-  if (process.env.VERCEL_ENV !== "preview" || process.env.VERCEL_GIT_COMMIT_REF !== "codex/review-moderation-replies") {
+  if (process.env.VERCEL_ENV !== "preview" || !["codex/review-moderation-replies", "codex/reviews-current-site"].includes(process.env.VERCEL_GIT_COMMIT_REF)) {
     throw new Error("Activation is restricted to the review preview branch");
   }
   const url = new URL(target);
@@ -30,7 +30,9 @@ try {
     throw new Error("Unexpected preview destination");
   }
   url.pathname = "/api/telegram/webhook";
-  if (before.url && before.url !== url.href) {
+  const reviewedPrevious = "https://kondor-device-frontend-k9k6n5chb-kondor-devices-projects.vercel.app/api/telegram/webhook";
+  const reviewedReplacement = process.argv.includes("--replace-reviewed-webhook") && before.url === reviewedPrevious;
+  if (before.url && before.url !== url.href && !reviewedReplacement) {
     throw new Error("Existing webhook differs; inspect before changing it");
   }
   // Check both auth paths without creating reviews or sending messages.
