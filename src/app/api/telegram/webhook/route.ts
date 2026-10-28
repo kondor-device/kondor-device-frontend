@@ -28,7 +28,7 @@ interface ReplySession {
   expiresAt: string; reviewRevision: string;
 }
 const REVIEW_QUERY = `*[_type == "review" && _id == $id][0]{
-  _id, _rev, status, author, phone, rating, text, moderatedBy, telegramMessageId, reply,
+  _id, _rev, status, author, "phone": coalesce(phone, *[_type == "reviewContact" && reviewId == ^._id][0].phone), rating, text, moderatedBy, telegramMessageId, reply,
   "itemName": coalesce(item->generalname + " " + item->name, item->name, ""),
   "itemSlug": item->slug, "categorySlug": item->cat->slug
 }`;
@@ -112,7 +112,7 @@ async function handleCallback(cq: CallbackQuery) {
       if (review.status === "pending") throw error;
     }
   }
-  await answer(cq.id, review.status === "approved" ? "Відгук схвалено" : "Відгук відхилено");
+  await answer(cq.id, review.status === "approved" ? "Відгук схвалено" : review.status === "hidden" ? "Відгук приховано в адмінці" : "Відгук відхилено");
   await refreshReview(review, cq.message);
 }
 

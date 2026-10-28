@@ -1,6 +1,6 @@
 import { escapeHtml } from "./telegram";
 
-export type ReviewStatus = "pending" | "approved" | "rejected";
+export type ReviewStatus = "pending" | "approved" | "rejected" | "hidden";
 
 export interface ReviewMessageData {
   id: string;
@@ -17,6 +17,7 @@ export interface ReviewMessageData {
 const STATUS_LINES: Record<Exclude<ReviewStatus, "pending">, string> = {
   approved: "✅ Схвалено",
   rejected: "❌ Відхилено",
+  hidden: "🙈 Приховано",
 };
 
 export const CALLBACK_PREFIX = "rv";

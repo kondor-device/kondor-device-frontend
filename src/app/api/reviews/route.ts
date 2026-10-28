@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { randomUUID } from "node:crypto";
 import { writeClient } from "@/lib/sanityWriteClient";
 import { telegramCall } from "@/lib/telegram";
 import { buildReviewMessage } from "@/lib/reviewMessage";
@@ -68,8 +69,8 @@ export async function POST(request: NextRequest) {
       lastDay: number;
     }>(
       `{
-        "sameItem": count(*[_type == "review" && phone == $phone && item._ref == $itemId]),
-        "lastDay": count(*[_type == "review" && phone == $phone && submittedAt > $since])
+        "sameItem": count(*[_type in ["review", "reviewContact"] && phone == $phone && item._ref == $itemId]),
+        "lastDay": count(*[_type in ["review", "reviewContact"] && phone == $phone && submittedAt > $since])
       }`,
       {
         phone: values.phone,
@@ -87,17 +88,28 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Too many reviews" }, { status: 429 });
     }
 
-    const created = await writeClient.create({
+    const submittedAt = new Date().toISOString();
+    const created = {
+      _id: randomUUID(),
       _type: "review",
       item: { _type: "reference", _ref: itemId },
       author: values.name,
-      phone: values.phone,
       rating: values.rating,
       text: values.message,
       status: "pending",
-      submittedAt: new Date().toISOString(),
+      submittedAt,
       locale: locale === "ru" ? "ru" : "uk",
-    });
+    };
+    // Dotted IDs are private in a public Sanity dataset. Never put phone numbers
+    // in the public review document; keep both records in one atomic transaction.
+    await writeClient.transaction().create(created).create({
+      _id: `reviewContact.${created._id}`,
+      _type: "reviewContact",
+      reviewId: created._id,
+      item: created.item,
+      phone: values.phone,
+      submittedAt,
+    }).commit();
 
     // Відгук уже збережений зі статусом pending (модерувати можна і зі Studio),
     // тож збій Telegram не має ламати відповідь користувачу.
