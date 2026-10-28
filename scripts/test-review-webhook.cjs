@@ -177,6 +177,7 @@ test('reply rendering uses text nodes and translated store label', () => {
     '@/store/modalStore': { useModalStore: () => () => {} }, '@/utils/formatRating': { formatRating: n => n || 0 },
     './WriteReviewForm': { default: Empty },
     './ReviewPhotos': { default: Empty },
+    '@/lib/reviewPhotos': compile('src/lib/reviewPhotos.ts', {}),
   }).default;
   const html = require('react-dom/server').renderToStaticMarkup(React.createElement(Reviews, {
     itemId: 'item', ratingCount: 1, ratingAvg: 5, reviews: [{ id: '1', author: 'Test', rating: 5,

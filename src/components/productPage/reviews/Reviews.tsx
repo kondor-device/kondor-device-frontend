@@ -10,6 +10,7 @@ import { getInitials } from "@/utils/getInitials";
 import { Review } from "@/types/productItem";
 import WriteReviewForm from "./WriteReviewForm";
 import ReviewPhotos from "./ReviewPhotos";
+import { compareReviewOrder } from "@/lib/reviewPhotos";
 
 export const REVIEWS_ID = "reviews";
 export const REVIEW_FORM_ID = "review-form";
@@ -34,6 +35,7 @@ function ReviewsContent({
   const t = useTranslations("productPage.reviews");
   const locale = useLocale();
   const [visible, setVisible] = useState(() => reviews.slice(0, VISIBLE_COUNT));
+  const [nextOffset, setNextOffset] = useState(Math.min(reviews.length, VISIBLE_COUNT));
   const [hasMore, setHasMore] = useState(ratingCount > VISIBLE_COUNT);
   const [loadingMore, setLoadingMore] = useState(false);
   const [loadError, setLoadError] = useState(false);
@@ -56,11 +58,12 @@ function ReviewsContent({
     const controller = new AbortController();
     requestRef.current = controller;
     try {
-      const response = await fetch(`/api/reviews?${new URLSearchParams({ itemId, offset: String(visible.length) })}`, { signal: controller.signal, cache: "no-store" });
+      const response = await fetch(`/api/reviews?${new URLSearchParams({ itemId, offset: String(nextOffset) })}`, { signal: controller.signal, cache: "no-store" });
       if (!response.ok) throw new Error("Review loading failed");
       const page: { reviews: Review[]; hasMore: boolean } = await response.json();
       if (!Array.isArray(page.reviews)) throw new Error("Invalid review page");
-      setVisible(current => [...current, ...page.reviews.filter(review => !current.some(existing => existing.id === review.id))]);
+      setVisible(current => [...current, ...page.reviews.filter(review => !current.some(existing => existing.id === review.id))].sort(compareReviewOrder));
+      setNextOffset(offset => offset + page.reviews.length);
       setHasMore(page.hasMore);
     } catch { if (!controller.signal.aborted) setLoadError(true); }
     finally { if (!controller.signal.aborted) setLoadingMore(false); }
