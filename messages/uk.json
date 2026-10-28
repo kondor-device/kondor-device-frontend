@@ -386,9 +386,9 @@
       "confirmedPurchase": "Підтверджена покупка",
       "loadMoreError": "Не вдалося завантажити відгуки. Спробуйте ще раз.",
       "photosLabel": "Фото до відгуку (необов’язково)",
-      "photosHelp": "До 3 фото: JPG, PNG або WebP, до 10 МБ кожне. Фото автоматично стискаються.",
+      "photosHelp": "До 3 фото: JPG, PNG або WebP, до 5 МБ кожне.",
       "photosLimit": "Можна додати не більше 3 фотографій.",
-      "photosError": "Не вдалося підготувати фото. Оберіть JPG, PNG або WebP до 10 МБ.",
+      "photosError": "Не вдалося підготувати фото. Оберіть JPG, PNG або WebP до 5 МБ.",
       "photosPreparing": "Підготовка фотографій…",
       "photoNumber": "Фото {number} до відгуку",
       "removePhoto": "Прибрати фото {number}",
@@ -396,7 +396,10 @@
       "closePhoto": "Закрити",
       "previousPhoto": "Попереднє фото",
       "nextPhoto": "Наступне фото",
-      "customerPhotos": "Фотографії покупця"
+      "customerPhotos": "Фотографії покупця",
+      "choosePhotos": "Вибрати файли",
+      "noPhotosSelected": "Файли не вибрано",
+      "selectedPhotos": "Вибрано фото: {count} із 3"
     }
   },
   "catalogPage": {

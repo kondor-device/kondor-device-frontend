@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { prepareReviewPhoto } from "@/utils/prepareReviewPhoto";
@@ -10,6 +10,7 @@ export default function ReviewPhotoInput({ files, onChange, disabled, onBusyChan
 }) {
   const t = useTranslations("productPage.reviews");
   const id = useId();
+  const input = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
   const [preparing, setPreparing] = useState(false);
   const previews = useMemo(() => files.map(file => URL.createObjectURL(file)), [files]);
@@ -17,9 +18,9 @@ export default function ReviewPhotoInput({ files, onChange, disabled, onBusyChan
   return <div>
     <label htmlFor={id} className="mb-2 block text-[14px] font-medium">{t("photosLabel")}</label>
     <p id={`${id}-help`} className="mb-2 text-[12px] text-fg/65">{t("photosHelp")}</p>
-    <input id={id} type="file" accept="image/jpeg,image/png,image/webp" multiple
+    <input ref={input} id={id} type="file" accept="image/jpeg,image/png,image/webp" multiple
       disabled={disabled || preparing || files.length >= REVIEW_PHOTO_LIMIT} aria-describedby={`${id}-help ${id}-error`}
-      className="block w-full text-[13px] file:mr-2 file:rounded-lg file:border-0 file:bg-yellow file:px-3 file:py-2 file:font-medium disabled:opacity-50"
+      className="hidden" tabIndex={-1} aria-hidden="true"
       onChange={async event => {
         const selected = Array.from(event.currentTarget.files || []);
         event.currentTarget.value = "";
@@ -31,6 +32,16 @@ export default function ReviewPhotoInput({ files, onChange, disabled, onBusyChan
         catch { setError(t("photosError")); }
         finally { setPreparing(false); onBusyChange(false); }
       }} />
+    <div className="flex flex-wrap items-center gap-3">
+      <button type="button" onClick={() => input.current?.click()} disabled={disabled || preparing || files.length >= REVIEW_PHOTO_LIMIT}
+        aria-describedby={`${id}-help ${id}-error`}
+        className="min-h-11 shrink-0 rounded-xl bg-yellow px-4 py-2 text-[14px] font-medium text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg focus-visible:ring-offset-2 disabled:opacity-50">
+        {t("choosePhotos")}
+      </button>
+      <span aria-live="polite" className="text-[13px] text-fg/65">
+        {files.length ? t("selectedPhotos", { count: files.length }) : t("noPhotosSelected")}
+      </span>
+    </div>
     {preparing ? <p role="status" className="mt-2 text-[12px]">{t("photosPreparing")}</p> : null}
     <ul className="mt-3 flex flex-wrap gap-3">
       {previews.map((url, index) => <li key={url} className="relative">

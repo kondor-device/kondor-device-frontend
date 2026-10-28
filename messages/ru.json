@@ -386,9 +386,9 @@
       "confirmedPurchase": "Подтверждённая покупка",
       "loadMoreError": "Не удалось загрузить отзывы. Попробуйте ещё раз.",
       "photosLabel": "Фото к отзыву (необязательно)",
-      "photosHelp": "До 3 фото: JPG, PNG или WebP, до 10 МБ каждое. Фото автоматически сжимаются.",
+      "photosHelp": "До 3 фото: JPG, PNG или WebP, до 5 МБ каждое.",
       "photosLimit": "Можно добавить не больше 3 фотографий.",
-      "photosError": "Не удалось подготовить фото. Выберите JPG, PNG или WebP до 10 МБ.",
+      "photosError": "Не удалось подготовить фото. Выберите JPG, PNG или WebP до 5 МБ.",
       "photosPreparing": "Подготовка фотографий…",
       "photoNumber": "Фото {number} к отзыву",
       "removePhoto": "Убрать фото {number}",
@@ -396,7 +396,10 @@
       "closePhoto": "Закрыть",
       "previousPhoto": "Предыдущее фото",
       "nextPhoto": "Следующее фото",
-      "customerPhotos": "Фотографии покупателя"
+      "customerPhotos": "Фотографии покупателя",
+      "choosePhotos": "Выбрать файлы",
+      "noPhotosSelected": "Файлы не выбраны",
+      "selectedPhotos": "Выбрано фото: {count} из 3"
     }
   },
   "catalogPage": {

@@ -1,7 +1,7 @@
 import { REVIEW_PHOTO_MAX_BYTES } from "@/lib/reviewPhotos";
 
 export async function prepareReviewPhoto(file: File) {
-  if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size > 10 * 1024 * 1024) throw new Error("Invalid image");
+  if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size > 5 * 1024 * 1024) throw new Error("Invalid image");
   const bitmap = await createImageBitmap(file);
   try {
     if (bitmap.width * bitmap.height > 50_000_000) throw new Error("Image too large");
