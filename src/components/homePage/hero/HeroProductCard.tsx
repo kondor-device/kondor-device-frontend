@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import { formatSum } from "@/utils/formatSum";
 import { Link } from "@/i18n/routing";
 import AnimationWrapper from "./AnimationWrapper";
-import CardRating from "@/components/shared/CardRating";
 
 interface HeroProductCardProps {
   product: ProductItem;
@@ -62,8 +61,6 @@ export default function HeroProductCard({
         <h2 className="mt-auto mb-2 sm:mb-[10px] pt-3 text-14bold sm:text-16bold text-center">
           {name}
         </h2>
-        <CardRating ratingAvg={product.ratingAvg} ratingCount={product.ratingCount} compact className="mb-2 shrink-0"
-          href={product.categorySlug ? `/catalog/${product.categorySlug}/${product.slug}#reviews` : undefined} />
         <Link
           href={cat?.id ? categoryLink : catalogLink}
           className="block w-full max-w-[146px] mx-auto"
