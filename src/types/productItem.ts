@@ -152,6 +152,7 @@ export interface Review {
   /** ISO datetime */
   date: string;
   reply?: { text: string; date: string } | null;
+  photos?: { id: string; url: string }[] | null;
 }
 
 export interface ProductItem {

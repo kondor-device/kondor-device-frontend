@@ -358,7 +358,7 @@
       "title": "Відгуки покупців",
       "write": "Залишити відгук",
       "empty": "Ще немає відгуків. Будьте першим!",
-      "showMore": "Показати всі відгуки",
+      "showMore": "Показати ще",
       "showLess": "Показати менше",
       "count": "{count, plural, one {# відгук} few {# відгуки} many {# відгуків} other {# відгуку}}",
       "ratingLabel": "Оцінка {value} з 5",
@@ -383,7 +383,20 @@
       "distributionLabel": "{stars} зірок: {count} відгуків",
       "listLabel": "Відгуки покупців",
       "storeReply": "Відповідь Kondor",
-      "confirmedPurchase": "Підтверджена покупка"
+      "confirmedPurchase": "Підтверджена покупка",
+      "loadMoreError": "Не вдалося завантажити відгуки. Спробуйте ще раз.",
+      "photosLabel": "Фото до відгуку (необов’язково)",
+      "photosHelp": "До 3 фото: JPG, PNG або WebP, до 10 МБ кожне. Фото автоматично стискаються.",
+      "photosLimit": "Можна додати не більше 3 фотографій.",
+      "photosError": "Не вдалося підготувати фото. Оберіть JPG, PNG або WebP до 10 МБ.",
+      "photosPreparing": "Підготовка фотографій…",
+      "photoNumber": "Фото {number} до відгуку",
+      "removePhoto": "Прибрати фото {number}",
+      "openPhoto": "Відкрити фото {number}",
+      "closePhoto": "Закрити",
+      "previousPhoto": "Попереднє фото",
+      "nextPhoto": "Наступне фото",
+      "customerPhotos": "Фотографії покупця"
     }
   },
   "catalogPage": {

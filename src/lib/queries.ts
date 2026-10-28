@@ -1,4 +1,5 @@
 import { groq } from "next-sanity";
+import { PUBLIC_REVIEW_FIELDS, REVIEW_PAGE_SIZE, REVIEW_PHOTO_ORDER } from "./reviewPhotos";
 
 // Localized GROQ expression: the Russian value (`<field>Ru`) when $locale is "ru" and it is filled,
 // otherwise the Ukrainian one. $locale defaults to "uk" in the /api/sanity route.
@@ -60,14 +61,7 @@ const REVIEWS_PROJECTION = `
   "ratingDistribution": [${[5, 4, 3, 2, 1]
     .map((rating) => `count(*[_type == "review" && status == "approved" && item._ref == ^._id && rating == ${rating}])`)
     .join(", ")}],
-  "reviews": ${APPROVED_REVIEWS} | order(submittedAt desc)[0...50]{
-    "id": _id,
-    author,
-    rating,
-    text,
-    "date": submittedAt,
-    "reply": reply{ text, "date": publishedAt }
-  }
+  "reviews": ${APPROVED_REVIEWS} | ${REVIEW_PHOTO_ORDER}[0...${REVIEW_PAGE_SIZE}]{${PUBLIC_REVIEW_FIELDS}}
 `;
 
 const COMPLECT_PROJECTION = `

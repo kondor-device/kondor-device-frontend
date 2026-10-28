@@ -9,6 +9,7 @@ export const reviewState = (review) => ({
     text: review.text,
     status: review.status,
     reply: review.reply ?? null,
+    ...(review.photos?.length ? { photos: review.photos } : {}),
 });
 const canonical = (value) => JSON.stringify(value, (_key, item) => item && typeof item === 'object' && !Array.isArray(item)
     ? Object.fromEntries(Object.keys(item)
@@ -41,7 +42,20 @@ export function buildModerationPlan(current, action, editor, auditId, changedAt,
                     ? current.reply
                     : { ...current.reply, text: replyText, publishedAt: changedAt }) ?? null)
                 : null,
+            ...(before.photos?.length ? { photos: before.photos } : {}),
         };
+        if (edits?.photoKeys) {
+            const allowed = new Set((current.photos || []).map((photo) => photo._key));
+            if (edits.photoKeys.length > 3 ||
+                new Set(edits.photoKeys).size !== edits.photoKeys.length ||
+                edits.photoKeys.some((key) => !allowed.has(key)))
+                throw new Error('Можна залишити лише фотографії цього відгуку');
+            const kept = (current.photos || []).filter((photo) => edits.photoKeys.includes(photo._key));
+            if (kept.length)
+                after.photos = kept;
+            else
+                delete after.photos;
+        }
     }
     else if (action === 'hide') {
         if (current.status !== 'approved')
@@ -82,6 +96,12 @@ export function buildModerationPlan(current, action, editor, auditId, changedAt,
     const set = { text: after.text, status: after.status };
     if (after.reply)
         set.reply = after.reply;
+    if (after.photos?.length)
+        set.photos = after.photos;
+    const unset = [
+        ...(!after.reply ? ['reply'] : []),
+        ...(before.photos?.length && !after.photos?.length ? ['photos'] : []),
+    ];
     return {
         audit,
         mutations: [
@@ -91,7 +111,7 @@ export function buildModerationPlan(current, action, editor, auditId, changedAt,
                     id: current._id,
                     ifRevisionID: current._rev,
                     set,
-                    ...(!after.reply ? { unset: ['reply'] } : {}),
+                    ...(unset.length ? { unset } : {}),
                 },
             },
         ],

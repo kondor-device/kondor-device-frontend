@@ -176,6 +176,7 @@ test('reply rendering uses text nodes and translated store label', () => {
     '@/utils/getInitials': { getInitials: name => name.slice(0, 1) },
     '@/store/modalStore': { useModalStore: () => () => {} }, '@/utils/formatRating': { formatRating: n => n || 0 },
     './WriteReviewForm': { default: Empty },
+    './ReviewPhotos': { default: Empty },
   }).default;
   const html = require('react-dom/server').renderToStaticMarkup(React.createElement(Reviews, {
     itemId: 'item', ratingCount: 1, ratingAvg: 5, reviews: [{ id: '1', author: 'Test', rating: 5,
@@ -187,7 +188,8 @@ test('reply rendering uses text nodes and translated store label', () => {
 test('home and set component ratings count only approved reviews for the matching product', async () => {
   const { parse, evaluate } = require('groq-js');
   const groq = (parts, ...values) => parts.reduce((text, part, i) => text + part + (values[i] ?? ''), '');
-  const queries = compile('src/lib/queries.ts', { 'next-sanity': { groq } });
+  const reviewPhotos = compile('src/lib/reviewPhotos.ts', {});
+  const queries = compile('src/lib/queries.ts', { 'next-sanity': { groq }, './reviewPhotos': reviewPhotos });
   const ref = id => ({ _type: 'reference', _ref: id });
   const dataset = [
     { _id: 'cat', _type: 'category', name: 'Миші', slug: 'mishi', items: [ref('a'), ref('b')] },

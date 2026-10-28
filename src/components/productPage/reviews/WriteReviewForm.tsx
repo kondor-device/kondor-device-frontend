@@ -8,6 +8,7 @@ import RatingField from "@/components/shared/forms/formComponents/RatingField";
 import Button from "@/components/shared/buttons/Button";
 import { PHONE_NUMBER_MASK } from "@/constants/constants";
 import { reviewValidation, REVIEW_LIMITS } from "@/schemas/reviewValidation";
+import ReviewPhotoInput from "./ReviewPhotoInput";
 
 interface ReviewFormValues { name: string; phone: string; rating: number; message: string }
 type Status = "idle" | "success" | "error" | "duplicate" | "tooMany";
@@ -22,6 +23,8 @@ export default function WriteReviewForm({ itemId }: WriteReviewFormProps) {
   const locale = useLocale();
   const fieldPrefix = useId();
   const [status, setStatus] = useState<Status>("idle");
+  const [photos, setPhotos] = useState<File[]>([]);
+  const [preparingPhotos, setPreparingPhotos] = useState(false);
   const startedAt = useRef(Date.now());
   const honeypot = useRef<HTMLInputElement>(null);
   const confirmation = useRef<HTMLDivElement>(null);
@@ -42,10 +45,15 @@ export default function WriteReviewForm({ itemId }: WriteReviewFormProps) {
 
   const submit = async (values: ReviewFormValues, { resetForm }: FormikHelpers<ReviewFormValues>) => {
     try {
-      await axios.post("/api/reviews", {
+      const data = {
         itemId, ...values, locale, website: honeypot.current?.value ?? "", startedAt: startedAt.current,
-      });
+      };
+      const form = new FormData();
+      Object.entries(data).forEach(([key, value]) => form.append(key, String(value)));
+      photos.forEach(photo => form.append("photos", photo));
+      await axios.post("/api/reviews", form);
       resetForm();
+      setPhotos([]);
       setStatus("success");
     } catch (error) {
       const code = axios.isAxiosError(error) ? error.response?.status : null;
@@ -98,12 +106,13 @@ export default function WriteReviewForm({ itemId }: WriteReviewFormProps) {
           </div>
           <input ref={honeypot} type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true"
             className="absolute -left-[9999px] size-0 opacity-0" />
+          <ReviewPhotoInput files={photos} onChange={setPhotos} disabled={isSubmitting} onBusyChange={setPreparingPhotos} />
           {status !== "idle" ? (
             <p role="alert" className="text-[14px] leading-5 text-inputError">
               {t(status === "duplicate" ? "duplicate" : status === "tooMany" ? "tooMany" : "errorText")}
             </p>
           ) : null}
-          <Button type="submit" disabled={!(dirty && isValid) || isSubmitting} isLoading={isSubmitting}
+          <Button type="submit" disabled={!(dirty && isValid) || isSubmitting || preparingPhotos} isLoading={isSubmitting}
             className="w-full !min-h-12 !py-3 !px-4 focus-visible:ring-2 focus-visible:ring-fg focus-visible:ring-offset-2">
             {t("form.submit")}
           </Button>

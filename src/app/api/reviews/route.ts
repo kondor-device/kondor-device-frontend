@@ -4,6 +4,11 @@ import { writeClient } from "@/lib/sanityWriteClient";
 import { telegramCall } from "@/lib/telegram";
 import { buildReviewMessage } from "@/lib/reviewMessage";
 import { reviewValidation } from "@/schemas/reviewValidation";
+import { InvalidReviewUpload, normalizeReviewPhoto, readReviewSubmission } from "@/lib/reviewUpload";
+import { PUBLIC_REVIEW_FIELDS, REVIEW_PAGE_SIZE, REVIEW_PHOTO_ORDER } from "@/lib/reviewPhotos";
+import { client } from "@/lib/sanityClient";
+
+export const runtime = "nodejs";
 
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
@@ -20,9 +25,12 @@ interface ItemInfo {
 
 export async function POST(request: NextRequest) {
   let body: Record<string, unknown>;
+  let photos: File[];
 
   try {
-    body = await request.json();
+    const submission = await readReviewSubmission(request);
+    body = submission.fields;
+    photos = submission.photos;
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
@@ -88,6 +96,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Too many reviews" }, { status: 429 });
     }
 
+    // Decode all files before creating assets or review documents.
+    const normalized = await Promise.all(photos.map(normalizeReviewPhoto));
+    const uploaded = [];
+    for (const bytes of normalized) {
+      const asset = await writeClient.assets.upload("image", bytes, { contentType: "image/webp", filename: "review.webp" });
+      uploaded.push({ _type: "image", _key: randomUUID(), asset: { _type: "reference", _ref: asset._id } });
+    }
     const submittedAt = new Date().toISOString();
     const created = {
       _id: randomUUID(),
@@ -99,6 +114,7 @@ export async function POST(request: NextRequest) {
       status: "pending",
       submittedAt,
       locale: locale === "ru" ? "ru" : "uk",
+      ...(uploaded.length ? { photos: uploaded } : {}),
     };
     // Dotted IDs are private in a public Sanity dataset. Never put phone numbers
     // in the public review document; keep both records in one atomic transaction.
@@ -148,11 +164,27 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ ok: true });
-  } catch {
+  } catch (error) {
+    if (error instanceof InvalidReviewUpload) return NextResponse.json({ error: "Invalid photos" }, { status: 400 });
     console.error("[reviews] Failed to save review");
     return NextResponse.json(
       { error: "Failed to save review" },
       { status: 500 },
     );
   }
+}
+
+export async function GET(request: NextRequest) {
+  const itemId = request.nextUrl.searchParams.get("itemId") || "";
+  const offsetText = request.nextUrl.searchParams.get("offset") || "0";
+  if (!/^[A-Za-z0-9_-]{1,128}$/.test(itemId) || !/^\d{1,5}$/.test(offsetText)) return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  const offset = Number(offsetText);
+  if (offset > 10000) return NextResponse.json({ error: "Invalid offset" }, { status: 400 });
+  try {
+    const reviews = await client.withConfig({ useCdn: false, perspective: "published", token: undefined }).fetch(
+      `*[_type=="review" && status=="approved" && item._ref==$itemId && !(_id in path("drafts.**")) && !(_id in path("versions.**"))] | ${REVIEW_PHOTO_ORDER}[${offset}...${offset + REVIEW_PAGE_SIZE + 1}]{${PUBLIC_REVIEW_FIELDS}}`,
+      { itemId }, { cache: "no-store" },
+    );
+    return NextResponse.json({ reviews: reviews.slice(0, REVIEW_PAGE_SIZE), hasMore: reviews.length > REVIEW_PAGE_SIZE }, { headers: { "Cache-Control": "no-store" } });
+  } catch { return NextResponse.json({ error: "Could not load reviews" }, { status: 503 }); }
 }

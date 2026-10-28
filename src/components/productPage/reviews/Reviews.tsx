@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import Button from "@/components/shared/buttons/Button";
 import StarRating from "@/components/shared/StarRating";
@@ -9,6 +9,7 @@ import { scrollToProductSection } from "@/utils/productSectionNavigation";
 import { getInitials } from "@/utils/getInitials";
 import { Review } from "@/types/productItem";
 import WriteReviewForm from "./WriteReviewForm";
+import ReviewPhotos from "./ReviewPhotos";
 
 export const REVIEWS_ID = "reviews";
 export const REVIEW_FORM_ID = "review-form";
@@ -23,14 +24,22 @@ interface ReviewsProps {
   ratingDistribution?: number[];
 }
 
-export default function Reviews({
+export default function Reviews(props: ReviewsProps) {
+  return <ReviewsContent key={props.itemId} {...props} />;
+}
+
+function ReviewsContent({
   itemId, reviews, ratingAvg, ratingCount, ratingDistribution,
 }: ReviewsProps) {
   const t = useTranslations("productPage.reviews");
   const locale = useLocale();
-  const [showAll, setShowAll] = useState(false);
+  const [visible, setVisible] = useState(() => reviews.slice(0, VISIBLE_COUNT));
+  const [hasMore, setHasMore] = useState(ratingCount > VISIBLE_COUNT);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [loadError, setLoadError] = useState(false);
+  const requestRef = useRef<AbortController | null>(null);
+  useEffect(() => () => requestRef.current?.abort(), []);
   const avg = formatRating(ratingAvg);
-  const visible = showAll ? reviews : reviews.slice(0, VISIBLE_COUNT);
   const counts = ratingDistribution ?? STARS.map(star => reviews.filter(review => review.rating === star).length);
   const dateFormatter = new Intl.DateTimeFormat(locale === "ru" ? "ru-RU" : "uk-UA", {
     day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Kyiv",
@@ -39,6 +48,22 @@ export default function Reviews({
   const onWriteReview = () => {
     scrollToProductSection(REVIEW_FORM_ID, REVIEWS_ID);
     document.getElementById(REVIEW_FORM_ID)?.focus({ preventScroll: true });
+  };
+
+  const loadMore = async () => {
+    if (loadingMore) return;
+    setLoadingMore(true); setLoadError(false);
+    const controller = new AbortController();
+    requestRef.current = controller;
+    try {
+      const response = await fetch(`/api/reviews?${new URLSearchParams({ itemId, offset: String(visible.length) })}`, { signal: controller.signal, cache: "no-store" });
+      if (!response.ok) throw new Error("Review loading failed");
+      const page: { reviews: Review[]; hasMore: boolean } = await response.json();
+      if (!Array.isArray(page.reviews)) throw new Error("Invalid review page");
+      setVisible(current => [...current, ...page.reviews.filter(review => !current.some(existing => existing.id === review.id))]);
+      setHasMore(page.hasMore);
+    } catch { if (!controller.signal.aborted) setLoadError(true); }
+    finally { if (!controller.signal.aborted) setLoadingMore(false); }
   };
 
   return (
@@ -96,7 +121,7 @@ export default function Reviews({
         </Button>
 
         <div className="min-w-0">
-          {reviews.length === 0 ? (
+          {visible.length === 0 ? (
             <div className="rounded-[20px] bg-surface p-5 tab:p-6 shadow-catalogCard">
               <p className="text-[15px] leading-6 text-fg/70">{t("empty")}</p>
             </div>
@@ -133,6 +158,7 @@ export default function Reviews({
                         </div>
                       </div>
                       <p className="whitespace-pre-line break-words text-[15px] tab:text-[16px] leading-[1.6]">{review.text}</p>
+                      <ReviewPhotos photos={review.photos} />
                       {review.reply?.text ? (
                         <div className="mt-4 rounded-r-xl border-l-2 border-yellow bg-yellow/5 py-3 pl-4 pr-3">
                           <p className="mb-1 text-[14px] font-bold">{t("storeReply")}</p>
@@ -143,10 +169,11 @@ export default function Reviews({
                   </li>
                 ))}
               </ul>
-              {reviews.length > VISIBLE_COUNT ? (
-                <Button variant="secondary" onClick={() => setShowAll(prev => !prev)}
+              {loadError ? <p role="alert" className="mt-3 text-sm text-inputError">{t("loadMoreError")}</p> : null}
+              {hasMore ? (
+                <Button variant="secondary" onClick={loadMore} disabled={loadingMore} isLoading={loadingMore}
                   className="mt-4 w-full !min-h-11 !py-3">
-                  {showAll ? t("showLess") : t("showMore")}
+                  {t("showMore")}
                 </Button>
               ) : null}
             </>

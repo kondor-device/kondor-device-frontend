@@ -358,7 +358,7 @@
       "title": "Отзывы покупателей",
       "write": "Оставить отзыв",
       "empty": "Пока нет отзывов. Будьте первым!",
-      "showMore": "Показать все отзывы",
+      "showMore": "Показать ещё",
       "showLess": "Показать меньше",
       "count": "{count, plural, one {# отзыв} few {# отзыва} many {# отзывов} other {# отзыва}}",
       "ratingLabel": "Оценка {value} из 5",
@@ -383,7 +383,20 @@
       "distributionLabel": "{stars} звёзд: {count} отзывов",
       "listLabel": "Отзывы покупателей",
       "storeReply": "Ответ Kondor",
-      "confirmedPurchase": "Подтверждённая покупка"
+      "confirmedPurchase": "Подтверждённая покупка",
+      "loadMoreError": "Не удалось загрузить отзывы. Попробуйте ещё раз.",
+      "photosLabel": "Фото к отзыву (необязательно)",
+      "photosHelp": "До 3 фото: JPG, PNG или WebP, до 10 МБ каждое. Фото автоматически сжимаются.",
+      "photosLimit": "Можно добавить не больше 3 фотографий.",
+      "photosError": "Не удалось подготовить фото. Выберите JPG, PNG или WebP до 10 МБ.",
+      "photosPreparing": "Подготовка фотографий…",
+      "photoNumber": "Фото {number} к отзыву",
+      "removePhoto": "Убрать фото {number}",
+      "openPhoto": "Открыть фото {number}",
+      "closePhoto": "Закрыть",
+      "previousPhoto": "Предыдущее фото",
+      "nextPhoto": "Следующее фото",
+      "customerPhotos": "Фотографии покупателя"
     }
   },
   "catalogPage": {
