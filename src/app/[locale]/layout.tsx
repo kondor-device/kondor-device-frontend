@@ -1,4 +1,4 @@
-export const revalidate = 3600;
+export const revalidate = 86400; // 24 h fallback; Sanity webhook (/api/revalidate) resets it on publish
 
 import "react-image-gallery/styles/css/image-gallery.css";
 import "./globals.css";

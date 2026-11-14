@@ -21,7 +21,7 @@ import {
 // Той самий підхід до кешування, що й у /api/feed/meta — див. коментар там.
 // Достроково фід можна скинути через POST /api/revalidate?secret=...
 export const dynamic = "force-static";
-export const revalidate = 3600;
+export const revalidate = 86400; // 24 h fallback; Sanity webhook (/api/revalidate) resets it on publish
 
 // В окремих товарах (~30% каталогу на момент написання) поле "cat" в Sanity
 // не заповнене — тег categoryId в YML ОБОВ'ЯЗКОВИЙ, тому такі товари

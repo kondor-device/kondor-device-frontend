@@ -22,11 +22,11 @@ import {
 // запит бив би напряму в Sanity API (в т.ч. кожен захід бота Meta/Rozetka).
 // "force-static" явно вмикає ISR-кешування для цього роуту: відповідь
 // генерується один раз і віддається з кешу, а у фоні перегенеровується не
-// частіше ніж раз на годину (revalidate нижче).
+// частіше ніж раз на добу (revalidate нижче; коротші таймери з'їдають квоту ISR на Vercel Hobby).
 // Достроково (одразу після зміни товару в адмінці) кеш можна скинути через
 // POST /api/revalidate?secret=... — див. src/app/api/revalidate/route.ts.
 export const dynamic = "force-static";
-export const revalidate = 3600;
+export const revalidate = 86400; // 24 h fallback; Sanity webhook (/api/revalidate) resets it on publish
 
 function buildItemXml(
   product: FeedProduct,

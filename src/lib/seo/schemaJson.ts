@@ -8,7 +8,7 @@ export async function fetchSchemaJsonLd(
   if (!url?.trim()) return null;
 
   try {
-    const res = await fetch(url, { next: { revalidate: 3600 } });
+    const res = await fetch(url, { next: { revalidate: 86400 } });
     if (!res.ok) return null;
 
     const parsed: unknown = await res.json();

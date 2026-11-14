@@ -7,10 +7,10 @@ import { SITE_SEO_CONFIG, SITE_SEO_PAGE_IDS } from "@/lib/seo/siteSeoConfig";
 import { getLocalizedPath } from "@/utils/getLocalizedPath";
 
 // Served at /sitemap.xml (rewrite in next.config.mjs). Static, like the product feeds: it is
-// rebuilt hourly, and right away by POST /api/revalidate when a product, set, category or SEO
+// rebuilt daily, and right away by POST /api/revalidate when a product, set, category or SEO
 // page changes in Sanity.
 export const dynamic = "force-static";
-export const revalidate = 3600;
+export const revalidate = 86400; // 24 h fallback; Sanity webhook (/api/revalidate) resets it on publish
 
 interface SitemapDoc {
   slug: string;
