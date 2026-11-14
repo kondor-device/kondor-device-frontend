@@ -11,7 +11,7 @@ export const fetchSiteSeoByPageId = cache(
     const row = await client.fetch<{ seo?: PageSeo | null } | null>(
       GET_SITE_SEO_QUERY,
       { documentId: pageId, locale },
-      { next: { revalidate: 3600, tags: ["site-seo", `site-seo:${pageId}`] } },
+      { next: { revalidate: 86400, tags: ["site-seo", `site-seo:${pageId}`] } },
     );
 
     return row?.seo ?? null;

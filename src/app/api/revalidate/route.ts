@@ -8,7 +8,7 @@ import { SITE_SEO_CONFIG, type SiteSeoPageId } from "@/lib/seo/siteSeoConfig";
 
 // Ендпоінт для дострокового скидання кешу товарних фідів і сторінок сайту
 // одразу після публікації/зміни товару в Sanity Studio (замість очікування
-// до 1 години на автоматичну ревалідацію через `revalidate` у layout).
+// до доби на автоматичну ревалідацію через `revalidate` у layout).
 //
 // Налаштування на боці Sanity (робиться один раз в manage.sanity.io):
 //   Project -> API -> Webhooks -> Create webhook
@@ -40,7 +40,7 @@ import { SITE_SEO_CONFIG, type SiteSeoPageId } from "@/lib/seo/siteSeoConfig";
 // Важливо для next-intl + localePrefix: "as-needed":
 // кеш сторінки може бути під публічним URL (`/`) АБО під внутрішнім
 // шляхом з локаллю (`/uk`). Тому ревалідуємо обидва варіанти. Тип "layout"
-// також скидає layout-рівень ISR (`export const revalidate = 3600`).
+// також скидає layout-рівень ISR (`export const revalidate = 86400`).
 
 interface SanitySlug {
   current?: string;
@@ -94,7 +94,7 @@ function revalidateFeeds(): string[] {
 }
 
 function revalidateSitePages(): string[] {
-  // layout — щоб скинути ISR layout (`revalidate = 3600`) і вкладені сторінки
+  // layout — щоб скинути ISR layout (`revalidate = 86400`) і вкладені сторінки
   return [
     ...revalidatePaths(getLocalizedPaths("/"), "layout"),
     ...revalidatePaths(getLocalizedPaths("/catalog"), "layout"),

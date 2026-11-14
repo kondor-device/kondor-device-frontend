@@ -35,7 +35,7 @@ export function revalidatePaths(
 }
 
 export function revalidateSitePages(): string[] {
-  // layout — щоб скинути ISR layout (`revalidate = 3600`) і вкладені сторінки
+  // layout — щоб скинути ISR layout (`revalidate = 86400`) і вкладені сторінки
   return [
     ...revalidatePaths(getLocalizedPaths("/"), "layout"),
     ...revalidatePaths(getLocalizedPaths("/catalog"), "layout"),
