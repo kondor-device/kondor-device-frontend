@@ -66,6 +66,7 @@ export default function AddonItemMob({
             alt={coloropts[0]?.photos[0]?.alt || "keyboard"}
             width={1080}
             height={1080}
+            sizes="96px"
             className="w-full h-auto"
           />
         ) : (
@@ -74,6 +75,7 @@ export default function AddonItemMob({
             alt={"keyboard"}
             width={1080}
             height={1080}
+            sizes="96px"
             className="w-full h-auto"
           />
         )}

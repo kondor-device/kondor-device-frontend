@@ -3,6 +3,11 @@
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
 
+// Rendered sizes of the card photo (306 / 340 / 466 px) and of the thumbnails (46–62 px).
+// Without `sizes` the browser downloaded 1080–3840 px versions of every photo, thumbnails included.
+const MAIN_PHOTO_SIZES = "(min-width: 1920px) 466px, (min-width: 1024px) 340px, 306px";
+const THUMBNAIL_SIZES = "62px";
+
 interface ImagePickerProps {
   photos: { url: string; alt?: string }[];
   selectedPhotoIndex: number;
@@ -54,6 +59,7 @@ export default function ImagePicker({
               alt={photos[selectedPhotoIndex]?.alt || "keyboard"}
               width={1080}
               height={1080}
+              sizes={MAIN_PHOTO_SIZES}
               className="max-w-full max-h-full object-cover"
             />
           ) : (
@@ -87,6 +93,7 @@ export default function ImagePicker({
                   alt={alt || "keyboard"}
                   width={1080}
                   height={1080}
+                  sizes={THUMBNAIL_SIZES}
                   className="max-w-full max-h-full object-cover"
                 />
               </li>

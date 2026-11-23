@@ -60,6 +60,7 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
             alt={coloropts[0]?.photos[0]?.alt || "keyboard"}
             width={1080}
             height={1080}
+            sizes="96px"
             className="w-full h-auto"
           />
         ) : (
@@ -68,6 +69,7 @@ export default function AddonItemDesk({ addonItem }: AddonItemDeskProps) {
             alt={"keyboard"}
             width={1080}
             height={1080}
+            sizes="96px"
             className="w-full h-auto"
           />
         )}

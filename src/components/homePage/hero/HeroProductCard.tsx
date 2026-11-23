@@ -53,6 +53,7 @@ export default function HeroProductCard({
               alt={photos[0].alt || "keyboard"}
               width={1080}
               height={1080}
+              sizes="(min-width: 1024px) 25vw, 50vw"
               priority
               className="w-full h-auto scale-100 tabxl:group-hover:scale-105 transition duration-1000 ease-out"
             />

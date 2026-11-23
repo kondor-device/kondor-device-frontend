@@ -165,6 +165,7 @@ export default function CatalogCard({
               alt={coloropts[selectedColorIndex].photos[0]?.alt || "keyboard"}
               width={1080}
               height={1080}
+              sizes="(min-width: 1024px) 25vw, 50vw"
               className="max-w-full max-h-full object-cover laptop:hover:scale-105 transition duration-1000 ease-in-out"
             />
           ) : (
@@ -173,6 +174,7 @@ export default function CatalogCard({
               alt={"keyboard"}
               width={1080}
               height={1080}
+              sizes="(min-width: 1024px) 25vw, 50vw"
               className="max-w-full max-h-full object-cover laptop:hover:scale-105 transition duration-1000 ease-in-out"
             />
           )}

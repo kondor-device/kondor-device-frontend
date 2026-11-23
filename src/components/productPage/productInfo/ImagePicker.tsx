@@ -9,6 +9,9 @@ import { Modal, ModalContent, useDisclosure } from "@heroui/react";
 import IconButton from "@/components/shared/buttons/IconButton";
 import IconClose from "@/components/shared/icons/IconCLose";
 import Image from "next/image";
+import sanityImageLoader from "@/lib/sanityImageLoader";
+
+const THUMBNAIL_WIDTH_2X = 200;
 
 type GalleryItem = ReactImageGalleryItem & { isPrimary?: boolean };
 
@@ -33,7 +36,12 @@ export default function ImagePicker({
   const galleryItems: GalleryItem[] = photos
     ? photos?.map((photo, index) => ({
         original: photo?.url,
-        thumbnail: photo?.url,
+        // react-image-gallery renders thumbnails as a plain <img>, outside next/image, so the
+        // raw asset URL meant the full original (1–2.4 MB PNGs) for every thumbnail.
+        // Thumbnails are at most 100 px wide (globals.css .custom-thumbnail): ask the CDN for 2x.
+        thumbnail: photo?.url
+          ? sanityImageLoader({ src: photo.url, width: THUMBNAIL_WIDTH_2X, quality: 75 })
+          : photo?.url,
         originalAlt: photo?.alt || "image",
         thumbnailAlt: photo?.alt || "thumbnail",
         thumbnailHeight: 48,

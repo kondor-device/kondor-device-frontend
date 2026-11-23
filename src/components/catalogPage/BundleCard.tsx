@@ -58,6 +58,7 @@ export default function BundleCard({
               alt={coverPhoto.alt || name}
               width={540}
               height={540}
+              sizes="(min-width: 1024px) 25vw, 50vw"
               className="max-w-full max-h-full object-contain laptop:hover:scale-105 transition duration-1000 ease-in-out"
             />
           ) : (
@@ -73,6 +74,7 @@ export default function BundleCard({
                   }
                   width={540}
                   height={540}
+                  sizes="(min-width: 1024px) 25vw, 50vw"
                   className="min-w-0 flex-1 basis-0 max-h-full object-contain laptop:hover:scale-105 transition duration-1000 ease-in-out"
                 />
               );
