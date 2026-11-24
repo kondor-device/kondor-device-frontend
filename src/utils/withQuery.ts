@@ -13,6 +13,8 @@ export function withQuery(path: string, searchParams: PageSearchParams): string 
       query.append(key, item);
     }
   }
-  const queryString = query.toString();
+  // URLSearchParams writes a space as "+"; ad links use "%20". A literal "+" in a
+  // value is already escaped as "%2B" here, so this only touches spaces.
+  const queryString = query.toString().replace(/\+/g, "%20");
   return queryString ? `${path}?${queryString}` : path;
 }
