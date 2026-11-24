@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server";
 import Returns from "@/components/returnsPage/Returns";
 import type { Metadata } from "next";
 import { Locale } from "@/types/locale";
@@ -16,7 +17,10 @@ export async function generateMetadata({
   return buildPageMetadata(locale, "returns");
 }
 
-export default function ReturnsPage() {
+export default async function ReturnsPage({ params }: PageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return (
     <div className="pt-[60px] tabxl:pt-[113px]">
       <Returns />

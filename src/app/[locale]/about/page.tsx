@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server";
 import About from "@/components/aboutPage/About";
 import React from "react";
 import type { Metadata } from "next";
@@ -17,7 +18,10 @@ export async function generateMetadata({
   return buildPageMetadata(locale, "about");
 }
 
-export default function AboutPage() {
+export default async function AboutPage({ params }: PageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return (
     <div className="pt-[60px] tabxl:pt-[113px]">
       <About />

@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useSearchParams } from "next/navigation";
 import { routing, usePathname, useRouter } from "@/i18n/routing";
 import { Locale } from "@/types/locale";
 
@@ -16,13 +15,13 @@ export default function LanguageSwitcher({
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const changeLocale = (nextLocale: Locale) => {
     if (nextLocale === locale) return;
 
-    const query = searchParams.toString();
-    const href = `${pathname}${query ? `?${query}` : ""}${window.location.hash}`;
+    // Read the query on click instead of through useSearchParams(): that hook would
+    // force the header (and so every page) out of static prerendering.
+    const href = `${pathname}${window.location.search}${window.location.hash}`;
 
     router.replace(href, { locale: nextLocale, scroll: false });
   };

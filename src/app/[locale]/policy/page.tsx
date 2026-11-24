@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server";
 import Policy from "@/components/policyPage/Policy";
 import React from "react";
 import type { Metadata } from "next";
@@ -17,7 +18,10 @@ export async function generateMetadata({
   return buildPageMetadata(locale, "policy");
 }
 
-export default function PolicyPage() {
+export default async function PolicyPage({ params }: PageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return (
     <div className="pt-[60px] tabxl:pt-[113px]">
       <Policy />

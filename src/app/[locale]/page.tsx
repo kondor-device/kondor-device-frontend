@@ -9,7 +9,7 @@ import { GET_ALL_DATA_QUERY } from "@/lib/queries";
 import type { Metadata } from "next";
 import { Locale } from "@/types/locale";
 import { buildPageMetadata } from "@/lib/metadata";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import JsonLd from "@/components/shared/JsonLd";
 import SitePageSeo from "@/components/seo/SitePageSeo";
 import {
@@ -32,6 +32,7 @@ export async function generateMetadata({
 
 export default async function HomePage({ params }: PageProps) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const [res, t] = await Promise.all([
     getProducts(GET_ALL_DATA_QUERY),
     getTranslations({ locale, namespace: "homePage.faq" }),

@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server";
 import Delivery from "@/components/deliveryPage/Delivery";
 import type { Metadata } from "next";
 import { Locale } from "@/types/locale";
@@ -16,7 +17,10 @@ export async function generateMetadata({
   return buildPageMetadata(locale, "delivery");
 }
 
-export default function DeliveryPage() {
+export default async function DeliveryPage({ params }: PageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return (
     <div className="pt-[60px] tabxl:pt-[113px]">
       <Delivery />

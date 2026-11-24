@@ -4,7 +4,7 @@ import React from "react";
 import type { Metadata } from "next";
 import { Locale } from "@/types/locale";
 import { buildPageMetadata } from "@/lib/metadata";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 type PageProps = {
   params: Promise<{ locale: Locale }>;
@@ -18,7 +18,9 @@ export async function generateMetadata({
   return buildPageMetadata(locale, "orderConfirmation");
 }
 
-export default async function OrderConfirmationPage() {
+export default async function OrderConfirmationPage({ params }: PageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations("notifications.successful");
 
   return (

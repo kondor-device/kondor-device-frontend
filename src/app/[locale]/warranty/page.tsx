@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server";
 import Warranty from "@/components/warrantyPage/Warranty";
 import React from "react";
 import type { Metadata } from "next";
@@ -17,7 +18,10 @@ export async function generateMetadata({
   return buildPageMetadata(locale, "warranty");
 }
 
-export default function WarrantyPage() {
+export default async function WarrantyPage({ params }: PageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return (
     <div className="pt-[60px] tabxl:pt-[113px]">
       <Warranty />
