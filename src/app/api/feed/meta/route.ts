@@ -56,7 +56,7 @@ function buildItemXml(
     `<g:title>${escapeXml(title)}</g:title>`,
     `<g:description>${escapeXml(description)}</g:description>`,
     `<g:link>${escapeXml(buildLink(baseUrl, product.cat?.slug, product.slug, color))}</g:link>`,
-    `<g:image_link>${escapeXml(toFeedImageUrl(mainPhoto.url))}</g:image_link>`,
+    `<g:image_link>${escapeXml(toFeedImageUrl(mainPhoto.url, { main: true }))}</g:image_link>`,
     ...restPhotos
       .slice(0, 19)
       .map(

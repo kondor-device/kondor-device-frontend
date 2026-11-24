@@ -182,10 +182,38 @@ export function getVariantCode(colorOption: FeedColorOption): string {
 // формат незалежно від того, хто (і з якими заголовками) робить запит.
 // Обираємо jpg (а не png) — він менший за розміром і прийнятний для Meta
 // та Rozetka однаково.
-export function toFeedImageUrl(url: string): string {
+//
+// Two more fixes on top of "fm":
+// - bg=ffffff. Most product shots are PNG/WebP cut-outs with a transparent
+//   background, and JPEG has no transparency: without a background colour the
+//   CDN fills it with black (the Polaris main photo arrived in the feeds on black).
+// - A white square with a margin around the product (1080x1080, fit=fill, pad).
+//   The cut-outs are cropped tight, the mouse touching the top and bottom edge,
+//   so any crop or zoom Meta applies in a placement cut the product off (seen on
+//   Astra PRO and Polaris carousel cards). With the margin the product fills
+//   about 80 % of the frame, which also fits Google's and Rozetka's photo rules.
+//   Applied to the main photo and to every PNG/WebP cut-out. Additional JPEG
+//   photos (infographic banners with their own dark background) keep their
+//   original framing: a white margin around them would read as a border.
+const FEED_SQUARE_SIZE = "1080";
+const FEED_PRODUCT_PADDING = "80";
+
+export function toFeedImageUrl(
+  url: string,
+  { main = false }: { main?: boolean } = {},
+): string {
   try {
     const u = new URL(url);
+    const isCutout = /\.(png|webp)$/i.test(u.pathname);
     u.searchParams.set("fm", "jpg");
+    u.searchParams.set("bg", "ffffff");
+    if (main || isCutout) {
+      u.searchParams.set("w", FEED_SQUARE_SIZE);
+      u.searchParams.set("h", FEED_SQUARE_SIZE);
+      u.searchParams.set("fit", "fill");
+      u.searchParams.set("pad", FEED_PRODUCT_PADDING);
+      u.searchParams.set("q", "90");
+    }
     return u.toString();
   } catch {
     return url;

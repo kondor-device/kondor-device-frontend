@@ -24,9 +24,11 @@ import { toPlainDescription } from "@/lib/feed";
 import { Locale } from "@/types/locale";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
+import { PageSearchParams, withQuery } from "@/utils/withQuery";
 
 interface ProductPageProps {
   params: Promise<{ locale: Locale; category: string; product: string }>;
+  searchParams: Promise<PageSearchParams>;
 }
 
 // Категорія товару могла з часом змінитись (переніс товару в іншу категорію
@@ -109,7 +111,10 @@ export async function generateMetadata({
   });
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({
+  params,
+  searchParams,
+}: ProductPageProps) {
   const [{ locale, category, product }, t] = await Promise.all([
     params,
     getTranslations("breadcrumbs"),
@@ -133,7 +138,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
   // Товар більше не належить категорії з URL (перенесений в адмінці) —
   // 301 на актуальний URL, щоб не втратити SEO-вагу старого посилання.
   if (similarProducts && similarProducts.categorySlug !== category) {
-    permanentRedirect(`/catalog/${similarProducts.categorySlug}/${product}`);
+    // Keep the language and everything after "?" (color, utm_*, gclid, fbclid)
+    permanentRedirect(
+      withQuery(
+        getLocalizedPath(
+          locale,
+          `/catalog/${similarProducts.categorySlug}/${product}`,
+        ),
+        await searchParams,
+      ),
+    );
   }
 
   // Canonical address of the page (the category in the URL was checked above)

@@ -15,6 +15,8 @@ import { Locale } from "@/types/locale";
 import { getTranslations } from "next-intl/server";
 import { buildMetadataFromSeo } from "@/lib/seo/pageSeo";
 import SchemaJsonFromSeo from "@/components/seo/SchemaJsonFromSeo";
+import { getLocalizedPath } from "@/utils/getLocalizedPath";
+import { PageSearchParams, withQuery } from "@/utils/withQuery";
 
 // Категорія за старим (до впровадження вкладеної URL-структури) посиланням
 // /catalog/[product] могла бути товаром, а не категорією — 301-редіректимо
@@ -30,7 +32,7 @@ function findCategorySlugByProductSlug(
 
 interface CategoryPageProps {
   params: Promise<{ locale: Locale; category: string }>;
-  searchParams: Promise<{ type?: string }>;
+  searchParams: Promise<PageSearchParams>;
 }
 
 export async function generateMetadata({
@@ -60,11 +62,12 @@ export default async function CategoryPage({
   params,
   searchParams,
 }: CategoryPageProps) {
-  const [{ category }, { type }, t] = await Promise.all([
+  const [{ locale, category }, query, t] = await Promise.all([
     params,
     searchParams,
     getTranslations("breadcrumbs"),
   ]);
+  const type = typeof query.type === "string" ? query.type : undefined;
 
   // Сама сторінка завжди належить категорії з URL, але фільтр у сайдбарі
   // (як і на /catalog) може тимчасово показувати товари й інших категорій
@@ -92,7 +95,13 @@ export default async function CategoryPage({
       );
 
       if (categorySlug) {
-        permanentRedirect(`/catalog/${categorySlug}/${category}`);
+        // Keep the language and everything after "?" (color, utm_*, gclid, fbclid)
+        permanentRedirect(
+          withQuery(
+            getLocalizedPath(locale, `/catalog/${categorySlug}/${category}`),
+            query,
+          ),
+        );
       }
     }
 

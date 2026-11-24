@@ -106,7 +106,7 @@ function buildOfferXml(
     `<categoryId>${escapeXml(category.id)}</categoryId>`,
     ...photos
       .slice(0, 15)
-      .map((photo) => `<picture>${escapeXml(toFeedImageUrl(photo.url))}</picture>`),
+      .map((photo, index) => `<picture>${escapeXml(toFeedImageUrl(photo.url, { main: index === 0 }))}</picture>`),
     `<vendor>${escapeXml(BRAND)}</vendor>`,
     ...(code ? [`<article>${escapeXml(code)}</article>`] : []),
     `<stock_quantity>${stockQuantity}</stock_quantity>`,
