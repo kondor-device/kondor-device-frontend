@@ -115,7 +115,11 @@ export function buildMetadataFromSeo({
   fallbackImageUrl,
 }: BuildMetadataParams): Metadata {
   const metaTitle = seo?.metaTitle?.trim() || defaultTitle;
-  const metaDescription = seo?.metaDescription?.trim() || defaultDescription;
+  // Cut at a word boundary: the CMS field once held whole product descriptions (600–1200
+  // characters), which search engines cut mid-sentence. Shorter values are unchanged.
+  const metaDescription = truncateText(
+    seo?.metaDescription?.trim() || defaultDescription,
+  );
   const ogTitle = seo?.opengraphTitle?.trim() || metaTitle;
   const ogDescription = seo?.opengraphDescription?.trim() || metaDescription;
   const ogImage = resolveOgImage(seo, fallbackImageUrl);

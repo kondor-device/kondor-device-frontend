@@ -17,6 +17,10 @@ import { buildMetadataFromSeo } from "@/lib/seo/pageSeo";
 import SchemaJsonFromSeo from "@/components/seo/SchemaJsonFromSeo";
 import { getLocalizedPath } from "@/utils/getLocalizedPath";
 import { PageSearchParams, withQuery } from "@/utils/withQuery";
+import {
+  CategoryHeading,
+  CategorySeoText,
+} from "@/components/catalogPage/CategorySeo";
 
 // Категорія за старим (до впровадження вкладеної URL-структури) посиланням
 // /catalog/[product] могла бути товаром, а не категорією — 301-редіректимо
@@ -121,6 +125,10 @@ export default async function CategoryPage({
         ]}
         className="pt-4 laptop:pt-6"
       />
+      <CategoryHeading
+        pageKey={category}
+        fallbackTitle={currentCategory.name}
+      />
       <Suspense fallback={<Loader />}>
         <Catalog
           currentCategories={res.data.selectedCategories}
@@ -129,6 +137,7 @@ export default async function CategoryPage({
           defaultCategorySlug={category}
         />
       </Suspense>
+      <CategorySeoText pageKey={category} />
     </div>
   );
 }

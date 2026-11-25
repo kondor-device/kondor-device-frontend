@@ -9,6 +9,10 @@ import { Locale } from "@/types/locale";
 import { buildPageMetadata } from "@/lib/metadata";
 import SitePageSeo from "@/components/seo/SitePageSeo";
 import { getTranslations } from "next-intl/server";
+import {
+  CategoryHeading,
+  CategorySeoText,
+} from "@/components/catalogPage/CategorySeo";
 
 interface CatalogPageProps {
   searchParams: Promise<{ type?: string }>;
@@ -47,6 +51,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   return (
     <div className="pt-[60px] tabxl:pt-[113px]">
       <Breadcrumbs items={[{ label: t("catalog") }]} className="pt-4 laptop:pt-6" />
+      <CategoryHeading pageKey="catalog" fallbackTitle={t("catalog")} />
       <Suspense fallback={<Loader />}>
         <Catalog
           currentCategories={currentCategories}
@@ -54,6 +59,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           shownOnAddons={res.data.shownOnAddons}
         />
       </Suspense>
+      <CategorySeoText pageKey="catalog" />
       <SitePageSeo pageId="seoCatalogPage" />
     </div>
   );

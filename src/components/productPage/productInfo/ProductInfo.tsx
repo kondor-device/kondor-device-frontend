@@ -197,7 +197,8 @@ export default function ProductInfo({
                 unVisibleStyles="opacity-0 translate-y-[24px]"
               >
                 <h1 className="flex flex-wrap gap-x-2 items-center mb-5 desk:mb-9 text-[24px] font-medium leading-[110%] desk:text-[45px]">
-                  <span>{generalname}</span>
+                  {/* Space between the spans: flex hides it visually, but without it the heading text reads "МишкаKondor Astra PRO" for search engines */}
+                  <span>{generalname}</span>{" "}
                   <span className="text-yellow">{name}</span>
                 </h1>
                 <ProductRating

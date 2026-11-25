@@ -182,7 +182,8 @@ export default function CatalogCard({
       </div>
       <Link href={productHref} className="group block mb-3 desk:mb-4">
         <h3 className="flex flex-wrap gap-x-2 items-center text-12bold desk:text-18bold laptop:group-hover:brightness-125 focus-visible:brightness-125 active:brightness-125 active:scale-95 transition duration-300 ease-in-out">
-          <span>{generalname}</span>
+          {/* Space between the spans: flex hides it visually, but keeps the heading text readable for search engines */}
+          <span>{generalname}</span>{" "}
           <span className="text-yellow">{name}</span>
 
           <Image
