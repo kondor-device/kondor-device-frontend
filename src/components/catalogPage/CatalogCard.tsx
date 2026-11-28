@@ -14,7 +14,7 @@ import CartPopUp from "../homePage/catalog/cart/CartPopUp";
 import { sendGTMEvent } from "@next/third-parties/google";
 import CatalogCardButton from "../shared/buttons/CatalogCardButton";
 import ColorPicker from "./ColorPicker";
-import { getColorParam } from "@/utils/colorParam";
+import { getProductHref } from "@/utils/colorParam";
 import CardRating from "../shared/CardRating";
 
 interface CatalogCardProps {
@@ -56,9 +56,12 @@ export default function CatalogCard({
     ratingCount = 0,
   } = product;
 
-  const productHref = `/catalog/${categorySlug}/${slug}?color=${getColorParam(
-    coloropts[selectedColorIndex],
-  )}`;
+  const productHref = getProductHref(
+    categorySlug,
+    slug,
+    coloropts,
+    selectedColorIndex,
+  );
 
   const savings = (((price - (priceDiscount ?? price)) / price) * 100).toFixed(
     0,

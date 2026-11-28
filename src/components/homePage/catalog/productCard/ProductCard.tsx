@@ -17,7 +17,7 @@ import CartPopUp from "../cart/CartPopUp";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { formatSum } from "@/utils/formatSum";
 import { Link } from "@/i18n/routing";
-import { getColorParam } from "@/utils/colorParam";
+import { getProductHref } from "@/utils/colorParam";
 import CardRating from "@/components/shared/CardRating";
 
 interface ProductCardProps {
@@ -111,31 +111,31 @@ export default function ProductCard({
     });
   };
 
+  const productHref = getProductHref(
+    categorySlug,
+    slug,
+    coloropts,
+    selectedColorIndex,
+  );
+
   return (
     <div
-      className="relative flex flex-col gap-y-[15px] tabxl:flex-row tabxl:items-center tabxl:gap-x-8 min-h-full h-auto px-3 pt-3 pb-8 tabxl:p-8 deskxl:p-[35px] 
+      className="relative flex flex-col gap-y-[15px] tabxl:flex-row tabxl:items-center tabxl:gap-x-8 min-h-full h-auto px-3 pt-3 pb-8 tabxl:p-8 deskxl:p-[35px]
     rounded-[8px] tabxl:rounded-[30px] bg-panel"
     >
       <ImagePicker
         photos={photos}
         selectedPhotoIndex={selectedPhotoIndex}
         setSelectedPhotoIndex={setSelectedPhotoIndex}
-        productUrl={`/catalog/${categorySlug}/${slug}?color=${getColorParam(
-          coloropts[selectedColorIndex],
-        )}`}
+        productUrl={productHref}
         badge={badge}
       />
       <div className="flex flex-col gap-y-[5px] tabxl:gap-y-[15px]">
-        <Link
-          href={`/catalog/${categorySlug}/${slug}?color=${getColorParam(
-            coloropts[selectedColorIndex],
-          )}`}
-          className="group"
-        >
+        <Link href={productHref} className="group">
           <CardTitle generalname={generalname} name={name} />
         </Link>
         <CardRating ratingAvg={product.ratingAvg} ratingCount={product.ratingCount} onDark
-          href={`/catalog/${categorySlug}/${slug}?color=${getColorParam(coloropts[selectedColorIndex])}#reviews`} />
+          href={`${productHref}#reviews`} />
         {coloropts.length > 0 ? (
           <ColorPicker
             coloropts={coloropts}
