@@ -288,6 +288,7 @@ const ITEM_DETAIL_PROJECTION = `
   ${l10nField("seoDescription")},
   "seoImage": select(defined(seoImage.asset->url) => { "url": seoImage.asset->url }),
   slug,
+  "ownCategorySlug": select(showonmain != true => cat->slug),
   price,
   priceDiscount,
   ${l10nField("description")},

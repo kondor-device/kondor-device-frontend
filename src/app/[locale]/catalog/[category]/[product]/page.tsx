@@ -14,7 +14,8 @@ import { getLocalizedPath } from "@/utils/getLocalizedPath";
 import { CategoryItem } from "@/types/categoryItem";
 import { Suspense } from "react";
 import Loader from "@/components/shared/loader/Loader";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound, permanentRedirect, redirect } from "next/navigation";
+import { REMOVED_PRODUCT_REDIRECTS } from "@/constants/legacyRedirects";
 import {
   absoluteUrl,
   buildMetadataFromSeo,
@@ -83,6 +84,8 @@ export async function generateMetadata({
     ? undefined
     : res?.data?.bundle;
   const category = findCategoryBySlug(res?.data?.allCategories, product);
+  const canonicalCategorySlug =
+    category?.categorySlug ?? currentProduct?.ownCategorySlug ?? categorySlug;
 
   const source = currentProduct ?? currentBundle;
   const title = currentProduct
@@ -101,7 +104,7 @@ export async function generateMetadata({
     },
     locale,
     // Same URL the page redirects to when the category in the address is outdated
-    path: `/catalog/${category?.categorySlug ?? categorySlug}/${product}`,
+    path: `/catalog/${canonicalCategorySlug}/${product}`,
     defaultTitle: title || t("title"),
     defaultDescription: description || t("description"),
     fallbackImageUrl:
@@ -130,21 +133,37 @@ export default async function ProductPage({
   // Neither a product nor an available bundle (a set disappears while any of its
   // components is out of stock: it cannot be bought)
   if (!currentProduct && !currentBundle) {
+    // A product that no longer exists: its category instead of a 404. Temporary, so the
+    // target can be changed when the product returns or gets a successor.
+    const removedProductCategory = REMOVED_PRODUCT_REDIRECTS.get(product);
+    if (removedProductCategory) {
+      redirect(
+        withQuery(
+          getLocalizedPath(locale, `/catalog/${removedProductCategory}`),
+          await searchParams,
+        ),
+      );
+    }
+
     notFound();
   }
 
   const similarProducts = findCategoryBySlug(res?.data?.allCategories, product);
 
+  // The category that lists the product, else the one set on the product itself: a product
+  // hidden from the catalog is in no list, and without this fallback its page would open
+  // under any category in the address, each one a duplicate with its own canonical.
+  // (Still the case for an item with neither, such as the home-page banner items.)
+  const canonicalCategorySlug =
+    similarProducts?.categorySlug ?? currentProduct?.ownCategorySlug;
+
   // Товар більше не належить категорії з URL (перенесений в адмінці) —
   // 301 на актуальний URL, щоб не втратити SEO-вагу старого посилання.
-  if (similarProducts && similarProducts.categorySlug !== category) {
+  if (canonicalCategorySlug && canonicalCategorySlug !== category) {
     // Keep the language and everything after "?" (color, utm_*, gclid, fbclid)
     permanentRedirect(
       withQuery(
-        getLocalizedPath(
-          locale,
-          `/catalog/${similarProducts.categorySlug}/${product}`,
-        ),
+        getLocalizedPath(locale, `/catalog/${canonicalCategorySlug}/${product}`),
         await searchParams,
       ),
     );
@@ -154,7 +173,7 @@ export default async function ProductPage({
   const pageUrl = absoluteUrl(
     getLocalizedPath(
       locale,
-      `/catalog/${similarProducts?.categorySlug ?? category}/${product}`,
+      `/catalog/${canonicalCategorySlug ?? category}/${product}`,
     ),
   );
 

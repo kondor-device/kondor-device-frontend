@@ -205,4 +205,8 @@ export interface ProductItem {
   /** Slug of the parent category. Not returned by every query — attached
    * client-side where the category is known, to build /catalog/[category]/[product] links. */
   categorySlug?: string;
+  /** Slug of the category set on the product itself. Only returned by the product page
+   * query; the fallback when no category lists the product (it is hidden from the catalog).
+   * Null for the "show on main page" tiles: they are banners, not products with a page. */
+  ownCategorySlug?: string | null;
 }
