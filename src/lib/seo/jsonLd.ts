@@ -51,6 +51,37 @@ const unique = (values: (string | undefined | null)[]) => [
   ...new Set(values.filter((value): value is string => Boolean(value))),
 ];
 
+// Delivery and returns for Google merchant listings, from the shop's own pages.
+// /delivery: Nova Poshta across Ukraine, the buyer pays Nova Poshta's tariff, from 40 UAH.
+// Parcels go out every day: same or next day, plus about a day on the road
+// (the owner: orders arrive in 1–2 days). Keep in line with the delivery page.
+const SHIPPING_DETAILS = {
+  "@type": "OfferShippingDetails",
+  shippingRate: { "@type": "MonetaryAmount", value: 40, currency: CURRENCY },
+  shippingDestination: { "@type": "DefinedRegion", addressCountry: "UA" },
+  deliveryTime: {
+    "@type": "ShippingDeliveryTime",
+    handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 1, unitCode: "DAY" },
+    transitTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 1, unitCode: "DAY" },
+  },
+};
+
+// /returns: 14 days from receipt, full refund, sent back by Nova Poshta. The buyer pays the
+// return of an item that just did not suit; the shop pays when the item is faulty.
+const returnPolicy = (url: string) => ({
+  "@type": "MerchantReturnPolicy",
+  applicableCountry: "UA",
+  returnPolicyCountry: "UA",
+  returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+  merchantReturnDays: 14,
+  returnMethod: "https://schema.org/ReturnByMail",
+  returnFees: "https://schema.org/ReturnFeesCustomerResponsibility",
+  itemDefectReturnFees: "https://schema.org/FreeReturn",
+  refundType: "https://schema.org/FullRefund",
+  // The returns page in the language of the product page
+  merchantReturnLink: `${SITE_URL}${url.startsWith(`${SITE_URL}/ru/`) ? "/ru" : ""}/returns`,
+});
+
 export function organizationJsonLd() {
   return {
     "@context": CONTEXT,
@@ -154,6 +185,8 @@ export function productJsonLd({
         price,
         itemCondition: "https://schema.org/NewCondition",
         availability,
+        shippingDetails: SHIPPING_DETAILS,
+        hasMerchantReturnPolicy: returnPolicy(url),
       }),
     ),
   });
@@ -183,6 +216,8 @@ export function bundleJsonLd({ bundle, url }: { bundle: Bundle; url: string }) {
       availability: availabilityUrl(
         bundle.outOfStock ? "OutOfStock" : "InStock",
       ),
+      shippingDetails: SHIPPING_DETAILS,
+      hasMerchantReturnPolicy: returnPolicy(url),
     },
   });
 }
