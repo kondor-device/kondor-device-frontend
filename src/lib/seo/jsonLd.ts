@@ -8,6 +8,8 @@ import {
 } from "@/constants/constants";
 import { toPlainDescription } from "@/lib/feed";
 import { SITE_NAME, SITE_URL } from "@/lib/seo/constants";
+import { absoluteUrl } from "@/lib/seo/pageSeo";
+import { getLocalizedPath } from "@/utils/getLocalizedPath";
 import { formatRating } from "@/utils/formatRating";
 
 // schema.org structured data (JSON-LD) built from the same data the page shows.
@@ -52,12 +54,13 @@ const unique = (values: (string | undefined | null)[]) => [
 ];
 
 // Delivery and returns for Google merchant listings, from the shop's own pages.
-// /delivery: Nova Poshta across Ukraine, the buyer pays Nova Poshta's tariff, from 40 UAH.
-// Parcels go out every day: same or next day, plus about a day on the road
-// (the owner: orders arrive in 1–2 days). Keep in line with the delivery page.
+// /delivery (messages/*.json, delivery.two): Nova Poshta across Ukraine, the buyer pays
+// Nova Poshta's tariff, from 90 UAH (a typical parcel up to 2 kg, owner 28.11.2026).
+// Parcels go out every day: same or next day, plus a day on the road, 1–2 days in total.
+// Change the page text and these values together.
 const SHIPPING_DETAILS = {
   "@type": "OfferShippingDetails",
-  shippingRate: { "@type": "MonetaryAmount", value: 40, currency: CURRENCY },
+  shippingRate: { "@type": "MonetaryAmount", value: 90, currency: CURRENCY },
   shippingDestination: { "@type": "DefinedRegion", addressCountry: "UA" },
   deliveryTime: {
     "@type": "ShippingDeliveryTime",
@@ -68,7 +71,7 @@ const SHIPPING_DETAILS = {
 
 // /returns: 14 days from receipt, full refund, sent back by Nova Poshta. The buyer pays the
 // return of an item that just did not suit; the shop pays when the item is faulty.
-const returnPolicy = (url: string) => ({
+const returnPolicy = (locale: Locale) => ({
   "@type": "MerchantReturnPolicy",
   applicableCountry: "UA",
   returnPolicyCountry: "UA",
@@ -79,7 +82,7 @@ const returnPolicy = (url: string) => ({
   itemDefectReturnFees: "https://schema.org/FreeReturn",
   refundType: "https://schema.org/FullRefund",
   // The returns page in the language of the product page
-  merchantReturnLink: `${SITE_URL}${url.startsWith(`${SITE_URL}/ru/`) ? "/ru" : ""}/returns`,
+  merchantReturnLink: absoluteUrl(getLocalizedPath(locale, "/returns")),
 });
 
 export function organizationJsonLd() {
@@ -130,16 +133,19 @@ export function productJsonLd({
   url,
   title,
   categoryName,
+  locale,
 }: {
   product: ProductItem;
   /** Canonical url of the page, without the color */
   url: string;
   title: string;
   categoryName?: string;
+  locale: Locale;
 }) {
   const coloropts = product.coloropts ?? [];
   const price = getActualPrice(product.price, product.priceDiscount);
-  const availability = availabilityUrl(getProductAvailability(product));
+  const productAvailability = getProductAvailability(product);
+  const availability = availabilityUrl(productAvailability);
 
   return withoutEmpty({
     "@context": CONTEXT,
@@ -185,15 +191,24 @@ export function productJsonLd({
         price,
         itemCondition: "https://schema.org/NewCondition",
         availability,
-        shippingDetails: SHIPPING_DETAILS,
-        hasMerchantReturnPolicy: returnPolicy(url),
+        // A preorder ships later than the usual 1–2 days: no delivery time for it
+        shippingDetails: productAvailability === "PreOrder" ? undefined : SHIPPING_DETAILS,
+        hasMerchantReturnPolicy: returnPolicy(locale),
       }),
     ),
   });
 }
 
 /** A set: its own photos first, then the components' photos. Sold at the bundle price. */
-export function bundleJsonLd({ bundle, url }: { bundle: Bundle; url: string }) {
+export function bundleJsonLd({
+  bundle,
+  url,
+  locale,
+}: {
+  bundle: Bundle;
+  url: string;
+  locale: Locale;
+}) {
   return withoutEmpty({
     "@context": CONTEXT,
     "@type": "Product",
@@ -217,7 +232,7 @@ export function bundleJsonLd({ bundle, url }: { bundle: Bundle; url: string }) {
         bundle.outOfStock ? "OutOfStock" : "InStock",
       ),
       shippingDetails: SHIPPING_DETAILS,
-      hasMerchantReturnPolicy: returnPolicy(url),
+      hasMerchantReturnPolicy: returnPolicy(locale),
     },
   });
 }

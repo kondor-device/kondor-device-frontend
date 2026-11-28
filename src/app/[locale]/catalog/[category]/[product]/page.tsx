@@ -205,7 +205,7 @@ export default async function ProductPage({
 
     return (
       <div className="pt-[60px] tabxl:pt-[113px] pb-[calc(104px+env(safe-area-inset-bottom,0px))] tabxl:pb-[88px]">
-        <JsonLd data={bundleJsonLd({ bundle: currentBundle, url: pageUrl })} />
+        <JsonLd data={bundleJsonLd({ bundle: currentBundle, url: pageUrl, locale })} />
         <Suspense fallback={<Loader />}>
           <BundleInfo
             bundle={currentBundle}
@@ -237,6 +237,7 @@ export default async function ProductPage({
             currentProduct.name,
           ),
           categoryName: similarProducts?.categoryName,
+          locale,
         })}
       />
       <Suspense fallback={<Loader />}>
